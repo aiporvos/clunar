@@ -1,0 +1,40 @@
+---
+const audiencias = [
+  'Profesionales que desean reorientar, potenciar o redefinir su carrera.',
+  'Personas que se encuentran en procesos de crecimiento y desarrollo profesional.',
+  'Quienes están en búsqueda laboral activa, con foco en posicionamiento y entrevistas.',
+  'Líderes en formación y mandos medios, que buscan fortalecer su rol y su impacto.',
+  'Equipos de trabajo que necesitan mejorar su desempeño, comunicación y clima laboral.',
+  'Organizaciones que apuestan al desarrollo humano como eje estratégico de su cultura.',
+];
+---
+<section class="py-24 bg-[#f5f5f0]">
+  <div class="container-site">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <div>
+        <p class="section-label">¿Para Quién?</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-[#0a0a0a]">Acompaño a personas y organizaciones</h2>
+        <p class="text-[#0a0a0a]/60 mt-2 mb-4">en distintos momentos de su desarrollo profesional y organizacional</p>
+        <p class="text-sm italic text-[#0a0a0a]/50">"Cada proceso se diseña según el contexto, los objetivos y las personas involucradas."</p>
+      </div>
+      <div class="space-y-3">
+        {audiencias.map(a => (
+          <div class="card flex items-start gap-4 py-4">
+            <div class="mt-1 w-5 h-5 rounded-full bg-[#7c3aed]/10 flex items-center justify-center flex-shrink-0">
+              <div class="w-1.5 h-1.5 rounded-full bg-[#7c3aed]"></div>
+            </div>
+            <p class="text-sm text-[#0a0a0a]/70 leading-relaxed">{a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="mt-12 bg-[#0a0a0a] text-white rounded-2xl p-8 md:p-10">
+      <h3 class="font-bold text-xl mb-3">Empezar un Proceso</h3>
+      <p class="text-white/70 mb-6 max-w-xl">Si sentís que es momento de revisar tu rumbo profesional, fortalecer tu liderazgo o desarrollar personas dentro de tu organización, podemos conversarlo.</p>
+      <a href="#contacto" class="inline-flex items-center gap-2 bg-[#7c3aed] text-white rounded-full px-6 py-3 font-medium hover:bg-[#6d28d9] transition-colors">
+        Enviar mensaje
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>

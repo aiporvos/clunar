@@ -1,0 +1,31 @@
+{
+  "agent": "knowledge",
+  "status": "completed",
+  "timestamp": "2026-06-01T00:00:00Z",
+  "summary": "Brand context para vdg-mentorias basado en vdgmentorias.com",
+  "outputs": {
+    "projectId": "vdg-mentorias",
+    "projectPath": "/home/cluna/projects/vdg-mentorias",
+    "sourceUrl": "https://vdgmentorias.com",
+    "brand": {
+      "name": "VDG Mentorías",
+      "tagline": "Desarrollo Profesional & Liderazgo",
+      "tone": "Profesional, cálido, reflexivo, primera persona, argentino",
+      "colors": {
+        "background": "#f5f5f0",
+        "text": "#0a0a0a",
+        "accent": "#7c3aed",
+        "accentLight": "#a78bfa",
+        "cardBg": "#ffffff",
+        "border": "#e5e5e0"
+      },
+      "typography": {
+        "displayClass": "font-black uppercase tracking-tight",
+        "headingClass": "font-bold",
+        "bodyClass": "font-normal leading-relaxed"
+      },
+      "keywords": ["coaching", "mentoría", "liderazgo", "desarrollo profesional", "organizacional", "RRHH"],
+      "audience": "Profesionales en transición, líderes, equipos, organizaciones"
+    }
+  }
+}

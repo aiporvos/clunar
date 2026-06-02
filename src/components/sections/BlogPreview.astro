@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+const posts = allPosts
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
+  .slice(0, 3);
+---
+<section class="py-24 bg-white">
+  <div class="container-site">
+    <div class="flex items-end justify-between mb-10">
+      <div>
+        <p class="section-label">Blog</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-[#0a0a0a]">Reflexiones y recursos</h2>
+        <p class="text-[#0a0a0a]/60 mt-1">para tu desarrollo profesional</p>
+      </div>
+      <a href="/blog" class="inline-flex items-center gap-2 text-sm text-[#7c3aed] font-medium hover:underline flex-shrink-0">
+        Ver todos los artículos
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+    {posts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {posts.map(post => (
+          <article class="card flex flex-col gap-4">
+            <div class="w-full h-44 bg-gradient-to-br from-violet-100 to-violet-200 rounded-xl flex items-center justify-center">
+              <span class="text-xs font-semibold uppercase tracking-widest text-[#7c3aed]">{post.data.tags?.[0] || 'Blog'}</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-[#0a0a0a]/40">
+              <span>{new Date(post.data.publishedAt).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+              {post.data.readTime && <span>· {post.data.readTime} min</span>}
+            </div>
+            <h3 class="font-bold text-[#0a0a0a] leading-snug">
+              <a href={`/blog/${post.slug}`} class="hover:text-[#7c3aed] transition-colors">{post.data.title}</a>
+            </h3>
+            <p class="text-sm text-[#0a0a0a]/60 leading-relaxed flex-1">{post.data.excerpt}</p>
+            <a href={`/blog/${post.slug}`} class="inline-flex items-center gap-1 text-sm text-[#7c3aed] font-medium hover:underline mt-auto">
+              Leer más
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="text-[#0a0a0a]/40 text-sm">Próximamente los primeros artículos.</p>
+    )}
+  </div>
+</section>

@@ -1,0 +1,112 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+
+interface Props {
+  title: string;
+  excerpt: string;
+  coverImage?: string;
+  publishedAt: string;
+  author: string;
+  tags: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
+const {
+  title,
+  excerpt,
+  coverImage,
+  publishedAt,
+  author,
+  tags,
+  seoTitle,
+  seoDescription,
+} = Astro.props;
+
+const siteUrl = import.meta.env.SITE_URL || '';
+const fullImageUrl = coverImage ? `${siteUrl}${coverImage}` : undefined;
+
+const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={seoTitle || title}
+  description={seoDescription || excerpt}
+  image={fullImageUrl}
+>
+  <Nav />
+
+  <main class="pt-24 pb-16 bg-[#f5f5f0] min-h-screen">
+    <div class="container-site">
+      <article class="max-w-3xl mx-auto">
+        <!-- Header del post -->
+        <header class="mb-10">
+          {tags.length > 0 && (
+            <div class="flex flex-wrap gap-2 mb-4">
+              {tags.map(tag => (
+                <span class="text-xs bg-[#7c3aed]/10 text-[#7c3aed] px-3 py-1 rounded-full font-medium">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <h1 class="text-4xl md:text-5xl font-bold text-[#0a0a0a] mb-4 leading-tight">{title}</h1>
+          <p class="text-xl text-[#0a0a0a]/60 mb-6 leading-relaxed">{excerpt}</p>
+
+          <div class="flex items-center gap-4 text-sm text-[#0a0a0a]/40">
+            <span>Por {author}</span>
+            <span>·</span>
+            <time datetime={publishedAt}>{formattedDate}</time>
+          </div>
+        </header>
+
+        <!-- Imagen de portada -->
+        {coverImage && (
+          <figure class="mb-10">
+            <img
+              src={coverImage}
+              alt={title}
+              class="w-full aspect-video object-cover rounded-2xl"
+              loading="eager"
+            />
+          </figure>
+        )}
+
+        <!-- Contenido del post -->
+        <div class="bg-white rounded-2xl p-8 md:p-12 prose prose-lg max-w-none
+                    prose-headings:font-bold prose-headings:text-[#0a0a0a]
+                    prose-a:text-[#7c3aed] prose-a:no-underline hover:prose-a:underline
+                    prose-code:text-sm prose-p:text-[#0a0a0a]/70 prose-p:leading-relaxed">
+          <slot />
+        </div>
+
+        <!-- Tags al final -->
+        {tags.length > 0 && (
+          <footer class="mt-8 pt-8 border-t border-[#e5e5e0] flex flex-wrap gap-2">
+            {tags.map(tag => (
+              <span class="px-3 py-1 bg-white border border-[#e5e5e0] text-[#0a0a0a]/60 rounded-full text-sm">
+                #{tag}
+              </span>
+            ))}
+          </footer>
+        )}
+
+        <div class="mt-8">
+          <a href="/blog" class="inline-flex items-center gap-2 text-sm text-[#7c3aed] font-medium hover:underline">
+            <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            Volver al blog
+          </a>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

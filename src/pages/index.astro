@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import QuienSoy from '../components/sections/QuienSoy.astro';
+import Servicios from '../components/sections/Servicios.astro';
+import ComoTrabajo from '../components/sections/ComoTrabajo.astro';
+import ParaQuien from '../components/sections/ParaQuien.astro';
+import BlogPreview from '../components/sections/BlogPreview.astro';
+import Contacto from '../components/sections/Contacto.astro';
+---
+
+<BaseLayout
+  title="VDG Mentorías | Desarrollo Profesional & Liderazgo"
+  description="Acompaño a profesionales, líderes y equipos en procesos de crecimiento, reorientación de carrera y fortalecimiento del rol dentro de las organizaciones."
+>
+  <Nav />
+  <main>
+    <Hero />
+    <QuienSoy />
+    <Servicios />
+    <ComoTrabajo />
+    <ParaQuien />
+    <BlogPreview />
+    <Contacto />
+  </main>
+  <Footer />
+</BaseLayout>

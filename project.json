@@ -1,0 +1,10 @@
+{
+  "id": "vdg-mentorias",
+  "name": "VDG Mentorías",
+  "path": "/home/cluna/projects/vdg-mentorias",
+  "created": "2026-06-01",
+  "status": "active",
+  "github": { "account": "personal", "repo": "vdg-mentorias", "ssh_host": "github.com" },
+  "deploy": { "target": "manual", "domain": "vdgmentorias.com" },
+  "brand": { "tone": "Profesional, cálido, reflexivo", "colors": ["#f5f5f0", "#7c3aed", "#0a0a0a"], "keywords": ["coaching", "mentoría", "liderazgo"] }
+}

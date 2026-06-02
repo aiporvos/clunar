@@ -1,0 +1,41 @@
+---
+const principios = [
+  { titulo: 'Acompañamiento personalizado', desc: 'Cada proceso es único y se diseña en función de la persona, el equipo y el contexto.' },
+  { titulo: 'Reflexión y acción', desc: 'Integración entre el pensar y el hacer para generar cambios reales y sostenibles.' },
+  { titulo: 'Claridad de objetivos', desc: 'Definición de objetivos concretos y seguimiento continuo del proceso.' },
+  { titulo: 'Mirada estratégica', desc: 'Una visión humana y profesional del trabajo, orientada a decisiones con criterio.' },
+  { titulo: 'Respeto por los tiempos', desc: 'Cada persona y cada equipo tienen su propio ritmo de desarrollo.' },
+  { titulo: 'Contextos reales', desc: 'Trabajo sobre desafíos concretos, con intervenciones prácticas y aplicables.' },
+];
+const herramientas = ['Coaching ontológico','Escucha activa y preguntas poderosas','Inteligencia emocional aplicada','Análisis de competencias','Dinámicas grupales','Gestión de personas','Observación de culturas organizacionales'];
+---
+<section class="py-24 bg-white">
+  <div class="container-site">
+    <div class="mb-12">
+      <p class="section-label">Cómo Trabajo</p>
+      <h2 class="text-3xl md:text-4xl font-bold text-[#0a0a0a]">Mi forma de trabajo</h2>
+      <p class="text-[#0a0a0a]/60 mt-3 max-w-2xl leading-relaxed">Se basa en principios claros que orientan cada proceso de acompañamiento, respetando la singularidad de las personas, los equipos y los contextos en los que intervengo. No trabajo con recetas universales.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
+      {principios.map(p => (
+        <div class="card">
+          <div class="w-8 h-8 rounded-full bg-[#7c3aed]/10 flex items-center justify-center mb-4">
+            <div class="w-2 h-2 rounded-full bg-[#7c3aed]"></div>
+          </div>
+          <h3 class="font-bold text-[#0a0a0a] mb-2">{p.titulo}</h3>
+          <p class="text-sm text-[#0a0a0a]/60 leading-relaxed">{p.desc}</p>
+        </div>
+      ))}
+    </div>
+    <div class="bg-[#f5f5f0] rounded-2xl p-8">
+      <h3 class="font-bold text-[#0a0a0a] mb-5">Herramientas que utilizo</h3>
+      <div class="flex flex-wrap gap-2 mb-6">
+        {herramientas.map(h => (
+          <span class="text-sm bg-white border border-[#e5e5e0] text-[#0a0a0a]/70 px-4 py-1.5 rounded-full">{h}</span>
+        ))}
+      </div>
+      <p class="text-sm italic text-[#0a0a0a]/50">"La elección de herramientas responde al proceso y a los objetivos, no a esquemas prefijados."</p>
+      <p class="text-sm italic text-[#0a0a0a]/50 mt-2">"Acompañar no es dirigir el camino, es ayudar a caminar con mayor claridad."</p>
+    </div>
+  </div>
+</section>
