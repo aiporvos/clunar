@@ -1,29 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --color-bg: #f5f5f0;
-    --color-text: #0a0a0a;
-    --color-accent: #7c3aed;
-    --color-accent-light: #a78bfa;
-    --color-card: #ffffff;
-    --color-border: #e5e5e0;
-    --color-footer: #0a0a0a;
+    --background: 30 20% 92%;
+    --foreground: 0 0% 25%;
+    --card: 30 20% 92%;
+    --card-foreground: 0 0% 25%;
+    --primary: 270 50% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 18% 88%;
+    --secondary-foreground: 0 0% 25%;
+    --muted: 30 15% 85%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 5 75% 65%;
+    --accent-foreground: 0 0% 100%;
+    --success: 145 50% 55%;
+    --border: 30 15% 80%;
+    --input: 30 15% 80%;
+    --radius: 0.5rem;
   }
-  html { scroll-behavior: smooth; }
+
+  .dark {
+    --background: 20 10% 10%;
+    --foreground: 30 20% 92%;
+    --card: 20 10% 12%;
+    --card-foreground: 30 20% 92%;
+    --primary: 270 55% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 20 10% 15%;
+    --secondary-foreground: 30 20% 92%;
+    --muted: 20 10% 18%;
+    --muted-foreground: 30 15% 55%;
+    --accent: 5 70% 60%;
+    --accent-foreground: 0 0% 100%;
+    --success: 145 50% 55%;
+    --border: 20 10% 20%;
+    --input: 20 10% 20%;
+  }
+
+  * { @apply border-[hsl(var(--border))]; box-sizing: border-box; }
+
   body {
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Syne', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
 }
 
-@layer components {
-  .container-site { @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8; }
-  .btn-primary { @apply bg-[#7c3aed] text-white rounded-full px-6 py-3 font-medium hover:bg-[#6d28d9] transition-colors inline-flex items-center gap-2; }
-  .btn-secondary { @apply border border-[#0a0a0a] text-[#0a0a0a] rounded-full px-6 py-3 font-medium hover:bg-[#0a0a0a] hover:text-white transition-colors; }
-  .section-label { @apply text-xs font-semibold uppercase tracking-widest text-[#7c3aed] mb-3; }
-  .card { @apply bg-white border border-[#e5e5e0] rounded-2xl p-6 hover:shadow-md transition-shadow; }
+@layer utilities {
+  .text-outline {
+    -webkit-text-stroke: 1.5px hsl(var(--foreground));
+    color: transparent;
+  }
+  .font-display { font-family: 'Syne', system-ui, sans-serif; }
+  .container-site { max-width: 1400px; margin-left: auto; margin-right: auto; padding-left: 1.5rem; padding-right: 1.5rem; }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  .reveal-x {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .reveal-x.visible { opacity: 1; transform: translateX(0); }
 }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-up { animation: fadeUp 0.8s ease-out forwards; opacity: 0; }
+.animate-bounce  { animation: bounce 1.5s ease-in-out infinite; }
+.animate-pulse   { animation: pulse 2s ease-in-out infinite; }
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: hsl(var(--muted)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--muted-foreground)); border-radius: 4px; }

@@ -10,6 +10,8 @@
     "keystatic": "astro dev"
   },
   "dependencies": {
+    "@astrojs/markdoc": "^1.0.6",
+    "@astrojs/mdx": "^5.0.1",
     "@astrojs/node": "^9.0.0",
     "@astrojs/react": "^3.0.0",
     "@astrojs/sitemap": "^3.0.0",

@@ -1,58 +1,84 @@
 ---
-const servicios = [
+const services = [
   {
-    titulo: 'Mentorías Profesionales',
-    descripcion: 'Acompaño a profesionales que atraviesan momentos de revisión, crecimiento o transición en su carrera, y necesitan pensar con claridad su recorrido, tomar decisiones con criterio y fortalecer su posicionamiento profesional.',
-    bullets: ['Reorientar el rumbo profesional o laboral','Diseñar y revisar planes de carrera con sentido','Clarificar decisiones en contextos de cambio','Desarrollar competencias clave para nuevos desafíos'],
+    title: 'Mentorías Profesionales',
+    description: 'Acompaño a profesionales que atraviesan momentos de revisión, crecimiento o transición en su carrera, y necesitan pensar con claridad su recorrido, tomar decisiones con criterio y fortalecer su posicionamiento profesional.',
+    features: ['Reorientar el rumbo profesional o laboral','Diseñar y revisar planes de carrera con sentido','Clarificar decisiones en contextos de cambio','Desarrollar competencias clave para nuevos desafíos'],
     quote: 'Pensar la carrera como un proceso, no como una urgencia.',
   },
   {
-    titulo: 'Coaching Profesional',
-    descripcion: 'Trabajo desde el coaching ontológico, acompañando a personas que desean comprender cómo piensan, sienten y actúan en su rol profesional, para ampliar su capacidad de decisión, liderazgo y comunicación.',
-    bullets: ['Desarrollar un liderazgo más consciente y efectivo','Profundizar el autoconocimiento en el ejercicio del rol','Gestionar emociones en contextos de presión o cambio','Fortalecer la comunicación y las relaciones profesionales'],
+    title: 'Coaching Profesional',
+    description: 'Trabajo desde el coaching ontológico, acompañando a personas que desean comprender cómo piensan, sienten y actúan en su rol profesional, para ampliar su capacidad de decisión, liderazgo y comunicación.',
+    features: ['Desarrollar un liderazgo más consciente y efectivo','Profundizar el autoconocimiento en el ejercicio del rol','Gestionar emociones en contextos de presión o cambio','Fortalecer la comunicación y las relaciones profesionales'],
     quote: 'No hay cambio verdadero si no se camina distinto.',
   },
   {
-    titulo: 'Búsqueda y Posicionamiento Profesional',
-    descripcion: 'Acompaño a personas en búsqueda laboral activa o en procesos de cambio profesional, trabajando sobre el posicionamiento, la claridad de objetivos y la preparación para entrevistas.',
-    bullets: ['Definición y ajuste del perfil profesional','Revisión de objetivos y expectativas de carrera','Prácticas de entrevistas 1 a 1 con devolución personalizada','Fortalecimiento de la confianza y el posicionamiento'],
+    title: 'Búsqueda y Posicionamiento Profesional',
+    description: 'Acompaño a personas en búsqueda laboral activa o en procesos de cambio profesional, trabajando sobre el posicionamiento, la claridad de objetivos y la preparación para entrevistas.',
+    features: ['Definición y ajuste del perfil profesional','Revisión de objetivos y expectativas de carrera','Prácticas de entrevistas 1 a 1 con devolución personalizada','Fortalecimiento de la confianza y el posicionamiento'],
     quote: 'Buscar trabajo también es aprender a narrar quién sos profesionalmente.',
   },
   {
-    titulo: 'Consultoría en RRHH y Desarrollo Organizacional',
-    descripcion: 'Trabajo con organizaciones que buscan fortalecer a sus equipos y líderes, mejorar el clima laboral y desarrollar culturas de trabajo más conscientes, sostenibles y orientadas a resultados.',
-    bullets: ['Desarrollo de liderazgo en mandos medios','Gestión y desarrollo de talento','Mejora de la comunicación y el clima laboral','Análisis y fortalecimiento de la cultura organizacional'],
+    title: 'Consultoría en RRHH y Desarrollo Organizacional',
+    description: 'Trabajo con organizaciones que buscan fortalecer a sus equipos y líderes, mejorar el clima laboral y desarrollar culturas de trabajo más conscientes, sostenibles y orientadas a resultados.',
+    features: ['Desarrollo de liderazgo en mandos medios','Gestión y desarrollo de talento','Mejora de la comunicación y el clima laboral','Análisis y fortalecimiento de la cultura organizacional'],
     quote: 'El desarrollo organizacional comienza en la forma de trabajar juntos.',
   },
 ];
 ---
-<section id="servicios" class="py-24 bg-[#f5f5f0]">
-  <div class="container-site">
-    <div class="mb-12">
-      <p class="section-label">Servicios</p>
-      <h2 class="text-3xl md:text-4xl font-bold text-[#0a0a0a]">Cada solución está diseñada para acompañarte</h2>
-      <p class="text-[#0a0a0a]/60 mt-2">en tu desarrollo profesional</p>
+<section id="servicios" class="py-24 lg:py-32" style="background:hsl(var(--secondary)/0.3)">
+  <div class="container mx-auto px-6">
+
+    <div class="reveal">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
+        <span class="text-sm uppercase tracking-widest font-medium">Servicios</span>
+      </div>
+      <div class="max-w-2xl mb-16">
+        <h2 class="font-display text-display-md font-bold mb-6">Cada solución está diseñada para acompañarte</h2>
+        <p class="text-lg" style="color:hsl(var(--muted-foreground))">en tu desarrollo profesional</p>
+      </div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {servicios.map(s => (
-        <div class="card flex flex-col gap-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-lg text-[#0a0a0a]">{s.titulo}</h3>
-            <span class="text-xs bg-[#7c3aed]/10 text-[#7c3aed] px-3 py-1 rounded-full font-medium">Disponible</span>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {services.map((s, i) => (
+        <div class="group flex flex-col p-8 rounded-lg border transition-all duration-500 hover:shadow-lg reveal"
+             style={`background:hsl(var(--background));border-color:hsl(var(--border));transition-delay:${i*150}ms`}>
+
+          <div class="flex items-start justify-between mb-6">
+            <div class="w-10 h-10 rounded-full border flex items-center justify-center" style="border-color:hsl(var(--border))">
+              <span class="font-display font-bold text-sm">{i+1}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full animate-pulse" style="background:hsl(var(--success))"></span>
+              <span class="text-xs font-medium uppercase tracking-wide" style="color:hsl(var(--success))">Disponible</span>
+            </div>
           </div>
-          <p class="text-sm text-[#0a0a0a]/70 leading-relaxed">{s.descripcion}</p>
-          <ul class="space-y-2">
-            {s.bullets.map(b => (
-              <li class="flex items-start gap-2 text-sm text-[#0a0a0a]/70">
-                <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-[#7c3aed] flex-shrink-0"></span>
-                {b}
+
+          <h3 class="font-display text-xl font-bold mb-3">{s.title}</h3>
+          <p class="mb-6 leading-relaxed" style="color:hsl(var(--muted-foreground))">{s.description}</p>
+
+          <ul class="space-y-3 mb-6 flex-1">
+            {s.features.map(f => (
+              <li class="flex items-start gap-3 text-sm" style="color:hsl(var(--muted-foreground))">
+                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color:hsl(var(--accent))" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                {f}
               </li>
             ))}
           </ul>
-          <p class="text-sm italic text-[#0a0a0a]/50 border-t border-[#e5e5e0] pt-4">"{s.quote}"</p>
-          <a href="#contacto" class="btn-primary text-sm justify-center mt-auto">
+
+          <p class="text-sm italic border-t pt-4 mb-6" style="color:hsl(var(--muted-foreground));border-color:hsl(var(--border))">
+            "{s.quote}"
+          </p>
+
+          <a href="#contacto" class="group/btn flex items-center justify-center gap-2 w-full py-3 rounded-md text-sm font-medium uppercase tracking-wide transition-all"
+             style="background:hsl(var(--foreground));color:hsl(var(--background))">
             Consultar
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
           </a>
         </div>
       ))}

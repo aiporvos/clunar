@@ -1,41 +1,70 @@
 ---
-const principios = [
-  { titulo: 'Acompañamiento personalizado', desc: 'Cada proceso es único y se diseña en función de la persona, el equipo y el contexto.' },
-  { titulo: 'Reflexión y acción', desc: 'Integración entre el pensar y el hacer para generar cambios reales y sostenibles.' },
-  { titulo: 'Claridad de objetivos', desc: 'Definición de objetivos concretos y seguimiento continuo del proceso.' },
-  { titulo: 'Mirada estratégica', desc: 'Una visión humana y profesional del trabajo, orientada a decisiones con criterio.' },
-  { titulo: 'Respeto por los tiempos', desc: 'Cada persona y cada equipo tienen su propio ritmo de desarrollo.' },
-  { titulo: 'Contextos reales', desc: 'Trabajo sobre desafíos concretos, con intervenciones prácticas y aplicables.' },
+const principles = [
+  { title: 'Acompañamiento personalizado', description: 'Cada proceso es único y se diseña en función de la persona, el equipo y el contexto.' },
+  { title: 'Reflexión y acción', description: 'Integración entre el pensar y el hacer para generar cambios reales y sostenibles.' },
+  { title: 'Claridad de objetivos', description: 'Definición de objetivos concretos y seguimiento continuo del proceso.' },
+  { title: 'Mirada estratégica', description: 'Una visión humana y profesional del trabajo, orientada a decisiones con criterio.' },
+  { title: 'Respeto por los tiempos', description: 'Cada persona y cada equipo tienen su propio ritmo de desarrollo.' },
+  { title: 'Contextos reales', description: 'Trabajo sobre desafíos concretos, con intervenciones prácticas y aplicables.' },
 ];
-const herramientas = ['Coaching ontológico','Escucha activa y preguntas poderosas','Inteligencia emocional aplicada','Análisis de competencias','Dinámicas grupales','Gestión de personas','Observación de culturas organizacionales'];
+const tools = [
+  'Coaching ontológico',
+  'Escucha activa y preguntas poderosas',
+  'Inteligencia emocional aplicada',
+  'Análisis de competencias',
+  'Dinámicas grupales',
+  'Gestión de personas',
+  'Observación de culturas organizacionales',
+];
 ---
-<section class="py-24 bg-white">
-  <div class="container-site">
-    <div class="mb-12">
-      <p class="section-label">Cómo Trabajo</p>
-      <h2 class="text-3xl md:text-4xl font-bold text-[#0a0a0a]">Mi forma de trabajo</h2>
-      <p class="text-[#0a0a0a]/60 mt-3 max-w-2xl leading-relaxed">Se basa en principios claros que orientan cada proceso de acompañamiento, respetando la singularidad de las personas, los equipos y los contextos en los que intervengo. No trabajo con recetas universales.</p>
+<section id="enfoque" class="py-24 lg:py-32">
+  <div class="container mx-auto px-6">
+
+    <div class="reveal">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
+        <span class="text-sm uppercase tracking-widest font-medium">Cómo Trabajo</span>
+      </div>
+      <div class="max-w-3xl mb-16">
+        <h2 class="font-display text-display-md font-bold mb-6">Mi forma de trabajo</h2>
+        <p class="text-lg" style="color:hsl(var(--muted-foreground))">
+          Se basa en principios claros que orientan cada proceso de acompañamiento, respetando la singularidad de las personas, los equipos y los contextos en los que intervengo. No trabajo con recetas universales.
+        </p>
+      </div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
-      {principios.map(p => (
-        <div class="card">
-          <div class="w-8 h-8 rounded-full bg-[#7c3aed]/10 flex items-center justify-center mb-4">
-            <div class="w-2 h-2 rounded-full bg-[#7c3aed]"></div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+      {principles.map((p, i) => (
+        <div class="group flex items-start gap-4 p-6 border-l-2 border-transparent transition-all duration-500 reveal-x hover:border-accent"
+             style={`transition-delay:${i*100}ms`}
+             onmouseenter="this.style.borderColor='hsl(var(--accent))'"
+             onmouseleave="this.style.borderColor='transparent'">
+          <div class="w-6 h-6 flex-shrink-0 mt-1 rounded-full border" style="border-color:hsl(var(--border))"></div>
+          <div>
+            <h3 class="font-display font-semibold mb-2">{p.title}</h3>
+            <p class="text-sm" style="color:hsl(var(--muted-foreground))">{p.description}</p>
           </div>
-          <h3 class="font-bold text-[#0a0a0a] mb-2">{p.titulo}</h3>
-          <p class="text-sm text-[#0a0a0a]/60 leading-relaxed">{p.desc}</p>
         </div>
       ))}
     </div>
-    <div class="bg-[#f5f5f0] rounded-2xl p-8">
-      <h3 class="font-bold text-[#0a0a0a] mb-5">Herramientas que utilizo</h3>
-      <div class="flex flex-wrap gap-2 mb-6">
-        {herramientas.map(h => (
-          <span class="text-sm bg-white border border-[#e5e5e0] text-[#0a0a0a]/70 px-4 py-1.5 rounded-full">{h}</span>
+
+    <div class="rounded-2xl p-8 lg:p-12 reveal" style="background:hsl(var(--secondary)/0.5)">
+      <h3 class="font-display text-xl font-bold mb-8 text-center">Herramientas que utilizo</h3>
+      <div class="flex flex-wrap justify-center gap-3">
+        {tools.map(t => (
+          <span class="flex items-center gap-2 px-4 py-2 rounded-full text-sm border transition-colors"
+                style="background:hsl(var(--background));border-color:hsl(var(--border));color:hsl(var(--foreground))">
+            {t}
+          </span>
         ))}
       </div>
-      <p class="text-sm italic text-[#0a0a0a]/50">"La elección de herramientas responde al proceso y a los objetivos, no a esquemas prefijados."</p>
-      <p class="text-sm italic text-[#0a0a0a]/50 mt-2">"Acompañar no es dirigir el camino, es ayudar a caminar con mayor claridad."</p>
+      <p class="text-center text-sm italic mt-8" style="color:hsl(var(--muted-foreground))">
+        "La elección de herramientas responde al proceso y a los objetivos, no a esquemas prefijados."
+      </p>
+      <p class="text-center text-lg font-display font-semibold mt-6">
+        "Acompañar no es dirigir el camino, es ayudar a caminar con mayor claridad."
+      </p>
     </div>
+
   </div>
 </section>

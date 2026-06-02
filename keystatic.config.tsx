@@ -1,6 +1,13 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
-// En producción usa GitHub mode, en dev usa local
+// Keystatic 0.5.x solo genera archivos .mdoc con fields.markdoc.
+// Este patch fuerza la extensión a .mdx para compatibilidad con Astro 5.
+function markdocMdx(options: Parameters<typeof fields.markdoc>[0]) {
+  const field = fields.markdoc(options);
+  (field as any).contentExtension = '.mdx';
+  return field;
+}
+
 const isProd = process.env.NODE_ENV === 'production';
 
 let githubOwner = '';
@@ -8,28 +15,21 @@ let githubRepo = '';
 
 if (isProd) {
   try {
-    const projectConfig = await import('./project.json', { assert: { type: 'json' } });
+    const projectConfig = await import('./project.json', { with: { type: 'json' } });
     githubOwner = projectConfig.default.github.account;
     githubRepo = projectConfig.default.github.repo;
   } catch {
-    // Si no hay project.json, usar local
+    // fallback a local
   }
 }
 
 export default config({
   storage: isProd && githubOwner
-    ? {
-        kind: 'github',
-        repo: `${githubOwner}/${githubRepo}`,
-        branchPrefix: 'keystatic/',
-      }
+    ? { kind: 'github', repo: `${githubOwner}/${githubRepo}`, branchPrefix: 'keystatic/' }
     : { kind: 'local' },
 
   ui: {
-    brand: {
-      // Se puede personalizar el logo del CMS
-      name: 'HIVE CMS',
-    },
+    brand: { name: 'VDG Mentorías — CMS' },
   },
 
   collections: {
@@ -43,9 +43,8 @@ export default config({
 
         excerpt: fields.text({
           label: 'Extracto',
-          description: 'Descripción corta para el listing y redes sociales (máx. 160 chars)',
+          description: 'Descripción corta para listing y redes (máx. 160 chars)',
           multiline: true,
-          validation: { length: { max: 160 } },
         }),
 
         coverImage: fields.image({
@@ -61,21 +60,37 @@ export default config({
 
         author: fields.text({
           label: 'Autor',
-          defaultValue: 'Claudio',
+          defaultValue: 'Valeria De Giorgi',
+        }),
+
+        category: fields.select({
+          label: 'Categoría',
+          defaultValue: 'Liderazgo',
+          options: [
+            { label: 'Liderazgo',              value: 'Liderazgo' },
+            { label: 'Desarrollo Profesional', value: 'Desarrollo Profesional' },
+            { label: 'Búsqueda Laboral',       value: 'Búsqueda Laboral' },
+            { label: 'Equipos',                value: 'Equipos' },
+            { label: 'Coaching',               value: 'Coaching' },
+            { label: 'Organizacional',         value: 'Organizacional' },
+          ],
+        }),
+
+        readTime: fields.integer({
+          label: 'Tiempo de lectura (minutos)',
+          defaultValue: 5,
+          validation: { min: 1, max: 60 },
         }),
 
         tags: fields.array(
           fields.text({ label: 'Tag' }),
-          {
-            label: 'Tags',
-            itemLabel: props => props.value || 'Tag sin nombre',
-          }
+          { label: 'Tags', itemLabel: props => props.value || 'Tag' }
         ),
 
         draft: fields.checkbox({
           label: 'Borrador',
-          description: 'Los borradores no se muestran en producción',
-          defaultValue: true,
+          description: 'Los borradores no se muestran en el sitio',
+          defaultValue: false,
         }),
 
         seoTitle: fields.text({
@@ -84,12 +99,12 @@ export default config({
         }),
 
         seoDescription: fields.text({
-          label: 'Meta descripción',
-          description: '150-160 caracteres para SEO',
+          label: 'Meta descripción SEO',
+          description: '150-160 caracteres',
           multiline: true,
         }),
 
-        content: fields.markdoc({
+        content: markdocMdx({
           label: 'Contenido',
           options: {
             image: {
@@ -97,32 +112,6 @@ export default config({
               publicPath: '/images/posts/',
             },
           },
-        }),
-      },
-    }),
-
-    authors: collection({
-      label: 'Autores',
-      slugField: 'name',
-      path: 'src/content/authors/*',
-      schema: {
-        name: fields.slug({ name: { label: 'Nombre' } }),
-
-        bio: fields.text({
-          label: 'Bio',
-          multiline: true,
-        }),
-
-        avatar: fields.image({
-          label: 'Avatar',
-          directory: 'public/images/authors',
-          publicPath: '/images/authors/',
-        }),
-
-        social: fields.object({
-          twitter: fields.text({ label: 'Twitter (sin @)' }),
-          linkedin: fields.text({ label: 'LinkedIn URL' }),
-          website: fields.url({ label: 'Sitio web' }),
         }),
       },
     }),
@@ -134,32 +123,13 @@ export default config({
       path: 'src/content/site-config',
       schema: {
         siteName: fields.text({ label: 'Nombre del sitio' }),
-
-        siteDescription: fields.text({
-          label: 'Descripción del sitio',
-          multiline: true,
-        }),
-
-        logo: fields.image({
-          label: 'Logo',
-          directory: 'public/images',
-          publicPath: '/images/',
-        }),
-
+        siteDescription: fields.text({ label: 'Descripción', multiline: true }),
+        logo: fields.image({ label: 'Logo', directory: 'public/images', publicPath: '/images/' }),
         socialLinks: fields.object({
-          twitter: fields.url({ label: 'Twitter URL' }),
-          linkedin: fields.url({ label: 'LinkedIn URL' }),
+          linkedin:  fields.url({ label: 'LinkedIn URL' }),
           instagram: fields.url({ label: 'Instagram URL' }),
-          youtube: fields.url({ label: 'YouTube URL' }),
+          email:     fields.text({ label: 'Email de contacto' }),
         }),
-
-        navigation: fields.array(
-          fields.object({
-            label: fields.text({ label: 'Label' }),
-            href: fields.text({ label: 'URL' }),
-          }),
-          { label: 'Links de navegación', itemLabel: props => props.fields.label.value }
-        ),
       },
     }),
   },

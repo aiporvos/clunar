@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
@@ -11,13 +12,14 @@ export default defineConfig({
 
   integrations: [
     react(),
+    mdx(),
     tailwind({ applyBaseStyles: false }),
     sitemap(),
     keystatic(),
   ],
 
-  // SSR necesario para Keystatic en producción
-  output: 'static',
+  // server: SSR completo necesario para Keystatic admin
+  output: 'server',
 
   adapter: node({
     mode: 'standalone',

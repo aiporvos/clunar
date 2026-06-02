@@ -27,3 +27,11 @@ import Contacto from '../components/sections/Contacto.astro';
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.15 }
+  );
+  document.querySelectorAll('.reveal, .reveal-x').forEach(el => observer.observe(el));
+</script>

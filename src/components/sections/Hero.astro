@@ -1,45 +1,69 @@
 ---
 ---
-<section id="inicio" class="min-h-screen flex flex-col justify-center pt-16 bg-[#f5f5f0]">
-  <div class="container-site py-20">
-    <div class="max-w-4xl">
-      <h1 class="font-black uppercase tracking-tight leading-none text-[clamp(4rem,12vw,9rem)] text-[#0a0a0a]">
-        MENTORA<br/>
-        <span class="bg-[#7c3aed] text-white px-2">COACHING</span><br/>
-        LIDERAZGO
+<section id="inicio" class="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20 px-4 sm:px-6">
+  <div class="container mx-auto">
+
+    <div class="flex flex-col items-center text-center">
+
+      <h1 class="font-display font-extrabold text-display-xl uppercase tracking-tighter leading-[0.9] animate-fade-up"
+          style="color:hsl(var(--muted-foreground))">
+        MENTORA
       </h1>
-      <div class="mt-8 max-w-xl">
-        <p class="text-lg text-[#0a0a0a]/70 leading-relaxed">
-          Soy Valeria De Giorgi, coach profesional y mentora en desarrollo humano y organizacional.
+
+      <div class="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 my-2 lg:my-0">
+        <span class="font-display font-extrabold text-display-lg uppercase tracking-tighter leading-[0.95] text-outline animate-fade-up stagger-1">
+          COACHING
+        </span>
+        <p class="max-w-sm text-base sm:text-lg animate-fade-up stagger-2 px-4 sm:px-0" style="color:hsl(var(--muted-foreground))">
+          Soy <span class="font-semibold" style="color:hsl(var(--accent))">Valeria De Giorgi</span>, coach profesional y mentora en desarrollo humano y organizacional.
         </p>
       </div>
-      <div class="mt-8 flex flex-wrap gap-4">
-        <a href="#contacto" class="btn-primary">
-          Agendar una conversación
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
-        <a href="#servicios" class="btn-secondary">Conocer servicios</a>
+
+      <h2 class="font-display font-extrabold text-display-xl uppercase tracking-tighter leading-[0.9] animate-fade-up stagger-3"
+          style="color:hsl(var(--muted-foreground))">
+        LIDERAZGO
+      </h2>
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-8 sm:mt-12 animate-fade-up stagger-4">
+      <a href="#contacto"
+         class="group flex items-center gap-2 text-xs sm:text-sm font-medium uppercase tracking-wide px-6 sm:px-8 py-3 rounded-md transition-all w-full sm:w-auto justify-center"
+         style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
+        Agendar una conversación
+        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+      <a href="#servicios"
+         class="text-xs sm:text-sm font-medium uppercase tracking-wide px-6 sm:px-8 py-3 rounded-md transition-all w-full sm:w-auto justify-center flex items-center hover:opacity-70"
+         style="color:hsl(var(--muted-foreground))">
+        Conocer servicios
+      </a>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto mt-12 sm:mt-20 animate-fade-up stagger-5">
+      <div class="text-center">
+        <p class="font-display text-2xl sm:text-4xl md:text-5xl font-bold" style="color:hsl(var(--muted-foreground))">+100</p>
+        <p class="text-xs sm:text-sm mt-1" style="color:hsl(var(--muted-foreground))">Profesionales acompañados</p>
       </div>
-      <div class="mt-16 flex gap-10">
-        <div>
-          <p class="font-black text-4xl text-[#0a0a0a]">+100</p>
-          <p class="text-sm text-[#0a0a0a]/60 mt-1">Profesionales acompañados</p>
-        </div>
-        <div>
-          <p class="font-black text-4xl text-[#0a0a0a]">15+</p>
-          <p class="text-sm text-[#0a0a0a]/60 mt-1">Años de experiencia</p>
-        </div>
-        <div>
-          <p class="font-black text-4xl text-[#0a0a0a]">100%</p>
-          <p class="text-sm text-[#0a0a0a]/60 mt-1">Compromiso</p>
-        </div>
+      <div class="text-center">
+        <p class="font-display text-2xl sm:text-4xl md:text-5xl font-bold" style="color:hsl(var(--muted-foreground))">15+</p>
+        <p class="text-xs sm:text-sm mt-1" style="color:hsl(var(--muted-foreground))">Años de experiencia</p>
       </div>
-      <div class="mt-16">
-        <a href="#quien-soy" class="inline-flex items-center gap-2 text-sm text-[#0a0a0a]/60 hover:text-[#7c3aed] transition-colors">
-          Conocer más
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-        </a>
+      <div class="text-center">
+        <p class="font-display text-2xl sm:text-4xl md:text-5xl font-bold" style="color:hsl(var(--muted-foreground))">100%</p>
+        <p class="text-xs sm:text-sm mt-1" style="color:hsl(var(--muted-foreground))">Compromiso</p>
       </div>
     </div>
+
+    <div class="flex flex-col items-center mt-10 sm:mt-16 animate-fade-up stagger-5">
+      <a href="#quien-soy" class="flex flex-col items-center gap-2 text-sm transition-colors hover:opacity-70" style="color:hsl(var(--muted-foreground))">
+        <span>Conocer más</span>
+        <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </a>
+    </div>
+
   </div>
 </section>

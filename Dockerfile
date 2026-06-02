@@ -2,14 +2,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Instalar pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
 # Copiar archivos de dependencias primero (cache de Docker)
-COPY package.json pnpm-lock.yaml* ./
+COPY package.json package-lock.json ./
 
 # Instalar dependencias
-RUN pnpm install --frozen-lockfile
+RUN npm ci
 
 # Copiar código fuente
 COPY . .
@@ -19,7 +16,7 @@ ARG SITE_URL=https://tudominio.com
 ENV SITE_URL=$SITE_URL
 ENV NODE_ENV=production
 
-RUN pnpm build
+RUN npm run build
 
 # ─── Imagen de producción ───────────────────────────────────────────
 FROM node:20-alpine AS runner
