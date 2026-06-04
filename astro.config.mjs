@@ -10,8 +10,11 @@ import keystatic from '@keystatic/astro';
 export default defineConfig({
   site: process.env.SITE_URL || 'https://tudominio.com',
 
-  server: {
-    allowedHosts: ['vdgmentorias.com', 'www.vdgmentorias.com'],
+  security: {
+    allowedDomains: [
+      { hostname: 'vdgmentorias.com' },
+      { hostname: 'www.vdgmentorias.com' },
+    ],
   },
 
   integrations: [
