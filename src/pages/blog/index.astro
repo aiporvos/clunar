@@ -9,6 +9,34 @@ const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const posts = allPosts.sort(
   (a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
 );
+
+// Sidebar data
+const categories = [...new Set(posts.map(p => p.data.category).filter(Boolean))];
+const categoryCounts = categories.reduce((acc, cat) => {
+  acc[cat!] = posts.filter(p => p.data.category === cat).length;
+  return acc;
+}, {} as Record<string, number>);
+
+const recentPosts = posts.slice(0, 4);
+
+const archiveMap = posts.reduce((acc, post) => {
+  const date = new Date(post.data.publishedAt);
+  const key = date.toLocaleDateString('es-AR', { year: 'numeric', month: 'long' });
+  if (!acc[key]) acc[key] = [];
+  acc[key].push(post);
+  return acc;
+}, {} as Record<string, typeof posts>);
+
+const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
+
+const activeCategory = Astro.url.searchParams.get('categoria');
+const activeTag = Astro.url.searchParams.get('tag');
+
+const filtered = posts.filter(p => {
+  if (activeCategory && p.data.category !== activeCategory) return false;
+  if (activeTag && !(p.data.tags ?? []).includes(activeTag)) return false;
+  return true;
+});
 ---
 
 <BaseLayout
@@ -19,35 +47,135 @@ const posts = allPosts.sort(
 
   <main class="pt-24 pb-16 bg-[#f5f5f0] min-h-screen">
     <div class="container-site">
-      <header class="mb-12">
+
+      <header class="mb-10">
         <p class="section-label">Blog</p>
-        <h1 class="text-4xl md:text-5xl font-bold text-[#0a0a0a] mb-3">Reflexiones y recursos</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-[#0a0a0a] mb-2">Reflexiones y recursos</h1>
         <p class="text-[#0a0a0a]/60 text-lg">
           {posts.length} {posts.length === 1 ? 'artículo publicado' : 'artículos publicados'}
         </p>
       </header>
 
-      {posts.length === 0 ? (
-        <div class="text-center py-20 text-[#0a0a0a]/40">
-          <p class="text-lg">No hay posts publicados todavía.</p>
-          <p class="text-sm mt-2">
-            Usá Keystatic (<a href="/keystatic" class="text-[#7c3aed] hover:underline">/keystatic</a>) para crear tu primer post.
-          </p>
-        </div>
-      ) : (
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map(post => (
-            <BlogCard
-              title={post.data.title}
-              excerpt={post.data.excerpt}
-              slug={post.slug}
-              coverImage={post.data.coverImage}
-              publishedAt={post.data.publishedAt}
-              tags={post.data.tags}
-            />
-          ))}
+      {(activeCategory || activeTag) && (
+        <div class="mb-6 flex items-center gap-3">
+          <span class="text-sm text-[#0a0a0a]/50">
+            Filtrando por: <strong class="text-[#7c3aed]">{activeCategory || activeTag}</strong>
+          </span>
+          <a href="/blog" class="text-xs text-[#0a0a0a]/40 hover:text-[#7c3aed] underline">
+            Quitar filtro
+          </a>
         </div>
       )}
+
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10 items-start">
+
+        <!-- Posts grid -->
+        <div>
+          {filtered.length === 0 ? (
+            <div class="text-center py-20 text-[#0a0a0a]/40">
+              <p class="text-lg">No hay posts para este filtro.</p>
+              <a href="/blog" class="text-sm mt-2 text-[#7c3aed] hover:underline">Ver todos</a>
+            </div>
+          ) : (
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filtered.map(post => (
+                <BlogCard
+                  title={post.data.title}
+                  excerpt={post.data.excerpt}
+                  slug={post.slug}
+                  coverImage={post.data.coverImage}
+                  publishedAt={post.data.publishedAt}
+                  tags={post.data.tags}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="space-y-8 sticky top-28">
+
+          <!-- Categorías -->
+          {categories.length > 0 && (
+            <div class="bg-white rounded-2xl p-6 border border-[#e5e5e0]">
+              <h2 class="font-bold text-[#0a0a0a] mb-4 text-sm uppercase tracking-wide">Categorías</h2>
+              <ul class="space-y-2">
+                {categories.map(cat => (
+                  <li>
+                    <a
+                      href={`/blog?categoria=${encodeURIComponent(cat!)}`}
+                      class={`flex items-center justify-between text-sm py-1.5 px-3 rounded-lg transition-colors ${
+                        activeCategory === cat
+                          ? 'bg-[#7c3aed]/10 text-[#7c3aed] font-medium'
+                          : 'text-[#0a0a0a]/70 hover:bg-[#f5f5f0]'
+                      }`}
+                    >
+                      <span>{cat}</span>
+                      <span class="text-xs text-[#0a0a0a]/30">{categoryCounts[cat!]}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <!-- Últimos posts -->
+          <div class="bg-white rounded-2xl p-6 border border-[#e5e5e0]">
+            <h2 class="font-bold text-[#0a0a0a] mb-4 text-sm uppercase tracking-wide">Últimos artículos</h2>
+            <ul class="space-y-4">
+              {recentPosts.map(post => (
+                <li>
+                  <a href={`/blog/${post.slug}`} class="group block">
+                    <p class="text-sm font-medium text-[#0a0a0a] group-hover:text-[#7c3aed] leading-snug transition-colors line-clamp-2">
+                      {post.data.title}
+                    </p>
+                    <time class="text-xs text-[#0a0a0a]/40 mt-1 block">
+                      {new Date(post.data.publishedAt).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </time>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Tags -->
+          {allTags.length > 0 && (
+            <div class="bg-white rounded-2xl p-6 border border-[#e5e5e0]">
+              <h2 class="font-bold text-[#0a0a0a] mb-4 text-sm uppercase tracking-wide">Temas</h2>
+              <div class="flex flex-wrap gap-2">
+                {allTags.map(tag => (
+                  <a
+                    href={`/blog?tag=${encodeURIComponent(tag)}`}
+                    class={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                      activeTag === tag
+                        ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
+                        : 'border-[#e5e5e0] text-[#0a0a0a]/60 hover:border-[#7c3aed] hover:text-[#7c3aed]'
+                    }`}
+                  >
+                    #{tag}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- Archivo -->
+          {Object.keys(archiveMap).length > 0 && (
+            <div class="bg-white rounded-2xl p-6 border border-[#e5e5e0]">
+              <h2 class="font-bold text-[#0a0a0a] mb-4 text-sm uppercase tracking-wide">Archivo</h2>
+              <ul class="space-y-2">
+                {Object.entries(archiveMap).map(([month, monthPosts]) => (
+                  <li class="flex items-center justify-between text-sm py-1">
+                    <span class="text-[#0a0a0a]/70 capitalize">{month}</span>
+                    <span class="text-xs text-[#0a0a0a]/30">{monthPosts.length}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+        </aside>
+      </div>
     </div>
   </main>
 
