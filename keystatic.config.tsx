@@ -25,7 +25,7 @@ if (isProd) {
 
 export default config({
   storage: isProd && githubOwner
-    ? { kind: 'github', repo: `${githubOwner}/${githubRepo}`, branchPrefix: 'keystatic/' }
+    ? { kind: 'github', repo: `${githubOwner}/${githubRepo}` }
     : { kind: 'local' },
 
   ui: {
