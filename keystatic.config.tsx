@@ -29,7 +29,6 @@ export default config({
       label: 'Blog Posts',
       slugField: 'title',
       path: 'src/content/posts/*',
-      format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Título' } }),
 
@@ -96,10 +95,6 @@ export default config({
           multiline: true,
         }),
 
-        content: fields.text({
-          label: 'Contenido (Markdown)',
-          multiline: true,
-        }),
       },
     }),
   },
