@@ -1,13 +1,5 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
-// Keystatic 0.5.x solo genera archivos .mdoc con fields.markdoc.
-// Este patch fuerza la extensión a .mdx para compatibilidad con Astro 5.
-function markdocMdx(options: Parameters<typeof fields.markdoc>[0]) {
-  const field = fields.markdoc(options);
-  (field as any).contentExtension = '.mdx';
-  return field;
-}
-
 const isProd = process.env.NODE_ENV === 'production';
 
 let githubOwner = '';
@@ -104,14 +96,9 @@ export default config({
           multiline: true,
         }),
 
-        content: markdocMdx({
-          label: 'Contenido',
-          options: {
-            image: {
-              directory: 'public/images/posts',
-              publicPath: '/images/posts/',
-            },
-          },
+        content: fields.text({
+          label: 'Contenido (Markdown)',
+          multiline: true,
         }),
       },
     }),
