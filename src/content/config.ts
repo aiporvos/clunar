@@ -6,7 +6,9 @@ const posts = defineCollection({
     title: z.string(),
     excerpt: z.string(),
     coverImage: z.string().optional(),
-    publishedAt: z.string(),
+    publishedAt: z.union([z.string(), z.date()]).transform(val =>
+      typeof val === 'string' ? val : val.toISOString().split('T')[0]
+    ),
     author: z.string().default('Valeria De Giorgi'),
     tags: z.array(z.string()).default([]),
     category: z.string().optional(),
