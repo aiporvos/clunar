@@ -59,9 +59,9 @@ const filtered = posts.filter(p => {
       {(activeCategory || activeTag) && (
         <div class="mb-6 flex items-center gap-3">
           <span class="text-sm text-[#0a0a0a]/50">
-            Filtrando por: <strong class="text-[#7c3aed]">{activeCategory || activeTag}</strong>
+            Filtrando por: <strong class="text-[#f97316]">{activeCategory || activeTag}</strong>
           </span>
-          <a href="/blog" class="text-xs text-[#0a0a0a]/40 hover:text-[#7c3aed] underline">
+          <a href="/blog" class="text-xs text-[#0a0a0a]/40 hover:text-[#f97316] underline">
             Quitar filtro
           </a>
         </div>
@@ -74,7 +74,7 @@ const filtered = posts.filter(p => {
           {filtered.length === 0 ? (
             <div class="text-center py-20 text-[#0a0a0a]/40">
               <p class="text-lg">No hay posts para este filtro.</p>
-              <a href="/blog" class="text-sm mt-2 text-[#7c3aed] hover:underline">Ver todos</a>
+              <a href="/blog" class="text-sm mt-2 text-[#f97316] hover:underline">Ver todos</a>
             </div>
           ) : (
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -106,7 +106,7 @@ const filtered = posts.filter(p => {
                       href={`/blog?categoria=${encodeURIComponent(cat!)}`}
                       class={`flex items-center justify-between text-sm py-1.5 px-3 rounded-lg transition-colors ${
                         activeCategory === cat
-                          ? 'bg-[#7c3aed]/10 text-[#7c3aed] font-medium'
+                          ? 'bg-[#f97316]/10 text-[#f97316] font-medium'
                           : 'text-[#0a0a0a]/70 hover:bg-[#f5f5f0]'
                       }`}
                     >
@@ -126,7 +126,7 @@ const filtered = posts.filter(p => {
               {recentPosts.map(post => (
                 <li>
                   <a href={`/blog/${post.slug}`} class="group block">
-                    <p class="text-sm font-medium text-[#0a0a0a] group-hover:text-[#7c3aed] leading-snug transition-colors line-clamp-2">
+                    <p class="text-sm font-medium text-[#0a0a0a] group-hover:text-[#f97316] leading-snug transition-colors line-clamp-2">
                       {post.data.title}
                     </p>
                     <time class="text-xs text-[#0a0a0a]/40 mt-1 block">
@@ -148,8 +148,8 @@ const filtered = posts.filter(p => {
                     href={`/blog?tag=${encodeURIComponent(tag)}`}
                     class={`text-xs px-3 py-1 rounded-full border transition-colors ${
                       activeTag === tag
-                        ? 'bg-[#7c3aed] text-white border-[#7c3aed]'
-                        : 'border-[#e5e5e0] text-[#0a0a0a]/60 hover:border-[#7c3aed] hover:text-[#7c3aed]'
+                        ? 'bg-[#f97316] text-white border-[#f97316]'
+                        : 'border-[#e5e5e0] text-[#0a0a0a]/60 hover:border-[#f97316] hover:text-[#f97316]'
                     }`}
                   >
                     #{tag}

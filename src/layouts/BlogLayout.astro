@@ -50,7 +50,7 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
           {tags.length > 0 && (
             <div class="flex flex-wrap gap-2 mb-4">
               {tags.map(tag => (
-                <span class="text-xs bg-[#7c3aed]/10 text-[#7c3aed] px-3 py-1 rounded-full font-medium">
+                <span class="text-xs bg-[#f97316]/10 text-[#f97316] px-3 py-1 rounded-full font-medium">
                   {tag}
                 </span>
               ))}
@@ -82,7 +82,7 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
         <!-- Contenido del post -->
         <div class="bg-white rounded-2xl p-8 md:p-12 prose prose-lg max-w-none
                     prose-headings:font-bold prose-headings:text-[#0a0a0a]
-                    prose-a:text-[#7c3aed] prose-a:no-underline hover:prose-a:underline
+                    prose-a:text-[#f97316] prose-a:no-underline hover:prose-a:underline
                     prose-code:text-sm prose-p:text-[#0a0a0a]/70 prose-p:leading-relaxed">
           <slot />
         </div>
@@ -99,7 +99,7 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
         )}
 
         <div class="mt-8">
-          <a href="/blog" class="inline-flex items-center gap-2 text-sm text-[#7c3aed] font-medium hover:underline">
+          <a href="/blog" class="inline-flex items-center gap-2 text-sm text-[#f97316] font-medium hover:underline">
             <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             Volver al blog
           </a>
