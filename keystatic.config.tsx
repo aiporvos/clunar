@@ -29,6 +29,7 @@ export default config({
       label: 'Blog Posts',
       slugField: 'title',
       path: 'src/content/posts/*',
+      format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Título' } }),
 
@@ -93,6 +94,16 @@ export default config({
           label: 'Meta descripción SEO',
           description: '150-160 caracteres',
           multiline: true,
+        }),
+
+        content: fields.mdx({
+          label: 'Contenido',
+          options: {
+            image: {
+              directory: 'public/images/posts',
+              publicPath: '/images/posts/',
+            },
+          },
         }),
 
       },
