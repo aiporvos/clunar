@@ -1,28 +1,28 @@
 ---
 const services = [
   {
-    title: 'Mentorías Profesionales',
-    description: 'Acompaño a profesionales que atraviesan momentos de revisión, crecimiento o transición en su carrera, y necesitan pensar con claridad su recorrido, tomar decisiones con criterio y fortalecer su posicionamiento profesional.',
-    features: ['Reorientar el rumbo profesional o laboral','Diseñar y revisar planes de carrera con sentido','Clarificar decisiones en contextos de cambio','Desarrollar competencias clave para nuevos desafíos'],
-    quote: 'Pensar la carrera como un proceso, no como una urgencia.',
-  },
-  {
-    title: 'Coaching Profesional',
-    description: 'Trabajo desde el coaching ontológico, acompañando a personas que desean comprender cómo piensan, sienten y actúan en su rol profesional, para ampliar su capacidad de decisión, liderazgo y comunicación.',
-    features: ['Desarrollar un liderazgo más consciente y efectivo','Profundizar el autoconocimiento en el ejercicio del rol','Gestionar emociones en contextos de presión o cambio','Fortalecer la comunicación y las relaciones profesionales'],
+    title: 'Coaching de Liderazgo',
+    description: 'Para líderes y mandos medios que quieren ejercer su rol con más consciencia, criterio y capacidad de impacto real.',
+    features: ['Autoconocimiento en el ejercicio del rol','Toma de decisiones en contextos complejos','Comunicación y gestión de equipos','Liderazgo consciente y efectivo'],
     quote: 'No hay cambio verdadero si no se camina distinto.',
+    cta: 'Consultar',
+    ctaHref: '#contacto',
   },
   {
-    title: 'Búsqueda y Posicionamiento Profesional',
-    description: 'Acompaño a personas en búsqueda laboral activa o en procesos de cambio profesional, trabajando sobre el posicionamiento, la claridad de objetivos y la preparación para entrevistas.',
-    features: ['Definición y ajuste del perfil profesional','Revisión de objetivos y expectativas de carrera','Prácticas de entrevistas 1 a 1 con devolución personalizada','Fortalecimiento de la confianza y el posicionamiento'],
-    quote: 'Buscar trabajo también es aprender a narrar quién sos profesionalmente.',
-  },
-  {
-    title: 'Consultoría en RRHH y Desarrollo Organizacional',
-    description: 'Trabajo con organizaciones que buscan fortalecer a sus equipos y líderes, mejorar el clima laboral y desarrollar culturas de trabajo más conscientes, sostenibles y orientadas a resultados.',
-    features: ['Desarrollo de liderazgo en mandos medios','Gestión y desarrollo de talento','Mejora de la comunicación y el clima laboral','Análisis y fortalecimiento de la cultura organizacional'],
+    title: 'Formaciones para organizaciones',
+    description: 'Programas de desarrollo para equipos, mandos medios y directivos. Diseñados según el contexto, los objetivos y las personas involucradas.',
+    features: ['Liderazgo estratégico y situacional','Liderazgo en IA — equipos en la era digital','Comunicación, clima y cultura organizacional','Programas a medida para sectores específicos'],
     quote: 'El desarrollo organizacional comienza en la forma de trabajar juntos.',
+    cta: 'Ver formaciones',
+    ctaHref: '#contacto',
+  },
+  {
+    title: 'Consultoría en desarrollo organizacional',
+    description: 'Para organizaciones que quieren mejorar su cultura, clima y liderazgo desde adentro. Trabajo con equipos directivos y áreas de RRHH.',
+    features: ['Diagnóstico de cultura y clima laboral','Desarrollo de liderazgo en mandos medios','Gestión y desarrollo del talento','Fortalecimiento de equipos directivos'],
+    quote: 'Intervengo donde es necesario ordenar, pensar y potenciar el trabajo.',
+    cta: 'Hablemos',
+    ctaHref: '#contacto',
   },
 ];
 ---
@@ -35,12 +35,12 @@ const services = [
         <span class="text-sm uppercase tracking-widest font-medium">Servicios</span>
       </div>
       <div class="max-w-2xl mb-16">
-        <h2 class="font-display text-display-md font-bold mb-6">Cada solución está diseñada para acompañarte</h2>
-        <p class="text-lg" style="color:hsl(var(--muted-foreground))">en tu desarrollo profesional</p>
+        <h2 class="font-display text-display-md font-bold mb-6">Tres formas de trabajar juntos.</h2>
+        <p class="text-lg" style="color:hsl(var(--muted-foreground))">Según dónde estés y qué necesite tu organización, hay un punto de entrada. Todos los procesos se diseñan con criterio, sin recetas universales.</p>
       </div>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
+    <div class="grid md:grid-cols-3 gap-6">
       {services.map((s, i) => (
         <div class="group flex flex-col p-8 rounded-lg border transition-all duration-500 hover:shadow-lg reveal"
              style={`background:hsl(var(--background));border-color:hsl(var(--border));transition-delay:${i*150}ms`}>
@@ -73,9 +73,9 @@ const services = [
             "{s.quote}"
           </p>
 
-          <a href="#contacto" class="group/btn flex items-center justify-center gap-2 w-full py-3 rounded-md text-sm font-medium uppercase tracking-wide transition-all"
+          <a href={s.ctaHref} class="group/btn flex items-center justify-center gap-2 w-full py-3 rounded-md text-sm font-medium uppercase tracking-wide transition-all"
              style="background:hsl(var(--foreground));color:hsl(var(--background))">
-            Consultar
+            {s.cta}
             <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
