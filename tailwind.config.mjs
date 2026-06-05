@@ -3,7 +3,7 @@ export default {
   darkMode: 'class',
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'],
   theme: {
-    container: { center: true, padding: '2rem', screens: { '2xl': '1400px' } },
+    container: { center: true, padding: { DEFAULT: '1rem', sm: '1.5rem', lg: '2rem' }, screens: { '2xl': '1400px' } },
     extend: {
       colors: {
         background: 'hsl(var(--background))',
@@ -22,9 +22,9 @@ export default {
         display: ['Syne', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display-xl': ['clamp(3rem,10vw,10rem)',  { lineHeight: '0.9',  letterSpacing: '-0.02em' }],
-        'display-lg': ['clamp(2.5rem,8vw,7rem)',  { lineHeight: '0.95', letterSpacing: '-0.02em' }],
-        'display-md': ['clamp(1.8rem,4vw,3.5rem)', { lineHeight: '1.1', letterSpacing: '-0.01em' }],
+        'display-xl': ['clamp(2rem,10vw,10rem)',   { lineHeight: '0.9',  letterSpacing: '-0.02em' }],
+        'display-lg': ['clamp(1.8rem,8vw,7rem)',   { lineHeight: '0.95', letterSpacing: '-0.02em' }],
+        'display-md': ['clamp(1.5rem,4vw,3.5rem)', { lineHeight: '1.1',  letterSpacing: '-0.01em' }],
       },
       borderRadius: { lg: 'var(--radius)', md: 'calc(var(--radius) - 2px)', sm: 'calc(var(--radius) - 4px)' },
     },
