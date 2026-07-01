@@ -126,9 +126,10 @@ const servicios = [
   /* Track horizontal */
   .tender-track {
     position: relative;
-    display: flex; gap: 26px; overflow-x: auto;
-    scroll-snap-type: x mandatory; scrollbar-width: none;
+    display: flex; gap: 52px; overflow-x: auto;
+    scroll-snap-type: x proximity; scrollbar-width: none;
     padding: 14px 8px 32px; cursor: grab;
+    user-select: none; -webkit-user-select: none;
   }
   .tender-track::-webkit-scrollbar { display: none; }
   .tender-track:active { cursor: grabbing; }
@@ -157,12 +158,19 @@ const servicios = [
   }
   .tender-pin-code { font-family: 'Paytone One', sans-serif; font-size: 0.82rem; letter-spacing: 0.08em; }
   .tender-pin-num { font-family: monospace; font-size: 0.56rem; opacity: 0.85; }
-  /* Ojal: anillo oscuro con el cable pasando por dentro */
+  /* Ojal: anillo oscuro con el hilo pasando por adentro */
   .tender-eyelet {
-    width: 24px; height: 24px; border-radius: 50%;
-    background: radial-gradient(circle at 50% 40%, #4a453e 0%, #2a2620 70%);
+    position: relative;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #17140f;
     border: 3px solid hsl(var(--foreground));
-    box-shadow: inset 0 2px 3px hsl(0 0% 0% / 0.6);
+    box-shadow: inset 0 2px 3px hsl(0 0% 0% / 0.7);
+  }
+  .tender-eyelet::after {
+    content: ""; position: absolute; top: 50%; left: -18px; right: -18px;
+    transform: translateY(-50%); height: 8px; border-radius: 5px;
+    background: linear-gradient(to bottom, #565049 0%, #3a352f 45%, #211d19 100%);
+    box-shadow: inset 0 1.5px 0 hsl(0 0% 100% / 0.18);
   }
 
   /* Tarjeta (monta el cable: su borde superior queda sobre el cable) */
