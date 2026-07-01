@@ -19,3 +19,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Dokploy / secretos locales
+pass dokploy.txt

@@ -12,7 +12,7 @@ RUN npm ci --legacy-peer-deps
 COPY . .
 
 # Build (requiere SITE_URL para sitemap)
-ARG SITE_URL=https://tudominio.com
+ARG SITE_URL=https://cluna.ar
 ENV SITE_URL=$SITE_URL
 ENV NODE_ENV=production
 
