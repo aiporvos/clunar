@@ -133,39 +133,41 @@ const servicios = [
   .tender-track::-webkit-scrollbar { display: none; }
   .tender-track:active { cursor: grabbing; }
 
-  /* Cable que atraviesa las etiquetas (top y width los pone el JS) */
+  /* Cable grueso y 3D — cruza por delante de la tarjeta (top/width los pone el JS) */
   .tender-rail-line {
-    position: absolute; left: 0; top: 40px; height: 5px; width: 100%;
-    background: var(--coal); border-radius: 3px; z-index: 0;
-    box-shadow: 0 1px 0 hsl(var(--foreground) / 0.4);
+    position: absolute; left: 0; top: 40px; height: 8px; width: 100%; z-index: 2;
+    background: linear-gradient(to bottom, #565049 0%, #3a352f 45%, #211d19 100%);
+    border-radius: 5px;
+    box-shadow: inset 0 1.5px 0 hsl(0 0% 100% / 0.18), 0 2px 4px hsl(0 0% 0% / 0.35);
   }
 
   /* Etiqueta */
   .tender-tag {
-    position: relative; z-index: 1;
+    position: relative;
     flex-shrink: 0; scroll-snap-align: start;
     display: flex; flex-direction: column; align-items: center;
     width: 280px;
   }
   .tender-pin {
     position: relative; z-index: 3;
-    display: flex; flex-direction: column; align-items: center; gap: 5px; line-height: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 4px; line-height: 1;
     padding: 8px 20px; border-radius: 10px;
     border: 2.5px solid hsl(var(--foreground));
     box-shadow: 3px 3px 0 hsl(var(--foreground));
   }
   .tender-pin-code { font-family: 'Paytone One', sans-serif; font-size: 0.82rem; letter-spacing: 0.08em; }
   .tender-pin-num { font-family: monospace; font-size: 0.56rem; opacity: 0.85; }
-  /* Ojal por donde "pasa" el cable */
+  /* Ojal: anillo oscuro con el cable pasando por dentro */
   .tender-eyelet {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--coal); border: 3px solid hsl(var(--foreground));
-    box-shadow: inset 0 0 0 3px hsl(var(--foreground) / 0.25);
+    width: 24px; height: 24px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%, #4a453e 0%, #2a2620 70%);
+    border: 3px solid hsl(var(--foreground));
+    box-shadow: inset 0 2px 3px hsl(0 0% 0% / 0.6);
   }
 
-  /* Tarjeta (se mete debajo de la etiqueta) */
+  /* Tarjeta (monta el cable: su borde superior queda sobre el cable) */
   .tender-card {
-    margin-top: -14px;
+    margin-top: -30px; position: relative; z-index: 1;
     width: 100%; border-radius: 14px;
     border: 2.5px solid hsl(var(--foreground));
     background: hsl(var(--card)); overflow: hidden;
@@ -174,8 +176,7 @@ const servicios = [
     transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.3s ease;
   }
   .tender-tag:hover .tender-card {
-    transform: rotate(-1.2deg) translateY(4px);
-    box-shadow: 8px 8px 0 hsl(var(--foreground));
+    box-shadow: 7px 9px 0 hsl(var(--foreground));
   }
 
   /* Panel negro con palabra grande */
@@ -246,7 +247,7 @@ const servicios = [
     if (!eye) return;
     const tRect = track.getBoundingClientRect();
     const eRect = eye.getBoundingClientRect();
-    rail.style.top = (eRect.top - tRect.top + eRect.height / 2 - 2.5) + 'px';
+    rail.style.top = (eRect.top - tRect.top + eRect.height / 2 - 4) + 'px';
     rail.style.width = track.scrollWidth + 'px';
   }
   placeRail();
