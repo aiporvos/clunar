@@ -1,0 +1,54 @@
+---
+title: 'Orquestar modelos vs. consumir IA: 5 USD contra 100 USD por mes'
+excerpt: 'Hay dos formas de trabajar con IA: pagar por usar una herramienta cerrada, o diseñar un sistema que orquesta varios modelos. La segunda da más control y cuesta una fracción.'
+publishedAt: 2026-06-18
+author: Claudio Luna
+category: Arquitectura IA
+readTime: 7
+tags:
+  - Arquitectura IA
+  - Orquestación
+  - Modelos open source
+draft: false
+seoTitle: 'Orquestar modelos vs. consumir IA — control y costos (5 vs 100 USD)'
+seoDescription: 'Consumir una herramienta de IA cerrada versus orquestar varios modelos especializados. La diferencia en control, flexibilidad y costo, explicada.'
+---
+
+Hay una decisión de fondo, más importante que "qué modelo uso", que separa a quienes solo **consumen** IA de quienes la **construyen**: cómo diseñás el sistema alrededor de los modelos.
+
+Si solo consumís IA, pagás por usarla. Si la orquestás, empezás a construir sobre ella. No es lo mismo, y la diferencia se nota tanto en control como en costos.
+
+## Consumir: cómodo, pero caro y cerrado
+
+El camino más común es contratar una herramienta todo-en-uno y pagar la suscripción mensual —muchas veces 100 USD/mes o más. Es cómodo: viene resuelto y arrancás rápido.
+
+El costo oculto no es solo el precio. Es la **dependencia**: quedás atado a un único proveedor, a sus límites, a sus precios y a sus decisiones. Si cambian algo, tu flujo cambia con ellos.
+
+## Orquestar: modular, controlado y barato
+
+El otro enfoque es armar el sistema con piezas especializadas, cada una haciendo lo que mejor hace. Un ejemplo real de una arquitectura modular:
+
+- Un **agente** que coordina el flujo general.
+- Un modelo chico y rápido para **clasificar** entradas.
+- Un modelo específico para **OCR** (leer texto de imágenes y documentos).
+- Otro para generar **gráficos** o análisis.
+- **Fallbacks** que cubren los casos borde cuando algo falla.
+
+¿El costo estimado de una arquitectura así? Cerca de **5 USD**, contra los 100 de la herramienta cerrada.
+
+## Qué ganás al orquestar
+
+- **Menos dependencia** de una sola herramienta.
+- **Más control** sobre lo que realmente pasa en cada paso.
+- **Costos mucho más bajos**, porque cada modelo se usa solo donde aporta.
+- **Más flexibilidad** para cambiar una pieza sin rehacer todo.
+
+## La letra chica
+
+No es para todos, y no lo voy a vender como magia. Orquestar requiere entender **cómo** encajan los modelos, definir reglas y pensar en **flujos**, no en prompts sueltos. Hay una curva de aprendizaje y un trabajo de diseño detrás.
+
+Por eso no lo planteo como un reemplazo de las herramientas cerradas. Es **otra forma de pensar** el problema: en vez de preguntarte qué modelo es "el mejor", te preguntás cómo diseñás el sistema para que cada parte haga lo suyo.
+
+## En una línea
+
+El punto no es qué modelo usás. Es cómo diseñás el sistema alrededor. Ahí está la diferencia entre alquilar IA y construir sobre ella.
