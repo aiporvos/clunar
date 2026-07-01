@@ -174,6 +174,70 @@
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
   .reveal-x.visible { opacity: 1; transform: translateX(0); }
+
+  /* ── Glow / relieve en títulos (estilo daveholloway, adaptado a crema) ── */
+  .glow-text {
+    text-shadow:
+      3px 3px 0 hsl(var(--foreground) / 0.14),
+      0 0 26px hsl(var(--primary) / 0.28);
+  }
+
+  /* ── Texto que se arma letra por letra ── */
+  .split-ready { visibility: visible; }
+  .split-char-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    line-height: 1.05;
+  }
+  .split-char {
+    display: inline-block;
+    transform: translateY(115%);
+    transition: transform 0.62s cubic-bezier(.22,.68,0,1.2);
+    will-change: transform;
+  }
+  .is-revealed .split-char { transform: translateY(0); }
+
+  /* ── Efecto hover sobre imágenes: overlay dorado + glitch sutil ── */
+  .img-fx { position: relative; overflow: hidden; }
+  .img-fx img, .img-fx .img-fx-media {
+    transition: transform 0.5s cubic-bezier(.22,.68,0,1.2), filter 0.35s ease;
+    will-change: transform;
+  }
+  .img-fx::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, hsl(var(--primary) / 0.55) 50%, transparent 70%);
+    background-size: 220% 100%;
+    background-position: 120% 0;
+    mix-blend-mode: overlay;
+    opacity: 0;
+    transition: opacity 0.4s ease, background-position 0.7s ease;
+    pointer-events: none;
+  }
+  .img-fx:hover img, .img-fx:hover .img-fx-media { transform: scale(1.06); filter: saturate(1.15) contrast(1.05); }
+  .img-fx:hover::after { opacity: 1; background-position: -120% 0; }
+  .img-fx:hover .img-glitch { animation: glitch 0.45s steps(2) 1; }
+  @keyframes glitch {
+    0%   { clip-path: inset(0 0 0 0); transform: translate(0,0); }
+    20%  { clip-path: inset(20% 0 40% 0); transform: translate(-3px,0); }
+    40%  { clip-path: inset(50% 0 20% 0); transform: translate(3px,0); }
+    60%  { clip-path: inset(10% 0 60% 0); transform: translate(-2px,0); }
+    100% { clip-path: inset(0 0 0 0); transform: translate(0,0); }
+  }
+
+  /* ── Brillo que "barre" botones al hover ── */
+  .btn-shine { position: relative; overflow: hidden; }
+  .btn-shine::before {
+    content: "";
+    position: absolute; top: 0; left: -80%;
+    width: 60%; height: 100%;
+    background: linear-gradient(120deg, transparent, hsl(0 0% 100% / 0.5), transparent);
+    transform: skewX(-18deg);
+    transition: left 0.5s ease;
+    pointer-events: none;
+  }
+  .btn-shine:hover::before { left: 130%; }
 }
 
 @keyframes fadeUp {

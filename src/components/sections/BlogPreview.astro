@@ -19,7 +19,7 @@ function formatDate(d: string | Date) {
       </div>
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 lg:mb-16">
         <div class="max-w-2xl">
-          <h2 class="font-display text-display-md font-bold mb-4">Reflexiones y recursos</h2>
+          <h2 class="font-display text-display-md font-bold glow-text mb-4">Reflexiones y recursos</h2>
           <p class="text-lg" style="color:hsl(var(--muted-foreground))">para tu desarrollo profesional</p>
         </div>
         <a href="/blog" class="group self-start md:self-auto flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70" style="color:hsl(var(--muted-foreground))">
@@ -35,10 +35,10 @@ function formatDate(d: string | Date) {
       {posts.map((post, i) => (
         <article class="card-brutal group flex flex-col overflow-hidden reveal"
                  style={`background:hsl(var(--card));transition-delay:${i*150}ms`}>
-          <div class="aspect-[16/10] relative overflow-hidden" style="background:hsl(var(--secondary)/0.5);border-bottom:2px solid hsl(var(--foreground))">
+          <div class="img-fx aspect-[16/10] relative" style="background:hsl(var(--secondary)/0.5);border-bottom:2px solid hsl(var(--foreground))">
             {post.data.coverImage && (
               <img src={post.data.coverImage} alt={post.data.title}
-                   class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                   class="img-glitch w-full h-full object-cover" />
             )}
             <span class="pill-brutal absolute top-4 left-4 px-3 py-1 text-xs"
                   style="background:hsl(var(--primary));color:hsl(var(--foreground))">

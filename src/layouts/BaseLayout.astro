@@ -59,3 +59,41 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 <style is:global>
   @import '../styles/global.css';
 </style>
+
+<script>
+  // Texto que se arma letra por letra (estilo daveholloway, en clave sticker)
+  function splitInto(el: HTMLElement) {
+    if (el.dataset.splitDone) return;
+    const text = (el.textContent || '').trim();
+    el.textContent = '';
+    el.classList.add('split-ready');
+    let i = 0;
+    for (const ch of text) {
+      const wrap = document.createElement('span');
+      wrap.className = 'split-char-wrap';
+      const c = document.createElement('span');
+      c.className = 'split-char';
+      c.textContent = ch === ' ' ? ' ' : ch;
+      c.style.transitionDelay = (i * 0.03) + 's';
+      wrap.appendChild(c);
+      el.appendChild(wrap);
+      i++;
+    }
+    el.dataset.splitDone = '1';
+  }
+
+  const splitEls = Array.from(document.querySelectorAll<HTMLElement>('[data-split]'));
+  splitEls.forEach(splitInto);
+
+  // Los del hero (data-split="load") se revelan al cargar; el resto, al hacer scroll
+  requestAnimationFrame(() => {
+    splitEls.filter(el => el.dataset.split === 'load').forEach((el, idx) => {
+      setTimeout(() => el.classList.add('is-revealed'), 120 + idx * 140);
+    });
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-revealed'); io.unobserve(e.target); } });
+  }, { threshold: 0.35 });
+  splitEls.filter(el => el.dataset.split !== 'load').forEach(el => io.observe(el));
+</script>

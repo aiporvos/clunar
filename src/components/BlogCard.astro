@@ -19,11 +19,11 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
 
 <article class="card-brutal group flex flex-col h-full overflow-hidden" style="background:hsl(var(--card))">
   {coverImage && (
-    <a href={`/blog/${slug}`} class="block overflow-hidden" style="border-bottom:2px solid hsl(var(--foreground))">
+    <a href={`/blog/${slug}`} class="img-fx block" style="border-bottom:2px solid hsl(var(--foreground))">
       <img
         src={coverImage}
         alt={title}
-        class="w-full aspect-video object-cover group-hover:scale-105 transition-transform duration-300"
+        class="img-glitch w-full aspect-video object-cover"
         loading="lazy"
       />
     </a>
