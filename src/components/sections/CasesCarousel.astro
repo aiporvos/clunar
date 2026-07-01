@@ -113,6 +113,8 @@ const total = cases.length;
   .cases-viewport {
     overflow: hidden;
     border-radius: 16px;
+    border: 2.5px solid hsl(var(--foreground));
+    box-shadow: 6px 6px 0 hsl(var(--foreground));
   }
   .cases-track {
     display: flex;
@@ -123,8 +125,7 @@ const total = cases.length;
     width: 100%;
     padding: 48px 40px;
     border-radius: 16px;
-    border: 1px solid hsl(var(--border));
-    background: hsl(var(--background));
+    background: hsl(var(--card));
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto auto auto;
@@ -145,14 +146,14 @@ const total = cases.length;
     gap: 4px;
   }
   .case-n {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Paytone One', sans-serif;
     font-weight: 800;
     font-size: clamp(3rem, 8vw, 6rem);
     line-height: 1;
     color: hsl(var(--primary));
   }
   .case-total {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Paytone One', sans-serif;
     font-size: 1.2rem;
     color: hsl(var(--muted-foreground));
     font-weight: 500;
@@ -171,7 +172,7 @@ const total = cases.length;
     text-transform: uppercase;
   }
   .case-client {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Paytone One', sans-serif;
     font-weight: 800;
     font-size: clamp(1.6rem, 3vw, 2.4rem);
     line-height: 1.1;
@@ -192,10 +193,11 @@ const total = cases.length;
     padding: 6px 12px;
     border-radius: 100px;
     font-size: 0.75rem;
-    font-weight: 500;
-    border: 1px solid hsl(var(--border));
-    color: hsl(var(--muted-foreground));
-    background: hsl(var(--secondary) / 0.5);
+    font-weight: 600;
+    border: 2px solid hsl(var(--foreground));
+    box-shadow: 2px 2px 0 hsl(var(--foreground));
+    color: hsl(var(--foreground));
+    background: hsl(var(--background));
   }
 
   .case-result {
@@ -204,18 +206,19 @@ const total = cases.length;
     gap: 6px;
     padding: 20px;
     border-radius: 10px;
-    background: hsl(var(--primary) / 0.08);
-    border: 1px solid hsl(var(--primary) / 0.2);
+    background: hsl(var(--primary));
+    border: 2.5px solid hsl(var(--foreground));
+    box-shadow: 4px 4px 0 hsl(var(--foreground));
   }
   .case-result-label {
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.2em;
-    color: hsl(var(--primary));
+    color: hsl(var(--foreground));
     text-transform: uppercase;
   }
   .case-result-text {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Paytone One', sans-serif;
     font-weight: 700;
     font-size: 1.1rem;
     color: hsl(var(--foreground));
@@ -227,18 +230,20 @@ const total = cases.length;
     align-items: center;
     gap: 8px;
     padding: 14px 28px;
-    border-radius: 8px;
+    border-radius: 9999px;
     font-size: 0.88rem;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     text-decoration: none;
-    transition: opacity 0.2s;
     width: fit-content;
     background: hsl(var(--foreground));
     color: hsl(var(--background));
+    border: 2.5px solid hsl(var(--foreground));
+    box-shadow: 3px 3px 0 hsl(var(--foreground));
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
   }
-  .case-cta:hover { opacity: 0.8; }
+  .case-cta:hover { transform: translate(-1px,-1px); box-shadow: 5px 5px 0 hsl(var(--foreground)); }
 
   /* Nav */
   .cases-nav {
@@ -252,18 +257,20 @@ const total = cases.length;
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1px solid hsl(var(--border));
-    background: hsl(var(--background));
+    border: 2.5px solid hsl(var(--foreground));
+    box-shadow: 3px 3px 0 hsl(var(--foreground));
+    background: hsl(var(--card));
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     color: hsl(var(--foreground));
-    transition: background 0.2s, color 0.2s;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.2s;
   }
   .cases-btn:hover {
-    background: hsl(var(--foreground));
-    color: hsl(var(--background));
+    background: hsl(var(--primary));
+    transform: translate(-1px,-1px);
+    box-shadow: 4px 4px 0 hsl(var(--foreground));
   }
   .cases-dots {
     display: flex;

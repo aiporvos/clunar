@@ -1,9 +1,9 @@
 ---
 const highlights = [
-  { label: 'IA Conversacional' },
-  { label: 'Automatización' },
-  { label: 'Integración Nativa' },
-  { label: 'Sin Código' },
+  { label: 'IA Conversacional', bg: 'hsl(var(--primary))', fg: 'hsl(var(--foreground))' },
+  { label: 'Automatización',    bg: 'hsl(var(--success))', fg: '#fff' },
+  { label: 'Integración Nativa',bg: 'var(--blue)',         fg: '#fff' },
+  { label: 'Sin Código',        bg: 'hsl(var(--accent))',  fg: '#fff' },
 ];
 ---
 <section id="que-es" class="py-24 lg:py-32">
@@ -40,8 +40,8 @@ const highlights = [
           <p class="text-sm uppercase tracking-widest font-medium mb-4" style="color:hsl(var(--muted-foreground))">Se conecta con lo que ya usás</p>
           <div class="flex flex-wrap gap-2">
             {['WhatsApp','Gmail','Notion','HubSpot','Salesforce','Shopify','MercadoLibre','Stripe','Zapier','SAP','Slack','Oracle'].map(t => (
-              <span class="px-3 py-1.5 rounded-full text-xs border font-medium"
-                    style="background:hsl(var(--background));border-color:hsl(var(--border));color:hsl(var(--foreground))">
+              <span class="pill-brutal px-3 py-1.5 text-xs"
+                    style="background:hsl(var(--card));color:hsl(var(--foreground))">
                 {t}
               </span>
             ))}
@@ -52,9 +52,9 @@ const highlights = [
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 reveal">
       {highlights.map(item => (
-        <div class="flex flex-col items-center text-center p-6 border rounded-lg transition-colors hover:opacity-80"
-             style="border-color:hsl(var(--border))">
-          <span class="text-sm font-medium">{item.label}</span>
+        <div class="card-brutal flex flex-col items-center justify-center text-center p-6"
+             style={`background:${item.bg}`}>
+          <span class="font-display text-sm uppercase tracking-wide" style={`color:${item.fg}`}>{item.label}</span>
         </div>
       ))}
     </div>

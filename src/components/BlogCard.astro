@@ -17,10 +17,9 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
 });
 ---
 
-<article class="group flex flex-col h-full bg-white rounded-xl border border-gray-100
-                hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-200">
+<article class="card-brutal group flex flex-col h-full overflow-hidden" style="background:hsl(var(--card))">
   {coverImage && (
-    <a href={`/blog/${slug}`} class="block overflow-hidden rounded-t-xl">
+    <a href={`/blog/${slug}`} class="block overflow-hidden" style="border-bottom:2px solid hsl(var(--foreground))">
       <img
         src={coverImage}
         alt={title}
@@ -32,28 +31,29 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
 
   <div class="flex flex-col flex-1 p-6">
     {tags.length > 0 && (
-      <div class="flex flex-wrap gap-1 mb-3">
+      <div class="flex flex-wrap gap-2 mb-3">
         {tags.slice(0, 2).map(tag => (
-          <span class="text-xs text-[var(--color-primary)]">#{tag}</span>
+          <span class="pill-brutal px-2.5 py-0.5 text-xs" style="background:hsl(var(--primary));color:hsl(var(--foreground))">#{tag}</span>
         ))}
       </div>
     )}
 
-    <h2 class="text-lg font-bold mb-2 leading-snug">
-      <a href={`/blog/${slug}`} class="hover:text-[var(--color-primary)] transition-colors">
+    <h2 class="font-display text-lg mb-2 leading-snug">
+      <a href={`/blog/${slug}`} class="transition-colors hover:opacity-70" style="color:hsl(var(--foreground))">
         {title}
       </a>
     </h2>
 
-    <p class="text-gray-600 text-sm flex-1 line-clamp-3">{excerpt}</p>
+    <p class="text-sm flex-1 line-clamp-3" style="color:hsl(var(--muted-foreground))">{excerpt}</p>
 
-    <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
-      <time class="text-xs text-gray-400" datetime={publishedAt}>
+    <div class="flex items-center justify-between mt-4 pt-4" style="border-top:2px solid hsl(var(--foreground))">
+      <time class="text-xs" style="color:hsl(var(--muted-foreground))" datetime={publishedAt}>
         {formattedDate}
       </time>
       <a
         href={`/blog/${slug}`}
-        class="text-sm font-medium text-[var(--color-primary)] hover:underline"
+        class="text-sm font-bold hover:underline"
+        style="color:hsl(var(--foreground))"
       >
         Leer más →
       </a>
