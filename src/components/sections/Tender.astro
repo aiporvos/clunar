@@ -1,76 +1,52 @@
 ---
-const flujos = [
+const servicios = [
   {
-    code: 'ATC',
-    date: '24-7-365',
-    name: 'Atención al Cliente',
-    description: 'Responde dudas y resuelve problemas en segundos.',
-    features: ['Respuestas instantáneas','Multicanal (WA/web/mail)','Deriva a humano','Historial completo'],
-    stat1: '92%', label1: 'atendidos',
-    stat2: '<30s', label2: 'respuesta',
-    from: 'MSG', to: 'SOL',
-    color: 'hsl(var(--primary))',
-    colorFg: 'hsl(var(--primary-foreground))',
+    code: 'AUTO', num: '01·26',
+    name: 'Automatizaciones',
+    desc: 'Flujos que hacen el trabajo repetitivo por vos, sin código.',
+    top: ['n8n', 'WhatsApp', 'Integraciones', 'Flujos'],
+    bot: ['Facturación', 'Reportes', 'Emails', 'CRM'],
+    color: 'hsl(var(--primary))', fg: 'hsl(var(--foreground))',
   },
   {
-    code: 'VTA',
-    date: '12-20-04',
-    name: 'Vendedor Digital',
-    description: 'Muestra productos, manda links de compra y capta interesados.',
-    features: ['Catálogo integrado','Links de pago','Seguimiento de leads','Recupero de carritos'],
-    stat1: '+320%', label1: 'ventas',
-    stat2: '1500+', label2: 'clientes/día',
-    from: 'LEAD', to: 'SALE',
-    color: 'hsl(var(--accent))',
-    colorFg: '#fff',
+    code: 'AGENTE', num: '02·26',
+    name: 'Agentes de IA',
+    desc: 'Asistentes que atienden, venden, cobran y leen documentos 24/7.',
+    top: ['Ventas', 'Atención', 'Cobranzas', 'Documentos'],
+    bot: ['RAG', 'Memoria', 'Multicanal', '24/7'],
+    color: 'var(--blue)', fg: '#fff',
   },
   {
-    code: 'COB',
-    date: '08-14-03',
-    name: 'Cobrador Amable',
-    description: 'Cobra sin perder clientes: negocia y recuerda pagos.',
-    features: ['Recordatorios automáticos','Negociación inteligente','Planes de pago','Tono cuidado'],
-    stat1: '+65%', label1: 'recuperado',
-    stat2: '94%', label2: 'satisfacción',
-    from: 'DEUDA', to: 'PAGO',
-    color: 'hsl(var(--success))',
-    colorFg: '#fff',
+    code: 'CLASE', num: '03·26',
+    name: 'Capacitaciones',
+    desc: 'Formaciones de IA aplicada para equipos y líderes, de cero.',
+    top: ['n8n', 'IA aplicada', 'Prompting', 'Liderazgo'],
+    bot: ['Cursos', 'Talleres', 'In-company', 'Mentorías'],
+    color: 'hsl(var(--success))', fg: '#fff',
   },
   {
-    code: 'LEG',
-    date: '11-05-06',
-    name: 'Consultor Legal',
-    description: 'Resuelve dudas, crea documentos y ordena casos.',
-    features: ['Redacción de contratos','Búsqueda normativa','Plantillas legales','Organización de casos'],
-    stat1: '85%', label1: 'tiempo ahorrado',
-    stat2: '98%', label2: 'precisión',
-    from: 'DUDA', to: 'DOC',
-    color: 'hsl(215 50% 50%)',
-    colorFg: '#fff',
+    code: 'WEB', num: '04·26',
+    name: 'Web & Ecommerce',
+    desc: 'Sitios y tiendas pensados para convertir, no solo para verse lindos.',
+    top: ['Astro', 'TiendaNube', 'Landing', 'SEO'],
+    bot: ['Diseño', 'Conversión', 'Performance', 'FTP'],
+    color: 'var(--pink)', fg: 'hsl(var(--foreground))',
   },
   {
-    code: 'INM',
-    date: '03-28-05',
-    name: 'Bienes Raíces',
-    description: 'Muestra propiedades, agenda visitas y filtra compradores.',
-    features: ['Fichas de propiedades','Recorridos virtuales','Agenda automática','Calificación de leads'],
-    stat1: '+180%', label1: 'cierres',
-    stat2: '800+', label2: 'interesados/mes',
-    from: 'LEAD', to: 'VISITA',
-    color: 'hsl(280 55% 55%)',
-    colorFg: '#fff',
+    code: 'CONSUL', num: '05·26',
+    name: 'Consultoría IA',
+    desc: 'Te ayudo a decidir qué automatizar, con qué stack y a qué costo.',
+    top: ['Diagnóstico', 'Arquitectura', 'Modelos', 'Roadmap'],
+    bot: ['Estrategia', 'Costos', 'Stack', 'Orquestación'],
+    color: 'var(--purple)', fg: '#fff',
   },
   {
-    code: 'DOC',
-    date: '06-11-09',
-    name: 'Lector de Documentos',
-    description: 'Lee contratos, facturas y papeles en segundos.',
-    features: ['Extracción de datos','Resúmenes automáticos','Clasificación inteligente','Export a Excel/PDF'],
-    stat1: '10x', label1: 'más rápido',
-    stat2: '1000+', label2: 'docs/día',
-    from: 'PDF', to: 'DATA',
-    color: 'hsl(35 90% 50%)',
-    colorFg: '#fff',
+    code: 'DOCS', num: '06·26',
+    name: 'Datos & Documentos',
+    desc: 'Leo contratos, facturas y papeles y los convierto en datos útiles.',
+    top: ['OCR', 'Extracción', 'Clasificación', 'Análisis'],
+    bot: ['PDF/Excel', 'Dashboards', 'Búsqueda', 'Export'],
+    color: 'hsl(var(--accent))', fg: '#fff',
   },
 ];
 ---
@@ -81,80 +57,63 @@ const flujos = [
     <div class="reveal">
       <div class="flex items-center gap-4 mb-8">
         <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
-        <span class="text-sm uppercase tracking-widest font-medium">Soluciones</span>
+        <span class="text-sm uppercase tracking-widest font-medium">Servicios</span>
       </div>
       <div class="max-w-2xl mb-16">
-        <h2 class="font-display text-display-md font-bold glow-text mb-6">Seis flujos que trabajan por vos.</h2>
-        <p class="text-lg" style="color:hsl(var(--muted-foreground))">Cada agente está entrenado para una tarea específica. Instalás uno, dos, o todos. Sin código.</p>
+        <h2 class="font-display text-display-md font-bold glow-text mb-6">En qué puedo ayudarte.</h2>
+        <p class="text-lg" style="color:hsl(var(--muted-foreground))">Desde automatizaciones y agentes de IA hasta capacitaciones y desarrollo. Elegí uno, varios, o armamos algo a medida.</p>
       </div>
     </div>
 
     <!-- TENDER RAIL -->
     <div class="tender-section reveal">
-      <!-- The rail cable -->
       <div class="tender-rail">
         <div class="tender-rail-line"></div>
-        <!-- Clips -->
-        {flujos.map((_, i) => (
-          <div class="tender-clip" style={`left: calc(${(i / (flujos.length - 1)) * 100}%)`}></div>
+        {servicios.map((_, i) => (
+          <div class="tender-clip" style={`left: calc(${(i / (servicios.length - 1)) * 100}%)`}></div>
         ))}
       </div>
 
-      <!-- Tags hanging from rail -->
       <div class="tender-track" id="tender-track">
-        {flujos.map((f) => (
+        {servicios.map((s) => (
           <div class="tender-tag">
-            <!-- String from rail -->
+            <!-- Etiqueta colgante sobre el riel -->
+            <div class="tender-pin" style={`background:${s.color};color:${s.fg}`}>
+              <span class="tender-pin-code">{s.code}</span>
+              <span class="tender-pin-num">{s.num}</span>
+            </div>
             <div class="tender-string"></div>
 
-            <!-- Tag card -->
-            <div class="tender-card" style={`border-top: 4px solid ${f.color}`}>
-              <!-- Header -->
-              <div class="tender-header">
-                <span class="tender-code">{f.code}</span>
-                <span class="tender-date">{f.date}</span>
+            <div class="tender-card">
+              <!-- Panel negro con palabra grande -->
+              <div class="tender-word-panel">
+                <span class="tender-word" style={`color:${s.color}`}>{s.code}</span>
               </div>
 
-              <!-- Color band -->
-              <div class="tender-band" style={`background:${f.color};color:${f.colorFg}`}>
+              <!-- Banda de servicio -->
+              <div class="tender-band" style={`background:${s.color};color:${s.fg}`}>
                 <span class="tender-service-label">SERVICIO</span>
-                <span class="tender-service-name">{f.name}</span>
+                <span class="tender-service-name">{s.name}</span>
               </div>
 
-              <!-- Description -->
-              <p class="tender-description">{f.description}</p>
+              <!-- Descripción -->
+              <p class="tender-description">{s.desc}</p>
 
-              <!-- Features grid -->
-              <ul class="tender-features">
-                {f.features.map(feat => (
-                  <li>
-                    <span class="tender-bullet">▾</span>
-                    {feat}
-                  </li>
-                ))}
-              </ul>
-
-              <!-- Stats -->
-              <div class="tender-stats">
-                <div class="tender-stat">
-                  <span class="tender-stat-value" style={`color:${f.color}`}>{f.stat1}</span>
-                  <span class="tender-stat-label">{f.label1}</span>
-                </div>
-                <div class="tender-stat">
-                  <span class="tender-stat-value" style={`color:${f.color}`}>{f.stat2}</span>
-                  <span class="tender-stat-label">{f.label2}</span>
+              <!-- Regla de markers -->
+              <div class="tender-ruler">
+                <div class="tender-ruler-grid">
+                  {s.top.map((t, i) => (
+                    <div class="tender-col">
+                      <span class="tender-col-top">{t}</span>
+                      <span class="tender-tri">▼</span>
+                      <span class="tender-col-bot">{s.bot[i]}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <!-- Transition bar -->
-              <div class="tender-transition">
-                <span class="tender-from">{f.from}</span>
-                <span class="tender-arrow">→</span>
-                <span class="tender-to">{f.to}</span>
-              </div>
-
-              <a href="#contacto" class="tender-cta" style={`background:${f.color};color:${f.colorFg}`}>
-                Activar flujo →
+              <a href="#contacto" class="tender-cta" style={`background:${s.color};color:${s.fg}`}>
+                Lo quiero →
               </a>
             </div>
           </div>
@@ -166,226 +125,121 @@ const flujos = [
 </section>
 
 <style>
-  .tender-section {
-    position: relative;
-    padding-top: 60px;
-  }
+  .tender-section { position: relative; padding-top: 40px; }
 
-  /* Rail */
-  .tender-rail {
-    position: relative;
-    height: 24px;
-    margin-bottom: 0;
-  }
+  /* Riel */
+  .tender-rail { position: relative; height: 20px; margin-bottom: 0; }
   .tender-rail-line {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: hsl(var(--foreground));
-    transform: translateY(-50%);
-    border-radius: 2px;
+    position: absolute; top: 50%; left: 0; right: 0; height: 3px;
+    background: hsl(var(--foreground)); transform: translateY(-50%); border-radius: 2px;
   }
   .tender-clip {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: hsl(var(--foreground));
-    border: 2px solid hsl(var(--background));
-    box-shadow: 0 0 0 1px hsl(var(--border));
+    position: absolute; top: 50%; transform: translate(-50%, -50%);
+    width: 12px; height: 12px; border-radius: 50%;
+    background: hsl(var(--foreground)); border: 2px solid hsl(var(--background));
   }
 
-  /* Horizontal scroll track */
+  /* Track horizontal */
   .tender-track {
-    display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    padding: 0 8px 32px;
-    cursor: grab;
+    display: flex; gap: 26px; overflow-x: auto;
+    scroll-snap-type: x mandatory; scrollbar-width: none;
+    padding: 18px 8px 32px; cursor: grab;
   }
   .tender-track::-webkit-scrollbar { display: none; }
   .tender-track:active { cursor: grabbing; }
 
-  /* Individual hanging tag */
+  /* Etiqueta colgante */
   .tender-tag {
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 260px;
+    flex-shrink: 0; scroll-snap-align: start;
+    display: flex; flex-direction: column; align-items: center;
+    width: 280px;
   }
-
-  /* String from rail to card */
-  .tender-string {
-    width: 2px;
-    height: 40px;
-    background: hsl(var(--foreground));
-    flex-shrink: 0;
-  }
-
-  /* Card */
-  .tender-card {
-    width: 100%;
-    border-radius: 12px;
+  .tender-pin {
+    display: flex; flex-direction: column; align-items: center; line-height: 1;
+    padding: 7px 16px; border-radius: 8px;
     border: 2.5px solid hsl(var(--foreground));
-    background: hsl(var(--card));
-    overflow: hidden;
+    box-shadow: 3px 3px 0 hsl(var(--foreground));
+    margin-bottom: -2px; z-index: 2;
+  }
+  .tender-pin-code { font-family: 'Paytone One', sans-serif; font-size: 0.85rem; letter-spacing: 0.08em; }
+  .tender-pin-num { font-family: monospace; font-size: 0.58rem; opacity: 0.85; margin-top: 2px; }
+  .tender-string { width: 3px; height: 26px; background: hsl(var(--foreground)); }
+
+  /* Tarjeta */
+  .tender-card {
+    width: 100%; border-radius: 14px;
+    border: 2.5px solid hsl(var(--foreground));
+    background: hsl(var(--card)); overflow: hidden;
     box-shadow: 5px 5px 0 hsl(var(--foreground));
     transform-origin: top center;
     transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.3s ease;
   }
   .tender-tag:hover .tender-card {
-    transform: rotate(-1.5deg) translateY(4px);
+    transform: rotate(-1.2deg) translateY(4px);
     box-shadow: 8px 8px 0 hsl(var(--foreground));
   }
 
-  /* Header */
-  .tender-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-bottom: 2px solid hsl(var(--foreground));
+  /* Panel negro con palabra grande */
+  .tender-word-panel {
+    background: var(--coal);
+    height: 150px; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; border-bottom: 2.5px solid hsl(var(--foreground));
   }
-  .tender-code {
+  .tender-word {
     font-family: 'Paytone One', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-    letter-spacing: 0.1em;
-    color: hsl(var(--foreground));
-  }
-  .tender-date {
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: hsl(var(--muted-foreground));
-    font-family: monospace;
+    font-size: 4.2rem; line-height: 0.9; white-space: nowrap;
+    text-transform: uppercase; letter-spacing: -0.02em;
+    text-shadow: 0 0 30px currentColor;
   }
 
-  /* Color band */
-  .tender-band {
-    padding: 14px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .tender-service-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    opacity: 0.8;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-  .tender-service-name {
-    font-family: 'Paytone One', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-  }
+  /* Banda servicio */
+  .tender-band { padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
+  .tender-service-label { font-size: 0.6rem; letter-spacing: 0.2em; opacity: 0.85; font-weight: 700; }
+  .tender-service-name { font-family: 'Paytone One', sans-serif; font-size: 1.25rem; }
 
   .tender-description {
-    padding: 12px 16px;
-    font-size: 0.82rem;
-    line-height: 1.55;
+    padding: 12px 16px; font-size: 0.85rem; line-height: 1.5;
     color: hsl(var(--muted-foreground));
     border-bottom: 2px solid hsl(var(--foreground));
   }
 
-  /* Features */
-  .tender-features {
-    list-style: none;
-    padding: 12px 16px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    border-bottom: 2px solid hsl(var(--foreground));
+  /* Regla de markers */
+  .tender-ruler { position: relative; padding: 16px; border-bottom: 2px solid hsl(var(--foreground)); }
+  .tender-ruler::before {
+    content: ""; position: absolute; left: 16px; right: 16px; top: 50%;
+    transform: translateY(-50%); height: 2px; background: hsl(var(--foreground));
   }
-  .tender-features li {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-    font-size: 0.75rem;
-    color: hsl(var(--muted-foreground));
-    line-height: 1.4;
+  .tender-ruler-grid { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .tender-col {
+    display: grid; grid-template-rows: 1fr auto 1fr; align-items: center; justify-items: center;
+    gap: 6px; text-align: center; min-height: 66px;
   }
-  .tender-bullet {
-    color: hsl(var(--accent));
-    font-size: 0.65rem;
-    flex-shrink: 0;
+  .tender-col-top, .tender-col-bot {
+    font-size: 0.6rem; font-weight: 700; line-height: 1.15; color: hsl(var(--foreground));
+    text-transform: uppercase; letter-spacing: 0.02em;
   }
-
-  /* Stats */
-  .tender-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 12px 16px;
-    gap: 8px;
-    border-bottom: 2px solid hsl(var(--foreground));
-  }
-  .tender-stat {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .tender-stat-value {
-    font-family: 'Paytone One', sans-serif;
-    font-weight: 800;
-    font-size: 1.1rem;
-  }
-  .tender-stat-label {
-    font-size: 0.68rem;
-    color: hsl(var(--muted-foreground));
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Transition bar */
-  .tender-transition {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 16px;
-    border-bottom: 2px solid hsl(var(--foreground));
-    font-family: 'Paytone One', sans-serif;
-    font-weight: 800;
-    font-size: 1.4rem;
-    letter-spacing: 0.05em;
-    color: hsl(var(--muted-foreground));
-  }
-  .tender-from, .tender-to { color: hsl(var(--foreground)); }
-  .tender-arrow { color: hsl(var(--primary)); }
+  .tender-col-bot { color: hsl(var(--muted-foreground)); }
+  .tender-tri { font-size: 0.6rem; color: hsl(var(--foreground)); line-height: 1; }
 
   /* CTA */
   .tender-cta {
-    display: block;
-    text-align: center;
-    padding: 12px 16px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    text-decoration: none;
-    transition: opacity 0.2s;
+    display: block; text-align: center; padding: 13px 16px;
+    font-family: 'Paytone One', sans-serif; font-size: 0.85rem;
+    text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none;
+    transition: filter 0.2s;
   }
-  .tender-cta:hover { opacity: 0.85; }
+  .tender-cta:hover { filter: brightness(0.94); }
+
+  @media (max-width: 640px) {
+    .tender-tag { width: 250px; }
+    .tender-word { font-size: 3.4rem; }
+  }
 </style>
 
 <script>
-  // Drag-to-scroll on tender track
   const track = document.getElementById('tender-track');
   let isDown = false, startX = 0, scrollLeft = 0;
-  track?.addEventListener('mousedown', e => {
-    isDown = true;
-    startX = e.pageX - (track.offsetLeft || 0);
-    scrollLeft = track.scrollLeft;
-  });
+  track?.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - (track.offsetLeft || 0); scrollLeft = track.scrollLeft; });
   track?.addEventListener('mouseleave', () => { isDown = false; });
   track?.addEventListener('mouseup', () => { isDown = false; });
   track?.addEventListener('mousemove', e => {
