@@ -1,0 +1,397 @@
+---
+const flujos = [
+  {
+    code: 'ATC',
+    date: '24-7-365',
+    name: 'Atención al Cliente',
+    description: 'Responde dudas y resuelve problemas en segundos.',
+    features: ['Respuestas instantáneas','Multicanal (WA/web/mail)','Deriva a humano','Historial completo'],
+    stat1: '92%', label1: 'atendidos',
+    stat2: '<30s', label2: 'respuesta',
+    from: 'MSG', to: 'SOL',
+    color: 'hsl(var(--primary))',
+    colorFg: 'hsl(var(--primary-foreground))',
+  },
+  {
+    code: 'VTA',
+    date: '12-20-04',
+    name: 'Vendedor Digital',
+    description: 'Muestra productos, manda links de compra y capta interesados.',
+    features: ['Catálogo integrado','Links de pago','Seguimiento de leads','Recupero de carritos'],
+    stat1: '+320%', label1: 'ventas',
+    stat2: '1500+', label2: 'clientes/día',
+    from: 'LEAD', to: 'SALE',
+    color: 'hsl(var(--accent))',
+    colorFg: '#fff',
+  },
+  {
+    code: 'COB',
+    date: '08-14-03',
+    name: 'Cobrador Amable',
+    description: 'Cobra sin perder clientes: negocia y recuerda pagos.',
+    features: ['Recordatorios automáticos','Negociación inteligente','Planes de pago','Tono cuidado'],
+    stat1: '+65%', label1: 'recuperado',
+    stat2: '94%', label2: 'satisfacción',
+    from: 'DEUDA', to: 'PAGO',
+    color: 'hsl(var(--success))',
+    colorFg: '#fff',
+  },
+  {
+    code: 'LEG',
+    date: '11-05-06',
+    name: 'Consultor Legal',
+    description: 'Resuelve dudas, crea documentos y ordena casos.',
+    features: ['Redacción de contratos','Búsqueda normativa','Plantillas legales','Organización de casos'],
+    stat1: '85%', label1: 'tiempo ahorrado',
+    stat2: '98%', label2: 'precisión',
+    from: 'DUDA', to: 'DOC',
+    color: 'hsl(215 50% 50%)',
+    colorFg: '#fff',
+  },
+  {
+    code: 'INM',
+    date: '03-28-05',
+    name: 'Bienes Raíces',
+    description: 'Muestra propiedades, agenda visitas y filtra compradores.',
+    features: ['Fichas de propiedades','Recorridos virtuales','Agenda automática','Calificación de leads'],
+    stat1: '+180%', label1: 'cierres',
+    stat2: '800+', label2: 'interesados/mes',
+    from: 'LEAD', to: 'VISITA',
+    color: 'hsl(280 55% 55%)',
+    colorFg: '#fff',
+  },
+  {
+    code: 'DOC',
+    date: '06-11-09',
+    name: 'Lector de Documentos',
+    description: 'Lee contratos, facturas y papeles en segundos.',
+    features: ['Extracción de datos','Resúmenes automáticos','Clasificación inteligente','Export a Excel/PDF'],
+    stat1: '10x', label1: 'más rápido',
+    stat2: '1000+', label2: 'docs/día',
+    from: 'PDF', to: 'DATA',
+    color: 'hsl(35 90% 50%)',
+    colorFg: '#fff',
+  },
+];
+---
+
+<section id="soluciones" class="py-24 lg:py-32 overflow-hidden">
+  <div class="container mx-auto px-6">
+
+    <div class="reveal">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
+        <span class="text-sm uppercase tracking-widest font-medium">Soluciones</span>
+      </div>
+      <div class="max-w-2xl mb-16">
+        <h2 class="font-display text-display-md font-bold mb-6">Seis flujos que trabajan por vos.</h2>
+        <p class="text-lg" style="color:hsl(var(--muted-foreground))">Cada agente está entrenado para una tarea específica. Instalás uno, dos, o todos. Sin código.</p>
+      </div>
+    </div>
+
+    <!-- TENDER RAIL -->
+    <div class="tender-section reveal">
+      <!-- The rail cable -->
+      <div class="tender-rail">
+        <div class="tender-rail-line"></div>
+        <!-- Clips -->
+        {flujos.map((_, i) => (
+          <div class="tender-clip" style={`left: calc(${(i / (flujos.length - 1)) * 100}%)`}></div>
+        ))}
+      </div>
+
+      <!-- Tags hanging from rail -->
+      <div class="tender-track" id="tender-track">
+        {flujos.map((f) => (
+          <div class="tender-tag">
+            <!-- String from rail -->
+            <div class="tender-string"></div>
+
+            <!-- Tag card -->
+            <div class="tender-card" style={`border-top: 4px solid ${f.color}`}>
+              <!-- Header -->
+              <div class="tender-header">
+                <span class="tender-code">{f.code}</span>
+                <span class="tender-date">{f.date}</span>
+              </div>
+
+              <!-- Color band -->
+              <div class="tender-band" style={`background:${f.color};color:${f.colorFg}`}>
+                <span class="tender-service-label">SERVICIO</span>
+                <span class="tender-service-name">{f.name}</span>
+              </div>
+
+              <!-- Description -->
+              <p class="tender-description">{f.description}</p>
+
+              <!-- Features grid -->
+              <ul class="tender-features">
+                {f.features.map(feat => (
+                  <li>
+                    <span class="tender-bullet">▾</span>
+                    {feat}
+                  </li>
+                ))}
+              </ul>
+
+              <!-- Stats -->
+              <div class="tender-stats">
+                <div class="tender-stat">
+                  <span class="tender-stat-value" style={`color:${f.color}`}>{f.stat1}</span>
+                  <span class="tender-stat-label">{f.label1}</span>
+                </div>
+                <div class="tender-stat">
+                  <span class="tender-stat-value" style={`color:${f.color}`}>{f.stat2}</span>
+                  <span class="tender-stat-label">{f.label2}</span>
+                </div>
+              </div>
+
+              <!-- Transition bar -->
+              <div class="tender-transition">
+                <span class="tender-from">{f.from}</span>
+                <span class="tender-arrow">→</span>
+                <span class="tender-to">{f.to}</span>
+              </div>
+
+              <a href="#contacto" class="tender-cta" style={`background:${f.color};color:${f.colorFg}`}>
+                Activar flujo →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .tender-section {
+    position: relative;
+    padding-top: 60px;
+  }
+
+  /* Rail */
+  .tender-rail {
+    position: relative;
+    height: 24px;
+    margin-bottom: 0;
+  }
+  .tender-rail-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: hsl(var(--border));
+    transform: translateY(-50%);
+    border-radius: 2px;
+  }
+  .tender-clip {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: hsl(var(--foreground));
+    border: 2px solid hsl(var(--background));
+    box-shadow: 0 0 0 1px hsl(var(--border));
+  }
+
+  /* Horizontal scroll track */
+  .tender-track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 0 8px 32px;
+    cursor: grab;
+  }
+  .tender-track::-webkit-scrollbar { display: none; }
+  .tender-track:active { cursor: grabbing; }
+
+  /* Individual hanging tag */
+  .tender-tag {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 260px;
+  }
+
+  /* String from rail to card */
+  .tender-string {
+    width: 2px;
+    height: 40px;
+    background: hsl(var(--border));
+    flex-shrink: 0;
+  }
+
+  /* Card */
+  .tender-card {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    overflow: hidden;
+    box-shadow: 0 8px 32px hsl(var(--foreground) / 0.06);
+    transform-origin: top center;
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.3s ease;
+  }
+  .tender-tag:hover .tender-card {
+    transform: rotate(-1.5deg) translateY(4px);
+    box-shadow: 0 16px 48px hsl(var(--foreground) / 0.12);
+  }
+
+  /* Header */
+  .tender-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .tender-code {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: hsl(var(--foreground));
+  }
+  .tender-date {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: hsl(var(--muted-foreground));
+    font-family: monospace;
+  }
+
+  /* Color band */
+  .tender-band {
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tender-service-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    opacity: 0.8;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .tender-service-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+
+  .tender-description {
+    padding: 12px 16px;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: hsl(var(--muted-foreground));
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  /* Features */
+  .tender-features {
+    list-style: none;
+    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .tender-features li {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.4;
+  }
+  .tender-bullet {
+    color: hsl(var(--accent));
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* Stats */
+  .tender-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 12px 16px;
+    gap: 8px;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .tender-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tender-stat-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .tender-stat-label {
+    font-size: 0.68rem;
+    color: hsl(var(--muted-foreground));
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Transition bar */
+  .tender-transition {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 16px;
+    border-bottom: 1px solid hsl(var(--border));
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: hsl(var(--muted-foreground));
+  }
+  .tender-from, .tender-to { color: hsl(var(--foreground)); }
+  .tender-arrow { color: hsl(var(--primary)); }
+
+  /* CTA */
+  .tender-cta {
+    display: block;
+    text-align: center;
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .tender-cta:hover { opacity: 0.85; }
+</style>
+
+<script>
+  // Drag-to-scroll on tender track
+  const track = document.getElementById('tender-track');
+  let isDown = false, startX = 0, scrollLeft = 0;
+  track?.addEventListener('mousedown', e => {
+    isDown = true;
+    startX = e.pageX - (track.offsetLeft || 0);
+    scrollLeft = track.scrollLeft;
+  });
+  track?.addEventListener('mouseleave', () => { isDown = false; });
+  track?.addEventListener('mouseup', () => { isDown = false; });
+  track?.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - (track.offsetLeft || 0);
+    track.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+</script>

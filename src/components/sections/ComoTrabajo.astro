@@ -1,68 +1,83 @@
 ---
-const principles = [
-  { title: 'Acompañamiento personalizado', description: 'Cada proceso es único y se diseña en función de la persona, el equipo y el contexto.' },
-  { title: 'Reflexión y acción', description: 'Integración entre el pensar y el hacer para generar cambios reales y sostenibles.' },
-  { title: 'Claridad de objetivos', description: 'Definición de objetivos concretos y seguimiento continuo del proceso.' },
-  { title: 'Mirada estratégica', description: 'Una visión humana y profesional del trabajo, orientada a decisiones con criterio.' },
-  { title: 'Respeto por los tiempos', description: 'Cada persona y cada equipo tienen su propio ritmo de desarrollo.' },
-  { title: 'Contextos reales', description: 'Trabajo sobre desafíos concretos, con intervenciones prácticas y aplicables.' },
-];
-const tools = [
-  'Coaching ontológico',
-  'Escucha activa y preguntas poderosas',
-  'Inteligencia emocional aplicada',
-  'Análisis de competencias',
-  'Dinámicas grupales',
-  'Gestión de personas',
-  'Observación de culturas organizacionales',
+const steps = [
+  {
+    n: '01',
+    title: 'Conectás tus canales',
+    description: 'WhatsApp, tu web, tu email, tu CRM. Donde ya estás, el agente también.',
+    tools: ['WhatsApp Business','Web chat','Gmail / Outlook','API REST'],
+  },
+  {
+    n: '02',
+    title: 'Entrenamos el agente',
+    description: 'Lo alimentamos con la info de tu negocio: productos, precios, políticas, tono. En 48h está listo.',
+    tools: ['Tus docs y catálogos','PDFs y manuales','FAQs internas','Historial de chats'],
+  },
+  {
+    n: '03',
+    title: 'Trabaja solo 24/7',
+    description: 'El agente atiende, vende, cobra o lee documentos. Te avisa solo cuando necesita tu ojo.',
+    tools: ['Reportes semanales','Alertas críticas','Dashboard en tiempo real','Escalado a humano'],
+  },
 ];
 ---
-<section id="enfoque" class="py-24 lg:py-32">
+<section id="como-funciona" class="py-24 lg:py-32">
   <div class="container mx-auto px-6">
 
     <div class="reveal">
       <div class="flex items-center gap-4 mb-8">
         <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
-        <span class="text-sm uppercase tracking-widest font-medium">Cómo Trabajo</span>
+        <span class="text-sm uppercase tracking-widest font-medium">Cómo Funciona</span>
       </div>
       <div class="max-w-3xl mb-16">
-        <h2 class="font-display text-display-md font-bold mb-6">Mi forma de trabajo</h2>
+        <h2 class="font-display text-display-md font-bold mb-6">Tres pasos. Sin líos.</h2>
         <p class="text-lg" style="color:hsl(var(--muted-foreground))">
-          Se basa en principios claros que orientan cada proceso de acompañamiento, respetando la singularidad de las personas, los equipos y los contextos en los que intervengo. No trabajo con recetas universales.
+          No necesitás saber de IA. Nosotros nos encargamos de todo el setup. Vos solo decís qué querés automatizar.
         </p>
       </div>
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
-      {principles.map((p, i) => (
-        <div class="group flex items-start gap-4 p-6 border-l-2 border-transparent transition-all duration-500 reveal-x hover:border-accent"
-             style={`transition-delay:${i*100}ms`}
-             onmouseenter="this.style.borderColor='hsl(var(--accent))'"
-             onmouseleave="this.style.borderColor='transparent'">
-          <div class="w-6 h-6 flex-shrink-0 mt-1 rounded-full border" style="border-color:hsl(var(--border))"></div>
+      {steps.map((s, i) => (
+        <div class="group flex items-start gap-4 p-6 border-l-2 transition-all duration-500 reveal-x"
+             style={`border-color:hsl(var(--border));transition-delay:${i*100}ms`}
+             onmouseenter="this.style.borderColor='hsl(var(--primary))'"
+             onmouseleave="this.style.borderColor='hsl(var(--border))'">
+          <div class="flex-shrink-0 mt-1">
+            <span class="font-display font-bold text-2xl" style="color:hsl(var(--primary))">{s.n}</span>
+          </div>
           <div>
-            <h3 class="font-display font-semibold mb-2">{p.title}</h3>
-            <p class="text-sm" style="color:hsl(var(--muted-foreground))">{p.description}</p>
+            <h3 class="font-display font-semibold mb-2 text-lg">{s.title}</h3>
+            <p class="text-sm mb-4" style="color:hsl(var(--muted-foreground))">{s.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {s.tools.map(t => (
+                <span class="px-2 py-1 rounded text-xs border font-medium"
+                      style="background:hsl(var(--secondary)/0.5);border-color:hsl(var(--border));color:hsl(var(--muted-foreground))">
+                  {t}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       ))}
     </div>
 
     <div class="rounded-2xl p-8 lg:p-12 reveal" style="background:hsl(var(--secondary)/0.5)">
-      <h3 class="font-display text-xl font-bold mb-8 text-center">Herramientas que utilizo</h3>
-      <div class="flex flex-wrap justify-center gap-3">
-        {tools.map(t => (
-          <span class="flex items-center gap-2 px-4 py-2 rounded-full text-sm border transition-colors"
-                style="background:hsl(var(--background));border-color:hsl(var(--border));color:hsl(var(--foreground))">
-            {t}
-          </span>
-        ))}
+      <div class="grid lg:grid-cols-3 gap-8 text-center">
+        <div>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--primary))">48h</p>
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">Setup completo</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--primary))">$0</p>
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">Costo de programación</p>
+        </div>
+        <div>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--primary))">∞</p>
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">Consultas simultáneas</p>
+        </div>
       </div>
-      <p class="text-center text-sm italic mt-8" style="color:hsl(var(--muted-foreground))">
-        "La elección de herramientas responde al proceso y a los objetivos, no a esquemas prefijados."
-      </p>
-      <p class="text-center text-lg font-display font-semibold mt-6">
-        "Acompañar no es dirigir el camino, es ayudar a caminar con mayor claridad."
+      <p class="text-center text-lg font-display font-semibold mt-8">
+        "Empezás a ver resultados desde la primera semana."
       </p>
     </div>
 

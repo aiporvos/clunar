@@ -18,8 +18,8 @@ export default {
         card:       { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
       },
       fontFamily: {
-        sans:    ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Syne', 'system-ui', 'sans-serif'],
+        sans:    ['Outfit', 'system-ui', 'sans-serif'],
+        display: ['"Paytone One"', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display-xl': ['clamp(2rem,10vw,10rem)',   { lineHeight: '0.9',  letterSpacing: '-0.02em' }],

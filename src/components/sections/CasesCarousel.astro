@@ -1,0 +1,307 @@
+---
+const cases = [
+  {
+    client: 'E-COMMERCE',
+    sector: 'Indumentaria · Buenos Aires',
+    tags: ['WhatsApp', 'Ventas', 'Recupero de carritos', 'Atención 24/7'],
+    result: '+320% ventas en 90 días',
+    n: 1,
+  },
+  {
+    client: 'ESTUDIO JURÍDICO',
+    sector: 'Derecho empresarial · Mendoza',
+    tags: ['Documentos', 'Atención al cliente', 'Agenda de citas', 'Consultas legales'],
+    result: '85% de tiempo administrativo ahorrado',
+    n: 2,
+  },
+  {
+    client: 'INMOBILIARIA',
+    sector: 'Propiedades · Córdoba',
+    tags: ['Leads calificados', 'Visitas programadas', 'Fichas de propiedades', 'Seguimiento'],
+    result: '+180% tasa de cierre',
+    n: 3,
+  },
+];
+const total = cases.length;
+---
+
+<section id="casos" class="py-24 lg:py-32" style="background:hsl(var(--secondary)/0.3)">
+  <div class="container mx-auto px-6">
+
+    <div class="reveal">
+      <div class="flex items-center gap-4 mb-8">
+        <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
+        <span class="text-sm uppercase tracking-widest font-medium">Casos</span>
+      </div>
+      <div class="max-w-2xl mb-16">
+        <h2 class="font-display text-display-md font-bold mb-6">Resultados reales.</h2>
+        <p class="text-lg" style="color:hsl(var(--muted-foreground))">Negocios que ya automatizan con AIporvos. Cada caso, una historia distinta.</p>
+      </div>
+    </div>
+
+    <div class="cases-carousel-wrapper reveal">
+      <!-- Viewport -->
+      <div class="cases-viewport">
+        <div class="cases-track" id="cases-track">
+          {cases.map((c) => (
+            <div class="case-card" data-index={c.n - 1}>
+              <!-- Big counter -->
+              <div class="case-counter">
+                <span class="case-n">{String(c.n).padStart(2, '0')}</span>
+                <span class="case-total">/ {String(total).padStart(2, '0')}</span>
+              </div>
+
+              <!-- Client block -->
+              <div class="case-client-block">
+                <span class="case-label">CLIENTE</span>
+                <h3 class="case-client">{c.client}</h3>
+                <p class="case-sector">{c.sector}</p>
+              </div>
+
+              <!-- Tags -->
+              <div class="case-tags">
+                {c.tags.map(tag => (
+                  <span class="case-tag">{tag}</span>
+                ))}
+              </div>
+
+              <!-- Result -->
+              <div class="case-result">
+                <span class="case-result-label">RESULTADO</span>
+                <p class="case-result-text">{c.result}</p>
+              </div>
+
+              <!-- CTA -->
+              <a href="#contacto" class="case-cta">
+                Quiero esto para mi negocio
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Nav buttons -->
+      <div class="cases-nav">
+        <button id="cases-prev" class="cases-btn" aria-label="Anterior">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <div class="cases-dots" id="cases-dots">
+          {cases.map((_, i) => (
+            <button class={`cases-dot ${i === 0 ? 'active' : ''}`} data-idx={i} aria-label={`Caso ${i + 1}`}></button>
+          ))}
+        </div>
+        <button id="cases-next" class="cases-btn" aria-label="Siguiente">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .cases-carousel-wrapper {
+    position: relative;
+  }
+  .cases-viewport {
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .cases-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+  }
+  .case-card {
+    flex-shrink: 0;
+    width: 100%;
+    padding: 48px 40px;
+    border-radius: 16px;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 32px 48px;
+    align-items: start;
+  }
+  @media (max-width: 768px) {
+    .case-card {
+      grid-template-columns: 1fr;
+      padding: 32px 24px;
+    }
+  }
+
+  .case-counter {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .case-n {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    color: hsl(var(--primary));
+  }
+  .case-total {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    color: hsl(var(--muted-foreground));
+    font-weight: 500;
+  }
+
+  .case-client-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .case-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: hsl(var(--muted-foreground));
+    text-transform: uppercase;
+  }
+  .case-client {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.1;
+    color: hsl(var(--foreground));
+  }
+  .case-sector {
+    font-size: 0.88rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .case-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-content: start;
+  }
+  .case-tag {
+    padding: 6px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    background: hsl(var(--secondary) / 0.5);
+  }
+
+  .case-result {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px;
+    border-radius: 10px;
+    background: hsl(var(--primary) / 0.08);
+    border: 1px solid hsl(var(--primary) / 0.2);
+  }
+  .case-result-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: hsl(var(--primary));
+    text-transform: uppercase;
+  }
+  .case-result-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: hsl(var(--foreground));
+  }
+
+  .case-cta {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    width: fit-content;
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
+  }
+  .case-cta:hover { opacity: 0.8; }
+
+  /* Nav */
+  .cases-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .cases-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: hsl(var(--foreground));
+    transition: background 0.2s, color 0.2s;
+  }
+  .cases-btn:hover {
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
+  }
+  .cases-dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .cases-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: hsl(var(--border));
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .cases-dot.active {
+    background: hsl(var(--primary));
+    transform: scale(1.4);
+  }
+</style>
+
+<script>
+  const track = document.getElementById('cases-track') as HTMLElement;
+  const dots = document.querySelectorAll('.cases-dot');
+  let current = 0;
+  const total = dots.length;
+
+  function goTo(idx: number) {
+    current = (idx + total) % total;
+    if (track) track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  document.getElementById('cases-prev')?.addEventListener('click', () => goTo(current - 1));
+  document.getElementById('cases-next')?.addEventListener('click', () => goTo(current + 1));
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+  // Auto-advance
+  setInterval(() => goTo(current + 1), 5000);
+</script>

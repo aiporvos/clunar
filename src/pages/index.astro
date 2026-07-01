@@ -4,7 +4,8 @@ import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 import Hero from '../components/sections/Hero.astro';
 import QuienSoy from '../components/sections/QuienSoy.astro';
-import Servicios from '../components/sections/Servicios.astro';
+import Tender from '../components/sections/Tender.astro';
+import CasesCarousel from '../components/sections/CasesCarousel.astro';
 import ComoTrabajo from '../components/sections/ComoTrabajo.astro';
 import ParaQuien from '../components/sections/ParaQuien.astro';
 import BlogPreview from '../components/sections/BlogPreview.astro';
@@ -12,14 +13,15 @@ import Contacto from '../components/sections/Contacto.astro';
 ---
 
 <BaseLayout
-  title="VDG Mentorías | Desarrollo Profesional & Liderazgo"
-  description="Acompaño a profesionales, líderes y equipos en procesos de crecimiento, reorientación de carrera y fortalecimiento del rol dentro de las organizaciones."
+  title="AIporvos | Agentes de IA para tu negocio"
+  description="Automatizá tu negocio con agentes de IA que atienden, venden, cobran y leen documentos sin que estés encima. Disponible 24/7, sin código."
 >
   <Nav />
   <main>
     <Hero />
     <QuienSoy />
-    <Servicios />
+    <Tender />
+    <CasesCarousel />
     <ComoTrabajo />
     <ParaQuien />
     <BlogPreview />
@@ -29,9 +31,20 @@ import Contacto from '../components/sections/Contacto.astro';
 </BaseLayout>
 
 <script>
+  // Smooth scroll reveal
   const observer = new IntersectionObserver(
     (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-    { threshold: 0.15 }
+    { threshold: 0.12 }
   );
   document.querySelectorAll('.reveal, .reveal-x').forEach(el => observer.observe(el));
+
+  // Lenis smooth scroll
+  import('lenis').then(({ default: Lenis }) => {
+    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  }).catch(() => {});
 </script>

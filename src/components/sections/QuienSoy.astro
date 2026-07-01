@@ -1,39 +1,52 @@
 ---
 const highlights = [
-  { label: 'Coach Profesional' },
-  { label: 'Gestión de Equipos' },
-  { label: 'Desarrollo de Líderes' },
-  { label: 'Enfoque Humano' },
+  { label: 'IA Conversacional' },
+  { label: 'Automatización' },
+  { label: 'Integración Nativa' },
+  { label: 'Sin Código' },
 ];
 ---
-<section id="quien-soy" class="py-24 lg:py-32">
+<section id="que-es" class="py-24 lg:py-32">
   <div class="container mx-auto px-6">
 
     <div class="flex items-center gap-4 mb-16 reveal">
       <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
-      <span class="text-sm uppercase tracking-widest font-medium">Quién Soy</span>
+      <span class="text-sm uppercase tracking-widest font-medium">Qué es AIporvos</span>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start reveal">
       <div>
-        <h2 class="font-display text-display-md font-bold mb-8">Valeria De Giorgi</h2>
+        <h2 class="font-display text-display-md font-bold mb-8">Agentes de IA para negocios reales</h2>
         <p class="text-lg font-light italic" style="color:hsl(var(--muted-foreground))">
-          Coach & Mentora | Desarrollo Profesional y Organizacional
+          No son chatbots básicos. Son flujos inteligentes.
         </p>
       </div>
       <div class="space-y-6">
         <p class="text-lg leading-relaxed">
-          Acompaño a profesionales, líderes y equipos en procesos de crecimiento, reorientación de carrera y fortalecimiento del rol dentro de las organizaciones.
+          Agentes de IA entrenados para resolver problemas reales de tu negocio: atienden, venden,
+          cobran y ordenan papeles sin que estés encima.
         </p>
         <p class="text-lg leading-relaxed" style="color:hsl(var(--muted-foreground))">
-          Trabajo desde el coaching y la gestión de personas, con una mirada estratégica y profundamente humana, orientada al desarrollo de líderes, equipos de alto rendimiento y culturas organizacionales sostenibles.
+          Entienden texto, imágenes y documentos, y se conectan con las herramientas que ya usás:
+          WhatsApp, tu CRM, tu tienda, tu sistema de facturación.
         </p>
         <p class="text-lg leading-relaxed" style="color:hsl(var(--muted-foreground))">
-          Mi experiencia en el ámbito organizacional y en procesos de desarrollo individual me permite acompañar tanto a personas en búsquedas laborales activas y planes de carrera, como a equipos de trabajo y mandos medios que buscan mejorar su desempeño, fortalecer el clima laboral y desarrollar entornos de confianza y seguridad psicológica.
+          El resultado: tu negocio trabaja mientras vos dormís. Sin contratar más gente, sin perder
+          clientes por falta de respuesta, sin papelerío acumulado.
         </p>
-        <p class="text-lg leading-relaxed" style="color:hsl(var(--muted-foreground))">
-          Cuento además con una sólida trayectoria como docente en Ciencias Sociales, lo que aporta una base reflexiva, analítica y crítica a mi forma de acompañar personas, equipos y organizaciones, integrando pensamiento, acción y sentido.
-        </p>
+
+        <!-- Integraciones -->
+        <div class="pt-4">
+          <p class="text-sm uppercase tracking-widest font-medium mb-4" style="color:hsl(var(--muted-foreground))">Se conecta con lo que ya usás</p>
+          <div class="flex flex-wrap gap-2">
+            {['WhatsApp','Gmail','Notion','HubSpot','Salesforce','Shopify','MercadoLibre','Stripe','Zapier','SAP','Slack','Oracle'].map(t => (
+              <span class="px-3 py-1.5 rounded-full text-xs border font-medium"
+                    style="background:hsl(var(--background));border-color:hsl(var(--border));color:hsl(var(--foreground))">
+                {t}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -48,7 +61,8 @@ const highlights = [
 
     <blockquote class="mt-20 max-w-4xl mx-auto text-center reveal">
       <p class="text-xl md:text-2xl font-display leading-relaxed italic">
-        "Intervengo en contextos donde es necesario ordenar, pensar y potenciar el trabajo: procesos de liderazgo, transiciones profesionales, desarrollo de talento y dinámicas de equipo que impactan directamente en los resultados y en las personas."
+        "Un agente de AIporvos no descansa, no se olvida, no tiene días malos.
+        Hace el trabajo pesado para que vos puedas enfocarte en lo que realmente importa."
       </p>
     </blockquote>
 

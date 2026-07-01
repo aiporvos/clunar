@@ -8,12 +8,12 @@ import keystatic from '@keystatic/astro';
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://tudominio.com',
+  site: process.env.SITE_URL || 'https://cluna.ar',
 
   security: {
     allowedDomains: [
-      { hostname: 'vdgmentorias.com' },
-      { hostname: 'www.vdgmentorias.com' },
+      { hostname: 'cluna.ar' },
+      { hostname: 'www.cluna.ar' },
     ],
   },
 
