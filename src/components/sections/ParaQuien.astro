@@ -25,8 +25,8 @@ const audiences = [
 
       <div class="space-y-4">
         {audiences.map((a, i) => (
-          <div class="flex items-start gap-4 p-4 rounded-lg border transition-all duration-500 reveal"
-               style={`background:hsl(var(--background));border-color:hsl(var(--border));transition-delay:${i*100}ms`}>
+          <div class="card-brutal flex items-start gap-4 p-4 reveal"
+               style={`background:hsl(var(--card));transition-delay:${i*100}ms`}>
             <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color:hsl(var(--primary))" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
@@ -42,7 +42,7 @@ const audiences = [
         Si tu negocio tiene tareas que se repiten y te roban tiempo, hay un agente de AIporvos listo para encargarse.
       </p>
       <a href="https://wa.me/542604844952" target="_blank" rel="noopener noreferrer"
-         class="group inline-flex items-center gap-2 px-8 py-3 rounded-md text-sm font-medium uppercase tracking-wide transition-all"
+         class="btn-brutal group inline-flex items-center gap-2 px-8 py-3 text-sm"
          style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
         Hablemos por WhatsApp
         <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -42,12 +42,12 @@ const services = [
 
     <div class="grid lg:grid-cols-3 gap-6">
       {services.map((s, i) => (
-        <div class="group flex flex-col p-8 rounded-lg border transition-all duration-500 hover:shadow-lg reveal"
-             style={`background:hsl(var(--background));border-color:hsl(var(--border));transition-delay:${i*150}ms`}>
+        <div class="card-brutal group flex flex-col p-8 reveal"
+             style={`background:hsl(var(--card));transition-delay:${i*150}ms`}>
 
           <div class="flex items-start justify-between mb-6">
-            <div class="w-10 h-10 rounded-full border flex items-center justify-center" style="border-color:hsl(var(--border))">
-              <span class="font-display font-bold text-sm">{i+1}</span>
+            <div class="w-11 h-11 rounded-full border-brutal shadow-brutal-sm flex items-center justify-center" style="background:hsl(var(--primary))">
+              <span class="font-display font-bold text-base" style="color:hsl(var(--foreground))">{i+1}</span>
             </div>
             <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full animate-pulse" style="background:hsl(var(--success))"></span>
@@ -73,7 +73,7 @@ const services = [
             "{s.quote}"
           </p>
 
-          <a href={s.ctaHref} class="group/btn flex items-center justify-center gap-2 w-full py-3 rounded-md text-sm font-medium uppercase tracking-wide transition-all"
+          <a href={s.ctaHref} class="btn-brutal group/btn flex items-center justify-center gap-2 w-full py-3 text-sm"
              style="background:hsl(var(--foreground));color:hsl(var(--background))">
             {s.cta}
             <svg class="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

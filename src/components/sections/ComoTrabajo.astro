@@ -38,20 +38,18 @@ const steps = [
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
       {steps.map((s, i) => (
-        <div class="group flex items-start gap-4 p-6 border-l-2 transition-all duration-500 reveal-x"
-             style={`border-color:hsl(var(--border));transition-delay:${i*100}ms`}
-             onmouseenter="this.style.borderColor='hsl(var(--primary))'"
-             onmouseleave="this.style.borderColor='hsl(var(--border))'">
-          <div class="flex-shrink-0 mt-1">
-            <span class="font-display font-bold text-2xl" style="color:hsl(var(--primary))">{s.n}</span>
+        <div class="card-brutal group flex items-start gap-4 p-6 reveal-x"
+             style={`background:hsl(var(--card));transition-delay:${i*100}ms`}>
+          <div class="flex-shrink-0 mt-1 w-11 h-11 rounded-lg border-brutal shadow-brutal-sm flex items-center justify-center" style="background:hsl(var(--primary))">
+            <span class="font-display font-bold text-lg" style="color:hsl(var(--foreground))">{s.n}</span>
           </div>
           <div>
             <h3 class="font-display font-semibold mb-2 text-lg">{s.title}</h3>
             <p class="text-sm mb-4" style="color:hsl(var(--muted-foreground))">{s.description}</p>
             <div class="flex flex-wrap gap-2">
               {s.tools.map(t => (
-                <span class="px-2 py-1 rounded text-xs border font-medium"
-                      style="background:hsl(var(--secondary)/0.5);border-color:hsl(var(--border));color:hsl(var(--muted-foreground))">
+                <span class="pill-brutal px-2.5 py-1 text-xs"
+                      style="background:hsl(var(--background));color:hsl(var(--foreground))">
                   {t}
                 </span>
               ))}
@@ -61,19 +59,19 @@ const steps = [
       ))}
     </div>
 
-    <div class="rounded-2xl p-8 lg:p-12 reveal" style="background:hsl(var(--secondary)/0.5)">
+    <div class="border-brutal shadow-brutal-lg rounded-2xl p-8 lg:p-12 reveal" style="background:hsl(var(--primary))">
       <div class="grid lg:grid-cols-3 gap-8 text-center">
         <div>
-          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--primary))">48h</p>
-          <p class="text-sm" style="color:hsl(var(--muted-foreground))">Setup completo</p>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">48h</p>
+          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Setup completo</p>
         </div>
         <div>
-          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--primary))">$0</p>
-          <p class="text-sm" style="color:hsl(var(--muted-foreground))">Costo de programación</p>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">$0</p>
+          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Costo de programación</p>
         </div>
         <div>
-          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--primary))">∞</p>
-          <p class="text-sm" style="color:hsl(var(--muted-foreground))">Consultas simultáneas</p>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">∞</p>
+          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Consultas simultáneas</p>
         </div>
       </div>
       <p class="text-center text-lg font-display font-semibold mt-8">

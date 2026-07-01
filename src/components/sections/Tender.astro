@@ -183,7 +183,7 @@ const flujos = [
     left: 0;
     right: 0;
     height: 3px;
-    background: hsl(var(--border));
+    background: hsl(var(--foreground));
     transform: translateY(-50%);
     border-radius: 2px;
   }
@@ -226,7 +226,7 @@ const flujos = [
   .tender-string {
     width: 2px;
     height: 40px;
-    background: hsl(var(--border));
+    background: hsl(var(--foreground));
     flex-shrink: 0;
   }
 
@@ -234,16 +234,16 @@ const flujos = [
   .tender-card {
     width: 100%;
     border-radius: 12px;
-    border: 1px solid hsl(var(--border));
-    background: hsl(var(--background));
+    border: 2.5px solid hsl(var(--foreground));
+    background: hsl(var(--card));
     overflow: hidden;
-    box-shadow: 0 8px 32px hsl(var(--foreground) / 0.06);
+    box-shadow: 5px 5px 0 hsl(var(--foreground));
     transform-origin: top center;
     transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.3s ease;
   }
   .tender-tag:hover .tender-card {
     transform: rotate(-1.5deg) translateY(4px);
-    box-shadow: 0 16px 48px hsl(var(--foreground) / 0.12);
+    box-shadow: 8px 8px 0 hsl(var(--foreground));
   }
 
   /* Header */
@@ -252,10 +252,10 @@ const flujos = [
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    border-bottom: 1px solid hsl(var(--border));
+    border-bottom: 2px solid hsl(var(--foreground));
   }
   .tender-code {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Paytone One', sans-serif;
     font-weight: 800;
     font-size: 1.1rem;
     letter-spacing: 0.1em;
@@ -284,7 +284,7 @@ const flujos = [
     text-transform: uppercase;
   }
   .tender-service-name {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Paytone One', sans-serif;
     font-weight: 700;
     font-size: 1.05rem;
   }
@@ -294,7 +294,7 @@ const flujos = [
     font-size: 0.82rem;
     line-height: 1.55;
     color: hsl(var(--muted-foreground));
-    border-bottom: 1px solid hsl(var(--border));
+    border-bottom: 2px solid hsl(var(--foreground));
   }
 
   /* Features */
@@ -304,7 +304,7 @@ const flujos = [
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 6px;
-    border-bottom: 1px solid hsl(var(--border));
+    border-bottom: 2px solid hsl(var(--foreground));
   }
   .tender-features li {
     display: flex;
@@ -326,7 +326,7 @@ const flujos = [
     grid-template-columns: 1fr 1fr;
     padding: 12px 16px;
     gap: 8px;
-    border-bottom: 1px solid hsl(var(--border));
+    border-bottom: 2px solid hsl(var(--foreground));
   }
   .tender-stat {
     display: flex;
@@ -334,7 +334,7 @@ const flujos = [
     gap: 2px;
   }
   .tender-stat-value {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Paytone One', sans-serif;
     font-weight: 800;
     font-size: 1.1rem;
   }
@@ -352,8 +352,8 @@ const flujos = [
     justify-content: center;
     gap: 10px;
     padding: 14px 16px;
-    border-bottom: 1px solid hsl(var(--border));
-    font-family: 'Syne', sans-serif;
+    border-bottom: 2px solid hsl(var(--foreground));
+    font-family: 'Paytone One', sans-serif;
     font-weight: 800;
     font-size: 1.4rem;
     letter-spacing: 0.05em;
