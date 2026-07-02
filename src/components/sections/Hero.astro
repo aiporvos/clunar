@@ -49,10 +49,11 @@
       <div class="flex items-center justify-center lg:justify-end animate-fade-up stagger-2">
         <div class="hero-avatar-wrapper">
           <!-- Si existe /avatar.mp4 (loop de Kie) se reproduce; si no, muestra el poster (PNG) -->
-          <video class="hero-avatar-img" autoplay muted loop playsinline
-                 poster="/clunar-cut.png" width="1024" height="1024" aria-label="Claudio Luna">
-            <source src="/avatar.mp4" type="video/mp4" />
-          </video>
+          <img class="hero-avatar-img" src="/clunar-cut.png" width="1024" height="1024"
+               loading="eager" alt="Claudio Luna" />
+          <!-- Ojos cerrados: se muestra un instante para el parpadeo -->
+          <img class="hero-avatar-blink" src="/clunar-closed.png" width="1024" height="1024"
+               loading="eager" alt="" aria-hidden="true" />
         </div>
       </div>
 
@@ -86,19 +87,34 @@
   @media (min-width: 1536px) {
     .hero-avatar-wrapper { max-width: 960px; }
   }
-  .hero-avatar-img {
+  /* Capa que respira (ambas imágenes se mueven juntas) */
+  .hero-avatar-wrapper { transform-origin: 50% 92%; animation: avatar-breathe 6s ease-in-out infinite; }
+  @keyframes avatar-breathe {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-0.7%) scale(1.006); }
+  }
+
+  .hero-avatar-img, .hero-avatar-blink {
     display: block;
     width: 100%;
     height: auto;
-    /* Difumina izquierda, arriba y base para fundir el fondo del video con la página */
-    -webkit-mask-image:
-      linear-gradient(to right, transparent 0%, #000 13%),
-      linear-gradient(to bottom, transparent 0%, #000 7%, #000 70%, transparent 96%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to right, transparent 0%, #000 13%),
-      linear-gradient(to bottom, transparent 0%, #000 7%, #000 70%, transparent 96%);
-    mask-composite: intersect;
+    /* Desvanece la base para fundir el buzo con la página */
+    -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
+    mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
+  }
+  /* Ojos cerrados encima, oculto salvo el instante del parpadeo */
+  .hero-avatar-blink {
+    position: absolute; inset: 0;
+    opacity: 0;
+    animation: avatar-blink 5.4s ease-in-out infinite;
+  }
+  @keyframes avatar-blink {
+    0%, 92%, 100% { opacity: 0; }
+    95%, 97%      { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-avatar-wrapper { animation: none; }
+    .hero-avatar-blink { animation: none; }
   }
 
   @media (max-width: 640px) {

@@ -68,18 +68,22 @@ const servicios = [
     <!-- TENDER RAIL -->
     <div class="tender-section reveal">
       <div class="tender-viewport">
-        <!-- Cable fijo: las etiquetas pasan por debajo con el ojal alineado -->
-        <div class="tender-rail-line" id="tender-rail-line"></div>
-
         <div class="tender-track" id="tender-track">
         {[...servicios, ...servicios].map((s, idx) => (
           <div class="tender-tag" aria-hidden={idx >= servicios.length ? 'true' : undefined}>
-            <!-- Etiqueta con ojal por donde cruza el cable -->
+            <!-- Cable: tramo IZQ por detrás de la etiqueta (entra al ojal) -->
+            <span class="tender-wire wire-back"></span>
+
+            <!-- Etiqueta con ojal (el ojal real se dibuja en .tender-grommet, encima) -->
             <div class="tender-pin" style={`background:${s.color};color:${s.fg}`}>
               <span class="tender-pin-code">{s.code}</span>
               <span class="tender-eyelet"></span>
               <span class="tender-pin-num">{s.num}</span>
             </div>
+
+            <!-- Cable: tramo DER por delante (sale del ojal) + grommet que tapa el centro -->
+            <span class="tender-wire wire-front"></span>
+            <span class="tender-grommet"></span>
 
             <div class="tender-card">
               <!-- Panel negro con palabra grande -->
@@ -146,12 +150,28 @@ const servicios = [
     .tender-track { animation: none; }
   }
 
-  /* Cable único fijo, grueso y 3D — las etiquetas pasan por debajo (top lo pone el JS) */
-  .tender-rail-line {
-    position: absolute; left: 0; right: 0; top: 40px; height: 9px; z-index: 5;
+  /* Cable en dos capas por etiqueta: atraviesa físicamente el ojal.
+     --wire-top (centro del ojal) lo pone el JS. */
+  .tender-wire {
+    position: absolute; top: var(--wire-top, 42px); height: 9px;
+    transform: translateY(-50%); pointer-events: none;
     background: linear-gradient(to bottom, #565049 0%, #3a352f 45%, #211d19 100%);
     border-radius: 5px;
-    box-shadow: inset 0 1.5px 0 hsl(0 0% 100% / 0.2), 0 2px 5px hsl(0 0% 0% / 0.4);
+    box-shadow: inset 0 1.5px 0 hsl(0 0% 100% / 0.2), 0 1px 2px hsl(0 0% 0% / 0.35);
+  }
+  /* tramo continuo POR DETRÁS de la etiqueta (de lado a lado, sin empalme visible) */
+  .wire-back  { left: -54px; right: -54px; z-index: 1; }
+  /* tramo derecho POR DELANTE (sale del ojal) → sensación de atravesar */
+  .wire-front { left: 50%; width: calc(50% + 54px); z-index: 4; }
+
+  /* Ojal real (grommet) encima de todo: tapa parcialmente el cable → profundidad */
+  .tender-grommet {
+    position: absolute; left: 50%; top: var(--wire-top, 42px);
+    transform: translate(-50%, -50%);
+    width: 26px; height: 26px; border-radius: 50%; z-index: 5; pointer-events: none;
+    background: radial-gradient(circle at 50% 38%, #2a2620 0%, #17140f 60%, #0b0908 100%);
+    border: 2.5px solid hsl(var(--foreground));
+    box-shadow: inset 0 2px 4px hsl(0 0% 0% / 0.8), 0 1px 0 hsl(0 0% 100% / 0.12);
   }
 
   /* Etiqueta */
@@ -172,17 +192,14 @@ const servicios = [
   }
   .tender-pin-code { font-family: 'Paytone One', sans-serif; font-size: 0.8rem; letter-spacing: 0.06em; }
   .tender-pin-num { font-family: monospace; font-size: 0.55rem; opacity: 0.9; letter-spacing: 0.02em; }
-  /* Agujero (grommet) oscuro: por acá pasa el cable, por el centro */
+  /* Espaciador del ojal (mantiene el layout del pin); el ojal visible es .tender-grommet */
   .tender-eyelet {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: radial-gradient(circle at 50% 38%, #2a2620 0%, #17140f 60%, #0b0908 100%);
-    border: 2.5px solid hsl(var(--foreground));
-    box-shadow: inset 0 2px 4px hsl(0 0% 0% / 0.8), 0 1px 0 hsl(0 0% 100% / 0.12);
+    width: 26px; height: 26px; visibility: hidden;
   }
 
-  /* Tarjeta (monta el cable: su borde superior queda sobre el cable) */
+  /* Tarjeta (cuelga del cable, por debajo del pin) */
   .tender-card {
-    margin-top: -30px; position: relative; z-index: 1;
+    margin-top: -30px; position: relative; z-index: 2;
     width: 100%; border-radius: 14px;
     border: 2.5px solid hsl(var(--foreground));
     background: hsl(var(--card)); overflow: hidden;
@@ -253,19 +270,19 @@ const servicios = [
 
 <script>
   const track = document.getElementById('tender-track');
-  const rail = document.getElementById('tender-rail-line');
-  const viewport = track?.parentElement as HTMLElement | null;
 
-  // Ubicar el cable fijo a la altura del centro del ojal
-  function placeRail() {
-    if (!track || !rail || !viewport) return;
+  // Alinear el cable y el grommet con el centro exacto del ojal (por tarjeta, mismo valor)
+  function placeWire() {
+    if (!track) return;
     const eye = track.querySelector('.tender-eyelet') as HTMLElement | null;
-    if (!eye) return;
-    const vRect = viewport.getBoundingClientRect();
+    const tag = eye?.closest('.tender-tag') as HTMLElement | null;
+    if (!eye || !tag) return;
     const eRect = eye.getBoundingClientRect();
-    rail.style.top = (eRect.top - vRect.top + eRect.height / 2 - rail.offsetHeight / 2) + 'px';
+    const tRect = tag.getBoundingClientRect();
+    const top = eRect.top - tRect.top + eRect.height / 2;
+    track.style.setProperty('--wire-top', top + 'px');
   }
-  placeRail();
-  window.addEventListener('load', placeRail);
-  window.addEventListener('resize', placeRail);
+  placeWire();
+  window.addEventListener('load', placeWire);
+  window.addEventListener('resize', placeWire);
 </script>
