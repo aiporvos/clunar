@@ -69,7 +69,7 @@ const servicios = [
     <div class="tender-section reveal">
       <div class="tender-viewport">
         <div class="tender-track" id="tender-track">
-        {[...servicios, ...servicios].map((s, idx) => (
+        {[...servicios, ...servicios, ...servicios].map((s, idx) => (
           <div class="tender-tag" aria-hidden={idx >= servicios.length ? 'true' : undefined}>
             <!-- Cable: tramo IZQ por detrás de la etiqueta (entra al ojal) -->
             <span class="tender-wire wire-back"></span>
@@ -129,25 +129,20 @@ const servicios = [
 <style>
   .tender-section { position: relative; padding-top: 20px; }
 
-  /* Viewport que recorta el marquee */
+  /* Viewport a ancho completo, scrolleable con la manito */
   .tender-viewport {
-    position: relative; overflow: hidden;
+    position: relative; overflow-x: auto; overflow-y: hidden;
     padding: 14px 0 32px;
+    scrollbar-width: none;
     user-select: none; -webkit-user-select: none;
+    cursor: grab;
   }
+  .tender-viewport::-webkit-scrollbar { display: none; }
+  .tender-viewport.is-dragging { cursor: grabbing; }
 
-  /* Track que corre solo, continuo */
+  /* Track: corre solo (auto-scroll por JS) y se puede arrastrar */
   .tender-track {
     display: flex; width: max-content;
-    animation: tender-marquee 38s linear infinite;
-  }
-  .tender-viewport:hover .tender-track { animation-play-state: paused; }
-  @keyframes tender-marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .tender-track { animation: none; }
   }
 
   /* Cable en dos capas por etiqueta: atraviesa físicamente el ojal.
@@ -179,7 +174,7 @@ const servicios = [
     position: relative;
     flex-shrink: 0;
     display: flex; flex-direction: column; align-items: center;
-    width: 280px; margin-right: 52px; /* margin en vez de gap → loop sin corte */
+    width: 380px; margin-right: 56px; /* margin en vez de gap → loop sin corte */
   }
   /* Etiqueta cuadrada estilo "DEV": código arriba, agujero al centro, número abajo */
   .tender-pin {
@@ -204,8 +199,11 @@ const servicios = [
     border: 2.5px solid hsl(var(--foreground));
     background: hsl(var(--card)); overflow: hidden;
     box-shadow: 5px 5px 0 hsl(var(--foreground));
+    /* Pivota desde el ojal (arriba) para balancearse como colgada del cable */
     transform-origin: top center;
-    transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.3s ease;
+    transform: rotate(var(--sway, 0deg));
+    transition: box-shadow 0.3s ease;
+    will-change: transform;
   }
   .tender-tag:hover .tender-card {
     box-shadow: 7px 9px 0 hsl(var(--foreground));
@@ -270,6 +268,7 @@ const servicios = [
 
 <script>
   const track = document.getElementById('tender-track');
+  const viewport = track?.parentElement as HTMLElement | null;
 
   // Alinear el cable y el grommet con el centro exacto del ojal (por tarjeta, mismo valor)
   function placeWire() {
@@ -285,4 +284,74 @@ const servicios = [
   placeWire();
   window.addEventListener('load', placeWire);
   window.addEventListener('resize', placeWire);
+
+  // Auto-scroll continuo + arrastre (izq/der) con loop infinito (3 copias)
+  if (viewport && track) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let setWidth = 0;
+    const measure = () => { setWidth = track.scrollWidth / 3; };
+    measure();
+    window.addEventListener('load', () => { measure(); viewport.scrollLeft = setWidth; });
+    window.addEventListener('resize', measure);
+    viewport.scrollLeft = setWidth; // arrancar en la copia del medio
+
+    const wrap = () => {
+      if (!setWidth) return;
+      if (viewport.scrollLeft >= setWidth * 2) viewport.scrollLeft -= setWidth;
+      else if (viewport.scrollLeft <= setWidth * 0.5) viewport.scrollLeft += setWidth;
+    };
+
+    let hovering = false, dragging = false, startX = 0, startScroll = 0;
+    let lastX = 0, dragVel = 0;      // velocidad del arrastre
+    let sway = 0, swayVel = 0;       // ángulo de balanceo (péndulo)
+    const speed = 0.6;               // px por frame (~40px/s)
+    const clamp = (v, m) => Math.max(-m, Math.min(m, v));
+
+    function tick() {
+      if (!reduce && !hovering && !dragging) { viewport.scrollLeft += speed; wrap(); }
+
+      // Balanceo: mientras arrastro las tarjetas se inclinan; al soltar, resorte a 0
+      if (!reduce) {
+        dragVel *= 0.55;
+        if (dragging) {
+          const target = clamp(-dragVel * 0.4, 9);
+          sway += (target - sway) * 0.2;
+        } else {
+          swayVel += (0 - sway) * 0.11;   // resorte
+          swayVel *= 0.8;                  // amortiguación
+          sway += swayVel;
+          if (Math.abs(sway) < 0.01 && Math.abs(swayVel) < 0.01) sway = 0;
+        }
+        track.style.setProperty('--sway', sway.toFixed(2) + 'deg');
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    viewport.addEventListener('mouseenter', () => { hovering = true; });
+    viewport.addEventListener('mouseleave', () => { hovering = false; });
+
+    viewport.addEventListener('pointerdown', (e) => {
+      dragging = true; startX = e.clientX; lastX = e.clientX; startScroll = viewport.scrollLeft;
+      viewport.classList.add('is-dragging');
+      viewport.setPointerCapture(e.pointerId);
+    });
+    viewport.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      dragVel = e.clientX - lastX; lastX = e.clientX;
+      viewport.scrollLeft = startScroll - (e.clientX - startX);
+      wrap();
+    });
+    const endDrag = () => { dragging = false; viewport.classList.remove('is-dragging'); };
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
+
+    // rueda del mouse: scroll horizontal también
+    viewport.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        viewport.scrollLeft += e.deltaY; wrap();
+      }
+    }, { passive: true });
+  }
 </script>
