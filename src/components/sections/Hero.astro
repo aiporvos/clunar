@@ -1,31 +1,15 @@
 ---
 ---
 <section id="inicio" class="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20">
-  <div class="container mx-auto px-6">
+  <div class="w-full pl-6 sm:pl-10 lg:pl-16 pr-0">
 
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
       <!-- LEFT: Text -->
       <div class="flex flex-col items-start text-left">
-        <h1 class="font-display font-extrabold text-display-xl uppercase tracking-tighter leading-[0.9] glow-text"
-            data-split="load" style="color:hsl(var(--foreground))">
-          AUTOMATIZÁ
-        </h1>
-
-        <div class="flex flex-col my-2">
-          <span class="font-display font-extrabold text-display-lg uppercase tracking-tighter leading-[0.95] text-outline"
-                data-split="load">
-            TU NEGOCIO
-          </span>
-          <p class="max-w-sm text-base sm:text-lg animate-fade-up stagger-2 mt-4" style="color:hsl(var(--muted-foreground))">
-            Soluciones de IA que trabajan con vos, <span class="font-semibold" style="color:hsl(var(--accent))">las 24 horas.</span>
-          </p>
-        </div>
-
-        <h2 class="font-display font-extrabold text-display-xl uppercase tracking-tighter leading-[0.9] glow-text"
-            data-split="load" style="color:hsl(var(--foreground))">
-          CON IA
-        </h2>
+        <p class="max-w-md text-lg sm:text-xl animate-fade-up stagger-2" style="color:hsl(var(--muted-foreground))">
+          Soluciones de IA que trabajan con vos, <span class="font-semibold" style="color:hsl(var(--accent))">las 24 horas.</span>
+        </p>
 
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-8 sm:mt-12 animate-fade-up stagger-4">
           <a href="https://wa.me/542604844952"
@@ -61,56 +45,14 @@
         </div>
       </div>
 
-      <!-- RIGHT: Rive robot animation (mouse-tracking) -->
-      <div class="flex items-center justify-center animate-fade-up stagger-2">
-        <div class="hero-robot-wrapper">
-          <!-- Rive canvas — loaded by script below -->
-          <canvas id="hero-rive-canvas" width="420" height="420" class="hero-rive-canvas"></canvas>
-          <!-- Fallback: SVG robot shown until/if Rive loads -->
-          <div id="hero-robot-fallback" class="hero-robot-svg" aria-hidden="true">
-            <svg viewBox="0 0 300 340" fill="none" xmlns="http://www.w3.org/2000/svg" id="robot-svg">
-              <!-- Body -->
-              <rect x="70" y="140" width="160" height="130" rx="20" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <!-- Head -->
-              <rect x="85" y="60" width="130" height="90" rx="16" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <!-- Neck -->
-              <rect x="130" y="148" width="40" height="14" rx="4" fill="hsl(var(--border))"/>
-              <!-- Eyes container -->
-              <rect x="100" y="82" width="100" height="40" rx="10" fill="hsl(var(--background))" stroke="hsl(var(--border))" stroke-width="1.5"/>
-              <!-- Eye left -->
-              <circle id="eye-left" cx="125" cy="102" r="10" fill="hsl(var(--primary))"/>
-              <circle id="pupil-left" cx="127" cy="100" r="5" fill="hsl(var(--background))"/>
-              <!-- Eye right -->
-              <circle id="eye-right" cx="175" cy="102" r="10" fill="hsl(var(--primary))"/>
-              <circle id="pupil-right" cx="177" cy="100" r="5" fill="hsl(var(--background))"/>
-              <!-- Mouth -->
-              <rect x="115" y="128" width="70" height="10" rx="5" fill="hsl(var(--primary))" opacity="0.7"/>
-              <!-- Antenna -->
-              <line x1="150" y1="60" x2="150" y2="30" stroke="hsl(var(--border))" stroke-width="3"/>
-              <circle cx="150" cy="24" r="8" fill="hsl(var(--accent))"/>
-              <!-- Chest panel -->
-              <rect x="100" y="168" width="100" height="60" rx="10" fill="hsl(var(--background))" stroke="hsl(var(--border))" stroke-width="1.5"/>
-              <!-- Chest lights -->
-              <circle cx="122" cy="188" r="7" fill="hsl(var(--primary))"/>
-              <circle cx="150" cy="188" r="7" fill="hsl(var(--accent))"/>
-              <circle cx="178" cy="188" r="7" fill="hsl(var(--success))"/>
-              <!-- Progress bar -->
-              <rect x="110" y="208" width="80" height="8" rx="4" fill="hsl(var(--border))"/>
-              <rect x="110" y="208" width="55" height="8" rx="4" fill="hsl(var(--primary))"/>
-              <!-- Arms -->
-              <rect x="30" y="148" width="44" height="24" rx="12" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <rect x="226" y="148" width="44" height="24" rx="12" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <!-- Hands -->
-              <circle cx="30" cy="188" r="16" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <circle cx="270" cy="188" r="16" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <!-- Legs -->
-              <rect x="105" y="268" width="36" height="52" rx="10" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <rect x="159" y="268" width="36" height="52" rx="10" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <!-- Feet -->
-              <rect x="93" y="310" width="55" height="24" rx="8" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-              <rect x="152" y="310" width="55" height="24" rx="8" fill="hsl(var(--secondary))" stroke="hsl(var(--border))" stroke-width="2"/>
-            </svg>
-          </div>
+      <!-- RIGHT: Avatar de Claudio -->
+      <div class="flex items-center justify-center lg:justify-end animate-fade-up stagger-2">
+        <div class="hero-avatar-wrapper">
+          <!-- Si existe /avatar.mp4 (loop de Kie) se reproduce; si no, muestra el poster (PNG) -->
+          <video class="hero-avatar-img" autoplay muted loop playsinline
+                 poster="/clunar-cut.png" width="1024" height="1024" aria-label="Claudio Luna">
+            <source src="/avatar.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
 
@@ -129,96 +71,37 @@
 </section>
 
 <style>
-  .hero-robot-wrapper {
+  .hero-avatar-wrapper {
     position: relative;
-    width: 340px;
-    height: 380px;
-  }
-  .hero-rive-canvas {
-    position: absolute;
-    inset: 0;
     width: 100%;
-    height: 100%;
-    display: none; /* shown by JS when Rive loads */
-  }
-  .hero-robot-svg {
-    width: 100%;
-    height: 100%;
+    max-width: 680px;
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: drop-shadow(0 20px 40px hsl(var(--primary) / 0.15));
   }
-  .hero-robot-svg svg {
-    width: 300px;
-    height: 340px;
-    transition: transform 0.1s ease-out;
+  /* En pantallas anchas el avatar se agranda y llega al borde derecho */
+  @media (min-width: 1024px) {
+    .hero-avatar-wrapper { max-width: 820px; }
   }
+  @media (min-width: 1536px) {
+    .hero-avatar-wrapper { max-width: 960px; }
+  }
+  .hero-avatar-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* Difumina izquierda, arriba y base para fundir el fondo del video con la página */
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 13%),
+      linear-gradient(to bottom, transparent 0%, #000 7%, #000 70%, transparent 96%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 13%),
+      linear-gradient(to bottom, transparent 0%, #000 7%, #000 70%, transparent 96%);
+    mask-composite: intersect;
+  }
+
   @media (max-width: 640px) {
-    .hero-robot-wrapper { width: 240px; height: 280px; }
-    .hero-robot-svg svg { width: 220px; height: 260px; }
+    .hero-avatar-wrapper { max-width: 380px; }
   }
 </style>
-
-<script>
-  // Mouse-tracking eyes on fallback SVG robot
-  const robotSvg = document.getElementById('robot-svg');
-  const pupilLeft = document.getElementById('pupil-left');
-  const pupilRight = document.getElementById('pupil-right');
-
-  if (robotSvg && pupilLeft && pupilRight) {
-    document.addEventListener('mousemove', (e) => {
-      const rect = robotSvg.getBoundingClientRect();
-      const svgCenterX = rect.left + rect.width / 2;
-      const svgCenterY = rect.top + rect.height / 2;
-      const dx = e.clientX - svgCenterX;
-      const dy = e.clientY - svgCenterY;
-      const angle = Math.atan2(dy, dx);
-      const dist = Math.min(Math.hypot(dx, dy) / 20, 4);
-      const ox = Math.cos(angle) * dist;
-      const oy = Math.sin(angle) * dist;
-
-      // base positions: left pupil (127,100) right pupil (177,100)
-      pupilLeft.setAttribute('cx', String(127 + ox));
-      pupilLeft.setAttribute('cy', String(100 + oy));
-      pupilRight.setAttribute('cx', String(177 + ox));
-      pupilRight.setAttribute('cy', String(100 + oy));
-    });
-  }
-
-  // Rive integration — load when .riv file is available in /public/robot.riv
-  async function loadRive() {
-    try {
-      const res = await fetch('/robot.riv', { method: 'HEAD' });
-      if (!res.ok) return;
-
-      const { Rive } = await import('@rive-app/canvas');
-      const canvas = document.getElementById('hero-rive-canvas') as HTMLCanvasElement;
-      const fallback = document.getElementById('hero-robot-fallback');
-      if (!canvas) return;
-
-      const r = new Rive({
-        src: '/robot.riv',
-        canvas,
-        autoplay: true,
-        stateMachines: 'State Machine 1',
-        onLoad: () => {
-          canvas.style.display = 'block';
-          if (fallback) fallback.style.display = 'none';
-          const inputs = r.stateMachineInputs('State Machine 1');
-          const mouseXInput = inputs?.find(i => i.name === 'mouseX');
-          const mouseYInput = inputs?.find(i => i.name === 'mouseY');
-          if (mouseXInput && mouseYInput) {
-            document.addEventListener('mousemove', (e) => {
-              mouseXInput.value = (e.clientX / window.innerWidth) * 100;
-              mouseYInput.value = (e.clientY / window.innerHeight) * 100;
-            });
-          }
-        },
-      });
-    } catch {
-      // Rive not available — fallback stays visible
-    }
-  }
-  loadRive();
-</script>

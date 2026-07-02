@@ -67,12 +67,13 @@ const servicios = [
 
     <!-- TENDER RAIL -->
     <div class="tender-section reveal">
-      <div class="tender-track" id="tender-track">
-        <!-- El cable pasa por detrás de las etiquetas -->
+      <div class="tender-viewport">
+        <!-- Cable fijo: las etiquetas pasan por debajo con el ojal alineado -->
         <div class="tender-rail-line" id="tender-rail-line"></div>
 
-        {servicios.map((s) => (
-          <div class="tender-tag">
+        <div class="tender-track" id="tender-track">
+        {[...servicios, ...servicios].map((s, idx) => (
+          <div class="tender-tag" aria-hidden={idx >= servicios.length ? 'true' : undefined}>
             <!-- Etiqueta con ojal por donde cruza el cable -->
             <div class="tender-pin" style={`background:${s.color};color:${s.fg}`}>
               <span class="tender-pin-code">{s.code}</span>
@@ -114,6 +115,7 @@ const servicios = [
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
 
@@ -123,54 +125,59 @@ const servicios = [
 <style>
   .tender-section { position: relative; padding-top: 20px; }
 
-  /* Track horizontal */
-  .tender-track {
-    position: relative;
-    display: flex; gap: 52px; overflow-x: auto;
-    scroll-snap-type: x proximity; scrollbar-width: none;
-    padding: 14px 8px 32px; cursor: grab;
+  /* Viewport que recorta el marquee */
+  .tender-viewport {
+    position: relative; overflow: hidden;
+    padding: 14px 0 32px;
     user-select: none; -webkit-user-select: none;
   }
-  .tender-track::-webkit-scrollbar { display: none; }
-  .tender-track:active { cursor: grabbing; }
 
-  /* Cable grueso y 3D — cruza por delante de la tarjeta (top/width los pone el JS) */
+  /* Track que corre solo, continuo */
+  .tender-track {
+    display: flex; width: max-content;
+    animation: tender-marquee 38s linear infinite;
+  }
+  .tender-viewport:hover .tender-track { animation-play-state: paused; }
+  @keyframes tender-marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tender-track { animation: none; }
+  }
+
+  /* Cable único fijo, grueso y 3D — las etiquetas pasan por debajo (top lo pone el JS) */
   .tender-rail-line {
-    position: absolute; left: 0; top: 40px; height: 8px; width: 100%; z-index: 2;
+    position: absolute; left: 0; right: 0; top: 40px; height: 9px; z-index: 5;
     background: linear-gradient(to bottom, #565049 0%, #3a352f 45%, #211d19 100%);
     border-radius: 5px;
-    box-shadow: inset 0 1.5px 0 hsl(0 0% 100% / 0.18), 0 2px 4px hsl(0 0% 0% / 0.35);
+    box-shadow: inset 0 1.5px 0 hsl(0 0% 100% / 0.2), 0 2px 5px hsl(0 0% 0% / 0.4);
   }
 
   /* Etiqueta */
   .tender-tag {
     position: relative;
-    flex-shrink: 0; scroll-snap-align: start;
+    flex-shrink: 0;
     display: flex; flex-direction: column; align-items: center;
-    width: 280px;
+    width: 280px; margin-right: 52px; /* margin en vez de gap → loop sin corte */
   }
+  /* Etiqueta cuadrada estilo "DEV": código arriba, agujero al centro, número abajo */
   .tender-pin {
     position: relative; z-index: 3;
-    display: flex; flex-direction: column; align-items: center; gap: 4px; line-height: 1;
-    padding: 8px 20px; border-radius: 10px;
+    width: 84px; height: 84px;
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    padding: 10px 6px; border-radius: 14px; line-height: 1;
     border: 2.5px solid hsl(var(--foreground));
     box-shadow: 3px 3px 0 hsl(var(--foreground));
   }
-  .tender-pin-code { font-family: 'Paytone One', sans-serif; font-size: 0.82rem; letter-spacing: 0.08em; }
-  .tender-pin-num { font-family: monospace; font-size: 0.56rem; opacity: 0.85; }
-  /* Ojal: anillo oscuro con el hilo pasando por adentro */
+  .tender-pin-code { font-family: 'Paytone One', sans-serif; font-size: 0.8rem; letter-spacing: 0.06em; }
+  .tender-pin-num { font-family: monospace; font-size: 0.55rem; opacity: 0.9; letter-spacing: 0.02em; }
+  /* Agujero (grommet) oscuro: por acá pasa el cable, por el centro */
   .tender-eyelet {
-    position: relative;
     width: 26px; height: 26px; border-radius: 50%;
-    background: #17140f;
-    border: 3px solid hsl(var(--foreground));
-    box-shadow: inset 0 2px 3px hsl(0 0% 0% / 0.7);
-  }
-  .tender-eyelet::after {
-    content: ""; position: absolute; top: 50%; left: -18px; right: -18px;
-    transform: translateY(-50%); height: 8px; border-radius: 5px;
-    background: linear-gradient(to bottom, #565049 0%, #3a352f 45%, #211d19 100%);
-    box-shadow: inset 0 1.5px 0 hsl(0 0% 100% / 0.18);
+    background: radial-gradient(circle at 50% 38%, #2a2620 0%, #17140f 60%, #0b0908 100%);
+    border: 2.5px solid hsl(var(--foreground));
+    box-shadow: inset 0 2px 4px hsl(0 0% 0% / 0.8), 0 1px 0 hsl(0 0% 100% / 0.12);
   }
 
   /* Tarjeta (monta el cable: su borde superior queda sobre el cable) */
@@ -197,7 +204,7 @@ const servicios = [
     font-family: 'Paytone One', sans-serif;
     font-size: 4.2rem; line-height: 0.9; white-space: nowrap;
     text-transform: uppercase; letter-spacing: -0.02em;
-    text-shadow: 0 0 30px currentColor;
+    text-shadow: 0 0 10px hsl(0 0% 0% / 0.25);
   }
 
   /* Banda servicio */
@@ -247,29 +254,18 @@ const servicios = [
 <script>
   const track = document.getElementById('tender-track');
   const rail = document.getElementById('tender-rail-line');
+  const viewport = track?.parentElement as HTMLElement | null;
 
-  // Colocar el cable a la altura del ojal y extenderlo por todas las tarjetas
+  // Ubicar el cable fijo a la altura del centro del ojal
   function placeRail() {
-    if (!track || !rail) return;
+    if (!track || !rail || !viewport) return;
     const eye = track.querySelector('.tender-eyelet') as HTMLElement | null;
     if (!eye) return;
-    const tRect = track.getBoundingClientRect();
+    const vRect = viewport.getBoundingClientRect();
     const eRect = eye.getBoundingClientRect();
-    rail.style.top = (eRect.top - tRect.top + eRect.height / 2 - 4) + 'px';
-    rail.style.width = track.scrollWidth + 'px';
+    rail.style.top = (eRect.top - vRect.top + eRect.height / 2 - rail.offsetHeight / 2) + 'px';
   }
   placeRail();
   window.addEventListener('load', placeRail);
   window.addEventListener('resize', placeRail);
-
-  let isDown = false, startX = 0, scrollLeft = 0;
-  track?.addEventListener('mousedown', e => { isDown = true; startX = e.pageX - (track.offsetLeft || 0); scrollLeft = track.scrollLeft; });
-  track?.addEventListener('mouseleave', () => { isDown = false; });
-  track?.addEventListener('mouseup', () => { isDown = false; });
-  track?.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - (track.offsetLeft || 0);
-    track.scrollLeft = scrollLeft - (x - startX) * 1.5;
-  });
 </script>

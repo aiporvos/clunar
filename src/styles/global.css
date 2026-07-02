@@ -175,11 +175,9 @@
   }
   .reveal-x.visible { opacity: 1; transform: translateX(0); }
 
-  /* ── Glow / relieve en títulos (estilo daveholloway, adaptado a crema) ── */
+  /* ── Relieve nítido en títulos (sin blur) ── */
   .glow-text {
-    text-shadow:
-      3px 3px 0 hsl(var(--foreground) / 0.14),
-      0 0 26px hsl(var(--primary) / 0.28);
+    text-shadow: 3px 3px 0 hsl(var(--foreground) / 0.14);
   }
 
   /* ── Texto que se arma letra por letra ── */
