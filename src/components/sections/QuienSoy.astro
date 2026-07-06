@@ -1,9 +1,9 @@
 ---
 const highlights = [
-  { label: 'IA Conversacional', bg: 'hsl(var(--primary))', fg: 'hsl(var(--foreground))' },
-  { label: 'Automatización',    bg: 'hsl(var(--success))', fg: '#fff' },
-  { label: 'Integración Nativa',bg: 'var(--blue)',         fg: '#fff' },
-  { label: 'Sin Código',        bg: 'hsl(var(--accent))',  fg: '#fff' },
+  { label: 'Sistemas Multi-agente', bg: 'hsl(var(--primary))', fg: 'hsl(var(--foreground))' },
+  { label: 'RAG Especializado',     bg: 'hsl(var(--success))', fg: '#fff' },
+  { label: 'Gobernanza de Datos',   bg: 'var(--blue)',         fg: '#fff' },
+  { label: 'Integración de Sistemas', bg: 'hsl(var(--accent))', fg: '#fff' },
 ];
 ---
 <section id="que-es" class="py-24 lg:py-32">
@@ -11,35 +11,38 @@ const highlights = [
 
     <div class="flex items-center gap-4 mb-16 reveal">
       <span class="w-12 h-px" style="background:hsl(var(--foreground))"></span>
-      <span class="text-sm uppercase tracking-widest font-medium">Qué es AIporvos</span>
+      <span class="text-sm uppercase tracking-widest font-medium">Quién soy</span>
     </div>
 
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start reveal">
       <div>
-        <h2 class="font-display text-display-md font-bold glow-text mb-8">Agentes de IA para negocios reales</h2>
+        <h2 class="font-display text-display-md font-bold glow-text mb-8">Sistemas de IA en producción, no demos</h2>
         <p class="text-lg font-light italic" style="color:hsl(var(--muted-foreground))">
-          No son chatbots básicos. Son flujos inteligentes.
+          Soy Claudio Luna. La ingeniería es seria; el trato, cercano.
         </p>
       </div>
       <div class="space-y-6">
         <p class="text-lg leading-relaxed">
-          Agentes de IA entrenados para resolver problemas reales de tu negocio: atienden, venden,
-          cobran y ordenan papeles sin que estés encima.
+          Más de 15 años en análisis funcional, e-commerce y desarrollo de sistemas para empresas,
+          aplicados a lo que hago hoy: diseñar sistemas multi-agente, RAG especializado y
+          orquestación de procesos sobre la operación real de tu negocio.
         </p>
         <p class="text-lg leading-relaxed" style="color:hsl(var(--muted-foreground))">
-          Entienden texto, imágenes y documentos, y se conectan con las herramientas que ya usás:
-          WhatsApp, tu CRM, tu tienda, tu sistema de facturación.
+          Ayudo a empresas a adoptar IA con seguridad y gobernanza de datos: la infraestructura
+          es tuya o dedicada, cada agente accede solo a la información que le corresponde, y si
+          mañana cambia el proveedor de IA, tu operación y tu historial no pierden nada.
         </p>
         <p class="text-lg leading-relaxed" style="color:hsl(var(--muted-foreground))">
-          El resultado: tu negocio trabaja mientras vos dormís. Sin contratar más gente, sin perder
-          clientes por falta de respuesta, sin papelerío acumulado.
+          Trabajo sobre los sistemas que ya tenés — ERP, CRM, facturación, e-commerce, mensajería —
+          y los integro de manera profesional: con entornos de prueba, versionado y métricas
+          que podés auditar.
         </p>
 
         <!-- Integraciones -->
         <div class="pt-4">
-          <p class="text-sm uppercase tracking-widest font-medium mb-4" style="color:hsl(var(--muted-foreground))">Se conecta con lo que ya usás</p>
+          <p class="text-sm uppercase tracking-widest font-medium mb-4" style="color:hsl(var(--muted-foreground))">Se integra con los sistemas que ya usás</p>
           <div class="flex flex-wrap gap-2">
-            {['WhatsApp','Gmail','Notion','HubSpot','Salesforce','Shopify','MercadoLibre','Stripe','Zapier','SAP','Slack','Oracle'].map(t => (
+            {['WhatsApp · API oficial (Meta)','YCloud','Gmail','Google Calendar','HubSpot','TiendaNube','MercadoLibre','AFIP / ARCA','SAP','Slack','Notion','Telegram'].map(t => (
               <span class="pill-brutal px-3 py-1.5 text-xs"
                     style="background:hsl(var(--card));color:hsl(var(--foreground))">
                 {t}
@@ -61,8 +64,8 @@ const highlights = [
 
     <blockquote class="mt-20 max-w-4xl mx-auto text-center reveal">
       <p class="text-xl md:text-2xl font-display leading-relaxed italic">
-        "Un agente de AIporvos no descansa, no se olvida, no tiene días malos.
-        Hace el trabajo pesado para que vos puedas enfocarte en lo que realmente importa."
+        "La pregunta ya no es si tu empresa va a usar IA. Es si va a hacerlo
+        sin regalar sus datos. Mi trabajo es que la respuesta sea sí."
       </p>
     </blockquote>
 

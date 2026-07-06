@@ -1,52 +1,52 @@
 ---
 const servicios = [
   {
-    code: 'AUTO', num: '01·26',
-    name: 'Automatizaciones',
-    desc: 'Flujos que hacen el trabajo repetitivo por vos, sin código.',
-    top: ['n8n', 'WhatsApp', 'Integraciones', 'Flujos'],
-    bot: ['Facturación', 'Reportes', 'Emails', 'CRM'],
+    code: 'AGENTES', num: '01·26',
+    name: 'Sistemas Multi-agente',
+    desc: 'Agentes orquestados sobre tus procesos: derivan, registran y escalan a un humano cuando corresponde.',
+    top: ['Ventas', 'Briefing', 'Turnos', 'Competencia'],
+    bot: ['Orquestación', 'Memoria', 'Trazabilidad', 'Escalado'],
     color: 'hsl(var(--primary))', fg: 'hsl(var(--foreground))',
   },
   {
-    code: 'AGENTE', num: '02·26',
-    name: 'Agentes de IA',
-    desc: 'Asistentes que atienden, venden, cobran y leen documentos 24/7.',
-    top: ['Ventas', 'Atención', 'Cobranzas', 'Documentos'],
-    bot: ['RAG', 'Memoria', 'Multicanal', '24/7'],
+    code: 'RAG', num: '02·26',
+    name: 'RAG Especializado',
+    desc: 'Tu conocimiento consultable con precisión: responde con tus documentos, no con lo que inventa el modelo.',
+    top: ['Legal', 'Clínico', 'Técnico', 'Catálogos'],
+    bot: ['Qdrant', 'Supabase', 'Citas', 'Ingesta'],
     color: 'var(--blue)', fg: '#fff',
   },
   {
-    code: 'CLASE', num: '03·26',
-    name: 'Capacitaciones',
-    desc: 'Formaciones de IA aplicada para equipos y líderes, de cero.',
-    top: ['n8n', 'IA aplicada', 'Prompting', 'Liderazgo'],
-    bot: ['Cursos', 'Talleres', 'In-company', 'Mentorías'],
-    color: 'hsl(var(--success))', fg: '#fff',
+    code: 'INTEG', num: '03·26',
+    name: 'Integración & Orquestación',
+    desc: 'Conecto los sistemas que ya tenés — ERP, CRM, facturación, e-commerce — para que dejen de necesitar copy-paste humano.',
+    top: ['ERP', 'CRM', 'Facturación', 'E-commerce'],
+    bot: ['n8n', 'MCP', 'WhatsApp Meta', 'YCloud'],
+    color: 'hsl(var(--accent))', fg: '#fff',
   },
   {
-    code: 'WEB', num: '04·26',
-    name: 'Web & Ecommerce',
-    desc: 'Sitios y tiendas pensados para convertir, no solo para verse lindos.',
-    top: ['Astro', 'TiendaNube', 'Landing', 'SEO'],
-    bot: ['Diseño', 'Conversión', 'Performance', 'FTP'],
-    color: 'var(--pink)', fg: 'hsl(var(--foreground))',
+    code: 'DATA', num: '04·26',
+    name: 'Seguridad & Gobernanza',
+    desc: 'Adoptá IA sin perder el control: infraestructura propia, permisos por agente y continuidad si cambia el proveedor.',
+    top: ['Self-hosted', 'Permisos', 'Trazabilidad', 'Backups'],
+    bot: ['VPS propio', 'Docker', 'Auditoría', 'Continuidad'],
+    color: 'var(--crimson)', fg: '#fff',
   },
   {
     code: 'CONSUL', num: '05·26',
     name: 'Consultoría IA',
-    desc: 'Te ayudo a decidir qué automatizar, con qué stack y a qué costo.',
+    desc: 'Qué automatizar, con qué stack y a qué costo — con números reales. A veces la respuesta es no.',
     top: ['Diagnóstico', 'Arquitectura', 'Modelos', 'Roadmap'],
-    bot: ['Estrategia', 'Costos', 'Stack', 'Orquestación'],
+    bot: ['Estrategia', 'Costos', 'Stack', 'Gobernanza'],
     color: 'var(--purple)', fg: '#fff',
   },
   {
-    code: 'DOCS', num: '06·26',
-    name: 'Datos & Documentos',
-    desc: 'Leo contratos, facturas y papeles y los convierto en datos útiles.',
-    top: ['OCR', 'Extracción', 'Clasificación', 'Análisis'],
-    bot: ['PDF/Excel', 'Dashboards', 'Búsqueda', 'Export'],
-    color: 'hsl(var(--accent))', fg: '#fff',
+    code: 'CLASE', num: '06·26',
+    name: 'Formación de Equipos',
+    desc: 'Capacitación de IA aplicada para equipos y líderes: de la herramienta al criterio.',
+    top: ['IA aplicada', 'n8n', 'Prompting', 'Liderazgo'],
+    bot: ['Talleres', 'In-company', 'Mentorías', 'Práctica'],
+    color: 'hsl(var(--success))', fg: '#fff',
   },
 ];
 ---
@@ -61,7 +61,7 @@ const servicios = [
       </div>
       <div class="max-w-2xl mb-16">
         <h2 class="font-display text-display-md font-bold glow-text mb-6">En qué puedo ayudarte.</h2>
-        <p class="text-lg" style="color:hsl(var(--muted-foreground))">Desde automatizaciones y agentes de IA hasta capacitaciones y desarrollo. Elegí uno, varios, o armamos algo a medida.</p>
+        <p class="text-lg" style="color:hsl(var(--muted-foreground))">Sistemas multi-agente, RAG, integración y gobernanza de datos. Un servicio puntual o la arquitectura completa — siempre sobre tu proceso real.</p>
       </div>
     </div>
 
@@ -114,7 +114,7 @@ const servicios = [
               </div>
 
               <a href="#contacto" class="tender-cta" style={`background:${s.color};color:${s.fg}`}>
-                Lo quiero →
+                Me interesa →
               </a>
             </div>
           </div>

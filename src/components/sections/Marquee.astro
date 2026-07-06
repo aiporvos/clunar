@@ -1,0 +1,75 @@
+---
+// Banda tipográfica infinita (estilo daveholloway, en clave neo-brutal).
+// Palabras del dominio IA/automatización — ver BRAND.md §Motion.
+interface Props {
+  words?: string[];
+  speed?: number; // segundos por ciclo
+}
+const {
+  words = ['AGENTES', 'RAG', 'ORQUESTACIÓN', 'GOBERNANZA', 'SELF-HOSTED', 'TRAZABILIDAD'],
+  speed = 30,
+} = Astro.props;
+---
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-track" style={`animation-duration:${speed}s`}>
+    {[0, 1].map(() => (
+      <div class="marquee-content">
+        {words.map((w, i) => (
+          <span class={`marquee-word ${i % 3 === 1 ? 'marquee-filled' : ''}`}>{w}</span>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-band {
+    overflow: hidden;
+    border-top: 3px solid hsl(var(--foreground));
+    border-bottom: 3px solid hsl(var(--foreground));
+    background: hsl(var(--card));
+    padding: 1.1rem 0;
+    user-select: none;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll linear infinite;
+    will-change: transform;
+  }
+  .marquee-band:hover .marquee-track { animation-play-state: paused; }
+  .marquee-content {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .marquee-word {
+    font-family: 'Paytone One', system-ui, sans-serif;
+    font-size: clamp(1.6rem, 4vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    padding: 0 0.4em;
+    -webkit-text-stroke: 2px hsl(var(--foreground));
+    color: transparent;
+    position: relative;
+  }
+  .marquee-word::after {
+    content: '·';
+    position: absolute;
+    right: -0.14em;
+    color: hsl(var(--accent));
+    -webkit-text-stroke: 0;
+  }
+  .marquee-filled {
+    color: hsl(var(--primary));
+    -webkit-text-stroke: 2px hsl(var(--foreground));
+    text-shadow: 3px 3px 0 hsl(var(--foreground) / 0.18);
+  }
+  @keyframes marquee-scroll {
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+</style>

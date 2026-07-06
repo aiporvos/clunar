@@ -11,9 +11,10 @@
     <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
 
       <div class="reveal">
-        <h2 class="font-display text-display-md font-bold glow-text mb-6">¿Listo para tener más tiempo para lo importante?</h2>
+        <h2 class="font-display text-display-md font-bold glow-text mb-6">Contame el proceso que te duele.</h2>
         <p class="text-lg mb-8" style="color:hsl(var(--muted-foreground))">
-          Contanos qué querés automatizar. Demo personalizada sin costo. Respuesta en menos de 24 horas.
+          Diagnóstico inicial sin costo: revisamos tu proceso, tus sistemas y tus datos, y te digo
+          qué conviene automatizar — y qué no. Respuesta en menos de 24 horas.
         </p>
 
         <!-- WhatsApp CTA -->
@@ -27,7 +28,7 @@
           </svg>
           <div>
             <p class="font-semibold">+54 260 484-4952</p>
-            <p class="text-sm opacity-70">Escribinos por WhatsApp</p>
+            <p class="text-sm opacity-70">WhatsApp · API oficial de Meta</p>
           </div>
           <svg class="w-4 h-4 ml-auto transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -35,9 +36,9 @@
         </a>
 
         <div class="card-brutal p-6" style="background:hsl(var(--card))">
-          <p class="text-sm mb-2 font-semibold" style="color:hsl(var(--muted-foreground))">Incluye:</p>
+          <p class="text-sm mb-2 font-semibold" style="color:hsl(var(--muted-foreground))">El diagnóstico incluye:</p>
           <ul class="space-y-2">
-            {['Demo personalizada sin costo','Análisis de tu negocio','Propuesta de automatización','Sin compromiso'].map(item => (
+            {['Relevamiento de tu proceso y sistemas','Mapa de datos: qué información entra en juego y cómo se protege','Propuesta de arquitectura con costos reales','Sin compromiso — si no conviene automatizar, te lo digo'].map(item => (
               <li class="flex items-center gap-2 text-sm font-medium">
                 <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:hsl(var(--primary))"></span>
                 {item}
@@ -62,24 +63,24 @@
           <select name="flujo"
                   class="w-full h-14 px-4 text-base rounded-lg border-brutal outline-none"
                   style="background:hsl(var(--card));color:hsl(var(--foreground))">
-            <option value="">¿Qué querés automatizar?</option>
-            <option>Atención al cliente 24/7</option>
-            <option>Ventas y WhatsApp</option>
-            <option>Cobranzas</option>
-            <option>Consultas legales</option>
-            <option>Inmobiliaria / propiedades</option>
-            <option>Lectura de documentos</option>
-            <option>No sé, necesito orientación</option>
+            <option value="">¿Qué necesitás resolver?</option>
+            <option>Sistema multi-agente (atención, ventas, procesos)</option>
+            <option>RAG — conocimiento propio consultable</option>
+            <option>Integración de sistemas (ERP, CRM, facturación)</option>
+            <option>Seguridad y gobernanza de datos</option>
+            <option>Consultoría — diagnóstico y roadmap de IA</option>
+            <option>Formación de equipos</option>
+            <option>No estoy seguro, necesito orientación</option>
           </select>
         </div>
         <div>
-          <textarea name="mensaje" rows="4" placeholder="Contanos más sobre tu negocio (opcional)"
+          <textarea name="mensaje" rows="4" placeholder="Contame sobre tu proceso y tus sistemas (opcional)"
                     class="w-full px-4 py-3 text-base rounded-lg border-brutal outline-none resize-none"
                     style="background:hsl(var(--card));color:hsl(var(--foreground))"></textarea>
         </div>
         <button type="submit" class="btn-brutal btn-shine group w-full flex items-center justify-center gap-2 py-4 text-sm"
                 style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
-          Quiero mi demo gratis
+          Pedir diagnóstico sin costo
           <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
           </svg>
@@ -95,7 +96,7 @@
   document.getElementById('contact-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const btn = (e.target as HTMLFormElement).querySelector('button[type="submit"]');
-    if (btn) btn.textContent = '¡Enviado! Te contactamos pronto 🎉';
+    if (btn) btn.textContent = 'Enviado — te respondo en menos de 24 h';
     setTimeout(() => (e.target as HTMLFormElement).reset(), 3000);
   });
 </script>

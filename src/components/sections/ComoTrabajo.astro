@@ -2,21 +2,21 @@
 const steps = [
   {
     n: '01',
-    title: 'Conectás tus canales',
-    description: 'WhatsApp, tu web, tu email, tu CRM. Donde ya estás, el agente también.',
-    tools: ['WhatsApp Business','Web chat','Gmail / Outlook','API REST'],
+    title: 'Diagnóstico',
+    description: 'Relevo tu proceso real: qué duele, qué sistemas ya existen y dónde viven los datos. Salís con un roadmap y costos concretos — a veces la conclusión es que todavía no necesitás IA.',
+    tools: ['Procesos y sistemas','Mapa de datos','Roadmap','Costos reales'],
   },
   {
     n: '02',
-    title: 'Entrenamos el agente',
-    description: 'Lo alimentamos con la info de tu negocio: productos, precios, políticas, tono. En 48h está listo.',
-    tools: ['Tus docs y catálogos','PDFs y manuales','FAQs internas','Historial de chats'],
+    title: 'Diseño e implementación',
+    description: 'Arquitectura, entorno de pruebas y puesta en producción sobre tu infraestructura o una dedicada. El setup toma entre una y tres semanas según la integración.',
+    tools: ['Arquitectura','Entorno de pruebas','Versionado','Infra propia o dedicada'],
   },
   {
     n: '03',
-    title: 'Trabaja solo 24/7',
-    description: 'El agente atiende, vende, cobra o lee documentos. Te avisa solo cuando necesita tu ojo.',
-    tools: ['Reportes semanales','Alertas críticas','Dashboard en tiempo real','Escalado a humano'],
+    title: 'Operación medida',
+    description: 'El sistema opera con métricas auditables y escala a un humano cuando corresponde. Vos ves qué hizo, cuándo y con qué datos.',
+    tools: ['Métricas auditables','Trazabilidad','Alertas','Escalado a humano'],
   },
 ];
 ---
@@ -29,11 +29,34 @@ const steps = [
         <span class="text-sm uppercase tracking-widest font-medium">Cómo Funciona</span>
       </div>
       <div class="max-w-3xl mb-16">
-        <h2 class="font-display text-display-md font-bold glow-text mb-6">Tres pasos. Sin líos.</h2>
+        <h2 class="font-display text-display-md font-bold glow-text mb-6">Un proceso de ingeniería.</h2>
         <p class="text-lg" style="color:hsl(var(--muted-foreground))">
-          No necesitás saber de IA. Nosotros nos encargamos de todo el setup. Vos solo decís qué querés automatizar.
+          No necesitás equipo técnico para empezar, pero el trabajo se hace como corresponde:
+          diagnóstico, implementación con entorno de pruebas y operación con métricas.
         </p>
       </div>
+    </div>
+
+    <!-- Pipeline: cable que se dibuja al scroll + pulso de datos (ver BRAND.md §Motion) -->
+    <div class="pipeline-flow reveal hidden lg:block" aria-hidden="true">
+      <svg viewBox="0 0 1200 96" fill="none" preserveAspectRatio="none">
+        <!-- Cable principal -->
+        <path class="pipe-main" d="M 0 28 C 120 28 140 44 200 44 C 260 44 280 28 400 28 C 520 28 540 44 600 44 C 660 44 680 28 800 28 C 920 28 940 44 1000 44 C 1090 44 1140 28 1200 28"
+              stroke="hsl(var(--foreground))" stroke-width="3"/>
+        <!-- Bajadas a cada paso -->
+        <path class="pipe-drop" d="M 200 44 L 200 92" stroke="hsl(var(--foreground))" stroke-width="3"/>
+        <path class="pipe-drop" d="M 600 44 L 600 92" stroke="hsl(var(--foreground))" stroke-width="3"/>
+        <path class="pipe-drop" d="M 1000 44 L 1000 92" stroke="hsl(var(--foreground))" stroke-width="3"/>
+        <!-- Conectores -->
+        <circle class="pipe-node" cx="200" cy="44" r="7" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" stroke-width="3"/>
+        <circle class="pipe-node" cx="600" cy="44" r="7" fill="hsl(var(--accent))" stroke="hsl(var(--foreground))" stroke-width="3"/>
+        <circle class="pipe-node" cx="1000" cy="44" r="7" fill="hsl(var(--success))" stroke="hsl(var(--foreground))" stroke-width="3"/>
+        <!-- Pulso de datos viajando por el cable -->
+        <circle class="pipe-pulse" r="5" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" stroke-width="2">
+          <animateMotion dur="4.5s" repeatCount="indefinite"
+            path="M 0 28 C 120 28 140 44 200 44 C 260 44 280 28 400 28 C 520 28 540 44 600 44 C 660 44 680 28 800 28 C 920 28 940 44 1000 44 C 1090 44 1140 28 1200 28"/>
+        </circle>
+      </svg>
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
@@ -62,22 +85,69 @@ const steps = [
     <div class="border-brutal shadow-brutal-lg rounded-2xl p-8 lg:p-12 reveal" style="background:hsl(var(--primary))">
       <div class="grid lg:grid-cols-3 gap-8 text-center">
         <div>
-          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">48h</p>
-          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Setup completo</p>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">1–3</p>
+          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Semanas de implementación</p>
         </div>
         <div>
-          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">$0</p>
-          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Costo de programación</p>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">100%</p>
+          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">En tu infraestructura</p>
         </div>
         <div>
-          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">∞</p>
-          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Consultas simultáneas</p>
+          <p class="font-display text-4xl font-bold mb-2" style="color:hsl(var(--foreground))">0</p>
+          <p class="text-sm font-semibold" style="color:hsl(var(--foreground))">Datos fuera de tu control</p>
         </div>
       </div>
       <p class="text-center text-lg font-display font-semibold mt-8">
-        "Empezás a ver resultados desde la primera semana."
+        "El diagnóstico va primero. A veces la respuesta es que todavía no necesitás IA."
       </p>
     </div>
 
   </div>
 </section>
+
+<style>
+  .pipeline-flow { margin-bottom: -1rem; }
+  .pipeline-flow svg { width: 100%; height: 96px; display: block; }
+
+  /* El cable se dibuja cuando la sección entra al viewport (.reveal → .visible) */
+  .pipe-main {
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+  }
+  .pipeline-flow.visible .pipe-main {
+    animation: pipe-draw 1.6s cubic-bezier(.4,0,.2,1) forwards;
+  }
+  .pipe-drop {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+  }
+  .pipeline-flow.visible .pipe-drop {
+    animation: pipe-draw 0.5s ease-out 1.2s forwards;
+  }
+  .pipe-node {
+    opacity: 0;
+    transform-origin: center;
+  }
+  .pipeline-flow.visible .pipe-node {
+    animation: pipe-pop 0.4s cubic-bezier(.22,.68,0,1.4) forwards;
+  }
+  .pipeline-flow.visible .pipe-node:nth-of-type(1) { animation-delay: 0.5s; }
+  .pipeline-flow.visible .pipe-node:nth-of-type(2) { animation-delay: 0.9s; }
+  .pipeline-flow.visible .pipe-node:nth-of-type(3) { animation-delay: 1.3s; }
+  .pipe-pulse { opacity: 0; }
+  .pipeline-flow.visible .pipe-pulse {
+    opacity: 1;
+    transition: opacity 0.3s ease 1.8s;
+  }
+
+  @keyframes pipe-draw { to { stroke-dashoffset: 0; } }
+  @keyframes pipe-pop {
+    from { opacity: 0; transform: scale(0); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pipe-main, .pipe-drop { stroke-dashoffset: 0; animation: none; }
+    .pipe-node { opacity: 1; animation: none; }
+    .pipe-pulse { display: none; }
+  }
+</style>

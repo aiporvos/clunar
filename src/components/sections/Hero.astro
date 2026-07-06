@@ -8,7 +8,7 @@
       <!-- LEFT: Text -->
       <div class="flex flex-col items-start text-left">
         <p class="max-w-md text-lg sm:text-xl animate-fade-up stagger-2" style="color:hsl(var(--muted-foreground))">
-          Soluciones de IA que trabajan con vos, <span class="font-semibold" style="color:hsl(var(--accent))">las 24 horas.</span>
+          Automatización e IA para empresas, <span class="font-semibold" style="color:hsl(var(--accent))">sin perder el control de tus datos.</span>
         </p>
 
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-8 sm:mt-12 animate-fade-up stagger-4">
@@ -17,7 +17,7 @@
              rel="noopener noreferrer"
              class="btn-brutal btn-shine group flex items-center gap-2 text-xs sm:text-sm px-6 sm:px-8 py-3"
              style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
-            Hablar con un experto
+            Hablar con Claudio
             <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
@@ -25,23 +25,36 @@
           <a href="#soluciones"
              class="btn-brutal btn-shine text-xs sm:text-sm px-6 sm:px-8 py-3 flex items-center"
              style="background:hsl(var(--card));color:hsl(var(--foreground))">
-            Ver soluciones
+            Ver servicios
           </a>
         </div>
 
         <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mt-12 sm:mt-16 animate-fade-up stagger-5">
           <div class="card-brutal text-left p-3 sm:p-4" style="background:hsl(var(--primary))">
-            <p class="font-display text-2xl sm:text-4xl font-bold" style="color:hsl(var(--foreground))">+1000</p>
-            <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:hsl(var(--foreground))">Horas ahorradas</p>
+            <p class="font-display text-2xl sm:text-4xl font-bold" style="color:hsl(var(--foreground))"><span data-count="15" data-prefix="+">+15</span></p>
+            <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:hsl(var(--foreground))">Años en sistemas</p>
           </div>
           <div class="card-brutal text-left p-3 sm:p-4" style="background:hsl(var(--success))">
-            <p class="font-display text-2xl sm:text-4xl font-bold" style="color:#fff">95%</p>
-            <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:#fff">Precisión media</p>
+            <p class="font-display text-2xl sm:text-4xl font-bold" style="color:#fff"><span data-count="100" data-suffix="%">100%</span></p>
+            <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:#fff">Datos bajo tu control</p>
           </div>
           <div class="card-brutal text-left p-3 sm:p-4" style="background:hsl(var(--accent))">
             <p class="font-display text-2xl sm:text-4xl font-bold" style="color:#fff">24/7</p>
-            <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:#fff">Disponibilidad</p>
+            <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:#fff">Operación medida</p>
           </div>
+        </div>
+
+        <!-- Terminal: un agente operando en vivo (ver BRAND.md §Motion) -->
+        <div class="agent-terminal card-brutal max-w-lg w-full mt-8 animate-fade-up stagger-5"
+             role="img" aria-label="Registro de actividad de un agente de IA en operación">
+          <div class="agent-terminal-head">
+            <span class="agent-dot" style="background:var(--crimson)"></span>
+            <span class="agent-dot" style="background:var(--yellow)"></span>
+            <span class="agent-dot" style="background:var(--green)"></span>
+            <span class="agent-terminal-title">agente-ventas · en vivo</span>
+            <span class="agent-live"></span>
+          </div>
+          <pre id="agent-log" class="agent-terminal-body" aria-hidden="true"></pre>
         </div>
       </div>
 
@@ -101,6 +114,9 @@
     /* Desvanece la base para fundir el buzo con la página */
     -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
     mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
+    /* Parallax sutil hacia el cursor (vars seteadas por JS) */
+    transform: translate(var(--avatar-px, 0px), var(--avatar-py, 0px));
+    transition: transform 0.35s cubic-bezier(.22,.68,0,1);
   }
   /* Ojos cerrados encima, oculto salvo el instante del parpadeo */
   .hero-avatar-blink {
@@ -120,4 +136,127 @@
   @media (max-width: 640px) {
     .hero-avatar-wrapper { max-width: 380px; }
   }
+
+  /* ── Terminal del agente (superficie de datos → mono, ver BRAND.md §Motion) ── */
+  .agent-terminal {
+    background: var(--coal) !important;
+    overflow: hidden;
+  }
+  :global(.dark) .agent-terminal { background: #0a0809 !important; }
+  .agent-terminal-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-bottom: 2px solid hsl(var(--foreground) / 0.25);
+  }
+  .agent-dot { width: 10px; height: 10px; border-radius: 9999px; display: inline-block; }
+  .agent-terminal-title {
+    margin-left: 8px;
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #f9f4da99;
+  }
+  .agent-live {
+    margin-left: auto;
+    width: 8px; height: 8px; border-radius: 9999px;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .agent-terminal-body {
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: #f9f4da;
+    padding: 14px 16px 16px;
+    margin: 0;
+    min-height: 9.2em;
+    white-space: pre-wrap;
+  }
+  .agent-terminal-body .ok { color: var(--green); }
+  .agent-terminal-body::after {
+    content: '▌';
+    color: var(--yellow);
+    animation: pulse 1s steps(2) infinite;
+  }
 </style>
+
+<script>
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Terminal del agente: log que se tipea en loop ──
+  const LOG_LINES = [
+    '▸ consulta recibida — WhatsApp · API oficial (Meta)',
+    '▸ intención detectada: presupuesto → agente de ventas',
+    '▸ stock verificado en ERP · cotización generada',
+    '▸ registrado en CRM — trazabilidad completa',
+    '✓ resuelto — sin intervención humana',
+  ];
+  const logEl = document.getElementById('agent-log');
+
+  function renderLog(done: string[], partial: string) {
+    if (!logEl) return;
+    const html = done
+      .map(l => (l.startsWith('✓') ? `<span class="ok">${l}</span>` : l))
+      .join('\n');
+    logEl.innerHTML = html + (done.length && partial ? '\n' : '') + partial;
+  }
+
+  async function typeLog() {
+    if (!logEl) return;
+    if (reducedMotion) { renderLog(LOG_LINES, ''); return; }
+    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const done: string[] = [];
+      for (const line of LOG_LINES) {
+        let partial = '';
+        for (const ch of line) {
+          partial += ch;
+          renderLog(done, partial);
+          await sleep(14 + Math.random() * 22);
+        }
+        done.push(line);
+        renderLog(done, '');
+        await sleep(520);
+      }
+      await sleep(2600);
+    }
+  }
+  typeLog();
+
+  // ── Parallax sutil del avatar hacia el cursor ──
+  const avatarWrap = document.querySelector<HTMLElement>('.hero-avatar-wrapper');
+  if (avatarWrap && !reducedMotion && matchMedia('(pointer: fine)').matches) {
+    let raf = 0;
+    window.addEventListener('mousemove', (e) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const dx = e.clientX / window.innerWidth - 0.5;
+        const dy = e.clientY / window.innerHeight - 0.5;
+        avatarWrap.style.setProperty('--avatar-px', (dx * -14).toFixed(1) + 'px');
+        avatarWrap.style.setProperty('--avatar-py', (dy * -8).toFixed(1) + 'px');
+        raf = 0;
+      });
+    }, { passive: true });
+  }
+
+  // ── Contadores de stats ──
+  document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count || '0', 10);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    if (reducedMotion) { el.textContent = prefix + target + suffix; return; }
+    const t0 = performance.now();
+    const dur = 1300;
+    function tick(t: number) {
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+</script>

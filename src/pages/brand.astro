@@ -1,0 +1,539 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+
+// ⚠️ Este archivo es la versión web de BRAND.md (raíz del proyecto).
+// BRAND.md es la fuente de verdad: si cambiás contenido acá, actualizalo allá (y viceversa).
+
+const indice = [
+  ['01', 'Filosofía', '#filosofia'],
+  ['02', 'Principios', '#principios'],
+  ['03', 'Posicionamiento', '#posicionamiento'],
+  ['04', 'Voz y tono', '#voz'],
+  ['05', 'Naming', '#naming'],
+  ['06', 'Identidad visual', '#identidad'],
+  ['07', 'Color', '#color'],
+  ['08', 'Tipografía', '#tipografia'],
+  ['09', 'Componentes', '#componentes'],
+  ['10', 'Arquitectura', '#arquitectura'],
+  ['11', 'Servicios', '#servicios'],
+  ['12', 'Checklist', '#checklist'],
+];
+
+const principios = [
+  ['01', 'Producción sobre demo', 'Todo lo que se muestra funciona en un negocio real o se declara prototipo. Nunca se presenta un mock como caso.'],
+  ['02', 'Claridad sin jerga', 'Cualquier dueño de PYME entiende la primera frase de cada sección. Lo técnico existe, un nivel más abajo.'],
+  ['03', 'Control del stack', 'Self-hosted por defecto (n8n, Docker, VPS propio). El cliente es dueño de sus datos y su infraestructura.'],
+  ['04', 'Resultados medibles', 'Cada afirmación lleva un número o no se hace. "Mejorá tu negocio" no significa nada; "92% resuelto sin humanos" sí.'],
+  ['05', 'Cercanía profesional', 'Voseo sí, chamuyo no. Directo, concreto, sin ceremonia y sin humo.'],
+];
+
+const vozEjemplos = [
+  ['Tu negocio trabaja mientras dormís', 'Un sistema de agentes que responde, deriva y registra cada consulta — con métricas que podés auditar'],
+  ['IA revolucionaria que transforma tu empresa', 'Automatización de procesos concretos: cotizaciones, turnos, cobranzas, documentos'],
+  ['¡Chatbots inteligentes sin código en minutos!', 'Diseño el flujo sobre tu proceso real. El setup toma entre una y tres semanas según la integración'],
+  ['Somos líderes en soluciones de IA', 'Más de 15 años en análisis funcional y e-commerce, aplicados a sistemas de IA en producción'],
+  ['Contratá ya, cupos limitados', 'Escribime y vemos si tu caso se resuelve con automatización — a veces la respuesta es no'],
+];
+
+const paletaCruda = [
+  ['--yellow', '#fcba28', 'Primario. Logo, CTAs, selección', false],
+  ['--orange', '#fc7428', 'Acento. Highlights, stats', false],
+  ['--green', '#0ba95b', 'Éxito, stats positivas', false],
+  ['--pink', '#f38ba3', 'Acento secundario (tender)', false],
+  ['--purple', '#7b5ea7', 'Acento secundario (tender)', true],
+  ['--blue', '#12b5e5', 'Acento secundario (tender)', false],
+  ['--crimson', '#bc0f31', 'Alertas / usos puntuales', true],
+  ['--charcoal', '#231f20', 'Texto, bordes, sombras (light)', true],
+  ['--cream', '#f9f4da', 'Fondo (light)', false],
+  ['--coal', '#0f0d0e', 'Fondo (dark)', true],
+];
+
+const componentes = [
+  ['.btn-brutal', 'Píldora, borde 2px, sombra dura, uppercase. Se levanta al hover, se hunde al click.'],
+  ['.card-brutal', 'Borde 2px + sombra offset, fondo --card, hover −2px.'],
+  ['.pill-brutal', 'Píldora chica, borde 2px, sombra 2px 2px.'],
+  ['.section-label', 'Eyebrow uppercase, tracking 0.18em, sobre el headline.'],
+  ['.reveal / .reveal-x', 'Entrada al scroll con IntersectionObserver.'],
+  ['[data-split]', 'Título que se arma letra por letra (JS en BaseLayout).'],
+  ['.img-fx', 'Overlay dorado + glitch sutil al hover en imágenes.'],
+  ['Tender.astro', 'Riel con tarjetas-etiqueta colgantes. La sección de servicios canónica.'],
+  ['CasesCarousel.astro', 'Carrusel de arquitecturas de referencia con contador y CTA.'],
+  ['avatar-breathe/blink', 'Ilustración de Claudio con respiración, parpadeo y parallax al cursor.'],
+  ['Marquee.astro', 'Banda infinita de palabras del dominio (Paytone One outline). Pausa al hover.'],
+  ['Terminal de agente', 'Card coal en el Hero que tipea el log de un agente en loop. Mono solo acá.'],
+  ['Pipeline draw', 'Cable SVG estilo n8n en ComoTrabajo: se dibuja al scroll, con pulso de datos.'],
+];
+
+const arquitectura = [
+  ['1', 'Hero', '#inicio', 'Quién es Claudio + propuesta en una frase + stats + 2 CTAs'],
+  ['2', 'Quién soy', '#que-es', 'El enfoque: sistemas en producción, no demos'],
+  ['3', 'Servicios (Tender)', '#soluciones', 'Los 4 servicios complejos como tarjetas colgantes'],
+  ['4', 'Arquitecturas', '#casos', 'Arquitecturas de referencia: stack, flujo de datos y qué resuelven — sin clientes ficticios'],
+  ['5', 'Cómo trabajo', '#como-funciona', 'Diagnóstico → diseño → operación medida'],
+  ['6', 'Para quién', '—', 'PYMEs latam que ya facturan y quieren escalar operación'],
+  ['7', 'Blog & Comunidad', '#blog', 'Artículos, flujos n8n y sistemas — todo el aporte a la comunidad se publica vía blog'],
+  ['8', 'Contacto', '#contacto', 'WhatsApp (API oficial Meta / YCloud) + formulario. Sin presión'],
+];
+
+const servicios = [
+  ['Sistemas multi-agente', 'Agentes orquestados sobre procesos reales: ventas conversacionales, briefing automatizado, inteligencia competitiva. Un sistema que deriva, registra y escala a humano cuando corresponde.', '--yellow'],
+  ['RAG especializado', 'Conocimiento del negocio consultable con precisión: legal, clínico, técnico. Qdrant/Supabase + citas verificables. Responde con tus documentos, no con lo que inventa el modelo.', '--green'],
+  ['Integración y orquestación', 'n8n self-hosted, MCP, WhatsApp con API oficial de Meta o YCloud, ERP/CRM, facturación, e-commerce. Sistemas conectados sin copy-paste humano.', '--orange'],
+  ['Consultoría y formación', 'Diagnóstico, arquitectura y roadmap de IA con costos reales. Capacitación de equipos y líderes.', '--purple'],
+];
+
+const gobernanza = 'Mensaje central de la marca. Las empresas quieren usar IA sin regalar sus datos: infraestructura propia o dedicada, modelos elegidos por criterio, trazabilidad de qué dato ve cada agente, y continuidad — si mañana cambia el proveedor de IA, el negocio no pierde nada. Se comunica así: "adoptá IA sin perder el control de tus datos".';
+
+const checklist = [
+  'Leí BRAND.md completo antes de tocar código',
+  'Colores vía tokens semánticos (bg-background, hsl(var(--x)))',
+  'Headings en Paytone One; body en Outfit',
+  'Bordes 2px foreground + sombra brutal donde corresponda',
+  'Componentes existentes antes que inventar nuevos',
+  'Funciona en light Y dark (probar el toggle del Nav)',
+  'Entrada con .reveal / data-split coherente',
+  'Copy: voseo, sin superlativos, con datos',
+  'WhatsApp = "API oficial de WhatsApp (Meta)" o "YCloud" — nunca Evolution',
+  'Container 1400px, py-24 lg:py-32, anchor correcto',
+  'Mobile primero: probado a 390px',
+];
+---
+
+<BaseLayout
+  title="CLUNA — Brand System"
+  description="Manual de marca de Claudio Luna / cluna.ar: filosofía, voz, sistema visual y reglas para reconstruir el sitio."
+>
+  <Nav />
+  <main>
+
+    <!-- ═══ Portada ═══ -->
+    <section class="pt-32 pb-16 lg:pt-40 lg:pb-24">
+      <div class="container mx-auto px-6">
+        <span class="section-label">Manual de marca · v1.0 · Julio 2026</span>
+        <h1 class="text-display-lg glow-text mb-6">CLUNA<br/>Brand System</h1>
+        <p class="text-lg max-w-2xl mb-4">
+          Fuente de verdad de la marca <strong>Claudio Luna / cluna.ar</strong>. Si vas a
+          reconstruir, modificar o escribir cualquier parte de este sitio — humano o agente —
+          este documento manda.
+        </p>
+        <p class="italic" style="color:hsl(var(--muted-foreground))">
+          Este manual no es una norma. Es un criterio.
+        </p>
+        <div class="flex flex-wrap gap-3 mt-10">
+          {indice.map(([num, nombre, href]) => (
+            <a href={href} class="pill-brutal px-4 py-1.5 text-sm hover:bg-primary transition-colors">
+              <span class="font-bold mr-1" style="color:hsl(var(--accent))">{num}</span>{nombre}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 01 Filosofía ═══ -->
+    <section id="filosofia" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">01 · Filosofía</span>
+        <h2 class="text-display-md glow-text mb-8">Sistemas que trabajan de verdad.</h2>
+        <div class="grid lg:grid-cols-2 gap-10 items-start">
+          <div class="space-y-4 text-lg">
+            <p>
+              No chatbots de demo. No flujos de juguete que se rompen el primer lunes.
+              <strong>Sistemas multi-agente, RAG especializado y orquestación de procesos</strong>
+              que operan en producción, con métricas auditables y un stack que el cliente controla.
+            </p>
+            <p>
+              Detrás hay más de 15 años de análisis funcional, e-commerce y desarrollo a medida
+              para PYMEs latinoamericanas. Eso define el ángulo: <strong>la ingeniería es seria;
+              el trato es cercano.</strong>
+            </p>
+          </div>
+          <div class="card-brutal p-8">
+            <p class="font-display text-2xl mb-3">La marca es una persona.</p>
+            <p style="color:hsl(var(--muted-foreground))">
+              Claudio Luna. El dominio es su handle: <strong style="color:hsl(var(--foreground))">cluna.ar</strong>.
+              Un cliente sin equipo técnico tiene que poder entender qué compra.
+              Un CTO tiene que poder auditar cómo está hecho.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 02 Principios ═══ -->
+    <section id="principios" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">02 · Principios</span>
+        <h2 class="text-display-md glow-text mb-10">Cinco reglas, cero excepciones.</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {principios.map(([num, titulo, texto]) => (
+            <div class="card-brutal p-6">
+              <span class="font-display text-3xl" style="color:hsl(var(--accent))">{num}</span>
+              <h3 class="text-xl mt-2 mb-2">{titulo}</h3>
+              <p class="text-sm" style="color:hsl(var(--muted-foreground))">{texto}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 03 Posicionamiento ═══ -->
+    <section id="posicionamiento" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">03 · Personalidad y posicionamiento</span>
+        <h2 class="text-display-md glow-text mb-4">Técnico + cercano.</h2>
+        <p class="max-w-2xl mb-10">
+          Nunca corporativo frío. Nunca informal descuidado. Técnico sin ser hermético,
+          cercano sin perder autoridad.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-brutal" style="border-collapse:collapse">
+            <thead>
+              <tr style="background:hsl(var(--foreground));color:hsl(var(--background))">
+                <th class="text-left p-4"></th>
+                <th class="text-left p-4">Agencias de chatbots genéricos</th>
+                <th class="text-left p-4" style="color:hsl(var(--primary))">Claudio Luna</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ['Producto', 'Plantilla que responde FAQs', 'Sistema diseñado sobre el proceso real del negocio'],
+                ['Stack', 'SaaS cerrado, datos de terceros', 'Self-hosted, el cliente es dueño de todo'],
+                ['Promesa', '"IA mágica en 5 minutos"', 'Arquitectura + métricas + mantenimiento'],
+                ['Relación', 'Ticket de soporte', 'Un ingeniero con nombre y apellido'],
+              ].map(([fila, ellos, nosotros]) => (
+                <tr style="border-top:2px solid hsl(var(--foreground))">
+                  <td class="p-4 font-bold">{fila}</td>
+                  <td class="p-4" style="color:hsl(var(--muted-foreground))">{ellos}</td>
+                  <td class="p-4 font-semibold">{nosotros}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 04 Voz y tono ═══ -->
+    <section id="voz" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">04 · Voz y tono</span>
+        <h2 class="text-display-md glow-text mb-4">Voseo sí. Humo no.</h2>
+        <div class="flex flex-wrap gap-3 mb-10">
+          {['Voseo argentino siempre', 'Datos sobre adjetivos', 'Sin superlativos', 'Sin startup-speak', 'Frases cortas', 'Sin urgencia falsa'].map(regla => (
+            <span class="pill-brutal px-4 py-1.5 text-sm">{regla}</span>
+          ))}
+        </div>
+        <div class="space-y-4">
+          {vozEjemplos.map(([mal, bien]) => (
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="card-brutal p-5" style="background:hsl(var(--background))">
+                <span class="text-xs font-bold uppercase tracking-widest" style="color:hsl(var(--accent))">❌ Incorrecto</span>
+                <p class="mt-2" style="color:hsl(var(--muted-foreground))">"{mal}"</p>
+              </div>
+              <div class="card-brutal p-5">
+                <span class="text-xs font-bold uppercase tracking-widest" style="color:hsl(var(--success))">✅ Correcto</span>
+                <p class="mt-2 font-medium">"{bien}"</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="card-brutal p-6 mt-8 max-w-3xl">
+          <p class="font-display text-lg mb-1">El truco del "a veces la respuesta es no"</p>
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">
+            Admitir límites es la señal de profesionalismo más barata y más efectiva que existe. Usarla.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 05 Naming ═══ -->
+    <section id="naming" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">05 · Naming</span>
+        <h2 class="text-display-md glow-text mb-10">Cómo se nombran las cosas.</h2>
+        <div class="grid lg:grid-cols-2 gap-6 mb-8">
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-3">Marca y servicios</h3>
+            <ul class="space-y-2 text-sm" style="color:hsl(var(--muted-foreground))">
+              <li>→ <strong style="color:hsl(var(--foreground))">Claudio Luna</strong> (persona) · <strong style="color:hsl(var(--foreground))">cluna.ar</strong> (handle, minúscula).</li>
+              <li>→ "AIporvos" es la marca saliente: no usarla en contenido nuevo.</li>
+              <li>→ Servicios con nombre descriptivo en español, sin marcas fantasía.</li>
+              <li>→ Tecnologías por su nombre real y solo cuando aportan: n8n, LangChain, Qdrant, Supabase, Docker, MCP, Claude.</li>
+            </ul>
+          </div>
+          <div class="card-brutal p-6" style="border-color:hsl(var(--accent))!important;box-shadow:4px 4px 0 hsl(var(--accent))">
+            <h3 class="text-lg mb-3">🚫 Regla dura — WhatsApp</h3>
+            <p class="text-sm mb-3" style="color:hsl(var(--muted-foreground))">
+              Nunca mencionar <s>"Evolution API"</s> en contenido público. La conectividad de WhatsApp se comunica siempre como:
+            </p>
+            <p class="font-display text-xl">"API oficial de WhatsApp (Meta)"<br/>o "YCloud"</p>
+            <p class="text-xs mt-3" style="color:hsl(var(--muted-foreground))">Sin excepciones: hero, servicios, casos, blog, formularios, metas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 06 Identidad visual ═══ -->
+    <section id="identidad" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">06 · Identidad visual</span>
+        <h2 class="text-display-md glow-text mb-4">Neo-brutalismo cálido.</h2>
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div class="space-y-4">
+            <p>
+              <strong>El sistema visual no se cambia.</strong> Este manual lo codifica para que
+              cualquier reconstrucción sea fiel: fondo crema, texto charcoal, acentos planos y
+              vibrantes, bordes oscuros de 2px y sombras duras con offset — sin blur, nunca.
+            </p>
+            <p>
+              Las interacciones son físicas: los elementos se <em>levantan</em> al hover
+              y se <em>hunden</em> al click.
+            </p>
+            <p>
+              <strong>El avatar es la ilustración de Claudio</strong> (gorra, capucha) con
+              respiración y parpadeo. Es el punto exacto de "técnico + cercano". No reemplazar
+              por fotos de stock ni robots genéricos.
+            </p>
+          </div>
+          <div class="card-brutal p-6 flex items-center gap-6">
+            <img src="/clunar-cut.png" alt="Avatar ilustrado de Claudio Luna" class="w-32 h-32 object-cover object-top rounded-lg border-brutal" style="background:hsl(var(--primary)/0.2)" />
+            <div>
+              <p class="font-display text-lg mb-1">El avatar canónico</p>
+              <p class="text-xs" style="color:hsl(var(--muted-foreground))">
+                /public/clunar-cut.png + /clunar-closed.png<br/>
+                animaciones: avatar-breathe · avatar-blink
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 07 Color ═══ -->
+    <section id="color" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">07 · Color</span>
+        <h2 class="text-display-md glow-text mb-4">La paleta.</h2>
+        <p class="max-w-2xl mb-10 text-sm" style="color:hsl(var(--muted-foreground))">
+          Fuente canónica: <code>src/styles/global.css</code> (líneas 13–72). Los colores se consumen
+          vía tokens semánticos; los hex crudos, solo en <code>&lt;style&gt;</code> locales para efectos.
+          Todo componente nuevo debe verse bien en light <strong>y</strong> dark.
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
+          {paletaCruda.map(([token, hex, uso, textoClaro]) => (
+            <div class="card-brutal overflow-hidden">
+              <div class="h-20 flex items-end p-3" style={`background:${hex}`}>
+                <span class="text-xs font-bold font-mono" style={`color:${textoClaro ? '#f9f4da' : '#231f20'}`}>{hex}</span>
+              </div>
+              <div class="p-3">
+                <p class="text-xs font-mono font-bold">{token}</p>
+                <p class="text-xs mt-1" style="color:hsl(var(--muted-foreground))">{uso}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-4">Sombras firma</h3>
+            <div class="flex flex-wrap items-center gap-6">
+              <div class="w-20 h-20 rounded-lg border-brutal shadow-brutal-sm flex items-center justify-center text-xs font-mono" style="background:hsl(var(--primary))">3px</div>
+              <div class="w-20 h-20 rounded-lg border-brutal shadow-brutal flex items-center justify-center text-xs font-mono" style="background:hsl(var(--accent));color:#fff">4px</div>
+              <div class="w-20 h-20 rounded-lg border-brutal shadow-brutal-lg flex items-center justify-center text-xs font-mono" style="background:hsl(var(--success));color:#fff">6px</div>
+            </div>
+            <p class="text-xs mt-4" style="color:hsl(var(--muted-foreground))">
+              Siempre sólidas, sin blur, offset abajo-derecha. <code>--shadow-brutal[-sm/-lg]</code>.
+            </p>
+          </div>
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-4">Tokens semánticos (HSL)</h3>
+            <div class="text-xs font-mono space-y-1" style="color:hsl(var(--muted-foreground))">
+              <p>--background · --foreground · --card</p>
+              <p>--primary (amarillo, fg charcoal)</p>
+              <p>--accent (naranja, fg blanco) · --success</p>
+              <p>--secondary · --muted/-foreground</p>
+              <p>--border / --input · --radius: 0.5rem</p>
+            </div>
+            <p class="text-xs mt-4" style="color:hsl(var(--muted-foreground))">
+              Dark mode: clase <code>.dark</code> en <code>&lt;html&gt;</code>, persistida en localStorage.
+              Primary y accent no cambian; fondo pasa a coal y los bordes a claros.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 08 Tipografía ═══ -->
+    <section id="tipografia" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">08 · Tipografía</span>
+        <h2 class="text-display-md glow-text mb-10">Dos fuentes, roles fijos.</h2>
+        <div class="space-y-6">
+          <div class="card-brutal p-8">
+            <span class="section-label">Paytone One — display · todos los h1–h6 · nunca otra fuente para títulos</span>
+            <p class="font-display text-display-md mt-2">Sistemas que trabajan.</p>
+          </div>
+          <div class="card-brutal p-8">
+            <span class="section-label">Outfit — body / UI · 400 · 500 · 700 · 900</span>
+            <p class="text-lg mt-2 font-normal">El peso 400 para texto corrido y descripciones largas.</p>
+            <p class="text-lg font-medium">El peso 500 para leads y subtítulos.</p>
+            <p class="text-lg font-bold">EL PESO 700 PARA BOTONES Y LABELS.</p>
+            <p class="text-lg font-black">El peso 900 para números y stats.</p>
+          </div>
+          <div class="card-brutal p-8">
+            <span class="section-label">Escalas display (tailwind.config.mjs)</span>
+            <div class="text-sm font-mono mt-3 space-y-1" style="color:hsl(var(--muted-foreground))">
+              <p>text-display-xl → clamp(2rem, 10vw, 10rem) · lh 0.9</p>
+              <p>text-display-lg → clamp(1.8rem, 8vw, 7rem) · lh 0.95</p>
+              <p>text-display-md → clamp(1.5rem, 4vw, 3.5rem) · lh 1.1</p>
+            </div>
+            <p class="text-xs mt-4" style="color:hsl(var(--muted-foreground))">
+              Tratamientos: <code>.glow-text</code> (relieve 3px al 14%) en headlines ·
+              <code>.text-outline</code> para palabras gigantes decorativas ·
+              <code>[data-split]</code> para el efecto letra-por-letra.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 09 Componentes ═══ -->
+    <section id="componentes" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">09 · Componentes canónicos</span>
+        <h2 class="text-display-md glow-text mb-4">Antes de crear, buscar acá.</h2>
+        <div class="card-brutal p-8 mb-8">
+          <span class="section-label">Muestra viva</span>
+          <div class="flex flex-wrap items-center gap-4 mt-4">
+            <button class="btn-brutal btn-shine px-6 py-3 text-sm" style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">Botón primario →</button>
+            <button class="btn-brutal px-6 py-3 text-sm" style="background:hsl(var(--card))">Botón secundario</button>
+            <span class="pill-brutal px-4 py-1.5 text-sm">pill-brutal</span>
+            <span class="section-label mb-0">section-label</span>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {componentes.map(([nombre, desc]) => (
+            <div class="flex gap-4 p-4 border-brutal rounded-lg" style="background:hsl(var(--card))">
+              <code class="text-sm font-bold whitespace-nowrap" style="color:hsl(var(--accent))">{nombre}</code>
+              <p class="text-sm" style="color:hsl(var(--muted-foreground))">{desc}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-sm mt-6" style="color:hsl(var(--muted-foreground))">
+          Layout: container máx <strong>1400px</strong> · secciones <code>py-24 lg:py-32</code> ·
+          radius base <code>0.5rem</code> · smooth-scroll global (Lenis).
+        </p>
+        <div class="card-brutal p-6 mt-6">
+          <p class="font-display text-lg mb-1">Motion: metáforas solo del dominio</p>
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">
+            Las animaciones nacen de la IA y la automatización — flujos, agentes, logs, pipelines,
+            datos viajando. Nunca metáforas ajenas al rubro. Todo efecto respeta
+            <code>prefers-reduced-motion</code> y funciona en light y dark. Tipografía mono
+            únicamente en superficies de datos (terminal, logs, código) — nunca para copy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 10 Arquitectura ═══ -->
+    <section id="arquitectura" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">10 · Arquitectura de contenido</span>
+        <h2 class="text-display-md glow-text mb-10">El orden de la home.</h2>
+        <div class="space-y-3">
+          {arquitectura.map(([num, seccion, anchor, comunica]) => (
+            <div class="grid grid-cols-[3rem_1fr] sm:grid-cols-[3rem_12rem_10rem_1fr] gap-3 items-center p-4 border-brutal rounded-lg" style="background:hsl(var(--card))">
+              <span class="font-display text-2xl" style="color:hsl(var(--accent))">{num}</span>
+              <span class="font-bold">{seccion}</span>
+              <code class="text-xs hidden sm:block" style="color:hsl(var(--muted-foreground))">{anchor}</code>
+              <p class="text-sm col-span-2 sm:col-span-1" style="color:hsl(var(--muted-foreground))">{comunica}</p>
+            </div>
+          ))}
+        </div>
+        <p class="text-sm mt-6 max-w-3xl" style="color:hsl(var(--muted-foreground))">
+          El copy de estas secciones ya está alineado a este manual (julio 2026). Cualquier
+          modificación futura debe seguir §04 (voz), §05 (naming) y §11 (mensajería).
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ 11 Servicios ═══ -->
+    <section id="servicios" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">11 · Mensajería y servicios</span>
+        <h2 class="text-display-md glow-text mb-4">Automatizaciones complejas, no chatbots.</h2>
+        <p class="max-w-2xl mb-10" style="color:hsl(var(--muted-foreground))">
+          La audiencia: PYMEs y estudios profesionales de LATAM <strong style="color:hsl(var(--foreground))">que ya facturan</strong>
+          y quieren escalar operación sin escalar headcount. Se le habla al dueño con un proceso que le duele.
+        </p>
+        <div class="card-brutal p-6 mb-6" style="border-top:8px solid var(--crimson)">
+          <h3 class="text-xl mb-2">🔒 Seguridad y gobernanza de datos</h3>
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">{gobernanza}</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          {servicios.map(([nombre, desc, colorVar]) => (
+            <div class="card-brutal p-6" style={`border-top:8px solid var(${colorVar})`}>
+              <h3 class="text-xl mb-2">{nombre}</h3>
+              <p class="text-sm" style="color:hsl(var(--muted-foreground))">{desc}</p>
+            </div>
+          ))}
+        </div>
+        <div class="card-brutal p-6 mt-8 max-w-3xl">
+          <p class="font-display text-lg mb-1">Casos: siempre con métrica auditable</p>
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">
+            % de consultas resueltas, horas/mes ahorradas, tiempo de respuesta. Mientras no haya
+            casos reales publicables, los placeholder se marcan como "caso ilustrativo" —
+            nunca se presentan como clientes reales.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 12 Checklist ═══ -->
+    <section id="checklist" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">12 · Anti-patrones y checklist</span>
+        <h2 class="text-display-md glow-text mb-10">Para reconstruir sin romper.</h2>
+        <div class="grid lg:grid-cols-2 gap-6 mb-8">
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-4">❌ Anti-patrones visuales</h3>
+            <ul class="space-y-2 text-sm" style="color:hsl(var(--muted-foreground))">
+              <li>· Sombras con blur, gradientes suaves, glassmorphism</li>
+              <li>· Bordes de 1px o grises (son 2px foreground)</li>
+              <li>· Otra fuente display, otra paleta, esquinas &gt;0.5rem</li>
+              <li>· Componentes que solo funcionan en light mode</li>
+              <li>· Reemplazar el avatar ilustrado por fotos o robots</li>
+            </ul>
+          </div>
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-4">❌ Anti-patrones de copy</h3>
+            <ul class="space-y-2 text-sm" style="color:hsl(var(--muted-foreground))">
+              <li>· Superlativos, startup-speak, urgencia falsa</li>
+              <li>· <s>"Evolution API"</s> → "API oficial de WhatsApp (Meta)" o "YCloud"</li>
+              <li>· Prometer resultados sin número ni fuente</li>
+              <li>· Tutear ("tienes") o neutro ("tú") — siempre voseo</li>
+              <li>· Copy de la era AIporvos/VDG en contenido nuevo</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-brutal p-8">
+          <h3 class="text-lg mb-4">Checklist de conformidad</h3>
+          <ul class="grid md:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+            {checklist.map(item => (
+              <li class="flex gap-2">
+                <span class="w-4 h-4 mt-0.5 flex-shrink-0 border-brutal rounded-sm inline-block" style="background:hsl(var(--card))"></span>
+                <span style="color:hsl(var(--muted-foreground))">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p class="text-center font-display text-xl mt-16" style="color:hsl(var(--muted-foreground))">
+          cluna.ar — construimos sistemas que trabajan. Este manual también.
+        </p>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+</BaseLayout>

@@ -10,20 +10,23 @@ import ComoTrabajo from '../components/sections/ComoTrabajo.astro';
 import ParaQuien from '../components/sections/ParaQuien.astro';
 import BlogPreview from '../components/sections/BlogPreview.astro';
 import Contacto from '../components/sections/Contacto.astro';
+import Marquee from '../components/sections/Marquee.astro';
 ---
 
 <BaseLayout
-  title="AIporvos | Agentes de IA para tu negocio"
-  description="Automatizá tu negocio con agentes de IA que atienden, venden, cobran y leen documentos sin que estés encima. Disponible 24/7, sin código."
+  title="Claudio Luna | Automatización e IA para empresas — cluna.ar"
+  description="Sistemas multi-agente, RAG especializado e integración de sistemas para empresas — con seguridad y gobernanza de datos. Adoptá IA sin perder el control de tu información."
 >
   <Nav />
   <main>
     <Hero />
     <QuienSoy />
+    <Marquee words={['AGENTES', 'RAG', 'ORQUESTACIÓN', 'GOBERNANZA', 'SELF-HOSTED', 'TRAZABILIDAD']} />
     <Tender />
     <CasesCarousel />
     <ComoTrabajo />
     <ParaQuien />
+    <Marquee words={['n8n', 'MCP', 'QDRANT', 'SUPABASE', 'DOCKER', 'CLAUDE', 'LANGCHAIN']} speed={26} />
     <BlogPreview />
     <Contacto />
   </main>
