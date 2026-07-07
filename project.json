@@ -1,10 +1,10 @@
 {
-  "id": "vdg-mentorias",
-  "name": "VDG Mentorías",
-  "path": "/home/cluna/projects/vdg-mentorias",
-  "created": "2026-06-01",
+  "id": "cluna-ar",
+  "name": "cluna.ar",
+  "path": "/home/cluna/projects/cluna.ar",
+  "created": "2026-06-23",
   "status": "active",
-  "github": { "account": "aiporvos", "repo": "ascend-professional-growth", "ssh_host": "github.com" },
-  "deploy": { "target": "manual", "domain": "vdgmentorias.com" },
-  "brand": { "tone": "Profesional, cálido, reflexivo", "colors": ["#f5f5f0", "#7c3aed", "#0a0a0a"], "keywords": ["coaching", "mentoría", "liderazgo"] }
+  "github": { "account": "aiporvos", "repo": "clunar", "ssh_host": "github.com" },
+  "deploy": { "target": "dokploy", "domain": "cluna.ar" },
+  "brand": { "tone": "Técnico y cercano, sin humo", "colors": ["#f9f4da", "#fcba28", "#231f20"], "keywords": ["automatización", "IA", "agentes", "gobernanza de datos"] }
 }
