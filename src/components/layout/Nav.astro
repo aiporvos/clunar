@@ -34,15 +34,6 @@ const navLinks = [
         <span class="font-display font-bold text-lg tracking-tight" style="color:hsl(var(--foreground))">cluna.ar</span>
       </a>
 
-      <!-- Availability badge (desktop) -->
-      <div class="hidden xl:flex items-center gap-2 text-sm">
-        <span style="color:hsl(var(--muted-foreground))" class="font-medium">Disponible para:</span>
-        <span class="pill-brutal flex items-center gap-1.5 text-xs uppercase tracking-wide px-3 py-1" style="color:hsl(var(--foreground))">
-          <span class="w-2 h-2 rounded-full animate-pulse" style="background:hsl(var(--success))"></span>
-          Diagnóstico inicial sin costo
-        </span>
-      </div>
-
       <!-- Nav links (desktop) — con scrollspy -->
       <nav class="hidden lg:flex items-center gap-6">
         {navLinks.map(link => (
@@ -53,24 +44,13 @@ const navLinks = [
         ))}
       </nav>
 
-      <!-- CTA + theme toggle (desktop) -->
+      <!-- Theme toggle (desktop) -->
       <div class="hidden lg:flex items-center gap-3">
         <button id="theme-toggle" aria-label="Toggle theme" class="p-2 transition-colors" style="color:hsl(var(--muted-foreground))">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
           </svg>
         </button>
-        <a href="https://wa.me/542604844952"
-           target="_blank"
-           rel="noopener noreferrer"
-           data-magnetic
-           class="btn-brutal btn-shine nav-link group flex items-center gap-2 text-sm ml-2 px-5 py-2"
-           style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
-          Hablar con Claudio
-          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
       </div>
 
       <!-- Mobile menu button -->
