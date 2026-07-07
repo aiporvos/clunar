@@ -51,7 +51,7 @@ const servicios = [
 ];
 ---
 
-<section id="soluciones" class="py-24 lg:py-32 overflow-hidden">
+<section id="soluciones" class="py-16 sm:py-24 lg:py-32 overflow-hidden">
   <div class="container mx-auto px-6">
 
     <div class="reveal">
@@ -261,8 +261,10 @@ const servicios = [
   .tender-cta:hover { filter: brightness(0.94); }
 
   @media (max-width: 640px) {
-    .tender-tag { width: 250px; }
-    .tender-word { font-size: 3.4rem; }
+    .tender-tag { width: 300px; margin-right: 36px; }
+    .tender-word { font-size: 2.7rem; }
+    .tender-word-panel { height: 110px; }
+    .tender-viewport { -webkit-overflow-scrolling: touch; }
   }
 </style>
 
@@ -288,6 +290,8 @@ const servicios = [
   // Auto-scroll continuo + arrastre (izq/der) con loop infinito (3 copias)
   if (viewport && track) {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // En táctil no hay auto-scroll: el usuario navega con el dedo (calma + batería)
+    const coarse = window.matchMedia('(pointer: coarse)').matches;
     let setWidth = 0;
     const measure = () => { setWidth = track.scrollWidth / 3; };
     measure();
@@ -308,7 +312,7 @@ const servicios = [
     const clamp = (v, m) => Math.max(-m, Math.min(m, v));
 
     function tick() {
-      if (!reduce && !hovering && !dragging) { viewport.scrollLeft += speed; wrap(); }
+      if (!reduce && !coarse && !hovering && !dragging) { viewport.scrollLeft += speed; wrap(); }
 
       // Balanceo: mientras arrastro las tarjetas se inclinan; al soltar, resorte a 0
       if (!reduce) {

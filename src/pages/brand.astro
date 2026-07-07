@@ -60,10 +60,13 @@ const componentes = [
   ['.img-fx', 'Overlay dorado + glitch sutil al hover en imágenes.'],
   ['Tender.astro', 'Riel con tarjetas-etiqueta colgantes. La sección de servicios canónica.'],
   ['CasesCarousel.astro', 'Carrusel de arquitecturas de referencia con contador y CTA.'],
-  ['avatar-breathe/blink', 'Ilustración de Claudio con respiración, parpadeo y parallax al cursor.'],
-  ['Marquee.astro', 'Banda infinita de palabras del dominio (Paytone One outline). Pausa al hover.'],
-  ['Terminal de agente', 'Card coal en el Hero que tipea el log de un agente en loop. Mono solo acá.'],
-  ['Pipeline draw', 'Cable SVG estilo n8n en ComoTrabajo: se dibuja al scroll, con pulso de datos.'],
+  ['Avatar duotono blob', 'Ilustración en duotono amarillo dentro de blob orgánico con morph lento + parallax al cursor.'],
+  ['Marquee.astro', 'Banda de palabras del dominio (Paytone One outline) que se mueve SOLO al scrollear.'],
+  ['Terminal de agente', 'Card coal en ComoTrabajo que tipea el log UNA vez al entrar al viewport. Mono solo acá.'],
+  ['Pipeline draw', 'Cable SVG estilo n8n: se dibuja al entrar al viewport, pulso ×3 y se detiene.'],
+  ['Cursor de marca', 'Punto accent + aro con inercia que crece sobre interactivos (BaseLayout, pointer fine).'],
+  ['[data-magnetic]', 'CTAs que se acercan sutilmente al cursor (máx 9px) y vuelven con resorte.'],
+  ['#scroll-progress', 'Barra de 4px primary arriba que escala con el avance de lectura.'],
 ];
 
 const arquitectura = [
@@ -425,12 +428,15 @@ const checklist = [
           radius base <code>0.5rem</code> · smooth-scroll global (Lenis).
         </p>
         <div class="card-brutal p-6 mt-6">
-          <p class="font-display text-lg mb-1">Motion: metáforas solo del dominio</p>
+          <p class="font-display text-lg mb-1">Motion: el movimiento responde al usuario</p>
           <p class="text-sm" style="color:hsl(var(--muted-foreground))">
-            Las animaciones nacen de la IA y la automatización — flujos, agentes, logs, pipelines,
-            datos viajando. Nunca metáforas ajenas al rubro. Todo efecto respeta
-            <code>prefers-reduced-motion</code> y funciona en light y dark. Tipografía mono
-            únicamente en superficies de datos (terminal, logs, código) — nunca para copy.
+            Los loops perpetuos están prohibidos (única excepción: micro-gestos orgánicos como
+            parpadeo o respiración). El terminal tipea una vez; las marquesinas se mueven con el
+            scroll; el pulso del pipeline corre 3 veces y para. Las metáforas nacen de la IA y la
+            automatización — flujos, agentes, logs, pipelines — nunca ajenas al rubro. Todo efecto
+            respeta <code>prefers-reduced-motion</code>, se desactiva en táctil cuando corresponde,
+            y funciona en light y dark. Composición zulik: una idea por pantalla, aire generoso.
+            Mono únicamente en superficies de datos — nunca para copy.
           </p>
         </div>
       </div>

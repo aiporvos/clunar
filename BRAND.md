@@ -129,9 +129,12 @@ sombras duras con offset (sin blur). Interacciones con desplazamiento físico
 (los elementos se "levantan" al hover y se "hunden" al click).
 
 **El avatar es la ilustración de Claudio** (gorra, campera con capucha) — assets
-`/public/clunar-cut.png` + `/clunar-closed.png` (parpadeo), animaciones
-`avatar-breathe` / `avatar-blink`. Se mantiene: es el punto exacto de "técnico + cercano".
-No reemplazar por fotos de stock, robots genéricos ni ilustraciones de otro estilo.
+`/public/clunar-cut.png` + `/clunar-closed.png` (parpadeo). **Tratamiento canónico
+(desde jul-2026): duotono de marca** — la ilustración en escala de grises multiplicada
+sobre amarillo `--primary`, dentro de un **blob orgánico** (border-radius asimétrico
+con morph lento de 14s, borde 3px foreground, sombra brutal). Es la adaptación de los
+retratos duotono de zulik.co a esta marca. No reemplazar por fotos de stock, robots
+genéricos ni ilustraciones de otro estilo.
 
 ---
 
@@ -224,21 +227,33 @@ Antes de crear un componente nuevo, verificar que no exista uno de estos:
 Layout: contenedor máx **1400px** (`container` de Tailwind o `.container-site`),
 secciones `py-24 lg:py-32`, radius base `0.5rem`, smooth-scroll global (Lenis + CSS).
 
-### Motion (lenguaje de animación — base daveholloway.uk, adaptado)
+### Motion (lenguaje de animación — composición zulik.co · efectos daveholloway.uk)
 
-**Regla madre: las metáforas de animación salen del dominio IA/automatización**
+**Regla madre 1: el movimiento responde al usuario.** Los loops perpetuos están
+prohibidos — cansan y hacen sentir que "la página se actualiza sola". Las únicas
+excepciones son micro-gestos orgánicos (parpadeo, respiración, morph lento del blob).
+El terminal tipea **una sola vez**; las marquesinas se mueven **con el scroll**
+(quietas si el usuario no scrollea); el pulso del pipeline corre 3 veces y para.
+
+**Regla madre 2: las metáforas salen del dominio IA/automatización**
 (flujos, agentes, logs, pipelines, datos viajando). Nunca metáforas ajenas al rubro.
-Todo efecto respeta `prefers-reduced-motion` (se muestra el estado final, sin animar)
-y funciona en light y dark.
+Todo efecto respeta `prefers-reduced-motion` (estado final, sin animar), se desactiva
+en `pointer: coarse` cuando corresponde, y funciona en light y dark.
 
 | Patrón | Dónde | Qué hace |
 |---|---|---|
-| **Marquee band** | `Marquee.astro` (entre secciones) | Banda infinita de palabras del dominio en Paytone One outline (1 de cada 3 rellena en primary). Pausa al hover |
-| **Terminal de agente** | Hero | Card coal que tipea en loop el log de un agente real (consulta → clasificación → ERP → CRM → resuelto). Cursor ▌ titilando |
-| **Pipeline draw** | ComoTrabajo | Cable SVG estilo flujo n8n que se dibuja al entrar al viewport, nodos que hacen pop y pulso de datos viajando en loop. Solo desktop |
-| **Avatar parallax** | Hero | El avatar se desplaza sutilmente hacia el cursor (máx ~14px, solo pointer fine) |
-| **Counters** | Stats del hero | Números que cuentan de 0 al valor con easing cúbico (~1.3s) |
-| **Tender sway** | Tender.astro | Ya existente: balanceo físico de tarjetas colgantes |
+| **Marquee scroll-driven** | `Marquee.astro` (entre secciones) | Banda de palabras del dominio en Paytone One outline que se desplaza SOLO al scrollear (factor 0.55, direcciones alternadas). Quieta en reposo |
+| **Terminal de agente** | ComoTrabajo | Card coal que tipea UNA vez el log de un agente real al entrar al viewport y queda congelado (cursor ▌ solo mientras tipea) |
+| **Pipeline draw** | ComoTrabajo | Cable SVG estilo n8n que se dibuja al entrar al viewport, nodos pop, pulso de datos ×3 y se detiene. Solo desktop |
+| **Avatar duotono blob** | Hero | La ilustración en duotono amarillo dentro de blob orgánico (morph 14s) + parallax al cursor (máx ~14px) + respiración/parpadeo |
+| **Cursor de marca** | Global (BaseLayout) | Punto accent instantáneo + aro con inercia que crece sobre interactivos. Solo pointer fine; el cursor nativo sigue visible |
+| **Botones magnéticos** | CTAs con `data-magnetic` | El botón se acerca sutilmente al cursor (máx 9px) y vuelve con resorte |
+| **Barra de progreso** | Global (BaseLayout) | 4px primary arriba, escala con el avance de lectura |
+| **Counters** | Stats del hero | Números que cuentan de 0 al valor con easing cúbico (~1.3s), una vez |
+| **Tender sway** | Tender.astro | Balanceo físico de tarjetas colgantes al arrastrar. Auto-scroll solo en desktop; en táctil navega el usuario |
+
+**Composición (aporte zulik):** una idea por pantalla, aire generoso, headline display
+gigante en el hero. El espectáculo está en la respuesta al usuario, no en el ruido.
 
 **Tipografía mono**: permitida ÚNICAMENTE en superficies de datos (terminal, logs,
 código). Stack: `ui-monospace, 'Cascadia Code', Menlo, monospace`. Nunca para copy.
@@ -262,9 +277,9 @@ Orden canónico de la home (`src/pages/index.astro`):
 
 El copy de estas secciones ya está alineado a este manual (julio 2026). Cualquier
 modificación futura debe seguir §04 (voz), §05 (naming) y §11 (mensajería).
-Restos de la era anterior que siguen pendientes de limpieza: `keystatic.config.tsx`
-(nombre "VDG Mentorías" y categorías de liderazgo), `config.ts` (autor por defecto),
-posts de blog de la era VDG, y la sección sin uso `sections/Servicios.astro`.
+La migración desde la marca anterior está **completa**: contenido, autor, CMS
+(`keystatic.config.tsx`), metadata (`project.json`, `.hive`) y limpieza de archivos
+muertos ya se hicieron.
 
 ---
 

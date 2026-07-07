@@ -1,20 +1,26 @@
 ---
 ---
-<section id="inicio" class="min-h-screen flex flex-col justify-center relative overflow-hidden pt-20">
-  <div class="w-full pl-6 sm:pl-10 lg:pl-16 pr-0">
+<section id="inicio" class="hero-section relative overflow-hidden pt-28 pb-10 lg:pt-20 lg:pb-0 lg:min-h-screen lg:flex lg:flex-col lg:justify-center">
+  <div class="w-full px-6 sm:px-10 lg:px-16">
 
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <div class="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-16 items-center">
 
-      <!-- LEFT: Text -->
-      <div class="flex flex-col items-start text-left">
+      <!-- LEFT: Headline + lead + CTAs -->
+      <div class="flex flex-col items-start text-left order-1">
+        <h1 class="font-display glow-text mb-6" style="font-size:clamp(2.5rem,7.5vw,4.8rem);line-height:0.98;letter-spacing:-0.02em">
+          <span class="block whitespace-nowrap" data-split="load">Sistemas de IA</span>
+          <span class="block whitespace-nowrap" data-split="load" data-accent-last>que trabajan.</span>
+        </h1>
+
         <p class="max-w-md text-lg sm:text-xl animate-fade-up stagger-2" style="color:hsl(var(--muted-foreground))">
           Automatización e IA para empresas, <span class="font-semibold" style="color:hsl(var(--accent))">sin perder el control de tus datos.</span>
         </p>
 
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-8 sm:mt-12 animate-fade-up stagger-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mt-8 animate-fade-up stagger-4">
           <a href="https://wa.me/542604844952"
              target="_blank"
              rel="noopener noreferrer"
+             data-magnetic
              class="btn-brutal btn-shine group flex items-center gap-2 text-xs sm:text-sm px-6 sm:px-8 py-3"
              style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
             Hablar con Claudio
@@ -23,13 +29,29 @@
             </svg>
           </a>
           <a href="#soluciones"
+             data-magnetic
              class="btn-brutal btn-shine text-xs sm:text-sm px-6 sm:px-8 py-3 flex items-center"
              style="background:hsl(var(--card));color:hsl(var(--foreground))">
             Ver servicios
           </a>
         </div>
+      </div>
 
-        <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-lg mt-12 sm:mt-16 animate-fade-up stagger-5">
+      <!-- RIGHT: Avatar duotono en blob orgánico -->
+      <div class="flex items-center justify-center lg:justify-end order-2 animate-fade-up stagger-3">
+        <div class="hero-blob-wrapper">
+          <div class="hero-blob">
+            <img class="hero-avatar-img" src="/clunar-cut.png" width="1024" height="1024"
+                 loading="eager" alt="Claudio Luna" />
+            <img class="hero-avatar-blink" src="/clunar-closed.png" width="1024" height="1024"
+                 loading="eager" alt="" aria-hidden="true" />
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS: fila completa debajo de ambas columnas -->
+      <div class="order-3 lg:col-span-2">
+        <div class="grid grid-cols-3 gap-3 sm:gap-4 max-w-lg animate-fade-up stagger-5">
           <div class="card-brutal text-left p-3 sm:p-4" style="background:hsl(var(--primary))">
             <p class="font-display text-2xl sm:text-4xl font-bold" style="color:hsl(var(--foreground))"><span data-count="15" data-prefix="+">+15</span></p>
             <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:hsl(var(--foreground))">Años en sistemas</p>
@@ -43,36 +65,11 @@
             <p class="text-xs sm:text-sm mt-1 font-semibold" style="color:#fff">Operación medida</p>
           </div>
         </div>
-
-        <!-- Terminal: un agente operando en vivo (ver BRAND.md §Motion) -->
-        <div class="agent-terminal card-brutal max-w-lg w-full mt-8 animate-fade-up stagger-5"
-             role="img" aria-label="Registro de actividad de un agente de IA en operación">
-          <div class="agent-terminal-head">
-            <span class="agent-dot" style="background:var(--crimson)"></span>
-            <span class="agent-dot" style="background:var(--yellow)"></span>
-            <span class="agent-dot" style="background:var(--green)"></span>
-            <span class="agent-terminal-title">agente-ventas · en vivo</span>
-            <span class="agent-live"></span>
-          </div>
-          <pre id="agent-log" class="agent-terminal-body" aria-hidden="true"></pre>
-        </div>
-      </div>
-
-      <!-- RIGHT: Avatar de Claudio -->
-      <div class="flex items-center justify-center lg:justify-end animate-fade-up stagger-2">
-        <div class="hero-avatar-wrapper">
-          <!-- Si existe /avatar.mp4 (loop de Kie) se reproduce; si no, muestra el poster (PNG) -->
-          <img class="hero-avatar-img" src="/clunar-cut.png" width="1024" height="1024"
-               loading="eager" alt="Claudio Luna" />
-          <!-- Ojos cerrados: se muestra un instante para el parpadeo -->
-          <img class="hero-avatar-blink" src="/clunar-closed.png" width="1024" height="1024"
-               loading="eager" alt="" aria-hidden="true" />
-        </div>
       </div>
 
     </div>
 
-    <div class="flex flex-col items-center mt-10 sm:mt-16 animate-fade-up stagger-5">
+    <div class="hidden lg:flex flex-col items-center mt-12 animate-fade-up stagger-5">
       <a href="#que-es" class="flex flex-col items-center gap-2 text-sm transition-colors hover:opacity-70" style="color:hsl(var(--muted-foreground))">
         <span>Conocer más</span>
         <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -85,150 +82,75 @@
 </section>
 
 <style>
-  .hero-avatar-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 680px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  /* En pantallas anchas el avatar se agranda y llega al borde derecho */
-  @media (min-width: 1024px) {
-    .hero-avatar-wrapper { max-width: 820px; }
-  }
-  @media (min-width: 1536px) {
-    .hero-avatar-wrapper { max-width: 960px; }
-  }
-  /* Capa que respira (ambas imágenes se mueven juntas) */
-  .hero-avatar-wrapper { transform-origin: 50% 92%; animation: avatar-breathe 6s ease-in-out infinite; }
-  @keyframes avatar-breathe {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50%      { transform: translateY(-0.7%) scale(1.006); }
+  /* El último carácter de la línea (el punto) va en accent */
+  [data-accent-last] :global(.split-char-wrap:last-child .split-char) {
+    color: hsl(var(--accent));
   }
 
-  .hero-avatar-img, .hero-avatar-blink {
-    display: block;
-    width: 100%;
-    height: auto;
-    /* Desvanece la base para fundir el buzo con la página */
-    -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
-    mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
-    /* Parallax sutil hacia el cursor (vars seteadas por JS) */
+  /* ── Avatar duotono en blob orgánico (adaptación zulik en clave de marca) ── */
+  .hero-blob-wrapper {
+    position: relative;
+    width: min(78vw, 340px);
     transform: translate(var(--avatar-px, 0px), var(--avatar-py, 0px));
     transition: transform 0.35s cubic-bezier(.22,.68,0,1);
   }
-  /* Ojos cerrados encima, oculto salvo el instante del parpadeo */
+  @media (min-width: 640px)  { .hero-blob-wrapper { width: min(60vw, 420px); } }
+  @media (min-width: 1024px) { .hero-blob-wrapper { width: min(38vw, 500px); } }
+  @media (min-width: 1536px) { .hero-blob-wrapper { width: 560px; } }
+
+  /* La forma: blob orgánico con morph lento, borde y sombra de marca */
+  .hero-blob {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: hsl(var(--primary));
+    border: 3px solid hsl(var(--foreground));
+    box-shadow: var(--shadow-brutal-lg);
+    border-radius: 58% 42% 55% 45% / 48% 55% 45% 52%;
+    animation: blob-morph 14s ease-in-out infinite, avatar-breathe 6s ease-in-out infinite;
+    transform-origin: 50% 92%;
+  }
+  @keyframes blob-morph {
+    0%, 100% { border-radius: 58% 42% 55% 45% / 48% 55% 45% 52%; }
+    33%      { border-radius: 45% 55% 48% 52% / 56% 44% 56% 44%; }
+    66%      { border-radius: 52% 48% 60% 40% / 44% 58% 42% 56%; }
+  }
+  @keyframes avatar-breathe {
+    0%, 100% { scale: 1; }
+    50%      { scale: 1.012; }
+  }
+
+  /* Duotono: la ilustración en escala de grises multiplicada sobre el amarillo */
+  .hero-avatar-img, .hero-avatar-blink {
+    position: absolute;
+    inset: 4% 0 0 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(1) contrast(1.08) brightness(1.04);
+    mix-blend-mode: multiply;
+  }
   .hero-avatar-blink {
-    position: absolute; inset: 0;
     opacity: 0;
-    animation: avatar-blink 5.4s ease-in-out infinite;
+    animation: avatar-blink 6.5s ease-in-out infinite;
   }
   @keyframes avatar-blink {
-    0%, 92%, 100% { opacity: 0; }
-    95%, 97%      { opacity: 1; }
+    0%, 93%, 100% { opacity: 0; }
+    95.5%, 97%    { opacity: 1; }
   }
+
   @media (prefers-reduced-motion: reduce) {
-    .hero-avatar-wrapper { animation: none; }
+    .hero-blob { animation: none; }
     .hero-avatar-blink { animation: none; }
-  }
-
-  @media (max-width: 640px) {
-    .hero-avatar-wrapper { max-width: 380px; }
-  }
-
-  /* ── Terminal del agente (superficie de datos → mono, ver BRAND.md §Motion) ── */
-  .agent-terminal {
-    background: var(--coal) !important;
-    overflow: hidden;
-  }
-  :global(.dark) .agent-terminal { background: #0a0809 !important; }
-  .agent-terminal-head {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 14px;
-    border-bottom: 2px solid hsl(var(--foreground) / 0.25);
-  }
-  .agent-dot { width: 10px; height: 10px; border-radius: 9999px; display: inline-block; }
-  .agent-terminal-title {
-    margin-left: 8px;
-    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #f9f4da99;
-  }
-  .agent-live {
-    margin-left: auto;
-    width: 8px; height: 8px; border-radius: 9999px;
-    background: var(--green);
-    animation: pulse 2s ease-in-out infinite;
-  }
-  .agent-terminal-body {
-    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
-    font-size: 0.78rem;
-    line-height: 1.7;
-    color: #f9f4da;
-    padding: 14px 16px 16px;
-    margin: 0;
-    min-height: 9.2em;
-    white-space: pre-wrap;
-  }
-  .agent-terminal-body .ok { color: var(--green); }
-  .agent-terminal-body::after {
-    content: '▌';
-    color: var(--yellow);
-    animation: pulse 1s steps(2) infinite;
+    .hero-blob-wrapper { transition: none; }
   }
 </style>
 
 <script>
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ── Terminal del agente: log que se tipea en loop ──
-  const LOG_LINES = [
-    '▸ consulta recibida — WhatsApp · API oficial (Meta)',
-    '▸ intención detectada: presupuesto → agente de ventas',
-    '▸ stock verificado en ERP · cotización generada',
-    '▸ registrado en CRM — trazabilidad completa',
-    '✓ resuelto — sin intervención humana',
-  ];
-  const logEl = document.getElementById('agent-log');
-
-  function renderLog(done: string[], partial: string) {
-    if (!logEl) return;
-    const html = done
-      .map(l => (l.startsWith('✓') ? `<span class="ok">${l}</span>` : l))
-      .join('\n');
-    logEl.innerHTML = html + (done.length && partial ? '\n' : '') + partial;
-  }
-
-  async function typeLog() {
-    if (!logEl) return;
-    if (reducedMotion) { renderLog(LOG_LINES, ''); return; }
-    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      const done: string[] = [];
-      for (const line of LOG_LINES) {
-        let partial = '';
-        for (const ch of line) {
-          partial += ch;
-          renderLog(done, partial);
-          await sleep(14 + Math.random() * 22);
-        }
-        done.push(line);
-        renderLog(done, '');
-        await sleep(520);
-      }
-      await sleep(2600);
-    }
-  }
-  typeLog();
-
-  // ── Parallax sutil del avatar hacia el cursor ──
-  const avatarWrap = document.querySelector<HTMLElement>('.hero-avatar-wrapper');
+  // ── Parallax sutil del avatar hacia el cursor (solo desktop) ──
+  const avatarWrap = document.querySelector<HTMLElement>('.hero-blob-wrapper');
   if (avatarWrap && !reducedMotion && matchMedia('(pointer: fine)').matches) {
     let raf = 0;
     window.addEventListener('mousemove', (e) => {

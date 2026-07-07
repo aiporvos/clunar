@@ -53,6 +53,11 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 </head>
 <body>
   <slot />
+
+  <!-- Barra de progreso de scroll + cursor de marca (ver BRAND.md §Motion) -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+  <div id="cursor-dot" aria-hidden="true"></div>
 </body>
 </html>
 
@@ -96,4 +101,69 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-revealed'); io.unobserve(e.target); } });
   }, { threshold: 0.35 });
   splitEls.filter(el => el.dataset.split !== 'load').forEach(el => io.observe(el));
+</script>
+
+<script>
+  // ── Interacciones globales: progreso de scroll, cursor de marca, botones magnéticos ──
+  const fine = matchMedia('(pointer: fine)').matches;
+  const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Barra de progreso
+  const bar = document.getElementById('scroll-progress');
+  if (bar) {
+    let rafP = 0;
+    const setP = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.setProperty('--scroll-p', String(max > 0 ? window.scrollY / max : 0));
+      rafP = 0;
+    };
+    setP();
+    window.addEventListener('scroll', () => { if (!rafP) rafP = requestAnimationFrame(setP); }, { passive: true });
+  }
+
+  // Cursor de marca: punto instantáneo + aro que lo persigue con inercia
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (dot && ring && fine && !noMotion) {
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    let running = false;
+
+    function loop() {
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      ring!.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%) scale(var(--ring-s,1))`;
+      if (Math.abs(mx - rx) + Math.abs(my - ry) > 0.2) {
+        requestAnimationFrame(loop);
+      } else {
+        running = false; // el aro llegó: no quemamos frames al pedo
+      }
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      mx = e.clientX; my = e.clientY;
+      dot!.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+      if (!running) { running = true; requestAnimationFrame(loop); }
+    }, { passive: true });
+
+    // El aro crece sobre elementos interactivos
+    document.addEventListener('mouseover', (e) => {
+      const t = (e.target as HTMLElement).closest('a, button, [data-magnetic], input, textarea, select, .tender-viewport');
+      ring!.style.setProperty('--ring-s', t ? '1.7' : '1');
+      ring!.classList.toggle('is-active', !!t);
+    });
+  }
+
+  // Botones magnéticos: se acercan sutilmente al cursor
+  if (fine && !noMotion) {
+    document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach(el => {
+      const strength = 0.28, max = 9;
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const dx = Math.max(-max, Math.min(max, (e.clientX - (r.left + r.width / 2)) * strength));
+        const dy = Math.max(-max, Math.min(max, (e.clientY - (r.top + r.height / 2)) * strength));
+        el.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+      });
+      el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+    });
+  }
 </script>

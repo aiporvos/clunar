@@ -1,31 +1,31 @@
 {
   "agent": "knowledge",
   "status": "completed",
-  "timestamp": "2026-06-01T00:00:00Z",
-  "summary": "Brand context para vdg-mentorias basado en vdgmentorias.com",
+  "timestamp": "2026-07-06T00:00:00Z",
+  "summary": "Brand context para cluna.ar — marca personal de Claudio Luna (automatización e IA para empresas). Fuente de verdad: BRAND.md",
   "outputs": {
-    "projectId": "vdg-mentorias",
-    "projectPath": "/home/cluna/projects/vdg-mentorias",
-    "sourceUrl": "https://vdgmentorias.com",
+    "projectId": "cluna-ar",
+    "projectPath": "/home/cluna/projects/cluna.ar",
+    "sourceUrl": "https://cluna.ar",
     "brand": {
-      "name": "VDG Mentorías",
-      "tagline": "Desarrollo Profesional & Liderazgo",
-      "tone": "Profesional, cálido, reflexivo, primera persona, argentino",
+      "name": "Claudio Luna",
+      "tagline": "Automatización e IA para empresas, sin perder el control de tus datos",
+      "tone": "Técnico y cercano, sin humo, voseo argentino",
       "colors": {
-        "background": "#f5f5f0",
-        "text": "#0a0a0a",
-        "accent": "#7c3aed",
-        "accentLight": "#a78bfa",
-        "cardBg": "#ffffff",
-        "border": "#e5e5e0"
+        "background": "#f9f4da",
+        "text": "#231f20",
+        "accent": "#fcba28",
+        "accentAlt": "#fc7428",
+        "success": "#0ba95b",
+        "coal": "#0f0d0e"
       },
       "typography": {
-        "displayClass": "font-black uppercase tracking-tight",
-        "headingClass": "font-bold",
-        "bodyClass": "font-normal leading-relaxed"
+        "displayClass": "font-display",
+        "displayFont": "Paytone One",
+        "bodyFont": "Outfit"
       },
-      "keywords": ["coaching", "mentoría", "liderazgo", "desarrollo profesional", "organizacional", "RRHH"],
-      "audience": "Profesionales en transición, líderes, equipos, organizaciones"
+      "keywords": ["automatización", "IA", "sistemas multi-agente", "RAG", "gobernanza de datos", "n8n", "self-hosted"],
+      "audience": "PYMEs y estudios profesionales de LATAM que ya facturan y quieren escalar operación sin escalar headcount"
     }
   }
 }

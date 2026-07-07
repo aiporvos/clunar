@@ -20,7 +20,7 @@ const steps = [
   },
 ];
 ---
-<section id="como-funciona" class="py-24 lg:py-32">
+<section id="como-funciona" class="py-16 sm:py-24 lg:py-32">
   <div class="container mx-auto px-6">
 
     <div class="reveal">
@@ -35,6 +35,19 @@ const steps = [
           diagnóstico, implementación con entorno de pruebas y operación con métricas.
         </p>
       </div>
+    </div>
+
+    <!-- Terminal: un agente operando — tipea UNA vez al entrar al viewport (ver BRAND.md §Motion) -->
+    <div class="agent-terminal card-brutal max-w-2xl mb-16 reveal"
+         role="img" aria-label="Registro de actividad de un agente de IA en operación">
+      <div class="agent-terminal-head">
+        <span class="agent-dot" style="background:var(--crimson)"></span>
+        <span class="agent-dot" style="background:var(--yellow)"></span>
+        <span class="agent-dot" style="background:var(--green)"></span>
+        <span class="agent-terminal-title">agente-ventas · registro de una operación real</span>
+        <span class="agent-live"></span>
+      </div>
+      <pre id="agent-log" class="agent-terminal-body" aria-hidden="true"></pre>
     </div>
 
     <!-- Pipeline: cable que se dibuja al scroll + pulso de datos (ver BRAND.md §Motion) -->
@@ -53,7 +66,7 @@ const steps = [
         <circle class="pipe-node" cx="1000" cy="44" r="7" fill="hsl(var(--success))" stroke="hsl(var(--foreground))" stroke-width="3"/>
         <!-- Pulso de datos viajando por el cable -->
         <circle class="pipe-pulse" r="5" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" stroke-width="2">
-          <animateMotion dur="4.5s" repeatCount="indefinite"
+          <animateMotion dur="4.5s" repeatCount="3" fill="remove"
             path="M 0 28 C 120 28 140 44 200 44 C 260 44 280 28 400 28 C 520 28 540 44 600 44 C 660 44 680 28 800 28 C 920 28 940 44 1000 44 C 1090 44 1140 28 1200 28"/>
         </circle>
       </svg>
@@ -150,4 +163,104 @@ const steps = [
     .pipe-node { opacity: 1; animation: none; }
     .pipe-pulse { display: none; }
   }
+
+  /* ── Terminal del agente (superficie de datos → mono, ver BRAND.md §Motion) ── */
+  .agent-terminal {
+    background: var(--coal) !important;
+    overflow: hidden;
+  }
+  :global(.dark) .agent-terminal { background: #0a0809 !important; }
+  .agent-terminal-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-bottom: 2px solid hsl(var(--foreground) / 0.25);
+  }
+  .agent-dot { width: 10px; height: 10px; border-radius: 9999px; display: inline-block; }
+  .agent-terminal-title {
+    margin-left: 8px;
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #f9f4da99;
+  }
+  .agent-live {
+    margin-left: auto;
+    width: 8px; height: 8px; border-radius: 9999px;
+    background: var(--green);
+  }
+  .agent-terminal.is-typing .agent-live { animation: pulse 1.4s ease-in-out infinite; }
+  .agent-terminal-body {
+    font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: #f9f4da;
+    padding: 14px 16px 16px;
+    margin: 0;
+    min-height: 9.2em;
+    white-space: pre-wrap;
+  }
+  .agent-terminal-body :global(.ok) { color: var(--green); }
+  /* Cursor visible solo mientras tipea; al terminar, desaparece (nada de loops) */
+  .agent-terminal.is-typing .agent-terminal-body::after {
+    content: '▌';
+    color: var(--yellow);
+    animation: pulse 1s steps(2) infinite;
+  }
 </style>
+
+<script>
+  // Terminal: tipea UNA sola vez cuando entra al viewport y queda congelado.
+  const LOG_LINES = [
+    '▸ consulta recibida — WhatsApp · API oficial (Meta)',
+    '▸ intención detectada: presupuesto → agente de ventas',
+    '▸ stock verificado en ERP · cotización generada',
+    '▸ registrado en CRM — trazabilidad completa',
+    '✓ resuelto — sin intervención humana',
+  ];
+  const terminal = document.querySelector<HTMLElement>('.agent-terminal');
+  const logEl = document.getElementById('agent-log');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function renderLog(done: string[], partial: string) {
+    if (!logEl) return;
+    const html = done
+      .map(l => (l.startsWith('✓') ? `<span class="ok">${l}</span>` : l))
+      .join('\n');
+    logEl.innerHTML = html + (done.length && partial ? '\n' : '') + partial;
+  }
+
+  async function typeOnce() {
+    if (!logEl || !terminal) return;
+    terminal.classList.add('is-typing');
+    const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+    const done: string[] = [];
+    for (const line of LOG_LINES) {
+      let partial = '';
+      for (const ch of line) {
+        partial += ch;
+        renderLog(done, partial);
+        await sleep(12 + Math.random() * 18);
+      }
+      done.push(line);
+      renderLog(done, '');
+      await sleep(420);
+    }
+    terminal.classList.remove('is-typing'); // cursor fuera: quieto para siempre
+  }
+
+  if (terminal && logEl) {
+    if (reduced) {
+      renderLog(LOG_LINES, '');
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { io.disconnect(); typeOnce(); }
+        });
+      }, { threshold: 0.4 });
+      io.observe(terminal);
+    }
+  }
+</script>

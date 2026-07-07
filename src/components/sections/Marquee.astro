@@ -1,18 +1,19 @@
 ---
-// Banda tipográfica infinita (estilo daveholloway, en clave neo-brutal).
+// Banda tipográfica SCROLL-DRIVEN (estilo zulik/dave, en clave neo-brutal).
+// No tiene movimiento propio: se desplaza únicamente cuando el usuario scrollea.
 // Palabras del dominio IA/automatización — ver BRAND.md §Motion.
 interface Props {
   words?: string[];
-  speed?: number; // segundos por ciclo
+  direction?: 1 | -1; // 1 = hacia la izquierda al bajar, -1 = hacia la derecha
 }
 const {
   words = ['AGENTES', 'RAG', 'ORQUESTACIÓN', 'GOBERNANZA', 'SELF-HOSTED', 'TRAZABILIDAD'],
-  speed = 30,
+  direction = 1,
 } = Astro.props;
 ---
-<div class="marquee-band" aria-hidden="true">
-  <div class="marquee-track" style={`animation-duration:${speed}s`}>
-    {[0, 1].map(() => (
+<div class="marquee-band" data-direction={direction} aria-hidden="true">
+  <div class="marquee-track">
+    {[0, 1, 2].map(() => (
       <div class="marquee-content">
         {words.map((w, i) => (
           <span class={`marquee-word ${i % 3 === 1 ? 'marquee-filled' : ''}`}>{w}</span>
@@ -28,16 +29,14 @@ const {
     border-top: 3px solid hsl(var(--foreground));
     border-bottom: 3px solid hsl(var(--foreground));
     background: hsl(var(--card));
-    padding: 1.1rem 0;
+    padding: 1rem 0;
     user-select: none;
   }
   .marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee-scroll linear infinite;
     will-change: transform;
   }
-  .marquee-band:hover .marquee-track { animation-play-state: paused; }
   .marquee-content {
     display: flex;
     align-items: center;
@@ -45,7 +44,7 @@ const {
   }
   .marquee-word {
     font-family: 'Paytone One', system-ui, sans-serif;
-    font-size: clamp(1.6rem, 4vw, 3.2rem);
+    font-size: clamp(1.5rem, 4vw, 3.2rem);
     line-height: 1;
     letter-spacing: -0.01em;
     white-space: nowrap;
@@ -66,10 +65,46 @@ const {
     -webkit-text-stroke: 2px hsl(var(--foreground));
     text-shadow: 3px 3px 0 hsl(var(--foreground) / 0.18);
   }
-  @keyframes marquee-scroll {
-    to { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track { animation: none; }
-  }
 </style>
+
+<script>
+  // Desplazamiento atado al scroll: parado = quieto, scrolleando = se mueve.
+  // Cada banda lee su dirección de data-direction. Respeta reduced-motion.
+  const bands = document.querySelectorAll<HTMLElement>('.marquee-band');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (bands.length && !reduced) {
+    const items = Array.from(bands).map(band => {
+      const track = band.querySelector<HTMLElement>('.marquee-track')!;
+      const content = band.querySelector<HTMLElement>('.marquee-content')!;
+      return { track, content, dir: Number(band.dataset.direction) || 1, offset: 0 };
+    });
+
+    let lastY = window.scrollY;
+    let raf = 0;
+
+    function update() {
+      const y = window.scrollY;
+      const delta = y - lastY;
+      lastY = y;
+      items.forEach(it => {
+        const w = it.content.offsetWidth;
+        if (!w) return;
+        // factor 0.55: el marquee se mueve un poco más lento que el scroll
+        it.offset = (it.offset + delta * 0.55 * it.dir) % w;
+        const x = it.offset > 0 ? it.offset - w : it.offset;
+        it.track.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+      });
+      raf = 0;
+    }
+
+    // Posición inicial coherente
+    update();
+    window.addEventListener('scroll', () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    }, { passive: true });
+    window.addEventListener('resize', () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    });
+  }
+</script>
