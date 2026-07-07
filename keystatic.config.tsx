@@ -21,7 +21,7 @@ export default config({
     : { kind: 'local' },
 
   ui: {
-    brand: { name: 'VDG Mentorías — CMS' },
+    brand: { name: 'cluna.ar — CMS' },
   },
 
   collections: {
@@ -52,19 +52,19 @@ export default config({
 
         author: fields.text({
           label: 'Autor',
-          defaultValue: 'Valeria De Giorgi',
+          defaultValue: 'Claudio Luna',
         }),
 
         category: fields.select({
           label: 'Categoría',
-          defaultValue: 'Liderazgo',
+          defaultValue: 'Automatización',
           options: [
-            { label: 'Liderazgo',              value: 'Liderazgo' },
-            { label: 'Desarrollo Profesional', value: 'Desarrollo Profesional' },
-            { label: 'Búsqueda Laboral',       value: 'Búsqueda Laboral' },
-            { label: 'Equipos',                value: 'Equipos' },
-            { label: 'Coaching',               value: 'Coaching' },
-            { label: 'Organizacional',         value: 'Organizacional' },
+            { label: 'Automatización',    value: 'Automatización' },
+            { label: 'Arquitectura IA',   value: 'Arquitectura IA' },
+            { label: 'Adopción de IA',    value: 'Adopción de IA' },
+            { label: 'Liderazgo & IA',    value: 'Liderazgo & IA' },
+            { label: 'RAG & Datos',       value: 'RAG & Datos' },
+            { label: 'Ecommerce',         value: 'Ecommerce' },
           ],
         }),
 
