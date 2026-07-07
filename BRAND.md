@@ -245,8 +245,7 @@ en `pointer: coarse` cuando corresponde, y funciona en light y dark.
 | **Marquee scroll-driven** | `Marquee.astro` (entre secciones) | Banda de palabras del dominio en Paytone One outline que se desplaza SOLO al scrollear (factor 0.55, direcciones alternadas). Quieta en reposo |
 | **Terminal de agente** | ComoTrabajo | Card coal que tipea UNA vez el log de un agente real al entrar al viewport y queda congelado (cursor ▌ solo mientras tipea) |
 | **Pipeline draw** | ComoTrabajo | Cable SVG estilo n8n que se dibuja al entrar al viewport, nodos pop, pulso de datos ×3 y se detiene. Solo desktop |
-| **Avatar duotono blob** | Hero | La ilustración en duotono amarillo dentro de blob orgánico (morph 14s) + parallax al cursor (máx ~14px) + respiración/parpadeo |
-| **Cursor de marca** | Global (BaseLayout) | Punto accent instantáneo + aro con inercia que crece sobre interactivos. Solo pointer fine; el cursor nativo sigue visible |
+| **Avatar** | Hero | Ilustración de Claudio a color, con máscara de desvanecido y respiración/parpadeo. **Nunca duotono ni blob** — se probó y se descartó por ilegible/feo (jul-2026) |
 | **Botones magnéticos** | CTAs con `data-magnetic` | El botón se acerca sutilmente al cursor (máx 9px) y vuelve con resorte |
 | **Barra de progreso** | Global (BaseLayout) | 4px primary arriba, escala con el avance de lectura |
 | **Counters** | Stats del hero | Números que cuentan de 0 al valor con easing cúbico (~1.3s), una vez |
@@ -254,6 +253,10 @@ en `pointer: coarse` cuando corresponde, y funciona en light y dark.
 
 **Composición (aporte zulik):** una idea por pantalla, aire generoso, headline display
 gigante en el hero. El espectáculo está en la respuesta al usuario, no en el ruido.
+
+**Cursor: siempre el nativo del sistema.** Se probó un cursor custom (punto + aro) y
+se descartó (jul-2026) — no aportaba y generaba artefactos visuales. No reintentar
+sin pedido explícito.
 
 **Tipografía mono**: permitida ÚNICAMENTE en superficies de datos (terminal, logs,
 código). Stack: `ui-monospace, 'Cascadia Code', Menlo, monospace`. Nunca para copy.

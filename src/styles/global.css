@@ -279,39 +279,6 @@
   pointer-events: none;
 }
 
-/* ── Cursor de marca: punto + aro con inercia (solo pointer fine) ── */
-#cursor-dot, #cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 70;
-  display: none;
-}
-@media (pointer: fine) {
-  #cursor-dot, #cursor-ring { display: block; }
-}
-#cursor-dot {
-  width: 8px; height: 8px;
-  border-radius: 9999px;
-  background: hsl(var(--accent));
-  transform: translate(-100px, -100px);
-}
-#cursor-ring {
-  width: 34px; height: 34px;
-  border-radius: 9999px;
-  border: 2px solid hsl(var(--foreground));
-  opacity: 0.5;
-  transform: translate(-100px, -100px);
-  transition: opacity 0.25s ease, background 0.25s ease;
-}
-#cursor-ring.is-active {
-  background: hsl(var(--primary) / 0.28);
-  opacity: 0.95;
-}
-@media (prefers-reduced-motion: reduce) {
-  #cursor-dot, #cursor-ring { display: none !important; }
-}
-
 /* ── Botones magnéticos ── */
 [data-magnetic] {
   transition: transform 0.3s cubic-bezier(.22,.68,0,1.2);

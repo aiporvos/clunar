@@ -54,10 +54,8 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 <body>
   <slot />
 
-  <!-- Barra de progreso de scroll + cursor de marca (ver BRAND.md §Motion) -->
+  <!-- Barra de progreso de scroll (ver BRAND.md §Motion) -->
   <div id="scroll-progress" aria-hidden="true"></div>
-  <div id="cursor-ring" aria-hidden="true"></div>
-  <div id="cursor-dot" aria-hidden="true"></div>
 </body>
 </html>
 
@@ -104,7 +102,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 </script>
 
 <script>
-  // ── Interacciones globales: progreso de scroll, cursor de marca, botones magnéticos ──
+  // ── Interacciones globales: progreso de scroll, botones magnéticos ──
   const fine = matchMedia('(pointer: fine)').matches;
   const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -119,38 +117,6 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
     };
     setP();
     window.addEventListener('scroll', () => { if (!rafP) rafP = requestAnimationFrame(setP); }, { passive: true });
-  }
-
-  // Cursor de marca: punto instantáneo + aro que lo persigue con inercia
-  const dot = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  if (dot && ring && fine && !noMotion) {
-    let mx = -100, my = -100, rx = -100, ry = -100;
-    let running = false;
-
-    function loop() {
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
-      ring!.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%) scale(var(--ring-s,1))`;
-      if (Math.abs(mx - rx) + Math.abs(my - ry) > 0.2) {
-        requestAnimationFrame(loop);
-      } else {
-        running = false; // el aro llegó: no quemamos frames al pedo
-      }
-    }
-
-    window.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
-      dot!.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
-      if (!running) { running = true; requestAnimationFrame(loop); }
-    }, { passive: true });
-
-    // El aro crece sobre elementos interactivos
-    document.addEventListener('mouseover', (e) => {
-      const t = (e.target as HTMLElement).closest('a, button, [data-magnetic], input, textarea, select, .tender-viewport');
-      ring!.style.setProperty('--ring-s', t ? '1.7' : '1');
-      ring!.classList.toggle('is-active', !!t);
-    });
   }
 
   // Botones magnéticos: se acercan sutilmente al cursor

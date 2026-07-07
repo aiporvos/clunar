@@ -37,15 +37,15 @@
         </div>
       </div>
 
-      <!-- RIGHT: Avatar duotono en blob orgánico -->
+      <!-- RIGHT: Avatar de Claudio -->
       <div class="flex items-center justify-center lg:justify-end order-2 animate-fade-up stagger-3">
-        <div class="hero-blob-wrapper">
-          <div class="hero-blob">
-            <img class="hero-avatar-img" src="/clunar-cut.png" width="1024" height="1024"
-                 loading="eager" alt="Claudio Luna" />
-            <img class="hero-avatar-blink" src="/clunar-closed.png" width="1024" height="1024"
-                 loading="eager" alt="" aria-hidden="true" />
-          </div>
+        <div class="hero-avatar-wrapper">
+          <!-- Si existe /avatar.mp4 (loop de Kie) se reproduce; si no, muestra el poster (PNG) -->
+          <img class="hero-avatar-img" src="/clunar-cut.png" width="1024" height="1024"
+               loading="eager" alt="Claudio Luna" />
+          <!-- Ojos cerrados: se muestra un instante para el parpadeo -->
+          <img class="hero-avatar-blink" src="/clunar-closed.png" width="1024" height="1024"
+               loading="eager" alt="" aria-hidden="true" />
         </div>
       </div>
 
@@ -87,83 +87,58 @@
     color: hsl(var(--accent));
   }
 
-  /* ── Avatar duotono en blob orgánico (adaptación zulik en clave de marca) ── */
-  .hero-blob-wrapper {
+  .hero-avatar-wrapper {
     position: relative;
-    width: min(78vw, 340px);
-    transform: translate(var(--avatar-px, 0px), var(--avatar-py, 0px));
-    transition: transform 0.35s cubic-bezier(.22,.68,0,1);
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  @media (min-width: 640px)  { .hero-blob-wrapper { width: min(60vw, 420px); } }
-  @media (min-width: 1024px) { .hero-blob-wrapper { width: min(38vw, 500px); } }
-  @media (min-width: 1536px) { .hero-blob-wrapper { width: 560px; } }
-
-  /* La forma: blob orgánico con morph lento, borde y sombra de marca */
-  .hero-blob {
-    position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-    background: hsl(var(--primary));
-    border: 3px solid hsl(var(--foreground));
-    box-shadow: var(--shadow-brutal-lg);
-    border-radius: 58% 42% 55% 45% / 48% 55% 45% 52%;
-    animation: blob-morph 14s ease-in-out infinite, avatar-breathe 6s ease-in-out infinite;
-    transform-origin: 50% 92%;
+  /* En pantallas anchas el avatar se agranda y llega al borde derecho */
+  @media (min-width: 1024px) {
+    .hero-avatar-wrapper { max-width: 820px; }
   }
-  @keyframes blob-morph {
-    0%, 100% { border-radius: 58% 42% 55% 45% / 48% 55% 45% 52%; }
-    33%      { border-radius: 45% 55% 48% 52% / 56% 44% 56% 44%; }
-    66%      { border-radius: 52% 48% 60% 40% / 44% 58% 42% 56%; }
+  @media (min-width: 1536px) {
+    .hero-avatar-wrapper { max-width: 960px; }
   }
+  /* Capa que respira (ambas imágenes se mueven juntas) */
+  .hero-avatar-wrapper { transform-origin: 50% 92%; animation: avatar-breathe 6s ease-in-out infinite; }
   @keyframes avatar-breathe {
-    0%, 100% { scale: 1; }
-    50%      { scale: 1.012; }
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-0.7%) scale(1.006); }
   }
 
-  /* Duotono: la ilustración en escala de grises multiplicada sobre el amarillo */
   .hero-avatar-img, .hero-avatar-blink {
-    position: absolute;
-    inset: 4% 0 0 0;
+    display: block;
     width: 100%;
     height: auto;
-    display: block;
-    filter: grayscale(1) contrast(1.08) brightness(1.04);
-    mix-blend-mode: multiply;
+    /* Desvanece la base para fundir el buzo con la página */
+    -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
+    mask-image: linear-gradient(to bottom, #000 74%, transparent 97%);
   }
+  /* Ojos cerrados encima, oculto salvo el instante del parpadeo */
   .hero-avatar-blink {
+    position: absolute; inset: 0;
     opacity: 0;
-    animation: avatar-blink 6.5s ease-in-out infinite;
+    animation: avatar-blink 5.4s ease-in-out infinite;
   }
   @keyframes avatar-blink {
-    0%, 93%, 100% { opacity: 0; }
-    95.5%, 97%    { opacity: 1; }
+    0%, 92%, 100% { opacity: 0; }
+    95%, 97%      { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-avatar-wrapper { animation: none; }
+    .hero-avatar-blink { animation: none; }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .hero-blob { animation: none; }
-    .hero-avatar-blink { animation: none; }
-    .hero-blob-wrapper { transition: none; }
+  @media (max-width: 640px) {
+    .hero-avatar-wrapper { max-width: 380px; }
   }
 </style>
 
 <script>
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ── Parallax sutil del avatar hacia el cursor (solo desktop) ──
-  const avatarWrap = document.querySelector<HTMLElement>('.hero-blob-wrapper');
-  if (avatarWrap && !reducedMotion && matchMedia('(pointer: fine)').matches) {
-    let raf = 0;
-    window.addEventListener('mousemove', (e) => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        const dx = e.clientX / window.innerWidth - 0.5;
-        const dy = e.clientY / window.innerHeight - 0.5;
-        avatarWrap.style.setProperty('--avatar-px', (dx * -14).toFixed(1) + 'px');
-        avatarWrap.style.setProperty('--avatar-py', (dy * -8).toFixed(1) + 'px');
-        raf = 0;
-      });
-    }, { passive: true });
-  }
 
   // ── Contadores de stats ──
   document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
