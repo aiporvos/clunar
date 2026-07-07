@@ -46,8 +46,10 @@ function initials(name?: string) {
                  style={`background:hsl(var(--card));transition-delay:${i*150}ms`}>
           <div class="img-fx aspect-[16/10] relative" style="background:hsl(var(--secondary)/0.5);border-bottom:2px solid hsl(var(--foreground))">
             {post.data.coverImage && (
-              <img src={post.data.coverImage} alt={post.data.title}
-                   class="img-glitch w-full h-full object-cover" />
+              <div class="img-parallax-layer" data-parallax>
+                <img src={post.data.coverImage} alt={post.data.title}
+                     class="img-glitch w-full h-full object-cover" />
+              </div>
             )}
             <span class="pill-brutal absolute top-4 left-4 px-3 py-1 text-xs"
                   style="background:hsl(var(--primary));color:hsl(var(--foreground))">

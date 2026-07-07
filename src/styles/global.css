@@ -202,6 +202,13 @@
     transition: transform 0.5s cubic-bezier(.22,.68,0,1.2), filter 0.35s ease;
     will-change: transform;
   }
+  /* Capa de parallax scroll-linked (translateY directo, sin transition para que responda 1:1 al scroll) */
+  .img-parallax-layer {
+    position: absolute;
+    inset: -10% 0;
+    transform: translateY(var(--img-parallax, 0px));
+    will-change: transform;
+  }
   .img-fx::after {
     content: "";
     position: absolute; inset: 0;

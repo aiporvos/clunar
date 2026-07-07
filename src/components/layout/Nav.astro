@@ -3,13 +3,13 @@ const isHome = Astro.url.pathname === '/';
 const base = isHome ? '' : '/';
 
 const navLinks = [
-  { name: 'Inicio',         href: `${base}#inicio` },
-  { name: 'Quién soy',     href: `${base}#que-es` },
-  { name: 'Servicios',     href: `${base}#soluciones` },
-  { name: 'Cómo funciona', href: `${base}#como-funciona` },
-  { name: 'Casos',         href: `${base}#casos` },
-  { name: 'Blog',          href: '/blog' },
-  { name: 'Contacto',      href: `${base}#contacto` },
+  { name: 'Inicio',         href: `${base}#inicio`,        id: 'inicio' },
+  { name: 'Quién soy',      href: `${base}#que-es`,         id: 'que-es' },
+  { name: 'Servicios',      href: `${base}#soluciones`,     id: 'soluciones' },
+  { name: 'Cómo funciona',  href: `${base}#como-funciona`,  id: 'como-funciona' },
+  { name: 'Casos',          href: `${base}#casos`,          id: 'casos' },
+  { name: 'Blog',           href: '/blog',                  id: '' },
+  { name: 'Contacto',       href: `${base}#contacto`,       id: 'contacto' },
 ];
 ---
 
@@ -43,10 +43,11 @@ const navLinks = [
         </span>
       </div>
 
-      <!-- Nav links (desktop) -->
+      <!-- Nav links (desktop) — con scrollspy -->
       <nav class="hidden lg:flex items-center gap-6">
         {navLinks.map(link => (
-          <a href={link.href} class="nav-link text-sm font-medium uppercase tracking-wide transition-colors" style="color:hsl(var(--muted-foreground))">
+          <a href={link.href} data-spy-id={link.id || undefined}
+             class="nav-link spy-link text-sm font-medium uppercase tracking-wide transition-colors" style="color:hsl(var(--muted-foreground))">
             {link.name}
           </a>
         ))}
@@ -74,36 +75,103 @@ const navLinks = [
 
       <!-- Mobile menu button -->
       <div class="flex lg:hidden items-center gap-1">
-        <button id="mobile-menu-btn" class="p-2" style="color:hsl(var(--muted-foreground))" aria-label="Menú">
-          <svg id="icon-menu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button id="mobile-menu-btn" class="p-2" style="color:hsl(var(--foreground))" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+          <svg id="icon-menu" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
-          <svg id="icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="icon-close" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </div>
     </div>
-
-    <!-- Mobile menu -->
-    <nav id="mobile-menu" class="hidden lg:hidden mt-4 pb-4 border-t pt-4" style="border-color:hsl(var(--border))">
-      <div class="flex flex-col gap-4">
-        {navLinks.map(link => (
-          <a href={link.href} class="nav-link text-sm font-medium uppercase tracking-wide" style="color:hsl(var(--muted-foreground))">
-            {link.name}
-          </a>
-        ))}
-        <a href="https://wa.me/542604844952"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="btn-brutal btn-shine nav-link mt-2 flex items-center justify-center gap-2 text-sm px-6 py-3"
-           style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
-          Hablar por WhatsApp
-        </a>
-      </div>
-    </nav>
   </div>
 </header>
+
+<!-- Mobile menu: overlay a pantalla completa, fuera del header para que su fondo cubra todo -->
+<div id="mobile-menu-backdrop" class="mobile-menu-backdrop lg:hidden" aria-hidden="true"></div>
+<nav id="mobile-menu" class="mobile-menu lg:hidden" aria-label="Menú principal" aria-hidden="true">
+  <div class="flex flex-col h-full px-8 pt-28 pb-10">
+    <div class="flex flex-col gap-1">
+      {navLinks.map((link, i) => (
+        <a href={link.href} class="mobile-nav-link nav-link font-display" style={`transition-delay:${i * 45}ms`}>
+          {link.name}
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-auto flex flex-col gap-4">
+      <a href="https://wa.me/542604844952"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn-brutal btn-shine nav-link flex items-center justify-center gap-2 text-sm px-6 py-4"
+         style="background:hsl(var(--primary));color:hsl(var(--primary-foreground))">
+        Hablar por WhatsApp
+      </a>
+      <button id="theme-toggle-mobile" class="flex items-center justify-center gap-2 text-sm font-medium py-2" style="color:hsl(var(--muted-foreground))">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/>
+        </svg>
+        Cambiar tema
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* ── Menú mobile: overlay full-screen, fondo sólido ── */
+  .mobile-menu-backdrop {
+    position: fixed; inset: 0;
+    background: hsl(var(--background));
+    z-index: 45;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease;
+  }
+  .mobile-menu {
+    position: fixed; inset: 0;
+    z-index: 46;
+    background: hsl(var(--background));
+    border-left: 3px solid hsl(var(--foreground));
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(.22,.68,0,1);
+    overflow-y: auto;
+  }
+  .mobile-menu-backdrop.is-open { opacity: 1; visibility: visible; }
+  .mobile-menu.is-open { transform: translateX(0); }
+
+  .mobile-nav-link {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    line-height: 1.35;
+    font-weight: 400;
+    color: hsl(var(--foreground));
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.4s ease, transform 0.4s ease, color 0.2s ease;
+  }
+  .mobile-menu.is-open .mobile-nav-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .mobile-nav-link:active { color: hsl(var(--accent)); }
+
+  /* ── Scrollspy: link activo en el nav desktop ── */
+  .spy-link { position: relative; }
+  .spy-link::after {
+    content: '';
+    position: absolute; left: 0; right: 100%; bottom: -4px;
+    height: 2px; background: hsl(var(--accent));
+    transition: right 0.3s ease;
+  }
+  .spy-link.is-active {
+    color: hsl(var(--foreground)) !important;
+  }
+  .spy-link.is-active::after { right: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu, .mobile-nav-link, .mobile-menu-backdrop, .spy-link::after { transition: none; }
+  }
+</style>
 
 <script>
   const header = document.getElementById('site-header');
@@ -118,26 +186,62 @@ const navLinks = [
       header.style.backdropFilter = 'none';
       header.style.borderBottom = '3px solid transparent';
     }
-  });
+  }, { passive: true });
 
+  // ── Menú mobile: overlay full-screen ──
   const mobileBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
+  const backdrop = document.getElementById('mobile-menu-backdrop');
   const iconMenu = document.getElementById('icon-menu');
   const iconClose = document.getElementById('icon-close');
-  mobileBtn?.addEventListener('click', () => {
-    const open = mobileMenu?.classList.toggle('hidden') === false;
-    iconMenu?.classList.toggle('hidden', open);
-    iconClose?.classList.toggle('hidden', !open);
-  });
-  document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
-    mobileMenu?.classList.add('hidden');
+
+  function openMenu() {
+    mobileMenu?.classList.add('is-open');
+    backdrop?.classList.add('is-open');
+    mobileMenu?.setAttribute('aria-hidden', 'false');
+    iconMenu?.classList.add('hidden');
+    iconClose?.classList.remove('hidden');
+    mobileBtn?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    mobileMenu?.classList.remove('is-open');
+    backdrop?.classList.remove('is-open');
+    mobileMenu?.setAttribute('aria-hidden', 'true');
     iconMenu?.classList.remove('hidden');
     iconClose?.classList.add('hidden');
-  }));
+    mobileBtn?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  mobileBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+  backdrop?.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+  document.querySelectorAll('#mobile-menu .nav-link').forEach(l => l.addEventListener('click', closeMenu));
 
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+  // ── Theme toggle (desktop + mobile) ──
+  function toggleTheme() {
     const dark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', dark ? 'dark' : 'light');
-  });
+  }
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+  document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
   if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+
+  // ── Scrollspy: resalta el link del nav según la sección visible ──
+  const spyLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.spy-link[data-spy-id]'));
+  const sections = spyLinks
+    .map(l => document.getElementById(l.dataset.spyId || ''))
+    .filter((el): el is HTMLElement => !!el);
+
+  if (sections.length) {
+    const setActive = (id: string) => {
+      spyLinks.forEach(l => l.classList.toggle('is-active', l.dataset.spyId === id));
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    sections.forEach(s => io.observe(s));
+  }
 </script>

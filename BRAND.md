@@ -250,6 +250,9 @@ en `pointer: coarse` cuando corresponde, y funciona en light y dark.
 | **Barra de progreso** | Global (BaseLayout) | 4px primary arriba, escala con el avance de lectura |
 | **Counters** | Stats del hero | Números que cuentan de 0 al valor con easing cúbico (~1.3s), una vez |
 | **Tender sway** | Tender.astro | Balanceo físico de tarjetas colgantes al arrastrar. Auto-scroll solo en desktop; en táctil navega el usuario |
+| **Scrollspy** | Nav.astro (desktop) | El link de la sección visible se subraya en accent (IntersectionObserver, `rootMargin` centrado) |
+| **Parallax de tarjetas** | `.img-parallax-layer` / `data-parallax` (BlogPreview, BlogCard) | La imagen se desplaza ±22px según su posición en el viewport — responde 1:1 al scroll, sin transición ni loop. Capa separada del hover-zoom para no pisarlo |
+| **Menú mobile** | Nav.astro | Overlay full-screen con fondo sólido (nunca transparente), links display grandes con stagger de entrada, lock de scroll del body, cierre con Escape/backdrop/click en link |
 
 **Composición (aporte zulik):** una idea por pantalla, aire generoso, headline display
 gigante en el hero. El espectáculo está en la respuesta al usuario, no en el ruido.

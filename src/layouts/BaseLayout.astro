@@ -132,4 +132,37 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
       el.addEventListener('mouseleave', () => { el.style.transform = ''; });
     });
   }
+
+  // ── Parallax scroll-linked en imágenes de tarjetas (blog/casos) ──
+  // Responde 1:1 a la posición de scroll: se mueve mientras scrolleás, queda
+  // quieto en cuanto parás. Nunca por su cuenta (ver BRAND.md §Motion).
+  if (!noMotion) {
+    const parallaxEls = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]'));
+    if (parallaxEls.length) {
+      const visible = new Set<HTMLElement>();
+      const io2 = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) visible.add(e.target as HTMLElement);
+          else visible.delete(e.target as HTMLElement);
+        });
+      }, { rootMargin: '15% 0px' });
+      parallaxEls.forEach(el => io2.observe(el));
+
+      let rafPx = 0;
+      const range = 22; // px máximos de desplazamiento
+      const updateParallax = () => {
+        const vh = window.innerHeight;
+        visible.forEach(el => {
+          const r = el.getBoundingClientRect();
+          const centerOffset = (r.top + r.height / 2) - vh / 2;
+          const norm = Math.max(-1, Math.min(1, centerOffset / (vh / 2)));
+          el.style.setProperty('--img-parallax', (norm * range).toFixed(1) + 'px');
+        });
+        rafPx = 0;
+      };
+      updateParallax();
+      window.addEventListener('scroll', () => { if (!rafPx) rafPx = requestAnimationFrame(updateParallax); }, { passive: true });
+      window.addEventListener('resize', () => { if (!rafPx) rafPx = requestAnimationFrame(updateParallax); });
+    }
+  }
 </script>
