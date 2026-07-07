@@ -178,12 +178,10 @@ const navLinks = [
   window.addEventListener('scroll', () => {
     if (!header) return;
     if (window.scrollY > 50) {
-      header.style.background = 'hsl(var(--background) / 0.95)';
-      header.style.backdropFilter = 'blur(12px)';
+      header.style.background = 'hsl(var(--background))';
       header.style.borderBottom = '3px solid hsl(var(--foreground))';
     } else {
       header.style.background = 'transparent';
-      header.style.backdropFilter = 'none';
       header.style.borderBottom = '3px solid transparent';
     }
   }, { passive: true });
