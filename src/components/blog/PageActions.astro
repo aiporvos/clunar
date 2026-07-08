@@ -1,0 +1,156 @@
+---
+// Widget "ver en LLM": copiar el post como markdown, abrirlo en ChatGPT/Claude,
+// o ver el .md crudo. Ver BRAND.md §Agentes.
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+
+const mdPath = `/blog/${slug}.md`;
+const canonicalUrl = new URL(`/blog/${slug}`, Astro.site).toString();
+const prompt = `Leé este artículo y ayudame a entenderlo: ${canonicalUrl}`;
+const chatgptUrl = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
+const claudeUrl = `https://claude.ai/new?q=${encodeURIComponent(prompt)}`;
+---
+
+<div class="page-actions card-brutal" data-md-path={mdPath}>
+  <div class="pa-header">
+    <button type="button" class="pa-copy" data-copy-btn>
+      <span class="pa-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+      </span>
+      <span data-copy-label>Copiar página</span>
+    </button>
+    <button type="button" class="pa-toggle" data-toggle-btn aria-expanded="false" aria-controls="pa-panel" aria-label="Más opciones">
+      <svg class="pa-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/>
+      </svg>
+    </button>
+  </div>
+
+  <div id="pa-panel" class="pa-panel" data-panel>
+    <div class="pa-panel-inner">
+      <a href={chatgptUrl} target="_blank" rel="noopener noreferrer" class="pa-row">
+        <span class="pa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8M8 13h5M21 12c0 4.97-4.03 9-9 9-1.5 0-2.9-.37-4.14-1.02L3 21l1.05-3.68A8.96 8.96 0 013 12c0-4.97 4.03-9 9-9s9 4.03 9 9z"/>
+          </svg>
+        </span>
+        <span>Abrir en ChatGPT</span>
+      </a>
+      <a href={claudeUrl} target="_blank" rel="noopener noreferrer" class="pa-row">
+        <span class="pa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>
+          </svg>
+        </span>
+        <span>Abrir en Claude</span>
+      </a>
+      <a href={mdPath} target="_blank" rel="noopener noreferrer" class="pa-row">
+        <span class="pa-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 2v6h6M8 13h8M8 17h5"/>
+          </svg>
+        </span>
+        <span>Ver como Markdown</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-actions {
+    max-width: 22rem;
+    overflow: hidden;
+  }
+  .pa-header {
+    display: flex;
+    align-items: stretch;
+  }
+  .pa-copy, .pa-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: transparent;
+    border: none;
+    color: hsl(var(--foreground));
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .pa-copy {
+    flex: 1;
+    padding: 0.85rem 1rem;
+  }
+  .pa-copy:hover, .pa-toggle:hover { background: hsl(var(--secondary)); }
+  .pa-toggle {
+    padding: 0 1rem;
+    border-left: 2px solid hsl(var(--foreground));
+  }
+  .pa-chevron { width: 16px; height: 16px; transition: transform 0.25s cubic-bezier(.22,.68,0,1); }
+  .pa-toggle[aria-expanded="true"] .pa-chevron { transform: rotate(180deg); }
+
+  .pa-icon { display: flex; width: 18px; height: 18px; flex-shrink: 0; color: hsl(var(--muted-foreground)); }
+  .pa-icon svg { width: 100%; height: 100%; }
+
+  .pa-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(.22,.68,0,1);
+    border-top: 2px solid transparent;
+  }
+  .pa-panel.is-open {
+    grid-template-rows: 1fr;
+    border-top-color: hsl(var(--foreground));
+  }
+  .pa-panel-inner { overflow: hidden; min-height: 0; }
+
+  .pa-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.88rem;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    border-top: 1px solid hsl(var(--border) / 0.4);
+    overflow: hidden;
+    transition: background 0.15s ease;
+  }
+  .pa-row:first-child { border-top: none; }
+  .pa-row:hover { background: hsl(var(--secondary)); }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.page-actions').forEach(widget => {
+    const copyBtn = widget.querySelector<HTMLButtonElement>('[data-copy-btn]');
+    const copyLabel = widget.querySelector<HTMLElement>('[data-copy-label]');
+    const toggleBtn = widget.querySelector<HTMLButtonElement>('[data-toggle-btn]');
+    const panel = widget.querySelector<HTMLElement>('[data-panel]');
+    const mdPath = widget.dataset.mdPath || '';
+
+    toggleBtn?.addEventListener('click', () => {
+      const open = panel?.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(!!open));
+    });
+
+    copyBtn?.addEventListener('click', async () => {
+      if (!copyLabel) return;
+      const original = copyLabel.textContent;
+      try {
+        const res = await fetch(mdPath);
+        const text = await res.text();
+        await navigator.clipboard.writeText(text);
+        copyLabel.textContent = '¡Copiado!';
+      } catch {
+        copyLabel.textContent = 'No se pudo copiar';
+      }
+      setTimeout(() => { copyLabel.textContent = original; }, 2000);
+    });
+  });
+</script>

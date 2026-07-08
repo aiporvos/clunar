@@ -2,8 +2,10 @@
 import BaseLayout from './BaseLayout.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
+import PageActions from '../components/blog/PageActions.astro';
 
 interface Props {
+  slug: string;
   title: string;
   excerpt: string;
   coverImage?: string;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 const {
+  slug,
   title,
   excerpt,
   coverImage,
@@ -27,6 +30,7 @@ const {
 
 const siteUrl = import.meta.env.SITE_URL || '';
 const fullImageUrl = coverImage ? `${siteUrl}${coverImage}` : undefined;
+const mdPath = `/blog/${slug}.md`;
 
 const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
   year: 'numeric',
@@ -40,6 +44,10 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
   description={seoDescription || excerpt}
   image={fullImageUrl}
 >
+  <Fragment slot="head">
+    <link rel="alternate" type="text/markdown" href={mdPath} title={`${title} — Markdown`} />
+  </Fragment>
+
   <Nav />
 
   <!-- Widget flotante de compartir -->
@@ -47,8 +55,8 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
     <!-- Progreso de lectura -->
     <div class="relative w-11 h-11">
       <svg class="w-11 h-11 -rotate-90" viewBox="0 0 44 44">
-        <circle cx="22" cy="22" r="18" fill="none" stroke="#e5e5e0" stroke-width="3"/>
-        <circle id="progress-ring" cx="22" cy="22" r="18" fill="none" stroke="#f97316" stroke-width="3"
+        <circle cx="22" cy="22" r="18" fill="none" stroke="hsl(var(--border) / 0.3)" stroke-width="3"/>
+        <circle id="progress-ring" cx="22" cy="22" r="18" fill="none" stroke="hsl(var(--accent))" stroke-width="3"
                 stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1"/>
       </svg>
       <span id="progress-pct" class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-foreground">0%</span>
@@ -160,6 +168,11 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
             ))}
           </footer>
         )}
+
+        <!-- Ver en LLM: copiar como markdown / abrir en ChatGPT-Claude / ver .md crudo -->
+        <div class="mt-8">
+          <PageActions slug={slug} />
+        </div>
 
         <div class="mt-8">
           <a href="/blog" class="inline-flex items-center gap-2 text-sm text-accent font-medium hover:underline">

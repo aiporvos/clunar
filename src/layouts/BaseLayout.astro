@@ -50,6 +50,8 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="sitemap" href="/sitemap-index.xml" />
+
+  <slot name="head" />
 </head>
 <body>
   <slot />

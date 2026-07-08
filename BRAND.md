@@ -379,6 +379,28 @@ autoridad que se demuestra regalando valor, no declamando.
 [ ] Mobile primero: probado a 390px además de desktop
 ```
 
+## 13 · Agentes y LLMs (contenido)
+
+El blog está pensado para que un humano lo lea **y** para que un agente lo consuma
+directo, sin parsear HTML. Tres piezas trabajan juntas:
+
+| Pieza | Ubicación | Qué hace |
+|---|---|---|
+| **Markdown crudo por post** | `src/pages/blog/[...slug].md.ts` | Cada post en `/blog/{slug}.md` — el `.body` de la content collection tal cual, con un pequeño encabezado (título, excerpt, autor, fecha, fuente) |
+| **Widget "ver en LLM"** | `src/components/blog/PageActions.astro` | Al pie de cada post: **Copiar página** (copia el `.md` al portapapeles), **Abrir en ChatGPT**, **Abrir en Claude** (ambos con un prompt pre-armado apuntando a la URL canónica), **Ver como Markdown** |
+| **`llms.txt`** | `src/pages/llms.txt.ts` | Índice del sitio en `/llms.txt` (convención [llmstxt.org](https://llmstxt.org)): páginas clave + cada post linkeando a su `.md`. Se regenera solo con la content collection |
+
+Reglas al tocar esto:
+
+- Todo post nuevo hereda el `.md` y entra a `llms.txt` automáticamente (ambos leen
+  `getCollection('posts')`) — **no requiere trabajo manual por post**.
+- Si un post alguna vez necesita componentes MDX custom (hoy ninguno los usa),
+  revisar que `post.body` siga sirviendo como markdown legible antes de publicar.
+- El widget usa `.card-brutal` + tokens semánticos — funciona en light/dark sin
+  ajuste. No copiar el estilo oscuro fijo de referencias externas (ver anti-patrón).
+- El botón "Copiar página" hace `fetch` al propio endpoint `.md` (una sola fuente
+  de verdad); nunca duplicar el contenido inline en el HTML.
+
 ---
 
 *cluna.ar — construimos sistemas que trabajan. Este manual también.*

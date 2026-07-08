@@ -19,6 +19,7 @@ const indice = [
   ['10', 'Arquitectura', '#arquitectura'],
   ['11', 'Servicios', '#servicios'],
   ['12', 'Checklist', '#checklist'],
+  ['13', 'Agentes y LLMs', '#agentes'],
 ];
 
 const principios = [
@@ -535,6 +536,48 @@ const checklist = [
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 13 Agentes y LLMs ═══ -->
+    <section id="agentes" class="py-16 lg:py-24" style="border-top:3px solid hsl(var(--foreground))">
+      <div class="container mx-auto px-6">
+        <span class="section-label">13 · Agentes y LLMs</span>
+        <h2 class="text-display-md glow-text mb-4">Escrito para leerse, y para leerse por agentes.</h2>
+        <p class="max-w-2xl mb-10" style="color:hsl(var(--muted-foreground))">
+          El blog está pensado para un lector humano <strong style="color:hsl(var(--foreground))">y</strong> para
+          un agente que lo consume directo, sin parsear HTML.
+        </p>
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-2">Markdown por post</h3>
+            <p class="text-sm" style="color:hsl(var(--muted-foreground))">
+              <code>/blog/{'{slug}'}.md</code> — el cuerpo crudo de cada post, con un
+              encabezado de título, excerpt, autor, fecha y fuente.
+            </p>
+          </div>
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-2">Widget "ver en LLM"</h3>
+            <p class="text-sm" style="color:hsl(var(--muted-foreground))">
+              Al pie de cada post: Copiar página, Abrir en ChatGPT, Abrir en Claude,
+              Ver como Markdown. <code>PageActions.astro</code>.
+            </p>
+          </div>
+          <div class="card-brutal p-6">
+            <h3 class="text-lg mb-2">llms.txt</h3>
+            <p class="text-sm" style="color:hsl(var(--muted-foreground))">
+              Índice del sitio en <code>/llms.txt</code> (convención llmstxt.org),
+              generado solo desde la content collection.
+            </p>
+          </div>
+        </div>
+        <div class="card-brutal p-6 max-w-3xl">
+          <p class="text-sm" style="color:hsl(var(--muted-foreground))">
+            Todo post nuevo hereda el <code>.md</code> y entra a <code>llms.txt</code>
+            automáticamente — no requiere trabajo manual por post. El widget usa
+            tokens semánticos, funciona en light/dark sin ajuste.
+          </p>
         </div>
         <p class="text-center font-display text-xl mt-16" style="color:hsl(var(--muted-foreground))">
           cluna.ar — construimos sistemas que trabajan. Este manual también.
