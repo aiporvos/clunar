@@ -22,3 +22,16 @@ Astro 5 (SSR, adapter node) + Tailwind + Keystatic (CMS) + MDX + Lenis. Deploy: 
 npm run dev      # dev server en 127.0.0.1:4321
 npm run build    # build de producción
 ```
+
+## Publicar contenido
+
+Para escribir y publicar un post (blog + portada + LinkedIn + Telegram) usar
+el skill `/publicar`. Spec completa del pipeline: `PIPELINE.md`.
+
+```bash
+node scripts/cover-image.mjs --slug {slug} --preset "{preset}" --dry-run
+node scripts/publish-linkedin.mjs --text "..." --image "..." --dry-run
+node scripts/publish-telegram.mjs --caption "..." --photo-path "..." --dry-run
+```
+
+Remote de git: **`clunar`** (no `origin`), rama **`master`** (no `main`).
