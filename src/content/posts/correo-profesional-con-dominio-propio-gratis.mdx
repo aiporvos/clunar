@@ -1,0 +1,112 @@
+---
+title: 'Correo profesional con tu dominio, gratis (y sin depender de un tercero)'
+excerpt: >-
+  Necesitaba un contacto@ propio para el pipeline de publicación que armé.
+  En vez de pagar Google Workspace, lo resolví con Cloudflare, Resend y mi
+  Gmail de siempre. Costo: cero.
+publishedAt: 2026-07-09
+author: Claudio Luna
+category: Automatización
+readTime: 6
+tags:
+  - Automatización
+  - Infraestructura
+  - Email
+draft: false
+seoTitle: 'Correo profesional con dominio propio, gratis: Cloudflare + Resend + Gmail'
+seoDescription: >-
+  Paso a paso para tener contacto@tudominio.com funcionando en tu Gmail de
+  siempre, sin pagar Google Workspace ni exponer un servidor de mail propio.
+---
+Armando el pipeline de publicación de este sitio me quedó un pendiente chico
+pero molesto: necesitaba un `contacto@` con mi propio dominio para que los
+posts, LinkedIn y Telegram salgan con una identidad consistente. No con mi
+Gmail personal de toda la vida.
+
+La solución obvia — Google Workspace — son 7 USD por mes por una casilla que
+uso para poco más que recibir y mandar mails. Y la otra solución obvia —
+montar mi propio servidor de correo en el mismo VPS donde tengo todo
+self-hosted — la descarté enseguida.
+
+## Por qué no self-hosteo también el correo
+
+Tengo Dokploy, tengo VPS, tengo la costumbre de controlar mi propio stack.
+El correo es la excepción, y por motivos concretos:
+
+- La mayoría de los proveedores de VPS **bloquean el puerto 25** por
+  default, justamente para frenar spam. Sin ese puerto, no hay SMTP de
+  salida que valga.
+- Una **IP de datacenter arrastra reputación** aunque el server sea tuyo:
+  gran parte de lo que mandes cae directo en spam del otro lado.
+- Sostener **SPF, DKIM, DMARC y el estado de las blacklists** en el tiempo es
+  un trabajo recurrente, no un `docker compose up` y listo.
+
+Para que un mail *llegue*, conviene un combo gestionado. Y no hace falta que
+sea pago.
+
+## Cómo quedó armado
+
+Tres piezas, cada una gratis dentro de los límites que uso:
+
+1. **Cloudflare** — ya tenía el DNS del dominio ahí. Sumé **Email Routing**:
+   recibe lo que llega a `contacto@` y lo reenvía a mi Gmail de siempre.
+2. **Resend** — servicio pensado para desarrolladores, da SMTP de salida con
+   DKIM/SPF configurados automáticamente. Plan gratis: 3.000 correos por mes,
+   de sobra para lo que necesito. Alta con cuenta de Google, sin pedir
+   teléfono.
+3. **Gmail** — con la función "Enviar como" respondo y redacto desde
+   `contacto@tudominio.com` sin salir de la bandeja que uso todos los días.
+
+El resultado: recibo y envío desde mi dirección propia, y para mí sigue
+siendo el mismo Gmail.
+
+## El paso a paso
+
+**1. Dominio en Cloudflare.** Si el dominio está en otro registrador (mi
+caso: NameSilo), no hace falta transferirlo — alcanza con conectarlo:
+Cloudflare da dos nameservers, se reemplazan los del registrador por esos
+dos, y se espera el estado "Active" (minutos, a veces un par de horas).
+
+**2. Email Routing.** Ya con el dominio activo en Cloudflare, en *Email →
+Enrutamiento de correo electrónico* se define la dirección personalizada
+(`contacto@tudominio.com`) y el destino (tu Gmail). Un botón agrega los
+registros MX y SPF solo. Cloudflare manda un mail de verificación al
+destino — hay que confirmarlo para que quede habilitado.
+
+**3. Resend.** Cuenta gratis con Google. En *Domains → Add Domain* se carga
+el dominio, y si ya está en Cloudflare aparece un botón de **auto
+configuración** que agrega los registros DKIM que hacen falta —
+prácticamente sin tocar nada a mano. Cuando el dominio queda verificado, se
+genera una API key: esa key es la contraseña del SMTP.
+
+**4. Gmail — "Enviar como".** En *Configuración → Cuentas e importación →
+Enviar como* se agrega la dirección del dominio. Acá hay una trampa: Gmail
+autocompleta el servidor SMTP con los datos de *recepción* de Cloudflare, que
+no sirven para enviar. Hay que reemplazarlos a mano por los de Resend
+(`smtp.resend.com`, puerto 587, usuario literal `resend`, contraseña la API
+key). Gmail manda un código de confirmación a la dirección nueva — como ya
+está la recepción andando, llega solo.
+
+**5. (Opcional) Predeterminar la dirección.** Para que todo lo que redacto
+salga por defecto desde `contacto@`, en vez de tener que elegirlo cada vez.
+
+## Lo que me trabó en el camino
+
+Un par de cosas que me hicieron perder tiempo y quiero dejar anotadas:
+
+- Probé primero con otro proveedor de SMTP (Brevo) y la verificación por SMS
+  nunca reconoció mi número argentino. Con Resend, que registra con cuenta
+  de Google y no pide teléfono, no tuve ese problema.
+- Si tu número es argentino y en algún paso te piden verificación por SMS:
+  el formato tiene que ser `+54 9 <área> <número>` — ese **9** es lo que lo
+  identifica como celular. Sin él, el SMS no llega nunca.
+- No se puede mandar ningún correo de prueba hasta confirmar el código del
+  paso 4. Es tentador probar antes — no funciona.
+
+## Por qué lo comparto
+
+Esto no tiene nada de exclusivo ni de complicado una vez que sabés los
+pasos — el problema es que la primera vez nadie te avisa dónde están las
+trampas. Si tenés un dominio propio y estás pagando de más por una casilla
+de correo, o peor, la seguís posponiendo por miedo a meterte con DNS: son
+tres cuentas gratis y media hora, no más que eso.
