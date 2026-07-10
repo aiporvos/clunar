@@ -57,6 +57,10 @@ un solo texto con saltos de línea entre bloques):
 
 ### Prohibido siempre
 
+- **Rayas / em-dashes ("—") en el texto de LinkedIn**: usar punto, coma o dos
+  puntos en su lugar. Máximo una raya en todo el post, y solo si de verdad no
+  hay alternativa (feedback directo de Claudio: los guiones quedan feos en el
+  render de LinkedIn).
 - "Comentá [palabra] y te mando por DM" o cualquier variante de esa mecánica.
 - CTAs de engagement puro: "dejá tu opinión", "etiquetá a alguien", "compartí si..."
 - Emojis decorativos sin función de categoría (cada emoji de la lista marca un

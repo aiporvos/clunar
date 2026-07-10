@@ -99,6 +99,18 @@ documentación oficial:
    {LINKEDIN_ACCESS_TOKEN}`, `LinkedIn-Version: {YYYYMM}`,
    `X-Restli-Protocol-Version: 2.0.0`.
 
+**Formato del texto ("little text format"):** en `commentary`, los caracteres
+`( ) { } [ ] @ # * _ ~ < > | \` son **reservados** — sin escapar con `\`,
+LinkedIn renderiza el post roto (se pierden emojis, aparecen guiones sueltos,
+se corta texto). El script escapa automáticamente con `escapeLittleText()`.
+Lección aprendida del primer post real (2026-07-10), que salió ilegible.
+
+**Borradores:** la API **no permite crear borradores** (`lifecycleState:
+PUBLISHED` es el único valor aceptado al crear). El equivalente del pipeline:
+el texto se guarda en `content/drafts/linkedin-{slug}.txt`, Claudio lo revisa
+o edita directamente, y recién con su OK se publica con `--text-file` (nunca
+`--text` inline: el quoting de la shell rompe emojis y saltos de línea).
+
 **Renovación de token:** el `LINKEDIN_ACCESS_TOKEN` (OAuth 2.0, scope
 `w_member_social`) vence a los **60 días**. Renovarlo desde el
 [LinkedIn Developer Portal](https://www.linkedin.com/developers/apps) → la

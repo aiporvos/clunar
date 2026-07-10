@@ -89,15 +89,32 @@ fase siguiente hasta el OK.
 1. Redactar el post siguiendo `content/estilo-redes.md` §2 (gancho → contraste
    → promesa → lista con emojis → cierre de valor → link al post → frase de
    marca, **rotando** — no repetir la última usada según `covers-log.json` o
-   el historial de esta sesión).
-2. Mostrar el borrador completo a Claudio.
-3. **Checkpoint:** aprobación explícita.
-4. Ejecutar:
+   el historial de esta sesión). **Sin rayas/em-dashes** (ver prohibiciones
+   de estilo-redes §2).
+2. Guardar el borrador en `content/drafts/linkedin-{slug}.txt` (UTF-8). La API
+   de LinkedIn **no soporta borradores nativos** — este archivo ES el borrador:
+   Claudio puede editarlo directamente antes de aprobar.
+3. Mostrar el borrador completo a Claudio (y correr el dry-run para ver el
+   texto escapado exactamente como se va a enviar):
    ```bash
-   node --env-file=.env scripts/publish-linkedin.mjs --text "{texto}" --image "public/images/posts/{slug}/cover-og.png"
+   node --env-file=.env scripts/publish-linkedin.mjs --text-file "content/drafts/linkedin-{slug}.txt" --image "public/images/posts/{slug}/cover-og.png" --dry-run
+   ```
+4. **Checkpoint:** aprobación explícita. Si Claudio editó el archivo, releerlo.
+5. Ejecutar (siempre con `--text-file`, nunca con `--text` inline — el quoting
+   de la shell rompe emojis y saltos de línea):
+   ```bash
+   node --env-file=.env scripts/publish-linkedin.mjs --text-file "content/drafts/linkedin-{slug}.txt" --image "public/images/posts/{slug}/cover-og.png"
    ```
    Si faltan `LINKEDIN_ACCESS_TOKEN`/`LINKEDIN_PERSON_URN`, avisar y ofrecer
    saltar esta fase (el post del blog ya quedó publicado igual).
+
+**Post de LinkedIn sin post de blog asociado** (ej.: recomendar un repo o
+recurso de terceros): mismo flujo, pero la imagen se genera ad-hoc con un
+prompt adaptado al tema (el script agrega los negativos anti-genérico solo):
+```bash
+node --env-file=.env scripts/cover-image.mjs --slug {slug} --prompt "{prompt adaptado al tema, estilo de marca}"
+```
+y se publica con `--image "public/images/posts/{slug}/cover-og.png"`.
 
 ---
 

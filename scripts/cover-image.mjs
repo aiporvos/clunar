@@ -162,11 +162,11 @@ async function main() {
     console.warn(`⚠️  "${args.preset}" fue el preset del post anterior — se recomienda variar.`);
   }
 
-  let prompt = args.prompt;
-  if (!prompt && args.preset) {
-    const base = await loadPresetPrompt(args.preset);
-    prompt = `${base}\n\n${NEGATIVES}`;
+  let base = args.prompt;
+  if (!base && args.preset) {
+    base = await loadPresetPrompt(args.preset);
   }
+  const prompt = base ? `${base}\n\n${NEGATIVES}` : null;
   if (!prompt) {
     console.error('Falta --prompt o --preset');
     process.exit(1);

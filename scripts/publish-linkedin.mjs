@@ -4,7 +4,13 @@
  * (/rest/posts — reemplaza al antiguo /v2/ugcPosts). Ver PIPELINE.md §4.
  *
  * Uso:
- *   node scripts/publish-linkedin.mjs --text "..." --image "public/images/posts/slug/cover-og.png" --dry-run
+ *   node scripts/publish-linkedin.mjs --text-file content/drafts/linkedin-slug.txt --image "public/images/posts/slug/cover-og.png" --dry-run
+ *   node scripts/publish-linkedin.mjs --text "..." [--image ...] [--dry-run]
+ *
+ * Preferir --text-file (UTF-8): evita que el quoting de la shell rompa
+ * emojis o saltos de línea. El texto se escapa automáticamente al formato
+ * "little text" de LinkedIn (los caracteres ()[]{}@#*_~<>|\ son reservados
+ * y sin escapar rompen el render del post).
  *
  * Checkpoint: este script asume que el borrador YA fue mostrado y aprobado
  * por Claudio — lo hace el skill /publicar antes de llamarlo.
@@ -25,9 +31,17 @@ function parseArgs(argv) {
     const a = argv[i];
     if (a === '--dry-run') args.dryRun = true;
     else if (a === '--text') args.text = argv[++i];
+    else if (a === '--text-file') args.textFile = argv[++i];
     else if (a === '--image') args.image = argv[++i];
   }
   return args;
+}
+
+// El commentary usa el "little text format" de LinkedIn: estos caracteres
+// son reservados y deben escaparse con \ para renderizarse literales.
+// https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/little-text-format
+function escapeLittleText(text) {
+  return text.replace(/[\\|{}@[\]()<>#*_~]/g, c => '\\' + c);
 }
 
 function authHeaders(token) {
@@ -84,18 +98,26 @@ async function createPost({ token, personUrn, text, imageUrn }) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  if (!args.text) {
-    console.error('Uso: node scripts/publish-linkedin.mjs --text "..." [--image ruta] [--dry-run]');
+
+  let text = args.text;
+  if (args.textFile) {
+    text = (await readFile(path.resolve(ROOT, args.textFile), 'utf-8')).trim();
+  }
+  if (!text) {
+    console.error('Uso: node scripts/publish-linkedin.mjs --text-file ruta | --text "..." [--image ruta] [--dry-run]');
     process.exit(1);
   }
+
+  const escaped = escapeLittleText(text);
 
   const token = process.env.LINKEDIN_ACCESS_TOKEN;
   const personUrn = process.env.LINKEDIN_PERSON_URN;
 
   if (args.dryRun) {
     console.log('--- DRY RUN ---');
-    console.log('Texto:\n' + args.text);
-    console.log('Imagen:', args.image ?? '(sin imagen)');
+    console.log('Texto original:\n' + text);
+    console.log('\nTexto escapado (lo que se envía):\n' + escaped);
+    console.log('\nImagen:', args.image ?? '(sin imagen)');
     console.log(`LINKEDIN_ACCESS_TOKEN: ${token ? 'configurado' : 'FALTA'}`);
     console.log(`LINKEDIN_PERSON_URN: ${personUrn ? 'configurado' : 'FALTA'}`);
     console.log(`LinkedIn-Version usado: ${LINKEDIN_VERSION}`);
@@ -115,7 +137,7 @@ async function main() {
       await uploadImageBinary(uploadUrl, token, buffer);
       imageUrn = image;
     }
-    const postId = await createPost({ token, personUrn, text: args.text, imageUrn });
+    const postId = await createPost({ token, personUrn, text: escaped, imageUrn });
     console.log('✓ Publicado en LinkedIn:', postId);
   } catch (err) {
     await notifyError('Fase 4 · LinkedIn', err.message);
