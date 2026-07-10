@@ -1,0 +1,85 @@
+---
+title: 'Un sistema de agentes que busca trabajo por vos (y no te inventa el CV)'
+excerpt: >-
+  Probé un proyecto open source que automatiza la búsqueda laboral con
+  agentes: rastrea portales, arma tu CV a medida y te prepara la entrevista.
+  Gratis, corre en tu compu.
+coverImage: /images/posts/ai-job-search/cover.png
+publishedAt: 2026-07-10
+author: Claudio Luna
+category: Automatización
+readTime: 5
+tags:
+  - Automatización
+  - Agentes IA
+  - Búsqueda laboral
+draft: false
+seoTitle: 'ai-job-search: buscar trabajo con agentes de IA, sin inventar tu CV'
+seoDescription: >-
+  Cómo funciona ai-job-search, un proyecto open source que usa agentes de IA
+  para rastrear portales de empleo, armar tu CV a medida y prepararte para
+  la entrevista, corriendo en tu propia máquina.
+---
+
+La mayoría de la gente que busca trabajo hace lo mismo: googlea ofertas,
+adapta el mismo CV a mano para cada una, y manda. Sin saber si el ATS lo va
+a descartar antes de que un humano lo lea.
+
+Un sistema de agentes puede hacer esa parte por vos. No reemplaza la
+entrevista ni decide por vos qué puesto aceptar, pero sí el trabajo mecánico
+de antes: rastrear, filtrar, adaptar, compilar.
+
+Encontré [ai-job-search](https://github.com/MadsLorentzen/ai-job-search), un
+proyecto open source de **Mads Lorentzen** que hace justo eso, corriendo en
+tu propia máquina con Claude Code. No es mío: lo comparto porque está bien
+resuelto y porque el enfoque (agentes con roles separados, verificación
+antes de entregar) es el mismo que uso para armar sistemas similares para
+clientes.
+
+## Cómo se usa
+
+Después de instalarlo (fork del repo + `bun install` + `/setup` para cargar
+tu perfil), el flujo diario son tres comandos:
+
+```bash
+/scrape          # rastrea varios portales de empleo a la vez
+/apply <url>     # arma el CV y la carta para esa oferta puntual
+/interview       # te prepara con preguntas tipo STAR
+```
+
+`/scrape` no lista ofertas al azar: las rankea según qué tan bien encajan
+con tu perfil real, no solo por coincidencia de palabras clave.
+
+`/apply` es el paso que más cuidado tiene. Arma el CV recortando y pesando
+tu experiencia según lo que pide esa oferta puntual, compila el PDF y lo
+**revisa visualmente** antes de mostrártelo — no asume que el LaTeX compiló
+bien, lo verifica. Y tiene una regla dura: nunca inventa experiencia ni
+habilidades que no tenés.
+
+Esa regla se sostiene con un detalle de arquitectura que me gustó: un
+segundo agente revisa lo que escribió el primero antes de entregarlo.
+Separar quien redacta de quien revisa es la misma idea que uso en mis
+propios flujos multi-agente — un solo agente que redacta y aprueba su
+propio trabajo tiende a autoconvencerse.
+
+`/interview` cierra el círculo: arma preguntas de entrevista tipo STAR
+basadas en tu perfil real, no en una lista genérica de Google.
+
+## Lo que hay que tener en cuenta
+
+No es magia de un clic. Corre local, así que necesitás Claude Code, Python
+3.10+, Bun y una instalación de LaTeX para compilar los PDFs. El setup
+inicial lleva un rato. Lo "súper fácil" es el uso día a día una vez
+configurado: tres comandos, sin subir tu perfil a ningún servicio de
+terceros.
+
+El repo trae integraciones con portales de empleo daneses de ejemplo, y un
+comando `/add-portal` para sumar los de tu región.
+
+## El link
+
+Está en GitHub, gratis, con instrucciones de instalación en el README:
+
+**[github.com/MadsLorentzen/ai-job-search](https://github.com/MadsLorentzen/ai-job-search)**
+
+Acá no hay funnel. Hay laburo compartido.
