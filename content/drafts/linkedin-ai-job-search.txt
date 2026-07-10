@@ -1,0 +1,20 @@
+Buscás trabajo googleando ofertas, adaptando el mismo CV a mano para cada una, y cruzando los dedos para que el ATS no lo descarte antes de que lo vea un humano.
+
+Un sistema de agentes puede hacer ese trabajo por vos. En tu propia máquina, sin subir tu perfil a ningún lado.
+
+Encontré un proyecto open source de Mads Lorentzen que lo resuelve con 3 comandos:
+
+🔍 Busca: rastrea varios portales de empleo a la vez y rankea las ofertas según qué tan bien encajás vos, no solo por palabras clave.
+
+📝 Postula: arma el CV y la carta a medida para esa oferta puntual, compila el PDF y lo revisa visualmente antes de mostrártelo.
+
+🎤 Prepara: te arma la entrevista con preguntas tipo STAR basadas en tu propio perfil.
+
+Lo que más me gustó: tiene un segundo agente que revisa lo que escribió el primero, y una regla dura: nunca inventa experiencia ni habilidades que no tenés. No es IA que miente para que consigas el trabajo, es un asistente que ordena tu búsqueda real.
+
+Corre en tu compu, con Claude Code. El repo está en GitHub, gratis:
+github.com/MadsLorentzen/ai-job-search
+
+Guardalo 👇
+
+Acá no hay funnel. Hay laburo compartido.

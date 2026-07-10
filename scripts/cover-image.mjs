@@ -62,7 +62,7 @@ async function generateWithGemini(prompt, apiKey) {
     body: JSON.stringify({
       model: 'gemini-3.1-flash-image',
       input: prompt,
-      response_format: { type: 'image', mime_type: 'image/png', aspect_ratio: '16:9' },
+      response_format: { type: 'image', mime_type: 'image/jpeg', aspect_ratio: '16:9' },
     }),
   });
   if (!res.ok) {
@@ -76,35 +76,39 @@ async function generateWithGemini(prompt, apiKey) {
 }
 
 async function generateWithKie(prompt, apiKey) {
-  // ⚠️ Endpoint sin confirmar contra documentación pública — docs.kie.ai
-  // bloqueó el acceso automatizado al escribir este script (jul-2026).
-  // Verificar en https://docs.kie.ai antes del primer uso real y ajustar
-  // KIE_API_BASE / las rutas de abajo si hace falta. Patrón confirmado:
-  // auth Bearer + creación de tarea async + polling por task_id.
+  // Confirmado contra docs.kie.ai (jul-2026): modelo barato "google/nano-banana"
+  // (el "Pro" cuesta más y no hace falta para portadas de blog/LinkedIn).
   const base = process.env.KIE_API_BASE || 'https://api.kie.ai';
 
   const createRes = await fetch(`${base}/api/v1/jobs/createTask`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: 'nano-banana', input: { prompt, aspect_ratio: '16:9' } }),
+    body: JSON.stringify({
+      model: 'google/nano-banana',
+      input: { prompt, output_format: 'png', image_size: '16:9' },
+    }),
   });
   if (!createRes.ok) throw new Error(`Kie.ai (create) respondió ${createRes.status}: ${await createRes.text()}`);
-  const { task_id } = await createRes.json();
-  if (!task_id) throw new Error('Kie.ai no devolvió task_id');
+  const createData = await createRes.json();
+  const taskId = createData.data?.taskId;
+  if (!taskId) throw new Error(`Kie.ai no devolvió taskId: ${JSON.stringify(createData)}`);
 
   const deadline = Date.now() + 90_000;
   while (Date.now() < deadline) {
     await new Promise(r => setTimeout(r, 4000));
-    const pollRes = await fetch(`${base}/api/v1/jobs/recordInfo?task_id=${task_id}`, {
+    const pollRes = await fetch(`${base}/api/v1/jobs/recordInfo?taskId=${taskId}`, {
       headers: { Authorization: `Bearer ${apiKey}` },
     });
     if (!pollRes.ok) continue;
-    const job = await pollRes.json();
-    if (job.status === 'completed' && job.result_url) {
-      const imgRes = await fetch(job.result_url);
+    const { data: job } = await pollRes.json();
+    if (job.state === 'success') {
+      const { resultUrls } = JSON.parse(job.resultJson ?? '{}');
+      const url = resultUrls?.[0];
+      if (!url) throw new Error('Kie.ai: éxito pero sin resultUrls');
+      const imgRes = await fetch(url);
       return Buffer.from(await imgRes.arrayBuffer());
     }
-    if (job.status === 'failed') throw new Error(`Kie.ai: tarea falló — ${job.error ?? 'sin detalle'}`);
+    if (job.state === 'fail') throw new Error(`Kie.ai: tarea falló — ${job.failMsg ?? 'sin detalle'}`);
   }
   throw new Error('Kie.ai: timeout esperando el resultado (90s)');
 }

@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "slug": "ai-job-search",
+    "preset": "(prompt directo)",
+    "provider": "kie",
+    "date": "2026-07-10T16:04:06.183Z"
+  }
+]
