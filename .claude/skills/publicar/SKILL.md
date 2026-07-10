@@ -50,7 +50,7 @@ fase siguiente hasta el OK.
    (o pida un prompt custom).
 3. Ejecutar:
    ```bash
-   node scripts/cover-image.mjs --slug {slug} --preset "{preset elegido}"
+   node --env-file=.env scripts/cover-image.mjs --slug {slug} --preset "{preset elegido}"
    ```
    Si no hay `GEMINI_API_KEY` ni `KIE_API_KEY` configuradas, avisar a Claudio
    que faltan las keys y ofrecer seguir con un placeholder o pausar acá.
@@ -74,7 +74,7 @@ fase siguiente hasta el OK.
    ```
    Si no da `200` dentro de los 10 minutos:
    ```bash
-   node scripts/notify-error.mjs --phase "Fase 3 · Deploy" --message "..."
+   node --env-file=.env scripts/notify-error.mjs --phase "Fase 3 · Deploy" --message "..."
    ```
    y **frenar el pipeline acá** — no seguir a redes con el link roto.
 6. Confirmar a Claudio: post live en `{SITE_URL}/blog/{slug}` (y ya disponible
@@ -94,7 +94,7 @@ fase siguiente hasta el OK.
 3. **Checkpoint:** aprobación explícita.
 4. Ejecutar:
    ```bash
-   node scripts/publish-linkedin.mjs --text "{texto}" --image "public/images/posts/{slug}/cover-og.png"
+   node --env-file=.env scripts/publish-linkedin.mjs --text "{texto}" --image "public/images/posts/{slug}/cover-og.png"
    ```
    Si faltan `LINKEDIN_ACCESS_TOKEN`/`LINKEDIN_PERSON_URN`, avisar y ofrecer
    saltar esta fase (el post del blog ya quedó publicado igual).
@@ -109,7 +109,7 @@ fase siguiente hasta el OK.
 3. **Checkpoint:** aprobación explícita.
 4. Ejecutar:
    ```bash
-   node scripts/publish-telegram.mjs --caption "{texto}" --photo-path "public/images/posts/{slug}/cover.png"
+   node --env-file=.env scripts/publish-telegram.mjs --caption "{texto}" --photo-path "public/images/posts/{slug}/cover.png"
    ```
 
 ---
@@ -124,5 +124,5 @@ Mostrar:
 - Frase de cierre de LinkedIn usada (para no repetirla la próxima vez)
 
 Cualquier error en cualquier fase: notificar con
-`node scripts/notify-error.mjs --phase "..." --message "..."` y frenar esa
+`node --env-file=.env scripts/notify-error.mjs --phase "..." --message "..."` y frenar esa
 rama del pipeline sin tocar las fases siguientes que dependan de ella.

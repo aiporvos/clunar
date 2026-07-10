@@ -29,9 +29,9 @@ Para escribir y publicar un post (blog + portada + LinkedIn + Telegram) usar
 el skill `/publicar`. Spec completa del pipeline: `PIPELINE.md`.
 
 ```bash
-node scripts/cover-image.mjs --slug {slug} --preset "{preset}" --dry-run
-node scripts/publish-linkedin.mjs --text "..." --image "..." --dry-run
-node scripts/publish-telegram.mjs --caption "..." --photo-path "..." --dry-run
+node --env-file=.env scripts/cover-image.mjs --slug {slug} --preset "{preset}" --dry-run
+node --env-file=.env scripts/publish-linkedin.mjs --text "..." --image "..." --dry-run
+node --env-file=.env scripts/publish-telegram.mjs --caption "..." --photo-path "..." --dry-run
 ```
 
 Remote de git: **`clunar`** (no `origin`), rama **`master`** (no `main`).
