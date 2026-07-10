@@ -115,6 +115,8 @@ prompt adaptado al tema (el script agrega los negativos anti-genérico solo):
 node --env-file=.env scripts/cover-image.mjs --slug {slug} --prompt "{prompt adaptado al tema, estilo de marca}"
 ```
 y se publica con `--image "public/images/posts/{slug}/cover-og.png"`.
+**Si el prompt pide texto visible en la imagen, ese texto va en español
+(Argentina), nunca en inglés** — ver regla en `content/estilos-portada.md`.
 
 ---
 

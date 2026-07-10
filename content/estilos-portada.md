@@ -19,6 +19,13 @@ businesspeople shaking hands, no generic "AI" iconography (glowing chips,
 binary rain), no watermarks, no text in the image unless the preset says so.
 ```
 
+**Regla de idioma:** si el prompt pide cualquier texto visible dentro de la
+imagen (carteles, papeles, etiquetas de UI, títulos de diario, etc.), ese
+texto tiene que estar **en español (Argentina)**, nunca en inglés — el sitio
+es en español y una portada con palabras en inglés rompe la coherencia de
+marca. Esto aplica también a `--prompt` custom (no solo a los presets de
+abajo). Por defecto, mejor evitar texto en la imagen directamente.
+
 ---
 
 ## 1. Editorial collage
