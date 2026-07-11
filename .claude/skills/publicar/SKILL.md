@@ -80,6 +80,12 @@ fase siguiente hasta el OK.
 6. Confirmar a Claudio: post live en `{SITE_URL}/blog/{slug}` (y ya disponible
    en `{SITE_URL}/blog/{slug}.md` + `{SITE_URL}/llms.txt`, automático).
 
+⚠️ **El poll del paso 5 es bloqueante, no se corre en background.** Fase 4
+(LinkedIn) linkea a `{SITE_URL}/blog/{slug}` — si se publica ahí antes de
+que el poll confirme `200`, el link da "not found" en el momento en que
+más gente lo clickea. No arrancar Fase 4 hasta tener la confirmación
+explícita del 200 en pantalla.
+
 **Si el modo es `--solo-blog`, terminar acá y mostrar el resumen.**
 
 ---
