@@ -1,0 +1,20 @@
+Cada vez que necesito dibujar un diagrama para un cliente me cruzo con lo mismo: la herramienta te pide crear cuenta, loguearte con Google o pagar un plan solo para exportar bien. Para cuatro cajas y unas flechas.
+
+No hace falta. draw.io no pide cuenta para nada: el archivo es texto plano.
+
+Así lo uso yo:
+
+📝 Le pido a Claude Code (o a OpenCode, cualquiera de los dos sirve) que escriba el diagrama directo en formato .drawio, como si fuera un archivo de código más.
+
+🖥️ Abro ese archivo en app.diagrams.net o en la app de escritorio, eligiendo "Device" como almacenamiento. Nada de Google Drive ni cuenta.
+
+🔀 Como es texto plano, queda versionado con git junto al resto del proyecto. Se diffea, se revisa en un PR, no depende de que un servicio siga existiendo dentro de dos años.
+
+No reemplaza el criterio de armar bien un diagrama, eso lo sigue poniendo la persona. Pero saca de encima la fricción de la herramienta.
+
+Post completo con el prompt exacto que uso:
+cluna.ar/blog/documentar-con-drawio-sin-cuenta
+
+Guardalo 👇
+
+Conocimiento sin barreras, como la luna: le llega a todos igual.

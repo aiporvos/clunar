@@ -4,5 +4,17 @@
     "preset": "(prompt directo)",
     "provider": "kie",
     "date": "2026-07-10T16:04:06.183Z"
+  },
+  {
+    "slug": "documentar-con-drawio-sin-cuenta",
+    "preset": "Diagrama brutalist",
+    "provider": "kie",
+    "date": "2026-07-11T20:48:50.632Z"
+  },
+  {
+    "slug": "documentar-con-drawio-sin-cuenta",
+    "preset": "(prompt directo)",
+    "provider": "kie",
+    "date": "2026-07-11T20:50:32.138Z"
   }
 ]

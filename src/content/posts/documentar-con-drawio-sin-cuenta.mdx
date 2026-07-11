@@ -1,0 +1,59 @@
+---
+title: 'Documentar diagramas con draw.io sin crear cuenta (usando Claude Code u OpenCode)'
+excerpt: >-
+  draw.io no te pide cuenta para nada: el archivo es texto plano. Le pedís
+  el diagrama al agente, lo abrís local, y listo.
+coverImage: /images/posts/documentar-con-drawio-sin-cuenta/cover.png
+publishedAt: 2026-07-11
+author: Claudio Luna
+category: Automatización
+readTime: 4
+tags:
+  - Automatización
+  - Documentación
+  - Herramientas
+draft: false
+seoTitle: 'draw.io sin cuenta: documentar diagramas con Claude Code u OpenCode'
+seoDescription: >-
+  Cómo generar diagramas de arquitectura o flujo en formato draw.io usando
+  un agente de código, sin crear cuenta ni loguearte en ningún servicio.
+---
+
+Cada vez que necesito documentar un flujo o una arquitectura para un
+cliente, me cruzo con lo mismo: la herramienta de diagramas te pide crear
+cuenta, loguearte con Google o pagar un plan para exportar en un formato
+decente. Para dibujar cuatro cajas y unas flechas.
+
+No hace falta. **draw.io no requiere cuenta para nada** — el archivo
+`.drawio` es XML plano. Y como es texto plano, un agente de código lo puede
+escribir directo, sin pasar por ninguna interfaz.
+
+## Cómo lo uso
+
+Le pido a Claude Code (o a OpenCode, da igual cuál — ambos escriben
+archivos de texto, y eso es todo lo que hace falta) que genere el diagrama
+directamente en formato `.drawio`:
+
+```
+Generame un diagrama de flujo en formato .drawio que muestre el proceso
+de onboarding de un cliente: alta, validación de datos, aprobación,
+activación. Guardalo en onboarding.drawio
+```
+
+El agente escribe el XML (nodos `mxCell`, conexiones, posiciones) como
+escribiría cualquier otro archivo del proyecto. Después abrís
+`onboarding.drawio` en [app.diagrams.net](https://app.diagrams.net) o en la
+app de escritorio, elegís **"Device"** como almacenamiento (no Google
+Drive, no OneDrive) y ya está: lo ves, lo editás a mano si hace falta,
+lo exportás a PNG o PDF. Todo sin loguearte una sola vez.
+
+## Por qué me sirve
+
+El archivo queda como texto plano junto al resto del proyecto. Se versiona
+con git, se diffea, se revisa en un PR igual que código. No depende de que
+un servicio externo siga existiendo el día que necesito reabrir un
+diagrama de hace dos años.
+
+No reemplaza el criterio de armar bien un diagrama (eso lo sigue poniendo
+la persona), pero saca de encima la parte mecánica: layout inicial, cajas,
+flechas, la fricción de la herramienta.
