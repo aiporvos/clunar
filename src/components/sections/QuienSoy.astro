@@ -1,10 +1,4 @@
 ---
-const highlights = [
-  { label: 'Desarrollo de Software',           bg: 'hsl(var(--primary))', fg: 'hsl(var(--foreground))' },
-  { label: 'E-commerce & Gestión de Proyectos', bg: 'hsl(var(--success))', fg: '#fff' },
-  { label: 'Sistemas con IA',                  bg: 'var(--blue)',         fg: '#fff' },
-  { label: 'Formación & Docencia',             bg: 'hsl(var(--accent))', fg: '#fff' },
-];
 ---
 <section id="que-es" class="py-16 sm:py-24 lg:py-32">
   <div class="container mx-auto px-6">
@@ -35,12 +29,6 @@ const highlights = [
           orquestación de procesos, siempre sobre infraestructura que el cliente controla,
           nunca a costa de sus datos.
         </p>
-        <p class="text-lg leading-relaxed" style="color:hsl(var(--muted-foreground))">
-          Y doy clases de automatización con IA (n8n, Claude Code, agentes, prompting aplicado)
-          porque explicar algo bien es la mejor forma de entenderlo de verdad. También dicto
-          capacitaciones grupales de IA.
-        </p>
-
         <!-- Integraciones -->
         <div class="pt-4">
           <p class="text-sm uppercase tracking-widest font-medium mb-4" style="color:hsl(var(--muted-foreground))">Se integra con los sistemas que ya usás</p>
@@ -55,23 +43,6 @@ const highlights = [
         </div>
       </div>
     </div>
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 reveal">
-      {highlights.map(item => (
-        <div class="card-brutal flex flex-col items-center justify-center text-center p-6"
-             style={`background:${item.bg}`}>
-          <span class="font-display text-sm uppercase tracking-wide" style={`color:${item.fg}`}>{item.label}</span>
-        </div>
-      ))}
-    </div>
-
-    <blockquote class="mt-20 max-w-4xl mx-auto text-center reveal">
-      <p class="text-xl md:text-2xl font-display leading-relaxed italic">
-        "Trabajaba en e-commerce antes de que la IA generativa existiera, y voy a
-        seguir armando sistemas cuando deje de ser tendencia. La herramienta cambia;
-        el criterio, no."
-      </p>
-    </blockquote>
 
   </div>
 </section>
