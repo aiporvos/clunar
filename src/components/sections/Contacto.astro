@@ -14,7 +14,7 @@
         <h2 class="font-display text-display-md font-bold glow-text mb-6">Contame el proceso que te duele.</h2>
         <p class="text-lg mb-8" style="color:hsl(var(--muted-foreground))">
           Diagnóstico inicial sin costo: revisamos tu proceso, tus sistemas y tus datos, y te digo
-          qué conviene automatizar — y qué no. Respuesta en menos de 24 horas.
+          qué conviene automatizar, y qué no. Respuesta en menos de 24 horas.
         </p>
 
         <!-- WhatsApp CTA -->
@@ -38,7 +38,7 @@
         <div class="card-brutal p-6" style="background:hsl(var(--card))">
           <p class="text-sm mb-2 font-semibold" style="color:hsl(var(--muted-foreground))">El diagnóstico incluye:</p>
           <ul class="space-y-2">
-            {['Relevamiento de tu proceso y sistemas','Mapa de datos: qué información entra en juego y cómo se protege','Propuesta de arquitectura con costos reales','Sin compromiso — si no conviene automatizar, te lo digo'].map(item => (
+            {['Relevamiento de tu proceso y sistemas','Mapa de datos: qué información entra en juego y cómo se protege','Propuesta de arquitectura con costos reales','Sin compromiso: si no conviene automatizar, te lo digo'].map(item => (
               <li class="flex items-center gap-2 text-sm font-medium">
                 <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:hsl(var(--primary))"></span>
                 {item}
@@ -65,10 +65,10 @@
                   style="background:hsl(var(--card));color:hsl(var(--foreground))">
             <option value="">¿Qué necesitás resolver?</option>
             <option>Sistema multi-agente (atención, ventas, procesos)</option>
-            <option>RAG — conocimiento propio consultable</option>
+            <option>RAG: conocimiento propio consultable</option>
             <option>Integración de sistemas (ERP, CRM, facturación)</option>
             <option>Seguridad y gobernanza de datos</option>
-            <option>Consultoría — diagnóstico y roadmap de IA</option>
+            <option>Consultoría: diagnóstico y roadmap de IA</option>
             <option>Formación de equipos</option>
             <option>No estoy seguro, necesito orientación</option>
           </select>
@@ -96,7 +96,7 @@
   document.getElementById('contact-form')?.addEventListener('submit', (e) => {
     e.preventDefault();
     const btn = (e.target as HTMLFormElement).querySelector('button[type="submit"]');
-    if (btn) btn.textContent = 'Enviado — te respondo en menos de 24 h';
+    if (btn) btn.textContent = 'Enviado. Te respondo en menos de 24 h';
     setTimeout(() => (e.target as HTMLFormElement).reset(), 3000);
   });
 </script>
