@@ -268,20 +268,22 @@ código). Stack: `ui-monospace, 'Cascadia Code', Menlo, monospace`. Nunca para c
 
 ## 10 · Arquitectura de contenido del sitio
 
-Orden canónico de la home (`src/pages/index.astro`):
+Orden canónico de la home (`src/pages/index.astro`), reestructurado en julio 2026
+para que la página funcione primero como **página personal** (quién es Claudio,
+qué comparte) y recién después como oferta de servicios — nunca al revés:
 
 | # | Sección | Anchor | Comunica |
 |---|---|---|---|
-| 1 | Hero | `#inicio` | Quién es Claudio + propuesta en una frase + prueba (stats) + 2 CTAs |
-| 2 | Quién soy / Qué hago | `#que-es` | El enfoque: sistemas en producción, no demos. Integraciones reales |
-| 3 | Servicios (Tender) | `#soluciones` | Los 4 servicios complejos (ver §11) como tarjetas colgantes |
-| 4 | Arquitecturas | `#casos` | Arquitecturas de referencia: stack, flujo de datos y qué resuelven (sin clientes ficticios ni porcentajes inventados) |
-| 5 | Cómo trabajo | `#como-funciona` | Proceso: diagnóstico → diseño/implementación → operación medida |
-| 6 | Para quién | — | PYMEs latam que ya facturan y quieren escalar operación |
-| 7 | Blog & Comunidad | `#blog` | Aporte a la comunidad: artículos, flujos n8n descargables, sistemas y repos — **todo se publica vía blog** |
-| 8 | Contacto | `#contacto` | WhatsApp (API oficial Meta / YCloud) + formulario. Sin presión |
+| 1 | Hero | `#inicio` | Identidad: quién es Claudio, sus frentes de trabajo, CTA a leer el blog |
+| 2 | Quién soy | `#que-es` | El recorrido: desarrollo de software → e-commerce/gestión de proyectos → IA → docencia |
+| 3 | Blog & Comunidad | `#blog` | Lo que comparte — sube de posición porque es la puerta de entrada, no un anexo |
+| 4 | Cómo trabajo | `#como-funciona` | Proceso: diagnóstico → diseño/implementación → operación medida |
+| 5 | Servicios (Tender) | `#soluciones` | Los 6 servicios (ver §11) como tarjetas colgantes — recién acá aparece la oferta |
+| 6 | Arquitecturas | `#casos` | Arquitecturas de referencia: stack, flujo de datos y qué resuelven (sin clientes ficticios ni porcentajes inventados) |
+| 7 | Para quién | — | PYMEs latam que ya facturan y quieren escalar operación — CTA discreto a `#contacto`, no un botón de WhatsApp propio |
+| 8 | Contacto | `#contacto` | WhatsApp (API oficial Meta / YCloud) + formulario. Sin presión — el único lugar donde está bien vender |
 
-El copy de estas secciones ya está alineado a este manual (julio 2026). Cualquier
+El copy de estas secciones está alineado a este manual (julio 2026). Cualquier
 modificación futura debe seguir §04 (voz), §05 (naming) y §11 (mensajería).
 La migración desde la marca anterior está **completa**: contenido, autor, CMS
 (`keystatic.config.tsx`), metadata (`project.json`, `.hive`) y limpieza de archivos
