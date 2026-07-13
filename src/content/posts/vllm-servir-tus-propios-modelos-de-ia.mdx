@@ -1,0 +1,73 @@
+---
+title: 'Correr tus propios modelos de IA sin pagar por token (con vLLM)'
+excerpt: >-
+  vLLM es el motor open source que usan muchas empresas para servir sus
+  propios modelos de lenguaje en su infraestructura, sin mandar datos a una
+  API externa.
+coverImage: /images/posts/vllm-servir-tus-propios-modelos-de-ia/cover.png
+publishedAt: 2026-07-13
+author: Claudio Luna
+category: Arquitectura IA
+readTime: 5
+tags:
+  - Arquitectura IA
+  - Self-hosted
+  - Infraestructura
+draft: false
+seoTitle: 'vLLM: correr tus propios modelos de IA, sin pagar por token'
+seoDescription: >-
+  Qué es vLLM y por qué es la base de muchas implementaciones de IA
+  self-hosted: servir modelos abiertos en tu propia infraestructura,
+  compatible con la API de OpenAI.
+---
+
+Usar IA generativa no significa necesariamente pagar por token a una API
+externa y mandar tus datos a un tercero. Hay una alternativa: correr el
+modelo vos mismo, en tu propia infraestructura.
+
+El problema histórico de esa alternativa era el rendimiento: servir un
+modelo grande de forma eficiente, atendiendo muchos pedidos en paralelo sin
+desperdiciar memoria de GPU, es un problema de ingeniería serio. Ahí es
+donde entra [vLLM](https://github.com/vllm-project/vllm).
+
+## Qué es
+
+vLLM es un motor de inferencia y serving para modelos de lenguaje, open
+source (Apache 2.0), nacido en el Sky Computing Lab de UC Berkeley y hoy
+mantenido por una comunidad de más de 2000 contribuyentes. No es un
+experimento: tiene 86.000 estrellas en GitHub y lo usan empresas que
+necesitan servir modelos a escala.
+
+Lo que lo hizo conocido es **PagedAttention**, una forma de administrar la
+memoria de la GPU (la parte que normalmente se desperdicia al servir varios
+pedidos a la vez) de manera mucho más eficiente. Sumado a *continuous
+batching* — atender pedidos nuevos sin esperar a que terminen los
+anteriores — el resultado es throughput alto con el mismo hardware.
+
+## Por qué importa, más allá de lo técnico
+
+Dos cosas lo hacen relevante para quien evalúa una arquitectura de IA
+propia, no solo para quien la implementa:
+
+- **Es compatible con la API de OpenAI.** Si tu producto ya habla con
+  `openai.chat.completions`, podés apuntarlo a tu propio servidor de vLLM
+  sin reescribir el código de la aplicación.
+- **Soporta más de 200 arquitecturas de modelos abiertos** (Llama, Qwen,
+  Gemma, Mixtral, DeepSeek, y otros), y corre en GPUs NVIDIA, AMD, o incluso
+  en CPU. También soporta cuantización (FP8, INT4/INT8, GPTQ, GGUF), que es
+  lo que permite correr modelos grandes en hardware más chico.
+
+## Para quién es esto (y para quién no)
+
+No es "instalá y listo" para una PYME sin equipo técnico — necesita
+infraestructura y alguien que la mantenga. Donde sí importa: cuando los
+datos que procesa el modelo no pueden salir de tu red (información de
+clientes, historia clínica, contratos), o cuando el volumen de uso hace que
+pagar por token deje de tener sentido frente al costo de correrlo vos
+mismo.
+
+Si alguna vez te ofrecieron "IA privada" como servicio, hay buenas chances
+de que algo como vLLM esté corriendo detrás.
+
+Repo, gratis, Apache 2.0:
+**[github.com/vllm-project/vllm](https://github.com/vllm-project/vllm)**

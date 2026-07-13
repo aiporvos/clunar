@@ -16,5 +16,11 @@
     "preset": "(prompt directo)",
     "provider": "kie",
     "date": "2026-07-11T20:50:32.138Z"
+  },
+  {
+    "slug": "vllm-servir-tus-propios-modelos-de-ia",
+    "preset": "Fotografía técnica macro",
+    "provider": "kie",
+    "date": "2026-07-13T12:50:21.099Z"
   }
 ]

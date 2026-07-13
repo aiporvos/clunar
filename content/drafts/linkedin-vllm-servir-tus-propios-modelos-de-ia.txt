@@ -1,0 +1,20 @@
+Usar IA generativa no significa necesariamente pagar por token a una API externa y mandar tus datos a un tercero. Hay una alternativa: correr el modelo vos mismo, en tu propia infraestructura.
+
+El problema histórico era el rendimiento. Ahí entra vLLM, el motor open source que resolvió eso:
+
+⚙️ PagedAttention: administra la memoria de la GPU mucho más eficiente que los métodos tradicionales, así atiende muchos pedidos en paralelo sin desperdiciar recursos.
+
+🔌 Compatible con la API de OpenAI: si tu producto ya habla con openai.chat.completions, lo apuntás a tu propio servidor sin reescribir nada.
+
+🧩 Soporta más de 200 arquitecturas abiertas (Llama, Qwen, Gemma, Mixtral, DeepSeek) y corre en GPUs NVIDIA, AMD o hasta en CPU.
+
+No es "instalá y listo" para cualquiera, necesita infraestructura y equipo técnico. Pero si alguna vez te ofrecieron "IA privada" como servicio, hay buenas chances de que algo como esto esté corriendo detrás.
+
+Nacido en UC Berkeley, hoy con más de 2000 contribuyentes y 86.000 estrellas en GitHub. Apache 2.0, gratis:
+
+Post completo:
+cluna.ar/blog/vllm-servir-tus-propios-modelos-de-ia
+
+Guardalo 👇
+
+Comparto a cielo abierto. Sin peajes.
