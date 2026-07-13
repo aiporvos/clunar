@@ -75,6 +75,10 @@ Reglas de escritura, en orden de prioridad:
 4. **Sin startup-speak**: prohibido "disruptivo", "sinergia", "llevá tu negocio al
    siguiente nivel", "game changer", "potenciá".
 5. **Frases cortas.** Si una oración necesita dos comas y un guión, son dos oraciones.
+   **Sin rayas largas (—) en el copy visible del sitio** (julio 2026): se resuelven con
+   punto, coma, dos puntos o paréntesis. Esta regla es del copy que ve el visitante
+   (componentes de `src/`, LinkedIn, blog) — no aplica a este manual ni a `/brand`,
+   que son documentación interna.
 6. **El lector decide con información, no con presión.** Sin urgencia falsa
    ("¡solo por hoy!"), sin miedo ("tu competencia ya lo usa").
 
