@@ -5,7 +5,9 @@
  *
  * Uso:
  *   node scripts/publish-linkedin.mjs --text-file content/drafts/linkedin-slug.txt --image "public/images/posts/slug/cover-og.png" --dry-run
- *   node scripts/publish-linkedin.mjs --text "..." [--image ...] [--dry-run]
+ *   node scripts/publish-linkedin.mjs --text "..." [--image ... | --video ...] [--dry-run]
+ *
+ * --image y --video son excluyentes (un post lleva una imagen o un video, no ambos).
  *
  * Preferir --text-file (UTF-8): evita que el quoting de la shell rompa
  * emojis o saltos de línea. El texto se escapa automáticamente al formato
@@ -33,6 +35,7 @@ function parseArgs(argv) {
     else if (a === '--text') args.text = argv[++i];
     else if (a === '--text-file') args.textFile = argv[++i];
     else if (a === '--image') args.image = argv[++i];
+    else if (a === '--video') args.video = argv[++i];
   }
   return args;
 }
@@ -72,7 +75,53 @@ async function uploadImageBinary(uploadUrl, token, buffer) {
   if (!res.ok) throw new Error(`LinkedIn (upload binario) respondió ${res.status}: ${await res.text()}`);
 }
 
-async function createPost({ token, personUrn, text, imageUrn }) {
+// Subida de video: a diferencia de imagen (1 sola URL), LinkedIn devuelve N
+// "partes" (rangos de bytes) a subir por separado; cada PUT devuelve un
+// ETag que hay que juntar y mandar de vuelta en finalizeUpload.
+async function initializeVideoUpload(token, personUrn, fileSizeBytes) {
+  const res = await fetch(`${API_BASE}/rest/videos?action=initializeUpload`, {
+    method: 'POST',
+    headers: { ...authHeaders(token), 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      initializeUploadRequest: { owner: personUrn, fileSizeBytes, uploadCaptions: false, uploadThumbnail: false },
+    }),
+  });
+  if (!res.ok) throw new Error(`LinkedIn (initializeUpload video) respondió ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  return data.value; // { uploadInstructions: [{uploadUrl, firstByte, lastByte}], video, uploadToken }
+}
+
+async function uploadVideoParts(uploadInstructions, token, buffer) {
+  const uploadedPartIds = [];
+  for (const part of uploadInstructions) {
+    const chunk = buffer.subarray(part.firstByte, part.lastByte + 1);
+    const res = await fetch(part.uploadUrl, { method: 'PUT', headers: { Authorization: `Bearer ${token}` }, body: chunk });
+    if (!res.ok) throw new Error(`LinkedIn (upload video, parte ${part.firstByte}-${part.lastByte}) respondió ${res.status}: ${await res.text()}`);
+    const etag = res.headers.get('etag');
+    if (!etag) throw new Error(`LinkedIn no devolvió ETag para la parte ${part.firstByte}-${part.lastByte}`);
+    uploadedPartIds.push(etag);
+  }
+  return uploadedPartIds;
+}
+
+async function finalizeVideoUpload(token, videoUrn, uploadToken, uploadedPartIds) {
+  const res = await fetch(`${API_BASE}/rest/videos?action=finalizeUpload`, {
+    method: 'POST',
+    headers: { ...authHeaders(token), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ finalizeUploadRequest: { video: videoUrn, uploadToken: uploadToken || '', uploadedPartIds } }),
+  });
+  if (!res.ok) throw new Error(`LinkedIn (finalizeUpload video) respondió ${res.status}: ${await res.text()}`);
+}
+
+async function uploadVideo(token, personUrn, filePath) {
+  const buffer = await readFile(filePath);
+  const { uploadInstructions, video, uploadToken } = await initializeVideoUpload(token, personUrn, buffer.length);
+  const uploadedPartIds = await uploadVideoParts(uploadInstructions, token, buffer);
+  await finalizeVideoUpload(token, video, uploadToken, uploadedPartIds);
+  return video;
+}
+
+async function createPost({ token, personUrn, text, imageUrn, videoUrn }) {
   const body = {
     author: personUrn,
     commentary: text,
@@ -85,6 +134,7 @@ async function createPost({ token, personUrn, text, imageUrn }) {
     lifecycleState: 'PUBLISHED',
     isReshareDisabledByAuthor: false,
     ...(imageUrn ? { content: { media: { id: imageUrn } } } : {}),
+    ...(videoUrn ? { content: { media: { id: videoUrn } } } : {}),
   };
 
   const res = await fetch(`${API_BASE}/rest/posts`, {
@@ -104,7 +154,11 @@ async function main() {
     text = (await readFile(path.resolve(ROOT, args.textFile), 'utf-8')).trim();
   }
   if (!text) {
-    console.error('Uso: node scripts/publish-linkedin.mjs --text-file ruta | --text "..." [--image ruta] [--dry-run]');
+    console.error('Uso: node scripts/publish-linkedin.mjs --text-file ruta | --text "..." [--image ruta | --video ruta] [--dry-run]');
+    process.exit(1);
+  }
+  if (args.image && args.video) {
+    console.error('Usá --image o --video, no ambos.');
     process.exit(1);
   }
 
@@ -118,6 +172,7 @@ async function main() {
     console.log('Texto original:\n' + text);
     console.log('\nTexto escapado (lo que se envía):\n' + escaped);
     console.log('\nImagen:', args.image ?? '(sin imagen)');
+    console.log('Video:', args.video ?? '(sin video)');
     console.log(`LINKEDIN_ACCESS_TOKEN: ${token ? 'configurado' : 'FALTA'}`);
     console.log(`LINKEDIN_PERSON_URN: ${personUrn ? 'configurado' : 'FALTA'}`);
     console.log(`LinkedIn-Version usado: ${LINKEDIN_VERSION}`);
@@ -130,14 +185,19 @@ async function main() {
   }
 
   try {
-    let imageUrn;
+    let imageUrn, videoUrn;
     if (args.image) {
       const { uploadUrl, image } = await initializeUpload(token, personUrn);
       const buffer = await readFile(path.resolve(ROOT, args.image));
       await uploadImageBinary(uploadUrl, token, buffer);
       imageUrn = image;
     }
-    const postId = await createPost({ token, personUrn, text: escaped, imageUrn });
+    if (args.video) {
+      console.log('→ Subiendo video a LinkedIn (puede tardar según el tamaño)...');
+      videoUrn = await uploadVideo(token, personUrn, path.resolve(ROOT, args.video));
+      console.log('✓ Video subido:', videoUrn);
+    }
+    const postId = await createPost({ token, personUrn, text: escaped, imageUrn, videoUrn });
     console.log('✓ Publicado en LinkedIn:', postId);
   } catch (err) {
     await notifyError('Fase 4 · LinkedIn', err.message);
