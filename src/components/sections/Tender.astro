@@ -135,6 +135,9 @@ const servicios = [
     padding: 14px 0 32px;
     scrollbar-width: none;
     user-select: none; -webkit-user-select: none;
+    /* Reclama el gesto horizontal para el arrastre en JS; deja el scroll
+       vertical de la página nativo (fix: el arrastre no andaba en mobile). */
+    touch-action: pan-y;
     cursor: grab;
   }
   .tender-viewport::-webkit-scrollbar { display: none; }
@@ -269,6 +272,7 @@ const servicios = [
 </style>
 
 <script>
+  import { play } from 'cuelume';
   const track = document.getElementById('tender-track');
   const viewport = track?.parentElement as HTMLElement | null;
 
@@ -339,6 +343,7 @@ const servicios = [
       dragging = true; startX = e.clientX; lastX = e.clientX; startScroll = viewport.scrollLeft;
       viewport.classList.add('is-dragging');
       viewport.setPointerCapture(e.pointerId);
+      play('press');
     });
     viewport.addEventListener('pointermove', (e) => {
       if (!dragging) return;
@@ -347,7 +352,11 @@ const servicios = [
       viewport.scrollLeft = startScroll - (e.clientX - startX);
       wrap();
     });
-    const endDrag = () => { dragging = false; viewport.classList.remove('is-dragging'); };
+    const endDrag = () => {
+      if (dragging) play('release');
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+    };
     viewport.addEventListener('pointerup', endDrag);
     viewport.addEventListener('pointercancel', endDrag);
 

@@ -54,7 +54,7 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
       </time>
       <a
         href={`/blog/${slug}`}
-        class="text-sm font-bold hover:underline"
+        class="blogcard-leer-mas text-sm font-bold hover:underline"
         style="color:hsl(var(--foreground))"
       >
         Leer más →
@@ -62,3 +62,11 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
     </div>
   </div>
 </article>
+
+<script>
+  import { play } from 'cuelume';
+  // Delegado en document: una sola vez cubre todas las tarjetas de la página.
+  document.addEventListener('pointerdown', (e) => {
+    if ((e.target as Element).closest?.('.blogcard-leer-mas')) play('bloom');
+  }, true);
+</script>

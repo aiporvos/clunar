@@ -115,7 +115,10 @@ const total = cases.length;
     border-radius: 16px;
     border: 2.5px solid hsl(var(--foreground));
     box-shadow: 6px 6px 0 hsl(var(--foreground));
+    touch-action: pan-y;
+    cursor: grab;
   }
+  .cases-viewport:active { cursor: grabbing; }
   .cases-track {
     display: flex;
     transition: transform 0.5s cubic-bezier(.4,0,.2,1);
@@ -294,7 +297,9 @@ const total = cases.length;
 </style>
 
 <script>
+  import { play } from 'cuelume';
   const track = document.getElementById('cases-track') as HTMLElement;
+  const viewport = document.querySelector('.cases-viewport') as HTMLElement | null;
   const dots = document.querySelectorAll('.cases-dot');
   let current = 0;
   const total = dots.length;
@@ -305,10 +310,33 @@ const total = cases.length;
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
   }
 
-  document.getElementById('cases-prev')?.addEventListener('click', () => goTo(current - 1));
-  document.getElementById('cases-next')?.addEventListener('click', () => goTo(current + 1));
-  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+  document.getElementById('cases-prev')?.addEventListener('click', () => { goTo(current - 1); play('tick'); });
+  document.getElementById('cases-next')?.addEventListener('click', () => { goTo(current + 1); play('sparkle'); });
+  dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); play('droplet'); }));
 
   // Auto-advance
   setInterval(() => goTo(current + 1), 5000);
+
+  // Swipe táctil (antes solo se navegaba con botones/dots, no andaba con el dedo)
+  if (viewport) {
+    let startX = 0, deltaX = 0, swiping = false;
+    const threshold = 40; // px mínimos para contar como swipe
+
+    viewport.addEventListener('pointerdown', (e) => {
+      swiping = true; startX = e.clientX; deltaX = 0;
+      viewport.setPointerCapture(e.pointerId);
+    });
+    viewport.addEventListener('pointermove', (e) => {
+      if (!swiping) return;
+      deltaX = e.clientX - startX;
+    });
+    const endSwipe = () => {
+      if (!swiping) return;
+      swiping = false;
+      if (deltaX <= -threshold) { goTo(current + 1); play('sparkle'); }
+      else if (deltaX >= threshold) { goTo(current - 1); play('tick'); }
+    };
+    viewport.addEventListener('pointerup', endSwipe);
+    viewport.addEventListener('pointercancel', endSwipe);
+  }
 </script>

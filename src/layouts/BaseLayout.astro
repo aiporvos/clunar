@@ -105,6 +105,27 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 
 <script>
   // ── Interacciones globales: progreso de scroll, botones magnéticos ──
+  // cuelume sintetiza sonidos deliberadamente suaves (sin API de volumen).
+  // Acá le sumamos ganancia extra a nivel de AudioContext ANTES de que
+  // cuelume cree el suyo (perezoso, al primer play()), así todos los
+  // sonidos del sitio suenan bien fuertes sin tocar la librería.
+  (function boostAudioOutput(multiplier: number) {
+    const Native = (window.AudioContext || (window as any).webkitAudioContext) as typeof AudioContext | undefined;
+    if (!Native || (Native as any).__boosted) return;
+    class BoostedAudioContext extends Native {
+      constructor(...args: ConstructorParameters<typeof AudioContext>) {
+        super(...args);
+        const boost = this.createGain();
+        boost.gain.value = multiplier;
+        boost.connect(super.destination);
+        Object.defineProperty(this, 'destination', { get: () => boost, configurable: true });
+      }
+    }
+    (BoostedAudioContext as any).__boosted = true;
+    (window as any).AudioContext = BoostedAudioContext;
+    if ('webkitAudioContext' in window) (window as any).webkitAudioContext = BoostedAudioContext;
+  })(3.5);
+
   import { play } from 'cuelume';
   const fine = matchMedia('(pointer: fine)').matches;
   const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
