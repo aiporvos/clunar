@@ -1,10 +1,9 @@
 ---
-title: 'Correr tus propios modelos de IA sin pagar por token (con vLLM)'
+title: Correr tus propios modelos de IA sin pagar por token (con vLLM)
 excerpt: >-
-  vLLM es el motor open source que usan muchas empresas para servir sus
-  propios modelos de lenguaje en su infraestructura, sin mandar datos a una
-  API externa.
-coverImage: /images/posts/vllm-servir-tus-propios-modelos-de-ia/cover.png
+  vLLM es el motor open source que usan muchas empresas para servir sus propios
+  modelos de lenguaje en su infraestructura, sin mandar datos a una API externa.
+coverImage: /images/posts/vllm-servir-tus-propios-modelos-de-ia/coverImage.png
 publishedAt: 2026-07-13
 author: Claudio Luna
 category: Arquitectura IA
@@ -16,11 +15,10 @@ tags:
 draft: false
 seoTitle: 'vLLM: correr tus propios modelos de IA, sin pagar por token'
 seoDescription: >-
-  Qué es vLLM y por qué es la base de muchas implementaciones de IA
-  self-hosted: servir modelos abiertos en tu propia infraestructura,
-  compatible con la API de OpenAI.
+  Qué es vLLM y por qué es la base de muchas implementaciones de IA self-hosted:
+  servir modelos abiertos en tu propia infraestructura, compatible con la API de
+  OpenAI.
 ---
-
 Usar IA generativa no significa necesariamente pagar por token a una API
 externa y mandar tus datos a un tercero. Hay una alternativa: correr el
 modelo vos mismo, en tu propia infraestructura.
@@ -49,10 +47,10 @@ anteriores — el resultado es throughput alto con el mismo hardware.
 Dos cosas lo hacen relevante para quien evalúa una arquitectura de IA
 propia, no solo para quien la implementa:
 
-- **Es compatible con la API de OpenAI.** Si tu producto ya habla con
+* **Es compatible con la API de OpenAI.** Si tu producto ya habla con
   `openai.chat.completions`, podés apuntarlo a tu propio servidor de vLLM
   sin reescribir el código de la aplicación.
-- **Soporta más de 200 arquitecturas de modelos abiertos** (Llama, Qwen,
+* **Soporta más de 200 arquitecturas de modelos abiertos** (Llama, Qwen,
   Gemma, Mixtral, DeepSeek, y otros), y corre en GPUs NVIDIA, AMD, o incluso
   en CPU. También soporta cuantización (FP8, INT4/INT8, GPTQ, GGUF), que es
   lo que permite correr modelos grandes en hardware más chico.
@@ -70,4 +68,4 @@ Si alguna vez te ofrecieron "IA privada" como servicio, hay buenas chances
 de que algo como vLLM esté corriendo detrás.
 
 Repo, gratis, Apache 2.0:
-**[github.com/vllm-project/vllm](https://github.com/vllm-project/vllm)**
+[**github.com/vllm-project/vllm**](https://github.com/vllm-project/vllm)
