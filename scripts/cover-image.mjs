@@ -24,6 +24,19 @@ const NEGATIVES =
   'businesspeople shaking hands, no generic "AI" iconography (glowing chips, ' +
   'binary rain), no watermarks, no text in the image unless the preset says so.';
 
+// Paleta y estilo de cluna.ar (BRAND.md §07-08) — obligatorio en TODAS las
+// portadas, preset o prompt custom, para que nunca salga una imagen fuera
+// de marca (fotorrealista, con paleta ajena, etc.).
+const BRAND_STYLE =
+  'Rendered in the cluna.ar brand visual language: flat vector illustration ' +
+  '(never photorealistic, never realistic 3D render, never literal photography), ' +
+  'thick charcoal outlines (#231f20), warm cream background (#f9f4da) unless the ' +
+  'scene explicitly calls for a near-black background (#0f0d0e), flat vibrant ' +
+  'accent colors drawn ONLY from this palette: yellow #fcba28 (primary), orange ' +
+  '#fc7428, green #0ba95b, pink #f38ba3, purple #7b5ea7, blue #12b5e5. Hard offset ' +
+  'drop shadows with no blur (like a riso print), no soft gradients anywhere, no ' +
+  'photographic lighting or depth of field.';
+
 function parseArgs(argv) {
   const args = { dryRun: false };
   for (let i = 0; i < argv.length; i++) {
@@ -170,7 +183,7 @@ async function main() {
   if (!base && args.preset) {
     base = await loadPresetPrompt(args.preset);
   }
-  const prompt = base ? `${base}\n\n${NEGATIVES}` : null;
+  const prompt = base ? `${base}\n\n${BRAND_STYLE}\n\n${NEGATIVES}` : null;
   if (!prompt) {
     console.error('Falta --prompt o --preset');
     process.exit(1);
