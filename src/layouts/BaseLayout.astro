@@ -105,8 +105,17 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 
 <script>
   // ── Interacciones globales: progreso de scroll, botones magnéticos ──
+  import { play } from 'cuelume';
   const fine = matchMedia('(pointer: fine)').matches;
   const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Feedback sonoro en botones .btn-brutal: acompaña el "hundido" físico que
+  // ya existe al click (ver BRAND.md §Motion — responde al usuario, nunca
+  // ambiente/loop).
+  document.addEventListener('pointerdown', (e) => {
+    const target = e.target as Element;
+    if (target.closest?.('.btn-brutal')) play('press');
+  }, true);
 
   // Barra de progreso
   const bar = document.getElementById('scroll-progress');

@@ -190,6 +190,7 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
 </BaseLayout>
 
 <script>
+  import { play } from 'cuelume';
   const url  = encodeURIComponent(location.href);
   const text = encodeURIComponent(document.title);
 
@@ -216,6 +217,7 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
   // Copiar enlace
   document.getElementById('share-copy')!.addEventListener('click', async () => {
     await navigator.clipboard.writeText(location.href);
+    play('success');
     const tip = document.getElementById('copy-tip')!;
     tip.style.opacity = '1';
     setTimeout(() => { tip.style.opacity = '0'; }, 2000);

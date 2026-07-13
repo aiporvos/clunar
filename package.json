@@ -20,6 +20,7 @@
     "@rive-app/canvas": "^2.38.2",
     "@tailwindcss/typography": "^0.5.19",
     "astro": "^5.0.0",
+    "cuelume": "^0.1.0",
     "lenis": "^1.3.23",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
