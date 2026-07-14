@@ -1,0 +1,58 @@
+---
+title: 'OpenWiki: documentación de tu repo que se mantiene sola'
+excerpt: >-
+  Un CLI de LangChain que genera y actualiza la documentación de tu código
+  automáticamente, pensada para que la lean agentes tanto como humanos.
+coverImage: /images/posts/openwiki-documentacion-que-se-mantiene-sola/cover.png
+publishedAt: 2026-07-14
+author: Claudio Luna
+category: Automatización
+readTime: 4
+tags:
+  - Automatización
+  - Agentes IA
+  - Documentación
+draft: false
+seoTitle: 'OpenWiki: documentación de código que se actualiza sola (LangChain)'
+seoDescription: >-
+  Qué es OpenWiki, el CLI de LangChain que genera y mantiene actualizada la
+  documentación de un repositorio automáticamente, para agentes y humanos.
+---
+
+La documentación de un repo casi siempre envejece mal: alguien escribe un
+README el día que arranca el proyecto, y a la semana ya no refleja lo que
+el código hace de verdad. Los agentes de código terminan adivinando en vez
+de leer algo confiable.
+
+[OpenWiki](https://github.com/langchain-ai/openwiki), de LangChain, ataca
+ese problema puntual: es un CLI que genera y **mantiene actualizada** la
+documentación de un repositorio, pensada para que la lea un agente tanto
+como una persona.
+
+## Cómo funciona
+
+Tiene dos modos. El que importa para un repo es **code mode**:
+`openwiki --init` genera documentación inicial en una carpeta `openwiki/`
+dentro de tu proyecto. Después, `openwiki --update` la actualiza. La parte
+interesante es que se integra directo a CI (GitHub Actions, GitLab CI,
+Bitbucket Pipelines): cada vez que el código cambia, abre un PR con la
+documentación al día, sin que nadie tenga que acordarse de tocarla.
+
+El otro modo, **personal**, arma una wiki personal en tu máquina a partir de
+fuentes que configurés (repos locales, Gmail, Notion, búsqueda web, X). Es
+la misma idea aplicada a conocimiento personal en vez de código.
+
+## Por qué me interesó
+
+Es el mismo principio que ya aplico en este sitio: cada post de este blog
+está disponible como `.md` crudo (`/blog/{slug}.md`) y hay un índice
+completo en `/llms.txt`, para que un agente pueda leer el contenido
+directamente en vez de tener que parsear HTML. OpenWiki hace la versión
+para código: en vez de un post, documenta un repo, y en vez de generarlo
+una sola vez, lo mantiene actualizado solo.
+
+Si tenés un repo donde el código cambia rápido y la documentación nunca
+alcanza a seguirle el ritmo, vale la pena mirarlo.
+
+Repo, gratis, MIT:
+**[github.com/langchain-ai/openwiki](https://github.com/langchain-ai/openwiki)**

@@ -1,0 +1,16 @@
+La documentación de un repo casi siempre envejece mal: alguien escribe un README el día que arranca el proyecto, y a la semana ya no refleja lo que el código hace de verdad.
+
+Encontré OpenWiki, de LangChain, que ataca justo ese problema:
+
+📝 Genera documentación inicial de tu repo con un comando.
+🔄 La mantiene actualizada sola: se integra a CI (GitHub Actions, GitLab, Bitbucket) y abre un PR con la doc al día cada vez que el código cambia.
+🤖 Pensada para que la lea un agente tanto como una persona, no solo un README que nadie vuelve a abrir.
+
+Es el mismo principio que ya uso en este sitio: cada post tiene su versión .md cruda y hay un índice en /llms.txt, para que un agente lea el contenido directo. OpenWiki hace lo mismo pero para código, y de forma automática.
+
+Post completo:
+cluna.ar/blog/openwiki-documentacion-que-se-mantiene-sola
+
+Guardalo 👇
+
+Sin embudos. Sin condiciones. Solo valor real.

@@ -22,5 +22,11 @@
     "preset": "Detalle técnico ilustrado",
     "provider": "kie",
     "date": "2026-07-13T13:15:00.000Z"
+  },
+  {
+    "slug": "openwiki-documentacion-que-se-mantiene-sola",
+    "preset": "(prompt directo)",
+    "provider": "kie",
+    "date": "2026-07-14T13:50:28.377Z"
   }
 ]
