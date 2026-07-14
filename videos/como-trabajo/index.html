@@ -77,9 +77,17 @@
         tl.to(id, { opacity: 0, y: -30, duration: 0.3, ease: "power2.in" }, t + 1.9);
       }
 
+      // El último paso NO se desvanece: se queda visible hasta el final del
+      // video (que se congela ahí, sin loop). Si se lo hace fade-out como a
+      // los demás, el video termina en un frame en blanco.
+      function revealAndHold(id, t) {
+        tl.fromTo(id, { opacity: 0, y: 40, scale: 0.94 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, t);
+      }
+
       reveal("#s1", 0.1);
       reveal("#s2", 2.3);
-      reveal("#s3", 4.5);
+      revealAndHold("#s3", 4.5);
 
       window.__timelines["main"] = tl;
     </script>
