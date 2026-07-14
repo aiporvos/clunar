@@ -37,6 +37,11 @@ const steps = [
       </div>
     </div>
 
+    <!-- Video de los 3 pasos: se reproduce UNA vez al entrar al viewport (ver BRAND.md §Motion) -->
+    <div class="proceso-video-frame card-brutal max-w-2xl mb-16 reveal" role="img" aria-label="Los 3 pasos del proceso: diagnóstico, diseño e implementación, operación medida">
+      <video class="proceso-video" data-reveal-video src="/videos/como-trabajo/proceso.mp4" muted playsinline preload="metadata"></video>
+    </div>
+
     <!-- Terminal: un agente operando — tipea UNA vez al entrar al viewport (ver BRAND.md §Motion) -->
     <div class="agent-terminal card-brutal max-w-2xl mb-16 reveal"
          role="img" aria-label="Registro de actividad de un agente de IA en operación">
@@ -164,6 +169,11 @@ const steps = [
     .pipe-pulse { display: none; }
   }
 
+  .proceso-video-frame {
+    overflow: hidden; aspect-ratio: 16/9; background: #f9f4da;
+  }
+  .proceso-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
   /* ── Terminal del agente (superficie de datos → mono, ver BRAND.md §Motion) ── */
   .agent-terminal {
     background: var(--coal) !important;
@@ -261,6 +271,22 @@ const steps = [
         });
       }, { threshold: 0.4 });
       io.observe(terminal);
+    }
+  }
+
+  // Video de los 3 pasos: se reproduce una sola vez al entrar en viewport.
+  if (!reduced) {
+    const procesoVideo = document.querySelector<HTMLVideoElement>('.proceso-video');
+    if (procesoVideo) {
+      const vio = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          vio.disconnect();
+          procesoVideo.currentTime = 0;
+          procesoVideo.play().catch(() => {});
+        });
+      }, { threshold: 0.4 });
+      vio.observe(procesoVideo);
     }
   }
 </script>

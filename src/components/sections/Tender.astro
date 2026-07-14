@@ -7,6 +7,7 @@ const servicios = [
     top: ['Ventas', 'Briefing', 'Turnos', 'Competencia'],
     bot: ['Orquestación', 'Memoria', 'Trazabilidad', 'Escalado'],
     color: 'hsl(var(--primary))', fg: 'hsl(var(--foreground))',
+    video: '/videos/tender/agentes.mp4',
   },
   {
     code: 'RAG', num: '02·26',
@@ -15,6 +16,7 @@ const servicios = [
     top: ['Legal', 'Clínico', 'Técnico', 'Catálogos'],
     bot: ['Qdrant', 'Supabase', 'Citas', 'Ingesta'],
     color: 'var(--blue)', fg: '#fff',
+    video: '/videos/tender/rag.mp4',
   },
   {
     code: 'INTEG', num: '03·26',
@@ -23,6 +25,7 @@ const servicios = [
     top: ['ERP', 'CRM', 'Facturación', 'E-commerce'],
     bot: ['n8n', 'MCP', 'WhatsApp Meta', 'YCloud'],
     color: 'hsl(var(--accent))', fg: '#fff',
+    video: '/videos/tender/integ.mp4',
   },
   {
     code: 'DATA', num: '04·26',
@@ -31,6 +34,7 @@ const servicios = [
     top: ['Self-hosted', 'Permisos', 'Trazabilidad', 'Backups'],
     bot: ['VPS propio', 'Docker', 'Auditoría', 'Continuidad'],
     color: 'var(--crimson)', fg: '#fff',
+    video: '/videos/tender/data.mp4',
   },
   {
     code: 'CONSUL', num: '05·26',
@@ -39,6 +43,7 @@ const servicios = [
     top: ['Diagnóstico', 'Arquitectura', 'Modelos', 'Roadmap'],
     bot: ['Estrategia', 'Costos', 'Stack', 'Gobernanza'],
     color: 'var(--purple)', fg: '#fff',
+    video: '/videos/tender/consul.mp4',
   },
   {
     code: 'CLASE', num: '06·26',
@@ -47,6 +52,7 @@ const servicios = [
     top: ['IA aplicada', 'n8n', 'Prompting', 'Liderazgo'],
     bot: ['Talleres', 'In-company', 'Mentorías', 'Práctica'],
     color: 'hsl(var(--success))', fg: '#fff',
+    video: '/videos/tender/clase.mp4',
   },
 ];
 ---
@@ -86,9 +92,10 @@ const servicios = [
             <span class="tender-grommet"></span>
 
             <div class="tender-card">
-              <!-- Panel negro con palabra grande -->
+              <!-- Panel negro: video de revelado (una sola vez, ver BRAND.md §Motion) -->
               <div class="tender-word-panel">
-                <span class="tender-word" style={`color:${s.color}`}>{s.code}</span>
+                <video class="tender-word-video" data-reveal-video src={s.video} muted playsinline preload="metadata"></video>
+                <span class="tender-word tender-word-fallback" style={`color:${s.color}`}>{s.code}</span>
               </div>
 
               <!-- Banda de servicio -->
@@ -212,11 +219,12 @@ const servicios = [
     box-shadow: 7px 9px 0 hsl(var(--foreground));
   }
 
-  /* Panel negro con palabra grande */
+  /* Panel negro: video de revelado (fallback de texto detrás, por si no carga) */
   .tender-word-panel {
     background: var(--coal);
     height: 150px; display: flex; align-items: center; justify-content: center;
     overflow: hidden; border-bottom: 2.5px solid hsl(var(--foreground));
+    position: relative;
   }
   .tender-word {
     font-family: 'Paytone One', sans-serif;
@@ -224,6 +232,13 @@ const servicios = [
     text-transform: uppercase; letter-spacing: -0.02em;
     text-shadow: 0 0 10px hsl(0 0% 0% / 0.25);
   }
+  .tender-word-video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity 0.2s ease;
+  }
+  .tender-word-video.is-ready { opacity: 1; }
+  .tender-word-video.is-ready ~ .tender-word-fallback { opacity: 0; }
 
   /* Banda servicio */
   .tender-band { padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; }
@@ -275,6 +290,25 @@ const servicios = [
   import { play } from 'cuelume';
   const track = document.getElementById('tender-track');
   const viewport = track?.parentElement as HTMLElement | null;
+
+  // Video de revelado de cada palabra: se reproduce UNA sola vez por tarjeta
+  // (nunca en loop, ver BRAND.md §Motion). El rail se auto-scrollea sin fin,
+  // así que sin este freno replaycaría cada vez que la tarjeta vuelve a
+  // entrar en el viewport.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const played = new WeakSet<Element>();
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const el = entry.target as HTMLVideoElement;
+        if (!entry.isIntersecting || played.has(el)) return;
+        played.add(el);
+        el.currentTime = 0;
+        el.play().then(() => el.classList.add('is-ready')).catch(() => {});
+        videoObserver.unobserve(el);
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll<HTMLVideoElement>('[data-reveal-video]').forEach((el) => videoObserver.observe(el));
+  }
 
   // Alinear el cable y el grommet con el centro exacto del ojal (por tarjeta, mismo valor)
   function placeWire() {

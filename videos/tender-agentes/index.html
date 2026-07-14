@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&display=swap" rel="stylesheet" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1920px; height: 1080px; overflow: hidden;
+        background: #0f0d0e;
+      }
+      body { font-family: "Paytone One", sans-serif; }
+
+      #word {
+        position: absolute; inset: 0;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 340px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+        color: #fcba28;
+        transform: scale(0.3);
+        opacity: 0;
+        text-shadow: 0 0 40px rgba(0,0,0,0.25);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="2"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="word" class="clip" data-start="0" data-duration="2" data-track-index="1">AGENTES</div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.to("#word", { opacity: 1, scale: 1.06, duration: 0.4, ease: "back.out(2.2)" }, 0.1);
+      tl.to("#word", { scale: 1, duration: 0.2, ease: "power2.out" }, 0.5);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

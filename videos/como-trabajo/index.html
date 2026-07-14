@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Outfit:wght@500;700&display=swap" rel="stylesheet" />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body {
+        margin: 0; width: 1920px; height: 1080px; overflow: hidden;
+        background: #f9f4da;
+        font-family: "Outfit", sans-serif;
+      }
+
+      .step {
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        opacity: 0;
+      }
+      .step-badge {
+        width: 140px; height: 140px; border-radius: 24px;
+        border: 6px solid #231f20;
+        box-shadow: 10px 10px 0 #231f20;
+        display: flex; align-items: center; justify-content: center;
+        font-family: "Paytone One", sans-serif;
+        font-size: 64px;
+        color: #231f20;
+        margin-bottom: 48px;
+      }
+      .step-title {
+        font-family: "Paytone One", sans-serif;
+        font-size: 96px;
+        color: #231f20;
+        text-align: center;
+        max-width: 1400px;
+        line-height: 1.05;
+      }
+
+      #s1 .step-badge { background: #fcba28; }
+      #s2 .step-badge { background: #fc7428; color: #fff; }
+      #s3 .step-badge { background: #0ba95b; color: #fff; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="7.2"
+      data-width="1920"
+      data-height="1080"
+    >
+      <div id="s1" class="step clip" data-start="0" data-duration="2.6" data-track-index="1">
+        <div class="step-badge">01</div>
+        <div class="step-title">Diagnóstico</div>
+      </div>
+      <div id="s2" class="step clip" data-start="2.2" data-duration="2.6" data-track-index="2">
+        <div class="step-badge">02</div>
+        <div class="step-title">Diseño e<br/>implementación</div>
+      </div>
+      <div id="s3" class="step clip" data-start="4.4" data-duration="2.8" data-track-index="3">
+        <div class="step-badge">03</div>
+        <div class="step-title">Operación<br/>medida</div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      function reveal(id, t) {
+        tl.fromTo(id, { opacity: 0, y: 40, scale: 0.94 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, t);
+        tl.to(id, { opacity: 0, y: -30, duration: 0.3, ease: "power2.in" }, t + 1.9);
+      }
+
+      reveal("#s1", 0.1);
+      reveal("#s2", 2.3);
+      reveal("#s3", 4.5);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

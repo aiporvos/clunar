@@ -5,6 +5,7 @@ const cases = [
     sector: 'Arquitectura de referencia · Comercio',
     tags: ['WhatsApp · API oficial (Meta)', 'n8n como orquestador', 'Agente + memoria', 'CRM · stock · facturación'],
     result: 'WhatsApp → orquestador → agente con memoria → tus sistemas. Cada conversación clasificada, respondida o derivada a un humano, y siempre registrada.',
+    video: '/videos/casos/atencion.mp4',
     n: 1,
   },
   {
@@ -12,6 +13,7 @@ const cases = [
     sector: 'Arquitectura de referencia · Legal / Salud / Técnico',
     tags: ['Ingesta de documentos', 'Vector DB · Qdrant / Supabase', 'Respuestas con citas', 'Servidor propio'],
     result: 'Tus documentos → pipeline de ingesta → base vectorial → agente que responde con citas verificables. Nada sale de tu infraestructura.',
+    video: '/videos/casos/rag.mp4',
     n: 2,
   },
   {
@@ -19,6 +21,7 @@ const cases = [
     sector: 'Arquitectura de referencia · Administración',
     tags: ['Email / PDF de entrada', 'Extracción y validación', 'ERP · facturación', 'Reportes y alertas'],
     result: 'Correos y PDFs → extracción de datos → validación con reglas → carga en ERP/facturación. Lo que era copy-paste humano, ahora es un flujo auditado.',
+    video: '/videos/casos/backoffice.mp4',
     n: 3,
   },
 ];
@@ -69,6 +72,7 @@ const total = cases.length;
               <div class="case-result">
                 <span class="case-result-label">FLUJO DE DATOS</span>
                 <p class="case-result-text">{c.result}</p>
+                <video class="case-flow-video" data-reveal-video data-case-index={c.n - 1} src={c.video} muted playsinline preload="metadata"></video>
               </div>
 
               <!-- CTA -->
@@ -226,6 +230,11 @@ const total = cases.length;
     font-size: 1.1rem;
     color: hsl(var(--foreground));
   }
+  .case-flow-video {
+    width: 100%; margin-top: 8px; border-radius: 8px;
+    border: 2px solid hsl(var(--foreground));
+    display: block;
+  }
 
   .case-cta {
     grid-column: 1 / -1;
@@ -304,15 +313,41 @@ const total = cases.length;
   let current = 0;
   const total = dots.length;
 
+  // Video de flujo de cada caso: se reproduce UNA sola vez por slide, la
+  // primera vez que se activa (nunca en loop, ver BRAND.md §Motion).
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const playedVideos = new Set<number>();
+  function playFlowVideo(idx: number) {
+    if (reducedMotion || playedVideos.has(idx)) return;
+    const video = document.querySelector<HTMLVideoElement>(`[data-reveal-video][data-case-index="${idx}"]`);
+    if (!video) return;
+    playedVideos.add(idx);
+    video.currentTime = 0;
+    video.play().catch(() => {});
+  }
+
   function goTo(idx: number) {
     current = (idx + total) % total;
     if (track) track.style.transform = `translateX(-${current * 100}%)`;
     dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    playFlowVideo(current);
   }
 
   document.getElementById('cases-prev')?.addEventListener('click', () => { goTo(current - 1); play('tick'); });
   document.getElementById('cases-next')?.addEventListener('click', () => { goTo(current + 1); play('sparkle'); });
   dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); play('droplet'); }));
+
+  // Primer slide: no pasa por goTo() al cargar, disparar al entrar en viewport.
+  if (viewport && !reducedMotion) {
+    const initIo = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        initIo.disconnect();
+        playFlowVideo(0);
+      });
+    }, { threshold: 0.4 });
+    initIo.observe(viewport);
+  }
 
   // Auto-advance
   setInterval(() => goTo(current + 1), 5000);
