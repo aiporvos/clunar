@@ -35,3 +35,22 @@ node --env-file=.env scripts/publish-telegram.mjs --caption "..." --photo-path "
 ```
 
 Remote de git: **`clunar`** (no `origin`), rama **`master`** (no `main`).
+
+## Generar video (HyperFrames)
+
+Instalado (2026-07-14): 20 skills de [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes)
+en `.claude/skills/` (symlink a `.agents/skills/`). Router: `/hyperframes` —
+leerlo primero para cualquier pedido de video/animación/motion graphic.
+
+**Uso previsto:** generar el video corto de cada post para el pipeline de
+LinkedIn (`/faceless-explainer` o `/product-launch-video`), usando `BRAND.md`
+como fuente del `frame.md`/`design.md` de HyperFrames — así el video sale con
+la paleta y el estilo del sitio, no genérico.
+
+⚠️ **Requiere Node 22+ para renderizar** (`npx hyperframes ...`). El sistema
+tiene Node v20.20.2 — instalar Node 22+ (nvm o similar) antes del primer uso
+real; instalar los skills en sí no lo necesitó.
+
+Regla de marca a respetar siempre que se use: **nunca loops perpetuos** — si
+un video se usa como fondo (ej. hero), tiene que ser un reveal de una sola
+vez, no un loop infinito (BRAND.md §Motion).
