@@ -1,0 +1,71 @@
+---
+title: 'Graphify: convertí cualquier carpeta en un grafo de conocimiento consultable'
+excerpt: >-
+  Un skill de Claude Code que lee código, PDFs, notas y hasta capturas de
+  pantalla, y arma un grafo que después consultás sin releer los archivos.
+coverImage: /images/posts/graphify-tu-carpeta-como-grafo-de-conocimiento/cover.png
+publishedAt: 2026-07-14
+author: Claudio Luna
+category: RAG & Datos
+readTime: 4
+tags:
+  - RAG & Datos
+  - Agentes IA
+  - Claude Code
+draft: false
+seoTitle: 'Graphify: carpetas de código y notas como grafo de conocimiento'
+seoDescription: >-
+  Qué es graphify, el skill de Claude Code que convierte código, PDFs,
+  markdown e imágenes en un grafo de conocimiento consultable, con muchos
+  menos tokens por consulta.
+---
+
+Todos tenemos una carpeta donde se acumula de todo: código, papers en PDF,
+notas sueltas, capturas de pantalla, diagramas fotografiados de un
+pizarrón. El conocimiento está ahí, pero cada vez que lo necesitás tenés
+que volver a leer todo.
+
+[Graphify](https://github.com/Graphify-Labs/graphify) ataca exactamente
+eso: es un skill de Claude Code que lee esa carpeta y construye un **grafo
+de conocimiento** con los conceptos y las relaciones que encontró. Después
+lo consultás con preguntas, sin releer los archivos.
+
+## Cómo funciona
+
+Se instala con pip y se usa desde Claude Code:
+
+```bash
+pip install graphifyy && graphify install
+```
+
+```
+/graphify .                # arma el grafo de la carpeta actual
+/graphify query "¿qué conecta la atención con el optimizador?"
+/graphify add https://arxiv.org/abs/1706.03762   # suma un paper al grafo
+```
+
+Es multimodal de verdad: el código lo analiza por AST (tree-sitter), los
+PDFs por citas y conceptos, y las imágenes con visión, así que una captura
+de pantalla o la foto de un pizarrón también entran al grafo.
+
+## Los detalles que me gustaron
+
+- **Eficiencia medida, no prometida**: en un corpus mixto (repos de
+  Karpathy + papers + imágenes) reporta 71.5 veces menos tokens por
+  consulta que leer los archivos crudos. El benchmark se imprime después
+  de cada corrida, con tus números.
+- **Honesto sobre lo que encontró**: cada relación del grafo viene
+  etiquetada como extraída, inferida o ambigua. Sabés qué es dato y qué
+  es conjetura del modelo.
+- **Persistente**: el grafo queda en disco. Semanas después lo consultás
+  sin reprocesar nada, y con `--update` solo relee lo que cambió.
+- **Sale en varios formatos**: HTML interactivo, vault de Obsidian, wiki
+  navegable por agentes, o export a Neo4j/Gephi.
+
+Es la misma idea que vengo aplicando en este sitio (contenido legible por
+agentes, como el `/llms.txt`) y que mostró OpenWiki con la documentación:
+el conocimiento sirve más cuando un agente puede navegarlo con estructura,
+no adivinando sobre texto plano.
+
+Repo, gratis, MIT:
+**[github.com/Graphify-Labs/graphify](https://github.com/Graphify-Labs/graphify)**

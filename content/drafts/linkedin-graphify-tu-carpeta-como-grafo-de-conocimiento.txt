@@ -1,0 +1,20 @@
+Todos tenemos una carpeta donde se acumula de todo: código, papers, notas, capturas de pantalla, fotos de un pizarrón. El conocimiento está ahí, pero cada vez que lo necesitás tenés que volver a leer todo.
+
+Encontré graphify, un skill de Claude Code que resuelve justo eso:
+
+🕸️ Lee la carpeta completa (código, PDFs, markdown e imágenes con visión) y arma un grafo de conocimiento con los conceptos y sus relaciones.
+
+🔍 Después lo consultás con preguntas en lenguaje natural, sin releer los archivos: reporta 71.5 veces menos tokens por consulta que trabajar sobre los archivos crudos.
+
+🏷️ Cada relación viene etiquetada: extraída, inferida o ambigua. Sabés qué es dato y qué es conjetura del modelo.
+
+💾 El grafo persiste en disco: semanas después seguís consultando, y solo reprocesa lo que cambió.
+
+Se instala con pip y se usa con /graphify desde Claude Code. Open source, MIT, más de 86.000 estrellas en GitHub.
+
+Post completo:
+cluna.ar/blog/graphify-tu-carpeta-como-grafo-de-conocimiento
+
+Guardalo 👇
+
+Otros venden acceso. Yo comparto criterio.
