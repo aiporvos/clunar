@@ -94,6 +94,15 @@
 }
 
 @layer components {
+  /* Bloques de código del blog (Shiki): el fondo del <pre> es oscuro en
+     ambos temas, así que el texto plano (sin tokens de sintaxis) debe ser
+     SIEMPRE crema — el prose-code:text-foreground del layout lo pintaba
+     charcoal en modo claro y quedaba invisible. Los tokens con color
+     propio (inline style de Shiki) no se ven afectados. */
+  .prose pre code {
+    color: #f9f4da !important;
+  }
+
   /* Botón píldora con borde oscuro y sombra dura (firma react.gg) */
   .btn-brutal {
     border: 2px solid hsl(var(--foreground));
