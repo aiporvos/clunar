@@ -37,6 +37,14 @@ es en español y una portada con palabras en inglés rompe la coherencia de
 marca. Esto aplica también a `--prompt` custom (no solo a los presets de
 abajo). Por defecto, mejor evitar texto en la imagen directamente.
 
+**Regla del nombre de herramienta (2026-07-14):** cuando el post es sobre
+una herramienta concreta (vLLM, OpenWiki, draw.io, n8n...), la portada
+**debe incluir el nombre de la herramienta** integrado en la ilustración —
+pasarlo con `--title "NombreExacto"` a `cover-image.mjs`. El script se
+encarga de pedirlo con la grafía exacta y de prohibir cualquier otro texto.
+Los nombres propios conservan su grafía original (no se traducen ni
+adaptan); la regla de español de arriba sigue valiendo para todo otro texto.
+
 ---
 
 ## 1. Editorial collage

@@ -6,6 +6,12 @@
  * Uso:
  *   node scripts/cover-image.mjs --slug mi-post --preset "Editorial collage" --dry-run
  *   node scripts/cover-image.mjs --slug mi-post --prompt "prompt completo ya armado"
+ *   node scripts/cover-image.mjs --slug mi-post --prompt "..." --title "vLLM"
+ *
+ * --title: incluye ese texto EXACTO en la ilustración (nombre de la
+ * herramienta del post: vLLM, OpenWiki, draw.io...). Sin --title la imagen
+ * no lleva texto. Los nombres propios van con su grafía original; cualquier
+ * otro texto visible sigue la regla de español de estilos-portada.md.
  *
  * Con --dry-run: valida config/args y muestra qué haría, sin llamar a ninguna API.
  */
@@ -18,11 +24,25 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const COVERS_LOG = path.join(ROOT, 'content', 'covers-log.json');
 const PRESETS_FILE = path.join(ROOT, 'content', 'estilos-portada.md');
 
-const NEGATIVES =
+// Con --title, la regla "sin texto" se reemplaza por "solo ese texto exacto".
+const NEGATIVES_BASE =
   'No gradients (blue-to-purple or otherwise), no humanoid robots, no glowing ' +
   'digital brains, no hands typing on holographic keyboards, no stock-photo ' +
   'businesspeople shaking hands, no generic "AI" iconography (glowing chips, ' +
-  'binary rain), no watermarks, no text in the image unless the preset says so.';
+  'binary rain), no watermarks, ';
+const NEGATIVES_NO_TEXT = NEGATIVES_BASE + 'no text in the image unless the preset says so.';
+const negativesWithTitle = (title) =>
+  NEGATIVES_BASE +
+  `and the ONLY text allowed in the image is exactly "${title}" — no other words, letters or labels anywhere.`;
+
+// Bloque que pide el nombre de la herramienta integrado en la ilustración
+// (para posts sobre una herramienta concreta: vLLM, OpenWiki, draw.io...).
+const titleBlock = (title) =>
+  `The image must prominently feature the text "${title}" (spelled EXACTLY like ` +
+  'that, letter by letter, respecting case) as bold display lettering integrated ' +
+  'into the illustration — like a hand-lettered title on a poster, with the same ' +
+  'thick charcoal outline and flat-color style as the rest of the composition. ' +
+  'Double-check the spelling: no missing, extra or swapped letters.';
 
 // Paleta y estilo de cluna.ar (BRAND.md §07-08) — obligatorio en TODAS las
 // portadas, preset o prompt custom, para que nunca salga una imagen fuera
@@ -45,6 +65,7 @@ function parseArgs(argv) {
     else if (a === '--slug') args.slug = argv[++i];
     else if (a === '--preset') args.preset = argv[++i];
     else if (a === '--prompt') args.prompt = argv[++i];
+    else if (a === '--title') args.title = argv[++i];
   }
   return args;
 }
@@ -183,7 +204,9 @@ async function main() {
   if (!base && args.preset) {
     base = await loadPresetPrompt(args.preset);
   }
-  const prompt = base ? `${base}\n\n${BRAND_STYLE}\n\n${NEGATIVES}` : null;
+  const negatives = args.title ? negativesWithTitle(args.title) : NEGATIVES_NO_TEXT;
+  const titlePart = args.title ? `\n\n${titleBlock(args.title)}` : '';
+  const prompt = base ? `${base}${titlePart}\n\n${BRAND_STYLE}\n\n${negatives}` : null;
   if (!prompt) {
     console.error('Falta --prompt o --preset');
     process.exit(1);
@@ -197,6 +220,7 @@ async function main() {
     console.log('--- DRY RUN ---');
     console.log('Slug:', args.slug);
     console.log('Preset:', args.preset ?? '(prompt directo)');
+    console.log('Título en imagen:', args.title ?? '(sin texto)');
     console.log('Prompt final:\n' + prompt);
     console.log('Se guardaría en:', outFile, 'y', ogFile);
     console.log('Provider primario:', process.env.IMAGE_PROVIDER_PRIMARY || 'gemini (default)');

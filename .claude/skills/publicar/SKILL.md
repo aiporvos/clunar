@@ -48,12 +48,18 @@ fase siguiente hasta el OK.
    — evitar el último preset usado según `covers-log.json`.
 2. Mostrar los 2 presets (nombre + para qué sirve) y esperar que Claudio elija
    (o pida un prompt custom).
-3. Ejecutar:
+3. **Si el post es sobre una herramienta concreta** (vLLM, OpenWiki,
+   draw.io, n8n...), agregar SIEMPRE `--title "NombreExacto"` para que el
+   nombre aparezca integrado en la ilustración (regla de 2026-07-14, ver
+   `estilos-portada.md`). Ejecutar:
    ```bash
-   node --env-file=.env scripts/cover-image.mjs --slug {slug} --preset "{preset elegido}"
+   node --env-file=.env scripts/cover-image.mjs --slug {slug} --preset "{preset elegido}" [--title "{herramienta}"]
    ```
    Si no hay `GEMINI_API_KEY` ni `KIE_API_KEY` configuradas, avisar a Claudio
    que faltan las keys y ofrecer seguir con un placeholder o pausar acá.
+   ⚠️ Al mostrar la portada para el checkpoint, **verificar que el nombre
+   esté bien escrito letra por letra** — los modelos de imagen a veces
+   deforman texto; si salió mal, regenerar.
 4. Mostrar la imagen generada (ruta: `public/images/posts/{slug}/cover.png`).
 5. Actualizar el frontmatter del post con `coverImage: /images/posts/{slug}/cover.png`.
 
@@ -118,7 +124,7 @@ explícita del 200 en pantalla.
 recurso de terceros): mismo flujo, pero la imagen se genera ad-hoc con un
 prompt adaptado al tema (el script agrega los negativos anti-genérico solo):
 ```bash
-node --env-file=.env scripts/cover-image.mjs --slug {slug} --prompt "{prompt adaptado al tema, estilo de marca}"
+node --env-file=.env scripts/cover-image.mjs --slug {slug} --prompt "{prompt adaptado al tema, estilo de marca}" [--title "{herramienta}"]
 ```
 y se publica con `--image "public/images/posts/{slug}/cover-og.png"`.
 **Si el prompt pide texto visible en la imagen, ese texto va en español
