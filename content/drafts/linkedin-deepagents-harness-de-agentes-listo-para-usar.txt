@@ -1,0 +1,20 @@
+Armar un agente que funcione en una demo es fácil. Armar uno que aguante trabajo largo y de varios pasos es otra historia: planificación, contexto que no se desborde, sub-agentes, memoria, y un humano aprobando lo sensible.
+
+Encontré DeepAgents, de LangChain, que trae todo eso ya resuelto en un solo paquete:
+
+🧩 Harness completo en pocas líneas de Python: el agente planifica, lee y escribe archivos, y administra su propio contexto desde el primer invoke.
+
+🤝 Human-in-the-loop incluido: aprobar, editar o rechazar cada llamada a herramientas antes de que se ejecute. Para producción, esa es la diferencia entre un agente confiable y uno suelto.
+
+🔀 Sub-agentes con contexto aislado, memoria persistente entre sesiones, skills reutilizables y compatibilidad con cualquier servidor MCP.
+
+🔓 Agnóstico de modelo: funciona con APIs de frontera o con modelos abiertos self-hosted vía Ollama o vLLM. Agente y modelo, los dos en tu infraestructura.
+
+Está construido sobre LangGraph (streaming, persistencia, checkpointing) y el propio README reconoce la inspiración: destilar lo que hace tan general a Claude Code y llevarlo a cualquier modelo.
+
+Post completo:
+cluna.ar/blog/deepagents-harness-de-agentes-listo-para-usar
+
+Guardalo 👇
+
+Sin comentar. Sin suscribirte. Sin pedirte nada. Tomalo.

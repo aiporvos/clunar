@@ -1,0 +1,87 @@
+---
+title: 'DeepAgents: el harness de agentes de LangChain que viene con todo incluido'
+excerpt: >-
+  Planificación, sub-agentes, memoria y manejo de contexto en pocas líneas
+  de Python. Funciona con cualquier modelo, incluso self-hosted.
+coverImage: /images/posts/deepagents-harness-de-agentes-listo-para-usar/cover.png
+publishedAt: 2026-07-15
+author: Claudio Luna
+category: Arquitectura IA
+readTime: 5
+tags:
+  - Arquitectura IA
+  - Agentes IA
+  - LangChain
+draft: false
+seoTitle: 'DeepAgents: harness de agentes de LangChain, listo para producción'
+seoDescription: >-
+  Qué es deepagents, el harness open source de LangChain con sub-agentes,
+  memoria persistente, manejo de contexto y human-in-the-loop incluidos,
+  compatible con cualquier modelo.
+---
+
+Armar un agente que funcione en una demo es fácil. Armar uno que aguante
+trabajo largo y de varios pasos es otra historia: necesitás planificación,
+manejo de contexto para que no se desborde la ventana, delegación en
+sub-agentes, memoria entre sesiones, y un humano que apruebe las acciones
+sensibles. Todo eso normalmente lo construís vos, pieza por pieza.
+
+[DeepAgents](https://github.com/langchain-ai/deepagents), de LangChain, es
+exactamente ese paquete ya armado: un **harness de agentes** con las
+decisiones tomadas y todo incluido, que igual te deja reemplazar cualquier
+pieza sin forkear.
+
+## Cómo se usa
+
+Se instala y arranca en pocas líneas:
+
+```bash
+uv add deepagents
+```
+
+```python
+from deepagents import create_deep_agent
+
+agent = create_deep_agent(
+    model="openai:gpt-5.5",
+    tools=[mi_herramienta],
+    system_prompt="Sos un asistente de investigación.",
+)
+result = agent.invoke({"messages": "Investigá LangGraph y escribí un resumen"})
+```
+
+Con eso el agente ya sabe planificar, leer y escribir archivos, y
+administrar su propio contexto. Lo demás se agrega por configuración.
+
+## Qué trae adentro
+
+- **Sub-agentes**: delega tareas a agentes con ventanas de contexto
+  aisladas, para que el hilo principal no se contamine.
+- **Manejo de contexto**: resume hilos largos y descarga salidas de
+  herramientas a disco en vez de arrastrarlas en cada mensaje.
+- **Memoria persistente**: backends conectables para recordar entre
+  sesiones.
+- **Human-in-the-loop**: aprobar, editar o rechazar llamadas a
+  herramientas antes de que se ejecuten. Para producción, esto no es un
+  detalle: es la diferencia entre un agente confiable y uno suelto.
+- **Skills y MCP**: comportamientos reutilizables que el agente carga a
+  demanda, y compatibilidad con cualquier servidor MCP.
+
+## Los detalles que me importan
+
+Es **agnóstico de modelo**: funciona con cualquier LLM que soporte tool
+calling, incluidos modelos abiertos self-hosted vía Ollama o vLLM. Si
+leíste el post sobre [vLLM](/blog/vllm-servir-tus-propios-modelos-de-ia),
+esto cierra el círculo: agente y modelo, los dos en tu infraestructura.
+
+Está construido sobre LangGraph, así que hereda streaming, persistencia y
+checkpointing, y se integra con LangSmith para trazas y evaluación. Y el
+propio README lo dice: está inspirado en Claude Code, como un intento de
+destilar qué lo hace tan general y llevarlo a cualquier modelo.
+
+Sobre seguridad, el enfoque es honesto: "confiá en el LLM" no existe — los
+límites se ponen a nivel de herramientas y sandbox, no esperando que el
+modelo se autocontrole.
+
+Repo, gratis, MIT:
+**[github.com/langchain-ai/deepagents](https://github.com/langchain-ai/deepagents)**
