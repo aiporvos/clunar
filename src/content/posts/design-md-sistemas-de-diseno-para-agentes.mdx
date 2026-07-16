@@ -1,0 +1,66 @@
+---
+title: 'DESIGN.md: el sistema de diseño que tu agente de código puede leer'
+excerpt: >-
+  Una colección de 73 archivos DESIGN.md extraídos de sitios reales. Copiás
+  uno a tu proyecto y el agente genera UI consistente con ese lenguaje visual.
+coverImage: /images/posts/design-md-sistemas-de-diseno-para-agentes/cover.png
+publishedAt: 2026-07-16
+author: Claudio Luna
+category: Automatización
+readTime: 4
+tags:
+  - Automatización
+  - Agentes IA
+  - Diseño
+draft: false
+seoTitle: 'DESIGN.md: sistemas de diseño legibles por agentes de IA'
+seoDescription: >-
+  Qué es DESIGN.md y cómo usar awesome-design-md, la colección de sistemas
+  de diseño en markdown listos para que un agente de código genere UI
+  consistente.
+---
+
+Cuando le pedís a un agente de código que te arme una interfaz, el
+resultado suele ser genérico: el mismo azul, las mismas cards, el mismo
+aire a plantilla. No es que el agente no sepa diseñar — es que nadie le
+dijo cómo se ve TU producto.
+
+**DESIGN.md** ataca eso. Es un concepto que introdujo Google Stitch: un
+archivo de texto plano que describe el sistema de diseño (paleta,
+tipografía, patrones, reglas) para que un agente lo lea antes de generar
+UI. La analogía es directa: `AGENTS.md` le dice al agente cómo construir
+el proyecto; `DESIGN.md` le dice cómo tiene que verse.
+
+## El repo
+
+[awesome-design-md](https://github.com/VoltAgent/awesome-design-md) es una
+colección de **73 archivos DESIGN.md extraídos de sitios reales**: Claude,
+Linear, Vercel, Supabase, Notion, Stripe y más. No son descripciones
+superficiales: incluyen tokens, patrones y reglas analizados del sitio
+real.
+
+El uso es lo más simple que hay:
+
+1. Elegís un DESIGN.md de la colección (o pedís uno de un sitio puntual).
+2. Lo copiás a la raíz de tu proyecto.
+3. Le decís a tu agente: "armame una página que se vea así".
+
+Sin exports de Figma, sin esquemas JSON, sin tooling especial. Markdown es
+el formato que mejor leen los LLMs, así que no hay nada que parsear ni
+configurar. Funciona con cualquier agente de código: Claude Code, Cursor,
+OpenCode o el que uses.
+
+## Por qué funciona (lo comprobé acá mismo)
+
+Este sitio tiene su propio archivo de ese estilo: un `BRAND.md` con la
+paleta, la tipografía, la voz y los anti-patrones de cluna.ar, que el
+agente lee antes de tocar cualquier componente. Es el motivo por el que
+cada sección nueva, cada portada generada y cada animación salen con el
+mismo lenguaje visual sin que haya que repetirlo en cada pedido.
+
+La lección es la misma que con el resto del contexto para agentes: **lo
+que no está escrito, el agente lo inventa**. Un DESIGN.md convierte
+"quedó parecido" en "quedó consistente".
+
+Repo, gratis, MIT:
+**[github.com/VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)**

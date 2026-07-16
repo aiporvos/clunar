@@ -1,0 +1,18 @@
+Cuando le pedís a un agente de código que arme una interfaz, el resultado suele ser genérico: el mismo azul, las mismas cards, el mismo aire a plantilla. No es que el agente no sepa diseñar. Es que nadie le dijo cómo se ve TU producto.
+
+Encontré awesome-design-md, una colección que resuelve justo eso:
+
+📄 73 archivos DESIGN.md extraídos de sitios reales (Claude, Linear, Vercel, Supabase, Notion...) con tokens, patrones y reglas de cada sistema de diseño.
+
+📋 El uso es copiar uno a la raíz de tu proyecto y decirle al agente: "armame una página que se vea así". Sin Figma, sin JSON, sin tooling: markdown puro, el formato que mejor leen los LLMs.
+
+🤖 Funciona con cualquier agente de código: Claude Code, Cursor, OpenCode, Google Stitch (que fue quien introdujo el concepto).
+
+Lo comprobé en mi propio sitio: cluna.ar tiene su BRAND.md que el agente lee antes de tocar cualquier componente. Es el motivo por el que cada sección nueva sale con el mismo lenguaje visual sin repetirlo en cada pedido. Lo que no está escrito, el agente lo inventa.
+
+Post completo:
+cluna.ar/blog/design-md-sistemas-de-diseno-para-agentes
+
+Guardalo 👇
+
+Acá no hay funnel. Hay laburo compartido.
