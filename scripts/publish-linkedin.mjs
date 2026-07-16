@@ -25,7 +25,9 @@ import { notifyError } from './notify-error.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const API_BASE = 'https://api.linkedin.com';
-const LINKEDIN_VERSION = process.env.LINKEDIN_API_VERSION || '202506';
+// LinkedIn desactiva las versiones YYYYMM viejas (duran ~1 año): si la API
+// responde 426 NONEXISTENT_VERSION, subir LINKEDIN_API_VERSION en .env.
+const LINKEDIN_VERSION = process.env.LINKEDIN_API_VERSION || '202606';
 
 function parseArgs(argv) {
   const args = { dryRun: false };

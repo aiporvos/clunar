@@ -99,6 +99,10 @@ documentación oficial:
    {LINKEDIN_ACCESS_TOKEN}`, `LinkedIn-Version: {YYYYMM}`,
    `X-Restli-Protocol-Version: 2.0.0`.
 
+**La versión YYYYMM vence (~1 año):** si la API responde
+`426 NONEXISTENT_VERSION`, subir `LINKEDIN_API_VERSION` en `.env` a un mes
+vigente. Pasó el 2026-07-16 con `202506` (se saltó a `202606`).
+
 **Formato del texto ("little text format"):** en `commentary`, los caracteres
 `( ) { } [ ] @ # * _ ~ < > | \` son **reservados** — sin escapar con `\`,
 LinkedIn renderiza el post roto (se pierden emojis, aparecen guiones sueltos,
