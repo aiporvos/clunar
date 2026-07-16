@@ -44,18 +44,24 @@ const titleBlock = (title) =>
   'thick charcoal outline and flat-color style as the rest of the composition. ' +
   'Double-check the spelling: no missing, extra or swapped letters.';
 
-// Paleta y estilo de cluna.ar (BRAND.md §07-08) — obligatorio en TODAS las
-// portadas, preset o prompt custom, para que nunca salga una imagen fuera
-// de marca (fotorrealista, con paleta ajena, etc.).
+// Estilo canónico de portada de cluna.ar — fijado por Claudio el 2026-07-16
+// tomando como referencia la portada del post "graphify"
+// (public/images/posts/graphify-tu-carpeta-como-grafo-de-conocimiento/cover.png).
+// VA PRIMERO en el prompt: el modelo prioriza lo que lee al principio, y con
+// el estilo al final las portadas derivaban a isométrico pastel genérico.
 const BRAND_STYLE =
-  'Rendered in the cluna.ar brand visual language: flat vector illustration ' +
-  '(never photorealistic, never realistic 3D render, never literal photography), ' +
-  'thick charcoal outlines (#231f20), warm cream background (#f9f4da) unless the ' +
-  'scene explicitly calls for a near-black background (#0f0d0e), flat vibrant ' +
-  'accent colors drawn ONLY from this palette: yellow #fcba28 (primary), orange ' +
-  '#fc7428, green #0ba95b, pink #f38ba3, purple #7b5ea7, blue #12b5e5. Hard offset ' +
-  'drop shadows with no blur (like a riso print), no soft gradients anywhere, no ' +
-  'photographic lighting or depth of field.';
+  'STYLE (most important instruction, dominates everything else): warm cream ' +
+  'background (#f9f4da). Clean confident black line-art illustration (comic / ' +
+  'riso print feel, medium-thick even outlines) with selective FLAT fills only ' +
+  'from this palette: yellow #fcba28, orange #fc7428, green #0ba95b, pink ' +
+  '#f38ba3, purple #7b5ea7, blue #12b5e5 — some elements may stay as pure ' +
+  'uncolored line art for balance. If a title text is requested, render it as ' +
+  'playful rounded bubble display lettering, each letter filled with a ' +
+  'different color from the palette, with a thick cream outline around the ' +
+  'letters and a soft solid charcoal drop shadow. Generous negative space, ' +
+  'editorial composition, friendly and confident. Never photorealistic, never ' +
+  'realistic 3D render, no gradients, no washed pastel colors, no colors ' +
+  'outside the palette.';
 
 function parseArgs(argv) {
   const args = { dryRun: false };
@@ -206,7 +212,7 @@ async function main() {
   }
   const negatives = args.title ? negativesWithTitle(args.title) : NEGATIVES_NO_TEXT;
   const titlePart = args.title ? `\n\n${titleBlock(args.title)}` : '';
-  const prompt = base ? `${base}${titlePart}\n\n${BRAND_STYLE}\n\n${negatives}` : null;
+  const prompt = base ? `${BRAND_STYLE}\n\nCOMPOSITION: ${base}${titlePart}\n\n${negatives}` : null;
   if (!prompt) {
     console.error('Falta --prompt o --preset');
     process.exit(1);

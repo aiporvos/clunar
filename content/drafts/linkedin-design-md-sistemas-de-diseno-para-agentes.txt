@@ -8,8 +8,6 @@ Encontré awesome-design-md, una colección que resuelve justo eso:
 
 🤖 Funciona con cualquier agente de código: Claude Code, Cursor, OpenCode, Google Stitch (que fue quien introdujo el concepto).
 
-Lo comprobé en mi propio sitio: cluna.ar tiene su BRAND.md que el agente lee antes de tocar cualquier componente. Es el motivo por el que cada sección nueva sale con el mismo lenguaje visual sin repetirlo en cada pedido. Lo que no está escrito, el agente lo inventa.
-
 Post completo:
 cluna.ar/blog/design-md-sistemas-de-diseno-para-agentes
 

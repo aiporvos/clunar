@@ -10,15 +10,22 @@
 > repetir el mismo preset en 2 posts consecutivos.**
 
 **Regla de marca (obligatoria, no se pide en cada preset):** toda portada se
-renderiza en el lenguaje visual de cluna.ar (`BRAND.md` §07-08) — ilustración
-plana tipo vector/riso, nunca fotorrealista ni render 3D realista. Fondo
-crema `#f9f4da` (o negro `#0f0d0e` solo si la escena lo pide explícitamente),
-contornos gruesos charcoal `#231f20`, acentos planos limitados a la paleta
-de marca: amarillo `#fcba28` (primario), naranja `#fc7428`, verde `#0ba95b`,
-rosa `#f38ba3`, violeta `#7b5ea7`, celeste `#12b5e5`. Sombras duras con
-offset, sin blur, sin gradientes. `scripts/cover-image.mjs` ya inyecta esto
-automáticamente en cada prompt (preset o `--prompt` custom) — los presets de
-abajo describen composición y tema, no estilo ni paleta.
+renderiza en el **estilo canónico fijado por Claudio el 2026-07-16**, cuya
+referencia visual es la portada del post "graphify"
+(`public/images/posts/graphify-tu-carpeta-como-grafo-de-conocimiento/cover.png`):
+fondo crema `#f9f4da`, ilustración de línea negra limpia y confiada (feel
+cómic/riso, trazo medio parejo) con rellenos planos selectivos SOLO de la
+paleta de marca (amarillo `#fcba28`, naranja `#fc7428`, verde `#0ba95b`,
+rosa `#f38ba3`, violeta `#7b5ea7`, celeste `#12b5e5` — algunos elementos
+pueden quedar en línea pura sin relleno, para balance). Si lleva título
+(`--title`), va como lettering redondeado tipo burbuja, cada letra de un
+color distinto de la paleta, con contorno crema grueso y sombra charcoal
+suave. Aire generoso, composición editorial. Nunca fotorrealista, sin
+gradientes, sin pasteles lavados, sin colores fuera de paleta.
+`scripts/cover-image.mjs` inyecta este estilo automáticamente **al
+principio** de cada prompt (el modelo prioriza lo primero que lee — con el
+estilo al final, las portadas derivaban a isométrico pastel genérico). Los
+presets de abajo describen composición y tema, no estilo ni paleta.
 
 Negativos que van en **todos** los prompts (no repetir la lista completa en
 cada preset abajo, ya están acá una sola vez):
