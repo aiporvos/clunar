@@ -1,0 +1,58 @@
+---
+title: 'Tu primer bot de Telegram con n8n, sin escribir código'
+excerpt: >-
+  Armar tu primer bot de Telegram con n8n lleva menos de una hora y no
+  requiere escribir código. Así se construye en la Clase 1 del curso.
+coverImage: /images/posts/bot-telegram-n8n-sin-codigo/cover.png
+publishedAt: 2026-07-17
+author: Claudio Luna
+category: Automatización
+readTime: 3
+tags:
+  - Automatización
+  - n8n
+  - Telegram
+draft: false
+seoTitle: 'Cómo armar un bot de Telegram con n8n sin código'
+seoDescription: >-
+  Paso a paso para crear un bot de Telegram con n8n: token con BotFather,
+  trigger, nodo Switch con fallback y exportación del flujo como backup.
+---
+
+Un negocio que responde horarios, precios y ubicación a las tres de la
+mañana ya le lleva ventaja a la mitad de su competencia. Y ese bot de
+Telegram no lleva más de una hora armarlo, sin escribir una línea de código.
+
+Es lo primero que armamos en la Clase 1 del curso de automatización con
+n8n, y es el momento en que a la mayoría de los alumnos les hace clic:
+entienden qué es un trigger, un nodo y cómo se conectan entre sí, antes de
+meterle una sola línea de inteligencia artificial.
+
+## El flujo, paso a paso
+
+1. **Token con BotFather.** Es el bot oficial de Telegram que fabrica bots:
+   le pedís uno nuevo y te devuelve un token. Ese token es todo el registro
+   que necesitás.
+2. **Chat ID con @userinfobot.** Así el bot sabe a quién responderle.
+3. **Trigger de Telegram en n8n.** Cada mensaje que llega dispara el flujo.
+   Sin servidor propio, sin polling manual.
+4. **Nodo Switch con fallback.** Le enseñás al bot a responder según lo que
+   preguntan: "horarios" contesta una cosa, "precios" otra, "ubicación"
+   otra, y una respuesta por defecto para lo que no reconoce.
+5. **Exportar el flujo como JSON.** Backup y versionado, sin depender de la
+   nube de n8n.
+
+## Por qué arrancar por acá
+
+La tentación es meter un agente de IA desde el primer día. El problema es
+que si algo se rompe (y algo siempre se rompe) sin entender el flujo de
+base no hay dónde mirar. El bot de reglas de la Clase 1 es más limitado que
+un agente, pero deja algo que el agente no enseña solo: cómo se mapean
+variables entre nodos y qué hace cada pieza del flujo.
+
+Recién con eso resuelto tiene sentido subir un agente de IA arriba: ahí el
+Switch se vuelve innecesario porque el modelo entiende la intención sin
+reglas explícitas.
+
+El flujo completo (JSON, listo para importar) está acá, gratis:
+**[github.com/clunaar/n8n](https://github.com/clunaar/n8n/blob/main/flujos/n8n-academy/clase1-bot-telegram.json)**
