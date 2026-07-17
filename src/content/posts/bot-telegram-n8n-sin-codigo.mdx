@@ -1,13 +1,13 @@
 ---
 title: 'Tu primer bot de Telegram con n8n, sin escribir código'
 excerpt: >-
-  Armar tu primer bot de Telegram con n8n lleva menos de una hora y no
-  requiere escribir código. Así se construye en la Clase 1 del curso.
+  Un formulario que dispara un mensaje distinto a Telegram según una
+  condición. Se arma en menos de una hora, sin instalar nada raro.
 coverImage: /images/posts/bot-telegram-n8n-sin-codigo/cover.png
 publishedAt: 2026-07-17
 author: Claudio Luna
 category: Automatización
-readTime: 3
+readTime: 4
 tags:
   - Automatización
   - n8n
@@ -15,44 +15,63 @@ tags:
 draft: false
 seoTitle: 'Cómo armar un bot de Telegram con n8n sin código'
 seoDescription: >-
-  Paso a paso para crear un bot de Telegram con n8n: token con BotFather,
-  trigger, nodo Switch con fallback y exportación del flujo como backup.
+  Paso a paso para crear un flujo de n8n que recibe un formulario, evalúa
+  una condición con el nodo If y avisa por Telegram: token con BotFather,
+  Chat ID y exportación del flujo como backup.
 ---
 
-Un negocio que responde horarios, precios y ubicación a las tres de la
-mañana ya le lleva ventaja a la mitad de su competencia. Y ese bot de
-Telegram no lleva más de una hora armarlo, sin escribir una línea de código.
+Un formulario que llega, se evalúa solo y avisa por Telegram según lo que
+diga, sin que nadie tenga que estar mirando una bandeja de entrada. Ese
+flujo no lleva más de una hora armarlo, sin escribir una línea de código.
 
 Es lo primero que armamos en la Clase 1 del curso de automatización con
 n8n, y es el momento en que a la mayoría de los alumnos les hace clic:
-entienden qué es un trigger, un nodo y cómo se conectan entre sí, antes de
-meterle una sola línea de inteligencia artificial.
+entienden qué es un trigger, un nodo y cómo se pasan datos entre ellos,
+antes de meterle una sola línea de inteligencia artificial.
 
 ## El flujo, paso a paso
 
-1. **Token con BotFather.** Es el bot oficial de Telegram que fabrica bots:
-   le pedís uno nuevo y te devuelve un token. Ese token es todo el registro
-   que necesitás.
-2. **Chat ID con @userinfobot.** Así el bot sabe a quién responderle.
-3. **Trigger de Telegram en n8n.** Cada mensaje que llega dispara el flujo.
-   Sin servidor propio, sin polling manual.
-4. **Nodo Switch con fallback.** Le enseñás al bot a responder según lo que
-   preguntan: "horarios" contesta una cosa, "precios" otra, "ubicación"
-   otra, y una respuesta por defecto para lo que no reconoce.
-5. **Exportar el flujo como JSON.** Backup y versionado, sin depender de la
-   nube de n8n.
+1. **Conseguí n8n.** Para probar sin instalar nada: n8n Cloud, con 14 días
+   gratis en n8n.io. Para tenerlo corriendo en tu máquina en un minuto:
+   `npx n8n` en la terminal, se abre solo en `http://localhost:5678`. Para
+   dejarlo en producción 24/7, Docker sobre un VPS es lo que se usa en
+   proyectos reales.
+2. **Token con BotFather.** En Telegram buscás `@BotFather` (el oficial,
+   tiene el tilde azul de verificado), le mandás `/newbot`, elegís un
+   nombre para mostrar y un usuario que termine en `_bot` (por ejemplo
+   `mi_negocio_bot`). Te devuelve un token con esta pinta:
+   `1234567890:AAF-xxxx...`. Es la contraseña del bot: si se filtra, se
+   revoca y se genera uno nuevo con `/revoke`.
+3. **Cargar el token en n8n.** Credentials → New → Telegram → pegás el
+   token → Save. Con eso ya está disponible en cualquier nodo de Telegram
+   del flujo.
+4. **Chat ID con @userinfobot.** Telegram no identifica cuentas por
+   teléfono ni nombre puertas adentro, usa un ID numérico. Se lo pedís a
+   `@userinfobot` y ese número va en el nodo de Telegram, para que el bot
+   sepa a quién escribirle.
+5. **Form Trigger como entrada.** El nodo "On new form event" genera una
+   URL pública con un formulario. Cada Submit dispara el flujo y los datos
+   llegan como JSON (`{{ $json.nombre }}`, `{{ $json.email }}`, etc.),
+   accesibles en cualquier nodo siguiente.
+6. **Nodo If para la condición.** Evalúa un campo del formulario y bifurca
+   el flujo en dos caminos: verdadero o falso. Cada camino termina en un
+   nodo de Telegram distinto, con su propio mensaje armado con los datos
+   del formulario (`Hola {{ $json.nombre }}, recibimos tu mensaje`).
+7. **Exportar el flujo como JSON.** Backup y versionado, sin depender de la
+   nube de n8n. Se importa igual en cualquier otra instancia.
 
 ## Por qué arrancar por acá
 
 La tentación es meter un agente de IA desde el primer día. El problema es
 que si algo se rompe (y algo siempre se rompe) sin entender el flujo de
-base no hay dónde mirar. El bot de reglas de la Clase 1 es más limitado que
-un agente, pero deja algo que el agente no enseña solo: cómo se mapean
-variables entre nodos y qué hace cada pieza del flujo.
+base no hay dónde mirar. Este flujo de reglas es más limitado que un
+agente, pero deja algo que el agente no enseña solo: cómo viaja un dato
+desde que entra hasta que sale, y qué hace cada nodo en el medio.
 
 Recién con eso resuelto tiene sentido subir un agente de IA arriba: ahí el
-Switch se vuelve innecesario porque el modelo entiende la intención sin
-reglas explícitas.
+If se vuelve innecesario porque el modelo decide la rama sin una condición
+explícita, y el mensaje se redacta solo en lugar de salir de una plantilla
+fija.
 
 El flujo completo (JSON, listo para importar) está acá, gratis:
 **[github.com/clunaar/n8n](https://github.com/clunaar/n8n/blob/main/flujos/n8n-academy/clase1-bot-telegram.json)**
