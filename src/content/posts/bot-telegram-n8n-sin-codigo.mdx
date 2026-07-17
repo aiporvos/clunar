@@ -1,9 +1,9 @@
 ---
-title: 'Tu primer bot de Telegram con n8n, sin escribir código'
+title: Tu primer bot de Telegram con n8n, sin escribir código
 excerpt: >-
-  Un formulario que dispara un mensaje distinto a Telegram según una
-  condición. Se arma en menos de una hora, sin instalar nada raro.
-coverImage: /images/posts/bot-telegram-n8n-sin-codigo/cover.png
+  Un formulario que dispara un mensaje distinto a Telegram según una condición.
+  Se arma en menos de una hora, sin instalar nada raro.
+coverImage: /images/posts/bot-telegram-n8n-sin-codigo/coverImage.png
 publishedAt: 2026-07-17
 author: Claudio Luna
 category: Automatización
@@ -13,13 +13,12 @@ tags:
   - n8n
   - Telegram
 draft: false
-seoTitle: 'Cómo armar un bot de Telegram con n8n sin código'
+seoTitle: Cómo armar un bot de Telegram con n8n sin código
 seoDescription: >-
-  Paso a paso para crear un flujo de n8n que recibe un formulario, evalúa
-  una condición con el nodo If y avisa por Telegram: token con BotFather,
-  Chat ID y exportación del flujo como backup.
+  Paso a paso para crear un flujo de n8n que recibe un formulario, evalúa una
+  condición con el nodo If y avisa por Telegram: token con BotFather, Chat ID y
+  exportación del flujo como backup.
 ---
-
 Un formulario que llega, se evalúa solo y avisa por Telegram según lo que
 diga, sin que nadie tenga que estar mirando una bandeja de entrada. Ese
 flujo no lleva más de una hora armarlo, sin escribir una línea de código.
@@ -31,9 +30,7 @@ antes de meterle una sola línea de inteligencia artificial.
 
 ## El flujo, paso a paso
 
-1. **Conseguí n8n.** Para probar sin instalar nada: n8n Cloud, con 14 días
-   gratis en n8n.io. Para tenerlo corriendo en tu máquina en un minuto:
-   `npx n8n` en la terminal, se abre solo en `http://localhost:5678`. Para
+1. **Conseguí n8n.** Para probar sin instalar nada: n8n Cloud,[https://app.n8n.cloud/register](https://app.n8n.cloud/register), con 14 días gratis en n8n.io. Para tenerlo corriendo en tu máquina en un minuto: `npx n8n` en la terminal, se abre solo en `http://localhost:5678`. Para
    dejarlo en producción 24/7, Docker sobre un VPS es lo que se usa en
    proyectos reales.
 2. **Token con BotFather.** En Telegram buscás `@BotFather` (el oficial,
@@ -74,4 +71,4 @@ explícita, y el mensaje se redacta solo en lugar de salir de una plantilla
 fija.
 
 El flujo completo (JSON, listo para importar) está acá, gratis:
-**[github.com/clunaar/n8n](https://github.com/clunaar/n8n/blob/main/flujos/n8n-academy/clase1-bot-telegram.json)**
+[**github.com/clunaar/n8n**](https://github.com/clunaar/n8n/blob/main/flujos/n8n-academy/clase1-bot-telegram.json)
