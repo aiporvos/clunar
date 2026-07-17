@@ -20,7 +20,13 @@ frases cortas, datos concretos, "a veces la respuesta es no").
    líneas. Marca la diferencia sin sermonear.
 3. **Desarrollo con ejemplos concretos** — código, flujos, números reales, "lo
    que probé", "lo que hice". Nada de teoría sin aterrizar.
-4. **Cierre de valor** — qué cambia cuando se aplica bien. Si hay un recurso para
+4. **Paso a paso de puesta en marcha (obligatorio en todo post que trate sobre
+   una herramienta, flujo o recurso)** — lista numerada simple de cómo dejarlo
+   andando, con el tono de alguien que ya lo probó y te cuenta cómo hacerlo, no
+   un manual técnico exhaustivo. Alcanza con los pasos esenciales para arrancar
+   (instalar/conseguir acceso, configurar lo mínimo, primer resultado). Regla
+   fijada 2026-07-17 tras el post del bot de Telegram con n8n.
+5. **Cierre de valor** — qué cambia cuando se aplica bien. Si hay un recurso para
    compartir (repo, flujo de n8n, plantilla), se linkea directo, sin condicionarlo.
 
 **Categorías disponibles** (Keystatic, `keystatic.config.tsx`): Automatización,
