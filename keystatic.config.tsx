@@ -68,6 +68,18 @@ export default config({
           ],
         }),
 
+        aiLevel: fields.select({
+          label: 'Nivel de conocimiento IA',
+          description: 'Según qué hace el lector con la IA en este tema (chatear, usar herramientas, agentes, orquestación) — no la dificultad del tema.',
+          defaultValue: '1',
+          options: [
+            { label: 'Nivel 1 · Chat', value: '1' },
+            { label: 'Nivel 2 · Herramientas', value: '2' },
+            { label: 'Nivel 3 · Agentes', value: '3' },
+            { label: 'Nivel 4 · Orquestación', value: '4' },
+          ],
+        }),
+
         readTime: fields.integer({
           label: 'Tiempo de lectura (minutos)',
           defaultValue: 5,

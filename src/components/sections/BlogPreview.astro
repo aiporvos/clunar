@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import NivelBadge from '../NivelBadge.astro';
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 const posts = allPosts
   .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
@@ -62,6 +63,11 @@ function initials(name?: string) {
               <span>{formatDate(post.data.publishedAt)}</span>
               {post.data.readTime && <span>· {post.data.readTime} min</span>}
             </div>
+            {post.data.aiLevel && (
+              <div class="mb-3">
+                <NivelBadge nivel={post.data.aiLevel} compact />
+              </div>
+            )}
             <h3 class="font-display text-lg font-semibold mb-3 line-clamp-2 transition-colors group-hover:opacity-70">
               <a href={`/blog/${post.slug}`}>{post.data.title}</a>
             </h3>

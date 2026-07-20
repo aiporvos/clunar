@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Nav from '../components/layout/Nav.astro';
 import Footer from '../components/layout/Footer.astro';
 import PageActions from '../components/blog/PageActions.astro';
+import NivelBadge from '../components/NivelBadge.astro';
 
 interface Props {
   slug: string;
@@ -12,6 +13,7 @@ interface Props {
   publishedAt: string;
   author: string;
   tags: string[];
+  aiLevel?: number | null;
   seoTitle?: string;
   seoDescription?: string;
 }
@@ -24,6 +26,7 @@ const {
   publishedAt,
   author,
   tags,
+  aiLevel,
   seoTitle,
   seoDescription,
 } = Astro.props;
@@ -118,8 +121,9 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
       <article class="max-w-3xl mx-auto">
         <!-- Header del post -->
         <header class="mb-10">
-          {tags.length > 0 && (
+          {(aiLevel || tags.length > 0) && (
             <div class="flex flex-wrap gap-2 mb-4">
+              <NivelBadge nivel={aiLevel} />
               {tags.map(tag => (
                 <span class="pill-brutal text-xs px-3 py-1 bg-primary text-foreground font-bold">
                   {tag}

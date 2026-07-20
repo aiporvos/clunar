@@ -12,6 +12,7 @@ const posts = defineCollection({
     author: z.string().default('Claudio Luna'),
     tags: z.array(z.string()).default([]),
     category: z.string().optional(),
+    aiLevel: z.coerce.number().int().min(1).max(4).optional(),
     readTime: z.number().optional(),
     draft: z.boolean().default(false),
     seoTitle: z.string().optional(),

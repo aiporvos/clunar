@@ -1,0 +1,33 @@
+---
+import { NIVELES } from '../../lib/niveles';
+
+interface Props {
+  activeNivel?: number | null;
+}
+
+const { activeNivel } = Astro.props;
+---
+
+<section id="niveles" class="card-brutal p-6 md:p-8 mb-10">
+  <p class="section-label">Guía de lectura</p>
+  <h2 class="font-display text-2xl md:text-3xl mb-2 text-foreground">¿Con qué nivel de IA laburás?</h2>
+  <p class="text-muted-foreground mb-6 max-w-2xl text-sm md:text-base">
+    Cada post lleva un nivel según qué hacés con la IA en ese tema (chatear,
+    usar herramientas, agentes, orquestar varios agentes), no según qué tan
+    difícil es. Así elegís rápido por dónde arrancar.
+  </p>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {NIVELES.map(n => (
+      <a
+        href={`/blog?nivel=${n.nivel}`}
+        class={`group block p-4 rounded-lg border-brutal transition-transform hover:-translate-y-1 ${activeNivel === n.nivel ? 'shadow-brutal-sm' : ''}`}
+        style="background:hsl(var(--card))"
+      >
+        <span class="font-display text-3xl block mb-2" style={`color:var(--${n.colorVar})`}>{n.nivel}</span>
+        <span class="block font-bold text-sm mb-1 text-foreground">{n.nombre}</span>
+        <span class="block text-xs text-muted-foreground leading-snug">{n.descripcion}</span>
+      </a>
+    ))}
+  </div>
+</section>

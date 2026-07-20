@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/layout/Nav.astro';
 import Footer from '../../components/layout/Footer.astro';
 import BlogCard from '../../components/BlogCard.astro';
+import NivelesIA from '../../components/blog/NivelesIA.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
@@ -31,10 +32,13 @@ const allTags = [...new Set(posts.flatMap(p => p.data.tags ?? []))].sort();
 
 const activeCategory = Astro.url.searchParams.get('categoria');
 const activeTag = Astro.url.searchParams.get('tag');
+const activeNivelParam = Astro.url.searchParams.get('nivel');
+const activeNivel = activeNivelParam ? Number(activeNivelParam) : null;
 
 const filtered = posts.filter(p => {
   if (activeCategory && p.data.category !== activeCategory) return false;
   if (activeTag && !(p.data.tags ?? []).includes(activeTag)) return false;
+  if (activeNivel && p.data.aiLevel !== activeNivel) return false;
   return true;
 });
 ---
@@ -56,16 +60,18 @@ const filtered = posts.filter(p => {
         </p>
       </header>
 
-      {(activeCategory || activeTag) && (
+      {(activeCategory || activeTag || activeNivel) && (
         <div class="mb-6 flex items-center gap-3">
           <span class="text-sm text-muted-foreground">
-            Filtrando por: <strong class="text-accent">{activeCategory || activeTag}</strong>
+            Filtrando por: <strong class="text-accent">{activeCategory || activeTag || `Nivel ${activeNivel}`}</strong>
           </span>
           <a href="/blog" class="text-xs text-muted-foreground hover:text-accent underline">
             Quitar filtro
           </a>
         </div>
       )}
+
+      <NivelesIA activeNivel={activeNivel} />
 
       <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-10 items-start">
 
@@ -86,6 +92,7 @@ const filtered = posts.filter(p => {
                   coverImage={post.data.coverImage}
                   publishedAt={post.data.publishedAt}
                   tags={post.data.tags}
+                  aiLevel={post.data.aiLevel}
                 />
               ))}
             </div>

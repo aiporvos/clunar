@@ -1,4 +1,6 @@
 ---
+import NivelBadge from './NivelBadge.astro';
+
 interface Props {
   title: string;
   excerpt: string;
@@ -6,9 +8,10 @@ interface Props {
   coverImage?: string;
   publishedAt: string;
   tags?: string[];
+  aiLevel?: number | null;
 }
 
-const { title, excerpt, slug, coverImage, publishedAt, tags = [] } = Astro.props;
+const { title, excerpt, slug, coverImage, publishedAt, tags = [], aiLevel } = Astro.props;
 
 const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
   year: 'numeric',
@@ -32,8 +35,9 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
   )}
 
   <div class="flex flex-col flex-1 p-6">
-    {tags.length > 0 && (
+    {(aiLevel || tags.length > 0) && (
       <div class="flex flex-wrap gap-2 mb-3">
+        <NivelBadge nivel={aiLevel} compact />
         {tags.slice(0, 2).map(tag => (
           <span class="pill-brutal px-2.5 py-0.5 text-xs" style="background:hsl(var(--primary));color:hsl(var(--foreground))">#{tag}</span>
         ))}

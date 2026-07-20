@@ -1,0 +1,23 @@
+---
+import { getNivel } from '../lib/niveles';
+
+interface Props {
+  nivel?: number | null;
+  compact?: boolean;
+}
+
+const { nivel, compact = false } = Astro.props;
+const info = getNivel(nivel);
+---
+
+{info && (
+  <a
+    href="/blog#niveles"
+    class={`pill-brutal inline-flex items-center gap-1.5 font-bold hover:opacity-80 transition-opacity ${compact ? 'px-2.5 py-0.5 text-xs' : 'px-3 py-1 text-xs'}`}
+    style="color:hsl(var(--foreground))"
+    title={`Nivel ${info.nivel} · ${info.nombre} — ver los 4 niveles`}
+  >
+    <span aria-hidden="true" style={`color:var(--${info.colorVar})`}>●</span>
+    Nivel {info.nivel} · {info.nombre}
+  </a>
+)}
