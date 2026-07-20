@@ -49,8 +49,18 @@ un solo texto con saltos de línea entre bloques):
 [LISTA]           → un emoji-ancla por categoría, una idea por línea
 [CIERRE DE VALOR] → qué cambia cuando se aplica bien
 [ENTREGA]         → link directo al post del blog — "Guardalo 👇" o similar
+[NIVEL]           → "Nivel N · Nombre" del post (ver más abajo)
 [FRASE DE MARCA]  → una del banco de abajo, rotando (ver covers-log.json/histórico)
 ```
+
+**[NIVEL] (obligatorio si el post de blog asociado tiene `aiLevel` en el
+frontmatter, regla fijada 2026-07-20):** una línea sola, formato exacto
+`Nivel N · Nombre` (los 4 nombres viven en `src/lib/niveles.ts`: 1 Chat,
+2 Herramientas, 3 Agentes, 4 Orquestación) — el mismo texto que el badge del
+sitio, para que se lea igual en LinkedIn que en el blog. Va después del link
+al post, antes de la frase de marca. Si el post no tiene `aiLevel` (por
+ejemplo, un post sin blog asociado que solo recomienda un repo de terceros),
+se omite el bloque entero, no se inventa un nivel.
 
 ### Banco de frases de cierre (rotar, no repetir la última usada)
 

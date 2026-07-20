@@ -99,10 +99,13 @@ explícita del 200 en pantalla.
 ## Fase 4 — LinkedIn
 
 1. Redactar el post siguiendo `content/estilo-redes.md` §2 (gancho → contraste
-   → promesa → lista con emojis → cierre de valor → link al post → frase de
-   marca, **rotando** — no repetir la última usada según `covers-log.json` o
-   el historial de esta sesión). **Sin rayas/em-dashes** (ver prohibiciones
-   de estilo-redes §2).
+   → promesa → lista con emojis → cierre de valor → link al post → **nivel**
+   → frase de marca, **rotando** — no repetir la última usada según
+   `covers-log.json` o el historial de esta sesión). **Sin rayas/em-dashes**
+   (ver prohibiciones de estilo-redes §2). **Nivel (obligatorio si el post
+   tiene `aiLevel`):** línea `Nivel N · Nombre` tomada del frontmatter del
+   post + `src/lib/niveles.ts`, después del link, antes de la frase de marca.
+   Si el post no tiene `aiLevel` (post sin blog asociado), se omite.
 2. Guardar el borrador en `content/drafts/linkedin-{slug}.txt` (UTF-8). La API
    de LinkedIn **no soporta borradores nativos** — este archivo ES el borrador:
    Claudio puede editarlo directamente antes de aprobar.
