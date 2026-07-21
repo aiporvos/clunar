@@ -1,0 +1,77 @@
+---
+title: 'Pocket TTS: texto a voz en tu CPU, sin GPU y casi en tiempo real'
+excerpt: >-
+  Pocket TTS convierte texto en voz en tu CPU, sin GPU, con el primer audio
+  en 200ms. Modelo de 100M de parámetros, código abierto, gratis.
+coverImage: /images/posts/pocket-tts-voz-sin-gpu/cover.png
+publishedAt: 2026-07-21
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: 2
+readTime: 4
+tags:
+  - Arquitectura IA
+  - Self-hosted
+  - Voz
+draft: false
+seoTitle: 'Pocket TTS: síntesis de voz en CPU sin GPU (guía)'
+seoDescription: >-
+  Qué es Pocket TTS de Kyutai Labs, cómo instalarlo y usarlo desde CLI o
+  Python: modelo de 100M de parámetros que corre en CPU, streaming, 27
+  voces y clonación de voz.
+---
+
+Un modelo de síntesis de voz de 100 millones de parámetros que corre en dos
+núcleos de un MacBook Air M4 y arranca a hablar en 200 milisegundos. Sin
+GPU, sin nube, sin factura por carácter generado.
+
+La mayoría de los TTS que suenan bien piden GPU dedicada o son un servicio
+pago por uso. **Pocket TTS**, de Kyutai Labs, apuesta a lo contrario: un
+modelo chico, corriendo en tu propia CPU, con licencia MIT.
+
+## Los números concretos
+
+- **100 millones de parámetros** — chico para lo que hace.
+- **~200ms** hasta el primer fragmento de audio.
+- **~6x tiempo real** generando en CPU (6 segundos de audio por segundo de
+  cómputo, aproximadamente).
+- Corre con **2 núcleos** en un MacBook Air M4, sin versión GPU de PyTorch.
+- Streaming de audio y textos de largo arbitrario, no tiene límite de
+  caracteres por tanda.
+- **27 voces** preentrenadas y soporte para clonar una voz propia.
+- **6 idiomas**, incluido español.
+- También corre en el navegador (WebAssembly), sin instalar nada del lado
+  del usuario.
+
+## Cómo arrancar
+
+1. Instalalo con `pip install pocket-tts`, o probalo sin instalar nada con
+   `uvx pocket-tts generate`.
+2. Generás audio desde la terminal con `--text "lo que quieras decir"` y
+   `--voice nombre_de_voz` (hay 27 para elegir, o un archivo `.wav` propio
+   para clonar una voz).
+3. Si preferís Python:
+
+```python
+from pocket_tts import TTSModel
+import scipy.io.wavfile
+
+tts_model = TTSModel.load_model()
+voice_state = tts_model.get_state_for_audio_prompt("alba")
+audio = tts_model.generate_audio(voice_state, "Hola, esto es una prueba.")
+scipy.io.wavfile.write("output.wav", tts_model.sample_rate, audio.numpy())
+```
+
+4. Requiere Python 3.10 a 3.14 y PyTorch 2.5+. Nada de drivers de GPU ni
+   configuración adicional.
+
+## Para qué sirve en la práctica
+
+Narración de podcasts o videos sin pagar por minuto generado, asistentes de
+voz que corren en un servidor sin GPU, accesibilidad (lectores de texto)
+en apps que no pueden depender de una API externa, o directamente
+prototipar algo con voz sin comprometerte a un costo variable por
+carácter.
+
+Repo, código abierto, MIT:
+**[github.com/kyutai-labs/pocket-tts](https://github.com/kyutai-labs/pocket-tts)**

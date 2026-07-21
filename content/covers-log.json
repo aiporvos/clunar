@@ -82,5 +82,11 @@
     "preset": "Escena de trabajo ilustrada",
     "provider": "kie",
     "date": "2026-07-20T16:03:32.428Z"
+  },
+  {
+    "slug": "pocket-tts-voz-sin-gpu",
+    "preset": "Detalle técnico ilustrado",
+    "provider": "kie",
+    "date": "2026-07-21T13:10:09.587Z"
   }
 ]
