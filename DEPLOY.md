@@ -70,6 +70,26 @@ diagnosticar así (sin exponer secrets):
   (`bad_verification_code`, `incorrect_client_credentials`, etc.), cosa que
   el navegador no muestra.
 
+## Volumen persistente para `data/` (formularios internos)
+
+El endpoint `/api/tiendanube-checklist` (y cualquier otro que escriba en
+`data/` a futuro) guarda archivos en el filesystem del contenedor. **Sin
+volumen, esos datos se pierden en cada redeploy** — la app es tipo "Docker
+(Dockerfile)" en Dokploy, no Docker Compose, así que `docker-compose.yml`
+no aplica acá; el volumen se configura directo en el panel:
+
+1. Panel de Dokploy → la app de cluna.ar → pestaña **Advanced**.
+2. **Add Volume** → tipo **Volume Mount** (volumen gestionado por Docker,
+   no Bind — más simple de mantener que apuntar a una ruta del host).
+3. **Volume Name:** algo descriptivo, ej. `cluna-ar-data`.
+4. **Mount Path (en el contenedor):** `/app/data`.
+5. Redeploy. A partir de ahí, `data/` sobrevive a builds/redeploys
+   siguientes (el volumen vive fuera del ciclo de vida del contenedor).
+
+Confirmado contra la documentación oficial de Dokploy (2026): las apps
+Docker soportan Bind Mount, Volume Mount y File Mount desde **Advanced →
+Add Volume**.
+
 ## Build local (opcional)
 
 ```bash
