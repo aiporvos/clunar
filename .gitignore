@@ -22,3 +22,6 @@ Thumbs.db
 
 # Dokploy / secretos locales
 pass dokploy.txt
+
+# Datos de clientes (formularios internos, provisorio)
+/data/

@@ -1,0 +1,375 @@
+{
+  "titulo": "Checklist Implementación Tiendanube",
+  "subtitulo": "Checklist maestro para crear una Tiendanube",
+  "descripcion": "Ficha técnica para implementar la tienda de un cliente, controlar dependencias, validar el checkout y entregar una operación lista para vender.",
+  "nota": "Preparado como plantilla reutilizable · Basado en la documentación oficial vigente de Tiendanube consultada en julio de 2026. Supuesto de trabajo: documento preparado para una tienda operada en Argentina; medios de pago, logística, impuestos y requisitos legales deben ajustarse si el negocio opera en otro país.",
+  "cabecera": [
+    { "id": "cliente_marca", "label": "Cliente / marca", "tipo": "text" },
+    { "id": "responsable_proyecto", "label": "Responsable del proyecto", "tipo": "text" },
+    { "id": "fecha_inicio", "label": "Fecha de inicio", "tipo": "date" },
+    { "id": "fecha_lanzamiento", "label": "Fecha objetivo de lanzamiento", "tipo": "date" },
+    { "id": "pais_operacion", "label": "País de operación", "tipo": "text", "placeholder": "Argentina / ..." },
+    { "id": "version_alcance", "label": "Versión del alcance", "tipo": "text" }
+  ],
+  "roles": {
+    "titulo": "Gobierno del proyecto",
+    "filas": [
+      { "id": "rol_cliente", "rol": "Cliente / sponsor", "responsabilidad": "Aprueba alcance, contenidos, políticas y salida a producción." },
+      { "id": "rol_implementador", "rol": "Implementador", "responsabilidad": "Configura, documenta, prueba y coordina la puesta en marcha." },
+      { "id": "rol_operacion", "rol": "Operación", "responsabilidad": "Define catálogo, stock, pedidos, logística y atención al cliente." },
+      { "id": "rol_marketing", "rol": "Marketing", "responsabilidad": "Entrega identidad, campañas, píxeles, analítica y contenidos." }
+    ]
+  },
+  "secciones": [
+    {
+      "id": "decisiones",
+      "titulo": "Decisiones que deben quedar cerradas antes de configurar",
+      "salida": "El proyecto tiene sponsor, responsables, alcance aprobado, fecha objetivo y decisiones críticas documentadas.",
+      "items": [
+        { "titulo": "Modelo de negocio", "detalle": "Venta de productos físicos, digitales, servicios, mayorista o combinación.", "responsable": "Ambos" },
+        { "titulo": "Alcance inicial", "detalle": "Cantidad de productos/SKU, categorías, páginas y aplicaciones incluidas.", "responsable": "Ambos" },
+        { "titulo": "Plan de Tiendanube", "detalle": "Definir según dominio propio, carga masiva, integraciones y funcionalidades requeridas.", "responsable": "Ambos" },
+        { "titulo": "Operación de stock", "detalle": "Manual, planilla, ERP, sistema de gestión, dropshipping o proveedor.", "responsable": "Ambos" },
+        { "titulo": "Cobro", "detalle": "Pago Nube, pasarela externa, transferencia u otros medios habilitados.", "responsable": "Ambos" },
+        { "titulo": "Entrega", "detalle": "Envío integrado, tarifa personalizada, retiro, moto, correo o fulfillment.", "responsable": "Ambos" },
+        { "titulo": "Dominio", "detalle": "Nuevo dominio, migración del dominio actual o subdominio temporal.", "responsable": "Ambos" },
+        { "titulo": "Fecha de corte", "detalle": "Día y hora para congelar cambios, ejecutar pruebas y publicar.", "responsable": "Ambos" }
+      ]
+    },
+    {
+      "id": "s01",
+      "titulo": "01 Relevamiento y materiales del cliente",
+      "intro": "Concentrá toda la información necesaria antes de construir. La falta de insumos es la principal causa de retrasos y retrabajo.",
+      "salida": "Los insumos están centralizados en una carpeta compartida, tienen versión vigente y existe un aprobador por cada frente.",
+      "items": [
+        { "titulo": "Brief del negocio", "detalle": "Propuesta de valor, público objetivo, zonas de venta, competidores y objetivos del canal.", "responsable": "Cliente" },
+        { "titulo": "Datos fiscales y comerciales", "detalle": "Razón social, CUIT, condición impositiva, domicilio, teléfono y correo de atención.", "responsable": "Cliente" },
+        { "titulo": "Identidad visual", "detalle": "Logo editable y versiones, colores, tipografías, manual de marca e ícono/favicon.", "responsable": "Cliente" },
+        { "titulo": "Accesos autorizados", "detalle": "Correo propietario de la tienda y listado de usuarios que administrarán la cuenta.", "responsable": "Ambos" },
+        { "titulo": "Catálogo maestro", "detalle": "Nombre, SKU, descripción, precio, stock, peso, dimensiones, categorías, variantes y marca.", "responsable": "Cliente" },
+        { "titulo": "Fotografías", "detalle": "Imágenes consistentes, optimizadas, sin marcas de agua ajenas y con autorización de uso.", "responsable": "Cliente" },
+        { "titulo": "Política comercial", "detalle": "Promociones, cuotas, descuentos, precios comparativos, mínimos y venta mayorista.", "responsable": "Cliente" },
+        { "titulo": "Política de cambios y devoluciones", "detalle": "Plazos, condiciones, costos, excepciones y canal de gestión.", "responsable": "Cliente" },
+        { "titulo": "Información logística", "detalle": "Origen de despacho, cobertura, transportistas, tarifas, tiempos y puntos de retiro.", "responsable": "Cliente" },
+        { "titulo": "Medios de cobro", "detalle": "Titularidad, cuentas bancarias, documentación y credenciales de las pasarelas elegidas.", "responsable": "Cliente" },
+        { "titulo": "Dominio y DNS", "detalle": "Proveedor, titular, acceso administrativo, vencimiento y correos asociados.", "responsable": "Cliente" },
+        { "titulo": "Redes y canales", "detalle": "Instagram, Facebook, WhatsApp, Google Business, marketplaces y catálogo social.", "responsable": "Cliente" },
+        { "titulo": "Analítica y publicidad", "detalle": "Accesos a GA4, Google Ads, Meta Business, Pixel, Merchant Center y Search Console.", "responsable": "Cliente" },
+        { "titulo": "Textos institucionales", "detalle": "Quiénes somos, preguntas frecuentes, cómo comprar, contacto y guía de talles.", "responsable": "Cliente" },
+        { "titulo": "Referencias de diseño", "detalle": "Sitios que le gustan, estilos a evitar y prioridades de navegación.", "responsable": "Cliente" },
+        { "titulo": "Aprobadores", "detalle": "Personas que validan diseño, catálogo, pagos, logística y publicación.", "responsable": "Cliente" }
+      ]
+    },
+    {
+      "id": "s01b",
+      "titulo": "Control de alcance contratado",
+      "items": [
+        { "titulo": "Cantidad máxima de productos/SKU", "detalle": "Registrar límite incluido y costo por cargas adicionales.", "responsable": "Ambos" },
+        { "titulo": "Nivel de personalización", "detalle": "Tema estándar, ajustes visuales, código personalizado o desarrollo externo.", "responsable": "Ambos" },
+        { "titulo": "Integraciones incluidas", "detalle": "ERP, facturación, email marketing, marketplaces, logística y aplicaciones.", "responsable": "Ambos" },
+        { "titulo": "Producción de contenidos", "detalle": "Definir si textos, fotos, banners y carga de datos son provistos o producidos.", "responsable": "Ambos" },
+        { "titulo": "Capacitación y soporte", "detalle": "Cantidad de sesiones, participantes, documentación y período posterior al lanzamiento.", "responsable": "Ambos" },
+        { "titulo": "Exclusiones explícitas", "detalle": "Publicidad, branding, fotografía, legales, soporte operativo u otros servicios no incluidos.", "responsable": "Ambos" },
+        { "titulo": "Gestión de cambios", "detalle": "Todo pedido fuera del alcance se estima y aprueba antes de ejecutarse.", "responsable": "Implementador" }
+      ]
+    },
+    {
+      "id": "s02",
+      "titulo": "02 Alta de cuenta, plan y accesos",
+      "intro": "Crear la cuenta con propiedad clara, seguridad básica y un plan compatible con el alcance real del proyecto.",
+      "nota": "En Argentina, el plan Inicial gratuito no permite utilizar dominio propio. Algunas funciones, como medios de pago personalizados o importaciones masivas, también dependen del plan. Confirmá siempre la matriz vigente antes de cerrar el alcance.",
+      "salida": "La cuenta está confirmada, el cliente es propietario, los usuarios tienen acceso correcto y el plan soporta todo lo vendido en el proyecto.",
+      "items": [
+        { "titulo": "Crear la Tiendanube", "detalle": "Registrar la marca, correo propietario, contraseña y datos solicitados por la plataforma.", "responsable": "Implementador" },
+        { "titulo": "Confirmar el correo propietario", "detalle": "Evitar cuentas personales del implementador; la propiedad final debe quedar en el cliente.", "responsable": "Cliente" },
+        { "titulo": "Completar información de cuenta", "detalle": "Datos del negocio, teléfono, redes y posición frente al IVA cuando corresponda.", "responsable": "Cliente" },
+        { "titulo": "Evaluar el período de prueba", "detalle": "Planificar la configuración y pruebas dentro del trial sin condicionar la fecha de lanzamiento.", "responsable": "Implementador" },
+        { "titulo": "Seleccionar el plan", "detalle": "Validar costos, límites y funciones necesarias antes de contratar.", "responsable": "Ambos" },
+        { "titulo": "Revisar costos totales", "detalle": "Plan, costo por transacción, pasarela, aplicaciones, dominio, logística y desarrollos.", "responsable": "Ambos" },
+        { "titulo": "Crear usuarios individuales", "detalle": "No compartir una única contraseña entre equipo, agencia y cliente.", "responsable": "Cliente" },
+        { "titulo": "Aplicar mínimos privilegios", "detalle": "Asignar acceso según tareas de administración, ventas, diseño o marketing.", "responsable": "Cliente" },
+        { "titulo": "Activar recuperación segura", "detalle": "Verificar correo, teléfono y medios de recuperación de las cuentas críticas.", "responsable": "Cliente" },
+        { "titulo": "Registrar credenciales", "detalle": "Guardar accesos en un gestor de contraseñas autorizado, no en chats o documentos abiertos.", "responsable": "Ambos" },
+        { "titulo": "Documentar titularidades", "detalle": "Tienda, dominio, pasarelas, cuentas publicitarias y herramientas deben quedar a nombre del cliente.", "responsable": "Implementador" }
+      ]
+    },
+    {
+      "id": "s03",
+      "titulo": "03 Marca, diseño y experiencia de navegación",
+      "intro": "Construir una interfaz coherente, mobile-first y orientada a que el cliente encuentre, entienda y compre con facilidad.",
+      "salida": "El cliente aprobó los cuatro puntos de control visual: inicio, categoría, producto y navegación mobile.",
+      "items": [
+        { "titulo": "Elegir plantilla base", "detalle": "Seleccionar diseño según rubro, volumen de catálogo, filtros, contenido y navegación requerida.", "responsable": "Ambos" },
+        { "titulo": "Configurar identidad visual", "detalle": "Logo, favicon, colores, tipografías y estilos consistentes con la marca.", "responsable": "Implementador" },
+        { "titulo": "Definir estructura del menú", "detalle": "Categorías principales, subcategorías, destacados y accesos institucionales.", "responsable": "Ambos" },
+        { "titulo": "Diseñar la página de inicio", "detalle": "Propuesta de valor, categorías, productos, beneficios, confianza y llamados a la acción.", "responsable": "Implementador" },
+        { "titulo": "Preparar banners responsivos", "detalle": "Versiones desktop y mobile con mensajes legibles y enlaces correctos.", "responsable": "Implementador" },
+        { "titulo": "Configurar encabezado", "detalle": "Buscador, cuenta, carrito, contacto y elementos clave visibles.", "responsable": "Implementador" },
+        { "titulo": "Configurar pie de página", "detalle": "Contacto, políticas, medios de pago, envíos, redes y datos legales.", "responsable": "Implementador" },
+        { "titulo": "Crear páginas institucionales", "detalle": "Quiénes somos, cómo comprar, preguntas frecuentes, contacto y otras necesarias.", "responsable": "Implementador" },
+        { "titulo": "Configurar WhatsApp y redes", "detalle": "Enlaces correctos, mensajes iniciales y horario de atención.", "responsable": "Implementador" },
+        { "titulo": "Revisar accesibilidad básica", "detalle": "Contraste, tamaño de fuente, textos alternativos, foco visible y jerarquía de títulos.", "responsable": "Implementador" },
+        { "titulo": "Optimizar versión mobile", "detalle": "Menú, banners, grillas, filtros, botones, formularios y checkout sin cortes.", "responsable": "Implementador" },
+        { "titulo": "Evitar contenido ficticio", "detalle": "Eliminar textos de plantilla, productos demo, enlaces vacíos e imágenes de ejemplo.", "responsable": "Implementador" },
+        { "titulo": "Validar consistencia visual", "detalle": "Mismos criterios de fotografía, títulos, botones, iconografía y espaciado.", "responsable": "Ambos" },
+        { "titulo": "Obtener aprobación de diseño", "detalle": "Registrar aprobación de home, ficha de producto, categoría y mobile.", "responsable": "Cliente" }
+      ]
+    },
+    {
+      "id": "s04",
+      "titulo": "04 Catálogo, precios y merchandising",
+      "intro": "Cargar datos confiables y estructurados para reducir consultas, errores de stock y fricción durante la compra.",
+      "salida": "El 100% del catálogo incluido tiene precio, stock, SKU, categoría, imágenes, información logística y aprobación del cliente.",
+      "items": [
+        { "titulo": "Definir taxonomía", "detalle": "Categorías, subcategorías, colecciones, marcas y etiquetas con criterios escalables.", "responsable": "Ambos" },
+        { "titulo": "Normalizar nombres de producto", "detalle": "Marca + tipo + atributo principal + modelo, evitando duplicados y títulos ambiguos.", "responsable": "Implementador" },
+        { "titulo": "Asignar SKU único", "detalle": "Cada producto y variante debe tener una referencia estable para operación e integraciones.", "responsable": "Cliente" },
+        { "titulo": "Completar descripciones", "detalle": "Beneficios, características, uso, contenido, cuidados, garantía y compatibilidades.", "responsable": "Cliente" },
+        { "titulo": "Configurar variantes", "detalle": "Talle, color, capacidad, presentación u otras opciones con stock, SKU e imagen correctos.", "responsable": "Implementador" },
+        { "titulo": "Cargar precio y precio promocional", "detalle": "Validar moneda, impuestos, vigencia, reglas comerciales y comunicación del descuento.", "responsable": "Cliente" },
+        { "titulo": "Cargar stock inicial", "detalle": "Definir fuente de verdad, política de reserva y tratamiento de productos sin stock.", "responsable": "Cliente" },
+        { "titulo": "Cargar peso y dimensiones", "detalle": "Datos necesarios para cotización logística y restricciones de despacho.", "responsable": "Cliente" },
+        { "titulo": "Asignar imágenes", "detalle": "Orden correcto, portada consistente, detalle, escala, contexto y variante cuando aplique.", "responsable": "Implementador" },
+        { "titulo": "Completar SEO de producto", "detalle": "Título, descripción, URL amigable y texto alternativo de imágenes.", "responsable": "Implementador" },
+        { "titulo": "Configurar categorías visibles", "detalle": "Orden, imagen, descripción, filtros y productos correctamente asignados.", "responsable": "Implementador" },
+        { "titulo": "Definir productos destacados", "detalle": "Novedades, más vendidos, promociones, combos y oportunidades de cross-sell.", "responsable": "Ambos" },
+        { "titulo": "Revisar productos ocultos", "detalle": "No publicar productos incompletos, sin precio, sin stock o pendientes de aprobación.", "responsable": "Implementador" },
+        { "titulo": "Validar importación masiva", "detalle": "Probar con muestra pequeña, revisar codificación, columnas, variantes y actualizaciones.", "responsable": "Implementador" },
+        { "titulo": "Auditar duplicados", "detalle": "Buscar SKU, títulos, variantes, imágenes y URLs repetidas.", "responsable": "Implementador" },
+        { "titulo": "Aprobar muestra de catálogo", "detalle": "Validar al menos un producto simple, uno con variantes y uno promocional.", "responsable": "Cliente" }
+      ]
+    },
+    {
+      "id": "s05",
+      "titulo": "05 Medios de pago, promociones y facturación",
+      "intro": "Asegurar que el cliente pueda cobrar, conciliar y atender excepciones sin depender del implementador.",
+      "salida": "El negocio puede cobrar, identificar estados, conciliar pagos y ejecutar reembolsos con un procedimiento probado.",
+      "items": [
+        { "titulo": "Seleccionar medios de pago", "detalle": "Evaluar cobertura, comisiones, acreditación, cuotas, contracargos y experiencia de checkout.", "responsable": "Ambos" },
+        { "titulo": "Activar Pago Nube o pasarela elegida", "detalle": "Completar validación de identidad, titularidad y cuenta bancaria cuando corresponda.", "responsable": "Cliente" },
+        { "titulo": "Configurar medios alternativos", "detalle": "Transferencia, efectivo, contraentrega u opciones personalizadas según plan y operación.", "responsable": "Ambos" },
+        { "titulo": "Definir cuotas y descuentos", "detalle": "Alinear comunicación comercial con condiciones reales del medio de pago.", "responsable": "Cliente" },
+        { "titulo": "Configurar instrucciones de pago", "detalle": "Datos bancarios, vencimientos, comprobantes y pasos para confirmar la orden.", "responsable": "Implementador" },
+        { "titulo": "Validar moneda e impuestos", "detalle": "Confirmar precios finales, percepción impositiva y criterio de facturación.", "responsable": "Cliente" },
+        { "titulo": "Definir facturación", "detalle": "Manual, integración, datos requeridos, responsables y momento de emisión.", "responsable": "Cliente" },
+        { "titulo": "Configurar promociones iniciales", "detalle": "Cupones, descuentos, envío gratis, límites, vigencia y combinabilidad.", "responsable": "Ambos" },
+        { "titulo": "Probar pagos aprobados", "detalle": "Ejecutar una orden real o prueba controlada y validar notificaciones.", "responsable": "Ambos" },
+        { "titulo": "Probar pago pendiente/rechazado", "detalle": "Confirmar estado, recuperación, mensajes y acción del equipo.", "responsable": "Ambos" },
+        { "titulo": "Definir devoluciones y reembolsos", "detalle": "Responsables, tiempos, canal y compatibilidad de la pasarela.", "responsable": "Cliente" },
+        { "titulo": "Documentar conciliación", "detalle": "Cómo cruzar orden, cobro, comisión, depósito, factura y devolución.", "responsable": "Implementador" }
+      ]
+    },
+    {
+      "id": "s06",
+      "titulo": "06 Envíos, retiro y preparación de pedidos",
+      "intro": "Traducir la promesa logística del negocio a reglas de checkout simples, rentables y operables.",
+      "salida": "Cada modalidad de entrega fue simulada con direcciones reales y el costo, plazo e instrucciones se muestran correctamente en checkout.",
+      "items": [
+        { "titulo": "Definir origen de despacho", "detalle": "Dirección, horarios, días operativos, capacidad y zonas de cobertura.", "responsable": "Cliente" },
+        { "titulo": "Seleccionar modalidades", "detalle": "Envío a domicilio, sucursal, punto de retiro, retiro en local y entrega coordinada.", "responsable": "Ambos" },
+        { "titulo": "Configurar integración logística", "detalle": "Envío Nube, correo, operador, aplicación o tarifa personalizada.", "responsable": "Implementador" },
+        { "titulo": "Configurar zonas y códigos postales", "detalle": "Evitar áreas sin cobertura, duplicadas o con precio incorrecto.", "responsable": "Implementador" },
+        { "titulo": "Definir tarifas", "detalle": "Costo fijo, por peso, por zona, gratis desde monto o cotización del operador.", "responsable": "Ambos" },
+        { "titulo": "Definir tiempos de entrega", "detalle": "Separar preparación, despacho y tránsito; comunicar días hábiles.", "responsable": "Cliente" },
+        { "titulo": "Configurar retiro", "detalle": "Dirección, horarios, instrucciones, plazo de preparación y persona autorizada.", "responsable": "Implementador" },
+        { "titulo": "Definir embalaje", "detalle": "Materiales, dimensiones, protección, marca y costo operativo.", "responsable": "Cliente" },
+        { "titulo": "Validar peso y dimensiones", "detalle": "Revisar muestra de productos livianos, voluminosos y combinaciones.", "responsable": "Ambos" },
+        { "titulo": "Probar cobertura", "detalle": "Simular códigos postales de cada zona, extremos, sin cobertura y envío gratis.", "responsable": "Implementador" },
+        { "titulo": "Probar múltiples productos", "detalle": "Validar cálculo cuando el carrito combina pesos, dimensiones y promociones.", "responsable": "Implementador" },
+        { "titulo": "Configurar notificaciones", "detalle": "Pedido recibido, pago confirmado, preparado, despachado, listo para retirar y entregado.", "responsable": "Implementador" },
+        { "titulo": "Definir generación de etiquetas", "detalle": "Responsable, impresora, formato, corte y despacho diario.", "responsable": "Cliente" },
+        { "titulo": "Definir gestión de incidencias", "detalle": "Demoras, domicilio incorrecto, rechazo, extravío, daño y devolución al remitente.", "responsable": "Cliente" },
+        { "titulo": "Documentar trazabilidad", "detalle": "Dónde consultar seguimiento y cómo comunicarlo al comprador.", "responsable": "Implementador" }
+      ]
+    },
+    {
+      "id": "s07",
+      "titulo": "07 Dominio, correo y continuidad técnica",
+      "intro": "Publicar una dirección profesional sin perder correo, tráfico, propiedad ni control administrativo.",
+      "salida": "El dominio abre por HTTPS, redirige a una sola versión, el correo sigue operativo y el cliente conserva la titularidad.",
+      "items": [
+        { "titulo": "Definir dominio principal", "detalle": "Confirmar variante con o sin www y estrategia de redirección.", "responsable": "Ambos" },
+        { "titulo": "Verificar titularidad y vencimiento", "detalle": "El cliente debe controlar el registrador y mantener datos de recuperación vigentes.", "responsable": "Cliente" },
+        { "titulo": "Relevar DNS actuales", "detalle": "Guardar registros A, CNAME, MX, TXT y cualquier servicio existente antes de modificar.", "responsable": "Implementador" },
+        { "titulo": "Proteger el correo corporativo", "detalle": "No borrar MX/SPF/DKIM/DMARC al vincular el dominio con la tienda.", "responsable": "Implementador" },
+        { "titulo": "Configurar dominio en Tiendanube", "detalle": "Aplicar método según NIC.ar, registrador, hosting o proveedor DNS.", "responsable": "Implementador" },
+        { "titulo": "Validar SSL y navegación", "detalle": "Comprobar HTTPS, certificado, redirecciones y ausencia de alertas.", "responsable": "Implementador" },
+        { "titulo": "Configurar dominio principal en el admin", "detalle": "Marcar la URL definitiva dentro del administrador.", "responsable": "Implementador" },
+        { "titulo": "Revisar propagación", "detalle": "Validar desde distintas redes y dispositivos una vez actualizado DNS.", "responsable": "Implementador" },
+        { "titulo": "Documentar configuración", "detalle": "Registrar proveedor, cuenta propietaria, registros finales y fecha de renovación.", "responsable": "Implementador" },
+        { "titulo": "Preparar reversa", "detalle": "Mantener copia de DNS y procedimiento para restaurar en caso de impacto.", "responsable": "Implementador" }
+      ]
+    },
+    {
+      "id": "s08",
+      "titulo": "08 Legales, confianza y atención al comprador",
+      "intro": "Publicar información clara para reducir reclamos, sostener la reputación y cumplir con las obligaciones aplicables.",
+      "nota": "Esta plantilla organiza tareas, pero no reemplaza asesoramiento jurídico, impositivo ni contable. El cliente debe aprobar los textos y su adecuación normativa.",
+      "salida": "Las políticas están publicadas, enlazadas desde el footer, son coherentes con la operación real y fueron aprobadas por el cliente.",
+      "items": [
+        { "titulo": "Publicar datos del vendedor", "detalle": "Razón social o nombre, CUIT cuando corresponda, domicilio y canales de contacto.", "responsable": "Cliente" },
+        { "titulo": "Términos y condiciones", "detalle": "Condiciones de venta, pagos, entrega, disponibilidad, responsabilidad y jurisdicción.", "responsable": "Cliente" },
+        { "titulo": "Política de privacidad", "detalle": "Datos recolectados, finalidades, cookies, terceros, derechos y contacto.", "responsable": "Cliente" },
+        { "titulo": "Política de cambios y devoluciones", "detalle": "Plazos, estado del producto, costos, excepciones y procedimiento.", "responsable": "Cliente" },
+        { "titulo": "Botón de arrepentimiento", "detalle": "Verificar su visualización y funcionamiento conforme al país y diseño utilizado.", "responsable": "Implementador" },
+        { "titulo": "Política de envíos", "detalle": "Cobertura, tiempos, costos, seguimiento, ausencias y entregas fallidas.", "responsable": "Cliente" },
+        { "titulo": "Garantías", "detalle": "Plazos, alcance, canal, documentación y productos excluidos.", "responsable": "Cliente" },
+        { "titulo": "Disponibilidad y errores de precio", "detalle": "Definir tratamiento de stock desactualizado, publicaciones incorrectas y cancelaciones.", "responsable": "Cliente" },
+        { "titulo": "Consentimiento de marketing", "detalle": "Configurar suscripciones y uso de datos según normativa aplicable.", "responsable": "Ambos" },
+        { "titulo": "Cookies y herramientas de terceros", "detalle": "Revisar requerimientos derivados de analítica, publicidad y aplicaciones.", "responsable": "Cliente" },
+        { "titulo": "Canales de atención", "detalle": "Correo, WhatsApp, teléfono, horarios y tiempo esperado de respuesta.", "responsable": "Cliente" },
+        { "titulo": "Preguntas frecuentes", "detalle": "Responder pagos, envíos, cambios, talles, stock, facturación y seguimiento.", "responsable": "Implementador" },
+        { "titulo": "Revisión profesional", "detalle": "Validar textos con asesor legal y contable del cliente.", "responsable": "Cliente" }
+      ]
+    },
+    {
+      "id": "s09",
+      "titulo": "09 SEO, analítica y canales de adquisición",
+      "intro": "Dejar medición confiable desde el primer día y evitar duplicaciones que distorsionen ventas, campañas o atribución.",
+      "salida": "Analítica recibe eventos de prueba sin duplicaciones, las propiedades pertenecen al cliente y existe un criterio de medición documentado.",
+      "items": [
+        { "titulo": "Configurar título y descripción de la tienda", "detalle": "Definir propuesta de valor y términos relevantes para resultados de búsqueda.", "responsable": "Implementador" },
+        { "titulo": "Revisar URLs", "detalle": "Usar slugs claros, evitar duplicados y documentar redirecciones si existe migración.", "responsable": "Implementador" },
+        { "titulo": "Optimizar imágenes", "detalle": "Peso, dimensiones, formato, nombre y texto alternativo.", "responsable": "Implementador" },
+        { "titulo": "Configurar GA4", "detalle": "Vincular propiedad correcta y validar sesiones, productos, carrito, checkout y compra.", "responsable": "Implementador" },
+        { "titulo": "Configurar Google Tag Manager", "detalle": "Solo cuando sea necesario y con gobierno claro de etiquetas.", "responsable": "Implementador" },
+        { "titulo": "Evitar conversiones duplicadas", "detalle": "Definir una única fuente para Google Ads y revisar integraciones nativas.", "responsable": "Implementador" },
+        { "titulo": "Configurar Meta Pixel", "detalle": "Vincular Pixel correcto y validar eventos, dominio y API de conversiones cuando aplique.", "responsable": "Implementador" },
+        { "titulo": "Configurar Search Console", "detalle": "Verificar dominio, sitemap, indexación y errores iniciales.", "responsable": "Implementador" },
+        { "titulo": "Configurar Merchant Center", "detalle": "Validar datos del negocio, feed, políticas, envíos y rechazos.", "responsable": "Marketing" },
+        { "titulo": "Conectar redes sociales", "detalle": "Catálogo, Instagram, Facebook, TikTok o canales requeridos por el proyecto.", "responsable": "Marketing" },
+        { "titulo": "Configurar WhatsApp", "detalle": "Número comercial, mensaje de inicio, atribución y horarios.", "responsable": "Marketing" },
+        { "titulo": "Configurar email marketing", "detalle": "Remitente, dominio, formularios, consentimiento y automatizaciones iniciales.", "responsable": "Marketing" },
+        { "titulo": "Definir UTMs", "detalle": "Convención para campañas, influencers, email, QR y WhatsApp.", "responsable": "Marketing" },
+        { "titulo": "Crear tablero mínimo", "detalle": "Ventas, conversión, ticket, abandono, medios de pago, envío y productos.", "responsable": "Implementador" },
+        { "titulo": "Registrar línea base", "detalle": "Tomar capturas y valores de validación antes del lanzamiento.", "responsable": "Implementador" }
+      ]
+    },
+    {
+      "id": "s10",
+      "titulo": "10 Operación, pedidos y capacitación",
+      "intro": "Transferir un proceso que el equipo pueda ejecutar de punta a punta sin depender de conocimiento informal.",
+      "salida": "El equipo del cliente puede cargar un producto, procesar una venta, despachar, cancelar y responder una consulta sin asistencia del implementador.",
+      "items": [
+        { "titulo": "Definir flujo de pedido", "detalle": "Desde nueva orden hasta pago, preparación, despacho, entrega, cancelación y devolución.", "responsable": "Ambos" },
+        { "titulo": "Definir responsables y SLA", "detalle": "Quién revisa pedidos, confirma pagos, factura, prepara, despacha y responde consultas.", "responsable": "Cliente" },
+        { "titulo": "Configurar notificaciones internas", "detalle": "Correos y dispositivos que reciben nuevas ventas y alertas.", "responsable": "Implementador" },
+        { "titulo": "Preparar plantillas de respuesta", "detalle": "Pago pendiente, falta de stock, demora, cambio, devolución y seguimiento.", "responsable": "Cliente" },
+        { "titulo": "Definir control de fraude", "detalle": "Señales, verificaciones y criterio para pausar pedidos sospechosos.", "responsable": "Cliente" },
+        { "titulo": "Definir corte diario", "detalle": "Hora límite para preparación y despacho en el mismo día.", "responsable": "Cliente" },
+        { "titulo": "Definir actualización de stock", "detalle": "Frecuencia, fuente, contingencia y responsable.", "responsable": "Cliente" },
+        { "titulo": "Definir actualización de precios", "detalle": "Aprobación, carga, promociones y control posterior.", "responsable": "Cliente" },
+        { "titulo": "Definir manejo de productos", "detalle": "Alta, baja, edición, variantes, fotos y categorías.", "responsable": "Cliente" },
+        { "titulo": "Definir reportes", "detalle": "Ventas, pagos, logística, productos, clientes y conciliación.", "responsable": "Ambos" },
+        { "titulo": "Capacitar administradores", "detalle": "Productos, ventas, descuentos, contenido, clientes y configuración básica.", "responsable": "Implementador" },
+        { "titulo": "Capacitar operación", "detalle": "Preparación, etiquetas, estados, comunicación y devoluciones.", "responsable": "Implementador" },
+        { "titulo": "Entregar manual operativo", "detalle": "Pasos, capturas, accesos, responsables y contingencias.", "responsable": "Implementador" },
+        { "titulo": "Grabar sesión de transferencia", "detalle": "Con autorización del cliente y almacenamiento accesible.", "responsable": "Implementador" },
+        { "titulo": "Validar autonomía", "detalle": "El equipo procesa una orden de prueba sin asistencia directa.", "responsable": "Cliente" }
+      ]
+    },
+    {
+      "id": "s11",
+      "titulo": "11 QA integral y compra de prueba",
+      "intro": "Probar el recorrido completo en condiciones reales antes de dirigir tráfico o activar campañas.",
+      "nota": "Regla de lanzamiento: no publicar con fallas críticas en pago, stock, cálculo de envío, acceso al checkout, dominio, SSL o notificaciones de venta.",
+      "salida": "Existe evidencia de pruebas, los defectos críticos están cerrados y el cliente aprobó la compra end-to-end.",
+      "items": [
+        { "titulo": "Home desktop y mobile", "detalle": "Carga, orden, banners, enlaces, productos, beneficios, footer y ausencia de contenido demo.", "responsable": "Implementador" },
+        { "titulo": "Menú y buscador", "detalle": "Categorías, subcategorías, resultados, palabras sin coincidencia y navegación de regreso.", "responsable": "Implementador" },
+        { "titulo": "Listado y filtros", "detalle": "Orden, paginación, filtros, precios, stock, badges y enlaces.", "responsable": "Implementador" },
+        { "titulo": "Ficha de producto", "detalle": "Imágenes, variantes, stock, precio, descripción, envío, cuotas y botón de compra.", "responsable": "Implementador" },
+        { "titulo": "Carrito", "detalle": "Cantidades, eliminación, descuentos, totales, envío y persistencia.", "responsable": "Implementador" },
+        { "titulo": "Checkout como invitado", "detalle": "Datos, validaciones, dirección, entrega, pago y confirmación.", "responsable": "Implementador" },
+        { "titulo": "Checkout con usuario", "detalle": "Registro, login, recuperación, direcciones y recompra.", "responsable": "Implementador" },
+        { "titulo": "Compra aprobada", "detalle": "Orden, cobro, email, stock, panel, factura y evento de analítica.", "responsable": "Ambos" },
+        { "titulo": "Compra pendiente", "detalle": "Mensaje, estado, reserva de stock, instrucciones y seguimiento.", "responsable": "Ambos" },
+        { "titulo": "Compra rechazada", "detalle": "Mensaje claro, recuperación del carrito y alternativa de pago.", "responsable": "Ambos" },
+        { "titulo": "Cupón válido", "detalle": "Monto, productos, límites, vigencia y comunicación.", "responsable": "Implementador" },
+        { "titulo": "Cupón inválido", "detalle": "Mensaje de error sin romper el flujo.", "responsable": "Implementador" },
+        { "titulo": "Envío a domicilio", "detalle": "Cobertura, costo, plazo, dirección y seguimiento.", "responsable": "Implementador" },
+        { "titulo": "Retiro", "detalle": "Punto, horario, costo, instrucciones y notificación de disponibilidad.", "responsable": "Implementador" },
+        { "titulo": "Carrito mixto", "detalle": "Productos con variantes, promociones, pesos y restricciones distintas.", "responsable": "Implementador" },
+        { "titulo": "Producto sin stock", "detalle": "Bloqueo de compra, visibilidad y aviso de reposición si aplica.", "responsable": "Implementador" },
+        { "titulo": "Correos transaccionales", "detalle": "Remitente, asunto, contenido, enlaces, branding y carpeta spam.", "responsable": "Implementador" },
+        { "titulo": "Links institucionales", "detalle": "Políticas, contacto, redes, WhatsApp y datos legales.", "responsable": "Implementador" },
+        { "titulo": "Dominio y SSL", "detalle": "HTTPS, redirecciones, favicon y URL canónica visible.", "responsable": "Implementador" },
+        { "titulo": "Analítica", "detalle": "Page view, view item, add to cart, checkout y purchase sin duplicación.", "responsable": "Implementador" },
+        { "titulo": "Navegadores", "detalle": "Chrome, Safari/Firefox y navegación privada según público objetivo.", "responsable": "Implementador" },
+        { "titulo": "Dispositivos", "detalle": "Al menos un Android, un iPhone y desktop con resoluciones representativas.", "responsable": "Implementador" },
+        { "titulo": "Rendimiento básico", "detalle": "Imágenes pesadas, saltos visuales, errores de consola y tiempos excesivos.", "responsable": "Implementador" },
+        { "titulo": "Accesibilidad básica", "detalle": "Teclado, contraste, etiquetas, mensajes de error y zoom.", "responsable": "Implementador" },
+        { "titulo": "Aprobación final", "detalle": "Cliente completa una compra y firma conformidad de salida.", "responsable": "Cliente" }
+      ]
+    },
+    {
+      "id": "s12",
+      "titulo": "12 Lanzamiento y monitoreo inicial",
+      "intro": "Coordinar una publicación controlada, reversible y con responsables disponibles para reaccionar ante desvíos.",
+      "salida": "La tienda está pública, recibe pedidos, mantiene medición y cuenta con un canal de escalamiento activo durante el período de estabilización.",
+      "items": [
+        { "titulo": "Congelar cambios", "detalle": "Definir hora desde la cual no se modifican catálogo, diseño, DNS ni promociones sin autorización.", "responsable": "Ambos" },
+        { "titulo": "Realizar respaldo operativo", "detalle": "Exportar catálogo/ventas disponibles y guardar capturas de configuraciones críticas.", "responsable": "Implementador" },
+        { "titulo": "Confirmar stock y precios", "detalle": "Ejecutar control final contra la fuente del cliente.", "responsable": "Cliente" },
+        { "titulo": "Confirmar medios de pago", "detalle": "Validar habilitación, cuenta de acreditación y ausencia de modo prueba.", "responsable": "Cliente" },
+        { "titulo": "Confirmar logística", "detalle": "Operadores, tarifas, etiquetas, cobertura y capacidad de despacho.", "responsable": "Cliente" },
+        { "titulo": "Publicar dominio", "detalle": "Aplicar o confirmar DNS, URL principal, HTTPS y redirecciones.", "responsable": "Implementador" },
+        { "titulo": "Habilitar indexación y canales", "detalle": "Activar lo previsto para buscadores, feeds, redes y campañas.", "responsable": "Marketing" },
+        { "titulo": "Ejecutar smoke test", "detalle": "Compra breve posterior a la publicación y validación de orden, pago y email.", "responsable": "Ambos" },
+        { "titulo": "Monitorear primeras órdenes", "detalle": "Checkout, errores, pago, envío, stock y atención durante el período acordado.", "responsable": "Ambos" },
+        { "titulo": "Registrar incidentes", "detalle": "Impacto, evidencia, prioridad, responsable, solución y comunicación.", "responsable": "Implementador" },
+        { "titulo": "Comunicar lanzamiento", "detalle": "Canales, mensajes, UTMs y promociones aprobadas.", "responsable": "Marketing" },
+        { "titulo": "Cerrar acta de salida", "detalle": "Fecha, versión, pendientes aceptados y período de garantía/soporte.", "responsable": "Ambos" }
+      ]
+    },
+    {
+      "id": "s13",
+      "titulo": "13 Post-lanzamiento, entrega y mejora continua",
+      "intro": "Cerrar el proyecto con transferencia completa y convertir los datos iniciales en un backlog priorizado.",
+      "salida": "El cliente tiene control de sus activos, documentación completa, operación autónoma y un backlog separado del alcance original.",
+      "items": [
+        { "titulo": "Monitoreo de estabilización", "detalle": "Revisar errores, pagos, envíos, stock, consultas y primeras órdenes.", "responsable": "Implementador" },
+        { "titulo": "Revisión a 24/72 horas", "detalle": "Comparar ventas, sesiones, conversiones, eventos y comportamiento operativo.", "responsable": "Ambos" },
+        { "titulo": "Corregir hallazgos de garantía", "detalle": "Resolver defectos incluidos en el alcance y documentar cambios.", "responsable": "Implementador" },
+        { "titulo": "Separar mejoras de defectos", "detalle": "Crear backlog con impacto, esfuerzo, responsable y presupuesto.", "responsable": "Implementador" },
+        { "titulo": "Entregar credenciales y titularidades", "detalle": "Confirmar propiedad del cliente y retirar accesos temporales innecesarios.", "responsable": "Ambos" },
+        { "titulo": "Entregar documentación", "detalle": "Manual, inventario de integraciones, DNS, analítica, aplicaciones y contactos.", "responsable": "Implementador" },
+        { "titulo": "Entregar matriz de costos", "detalle": "Plan, pasarelas, apps, dominio, logística y servicios recurrentes.", "responsable": "Implementador" },
+        { "titulo": "Definir mantenimiento", "detalle": "Responsables para catálogo, promociones, contenidos, apps y actualizaciones.", "responsable": "Cliente" },
+        { "titulo": "Definir soporte", "detalle": "Canal, horario, SLA, alcance y proceso de solicitud.", "responsable": "Ambos" },
+        { "titulo": "Medir KPIs iniciales", "detalle": "Conversión, ticket, abandono, aprobación de pago, costo de envío y productos.", "responsable": "Ambos" },
+        { "titulo": "Plan de optimización", "detalle": "Priorización de CRO, SEO, campañas, automatizaciones e integraciones.", "responsable": "Ambos" },
+        { "titulo": "Obtener aceptación final", "detalle": "Documento de conformidad, pendientes aceptados y fecha de cierre.", "responsable": "Cliente" }
+      ]
+    },
+    {
+      "id": "s14",
+      "titulo": "14 Puerta de salida: criterios de aceptación",
+      "intro": "Utilizá esta sección como resumen ejecutivo para decidir si la tienda está realmente lista para vender.",
+      "items": [
+        { "titulo": "Propiedad", "detalle": "La tienda, dominio, medios de pago y cuentas de medición pertenecen al cliente.", "responsable": "Ambos" },
+        { "titulo": "Diseño", "detalle": "Home, categorías, productos y mobile están aprobados y sin contenido de demostración.", "responsable": "Ambos" },
+        { "titulo": "Catálogo", "detalle": "Los productos incluidos tienen SKU, precio, stock, imágenes, variantes y logística correctos.", "responsable": "Ambos" },
+        { "titulo": "Checkout", "detalle": "Se completó una compra end-to-end con pago y entrega representativos.", "responsable": "Ambos" },
+        { "titulo": "Pagos", "detalle": "La acreditación, estados, conciliación y reembolsos tienen procedimiento definido.", "responsable": "Ambos" },
+        { "titulo": "Logística", "detalle": "Los costos, cobertura, plazos, retiro y etiquetas fueron probados.", "responsable": "Ambos" },
+        { "titulo": "Legal", "detalle": "Políticas, datos del vendedor, contacto y botón de arrepentimiento fueron revisados.", "responsable": "Ambos" },
+        { "titulo": "Dominio", "detalle": "La URL principal funciona por HTTPS sin afectar correos corporativos.", "responsable": "Ambos" },
+        { "titulo": "Medición", "detalle": "GA4 y píxeles reciben eventos de prueba sin duplicaciones críticas.", "responsable": "Ambos" },
+        { "titulo": "Operación", "detalle": "El cliente puede administrar productos y procesar pedidos de forma autónoma.", "responsable": "Ambos" },
+        { "titulo": "Soporte", "detalle": "Existe un canal, SLA, responsable y período de estabilización acordado.", "responsable": "Ambos" },
+        { "titulo": "Aprobación", "detalle": "El cliente firmó o confirmó por escrito la salida a producción.", "responsable": "Ambos" }
+      ]
+    }
+  ],
+  "aprobacionFinal": {
+    "titulo": "Aprobación de lanzamiento",
+    "campos": [
+      { "id": "aprob_cliente_nombre", "label": "Cliente/aprobador — Nombre", "tipo": "text" },
+      { "id": "aprob_cliente_fecha", "label": "Cliente/aprobador — Fecha", "tipo": "date" },
+      { "id": "aprob_implementador_nombre", "label": "Implementador — Nombre", "tipo": "text" },
+      { "id": "aprob_implementador_fecha", "label": "Implementador — Fecha", "tipo": "date" },
+      { "id": "resultado", "label": "Resultado", "tipo": "select", "opciones": ["Aprobado para publicar", "Aprobado con pendientes aceptados", "No aprobado"] }
+    ]
+  }
+}
