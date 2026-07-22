@@ -1,0 +1,126 @@
+---
+title: 'Claude Code + NotebookLM: 3 pasos para que la IA lea tus documentos por vos'
+excerpt: >-
+  Conectá Claude Code a tus cuadernos de NotebookLM en 3 pasos. La IA
+  consulta tus documentos sola, sin que abras el navegador ni copies y
+  pegues.
+coverImage: /images/posts/claude-code-notebooklm-skill-tres-comandos/cover.png
+publishedAt: 2026-07-22
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: 3
+readTime: 6
+tags:
+  - Arquitectura IA
+  - Claude Code
+  - NotebookLM
+draft: false
+seoTitle: 'Claude Code + NotebookLM: conectar una skill sin código'
+seoDescription: >-
+  Cómo instalar la skill notebooklm-skill en Claude Code para consultar tus
+  cuadernos de NotebookLM desde la terminal, con 3 casos de uso reales
+  para automatización y desarrollo.
+---
+
+El post sobre NotebookLM generó bastante más interés del que esperaba, así
+que seguimos con la saga. Esta vez no se trata de usar NotebookLM desde su
+web: se trata de que **Claude Code** (la terminal de Anthropic) le pregunte
+directamente a tus cuadernos, sin que vos abras el navegador, subas nada ni
+copies y pegues una sola vez.
+
+Todo el mérito de la skill es de [PleasePrompto](https://github.com/PleasePrompto/notebooklm-skill),
+que la publicó gratis y open source. Acá te cuento cómo instalarla y, sobre
+todo, para qué usarla en casos que no son los típicos de "hacer un resumen".
+
+## Cómo funciona por dentro
+
+La skill no usa ninguna API oficial de NotebookLM (Google no publicó una
+para uso general). Lo que hace es correr un **Chrome real en tu máquina**,
+con **Patchright** (una variante de Playwright pensada para no parecer un
+bot), y automatizar la interfaz web exactamente como lo harías vos: abre tu
+cuaderno, escribe la pregunta, lee la respuesta, cierra el navegador.
+
+El flujo completo es: vos le pedís algo a Claude Code → Claude decide que
+necesita consultar tu cuaderno → le pregunta a NotebookLM → Gemini le
+responde con la síntesis basada en tus fuentes → Claude usa esa respuesta
+para completar tu tarea real (escribir código, armar un documento, lo que
+sea). Tus credenciales de Google nunca salen de tu computadora: las cookies
+de sesión quedan guardadas localmente, en tu propia carpeta de Claude Code.
+
+**Limitación real:** esto solo corre en Claude Code (la terminal), no en la
+versión web de Claude — la web corre en un sandbox sin acceso a internet
+libre, así que no puede abrir un Chrome de verdad.
+
+## Instalación, paso a paso
+
+1. **Instalá Claude Code**, si todavía no lo tenés. En Windows (símbolo del
+   sistema):
+   ```
+   curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+   ```
+   En Mac o Linux, `curl -fsSL https://claude.ai/install.sh | bash` desde la terminal.
+
+2. **Instalá la skill** clonándola en la carpeta de skills de Claude Code:
+   ```
+   mkdir -p ~/.claude/skills && cd ~/.claude/skills && git clone https://github.com/PleasePrompto/notebooklm-skill notebooklm
+   ```
+   La skill se configura sola la primera vez que la usás: crea su propio
+   entorno de Python, instala lo que necesita y descarga Chrome. No hace
+   falta que toques nada más.
+
+3. **Autenticá tu cuenta de Google.** Este paso no es un comando de
+   terminal: abrís Claude Code y le escribís, en lenguaje natural,
+   `Configurá la autenticación de NotebookLM`. Se abre una ventana de
+   Chrome de verdad para que inicies sesión con tu cuenta, una sola vez.
+
+## La regla de oro antes de usarla
+
+Tu cuaderno de NotebookLM tiene que estar compartido en modo **"cualquiera
+con el enlace"** — si está privado, la skill no tiene forma de leerlo. Y
+como vas a loguear una cuenta real de Google en un Chrome automatizado, te
+conviene usar una **cuenta secundaria**, no la de tu trabajo ni la
+personal, aunque el proceso corra 100% local.
+
+## 3 casos de uso que no son "hacé un resumen"
+
+**1. Auditor de documentación vs. tu código real**
+
+Subís la documentación oficial de una librería o API a un cuaderno, y le
+pedís a Claude Code que la compare contra tu proyecto:
+
+> "Consultá mi notebook de la doc oficial de [librería] y revisá si algún
+> endpoint o parámetro que uso en `src/api/` quedó deprecado o cambió de
+> firma. Listame los archivos afectados."
+
+**2. Generador de casos de prueba desde una especificación**
+
+Si tenés un manual funcional o una spec técnica larga cargada en un
+cuaderno, Claude puede convertirla en casos de test reales:
+
+> "Preguntale a mi notebook de la especificación del checkout cuáles son
+> todos los flujos de pago soportados, y armame los casos de test en
+> Gherkin para cada uno, incluyendo los casos borde que mencione el
+> documento."
+
+**3. De manual técnico a configuración real**
+
+En vez de leer vos un manual de 40 páginas para sacar tres parámetros,
+dejá que Claude lo haga y te entregue directo el archivo de configuración:
+
+> "Consultá mi notebook del manual de la pasarela de pagos y armame el
+> archivo `.env.example` con todas las variables que necesito, citando de
+> qué sección de la doc sacaste cada una."
+
+En los tres casos, la parte valiosa no es que "resuma": es que **Claude
+decide solo cuándo preguntarle al cuaderno**, en medio de una tarea más
+grande, sin que vos tengas que acordarte de ir a buscarlo.
+
+## Para arrancar
+
+Instalá los dos comandos, autenticá tu cuenta secundaria, compartí un
+cuaderno con el enlace habilitado, y probá con una pregunta simple antes de
+meterle una tarea compleja. El repo, gratis y open source:
+**[github.com/PleasePrompto/notebooklm-skill](https://github.com/PleasePrompto/notebooklm-skill)**
+
+Y si te perdiste la primera parte de la saga, la nota anterior está acá:
+[NotebookLM ahora es Gemini Notebook](/blog/notebooklm-tutor-de-ia-con-tus-propias-fuentes).

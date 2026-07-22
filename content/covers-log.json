@@ -88,5 +88,17 @@
     "preset": "Detalle técnico ilustrado",
     "provider": "kie",
     "date": "2026-07-21T13:10:09.587Z"
+  },
+  {
+    "slug": "claude-code-notebooklm-skill-tres-comandos",
+    "preset": "Mockup de producto/pantalla ilustrado",
+    "provider": "kie",
+    "date": "2026-07-22T21:11:03.381Z"
+  },
+  {
+    "slug": "claude-code-notebooklm-skill-tres-comandos",
+    "preset": "Mockup de producto/pantalla ilustrado",
+    "provider": "kie",
+    "date": "2026-07-22T21:11:50.026Z"
   }
 ]
