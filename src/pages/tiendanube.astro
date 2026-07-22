@@ -20,7 +20,10 @@ const checked = (id: string) => !!answers[id];
 <BaseLayout title="cluna.ar/tiendanube" noIndex={true}>
   <main class="wrap">
     <header class="top">
-      <p class="eyebrow">cluna.ar/tiendanube</p>
+      <div class="top-row">
+        <p class="eyebrow">cluna.ar/tiendanube</p>
+        <a href="/tiendanube/logout" class="logout-link">Cerrar sesión</a>
+      </div>
       <h1>{schema.titulo}</h1>
       <p class="sub">{schema.subtitulo}</p>
       <p class="desc">{schema.descripcion}</p>
@@ -128,7 +131,10 @@ const checked = (id: string) => !!answers[id];
 <style>
   .wrap { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 6rem; font-family: 'Outfit', system-ui, sans-serif; }
   .top { margin-bottom: 2rem; }
+  .top-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
   .eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(var(--muted-foreground)); margin-bottom: 0.5rem; }
+  .logout-link { font-size: 0.8rem; font-weight: 600; color: hsl(var(--muted-foreground)); text-decoration: underline; }
+  .logout-link:hover { color: hsl(var(--foreground)); }
   h1 { font-family: 'Paytone One', system-ui, sans-serif; font-size: 1.8rem; margin: 0 0 0.5rem; color: hsl(var(--foreground)); }
   .sub { font-weight: 600; margin: 0 0 0.5rem; }
   .desc { color: hsl(var(--muted-foreground)); margin: 0 0 0.5rem; }

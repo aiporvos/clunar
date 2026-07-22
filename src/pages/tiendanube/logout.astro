@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+
+Astro.session?.set('tiendanube_auth', false);
+return Astro.redirect('/tiendanube/login');
+---
