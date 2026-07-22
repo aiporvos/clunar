@@ -30,6 +30,16 @@ const checked = (id: string) => !!answers[id];
       <p class="nota">{schema.nota}</p>
     </header>
 
+    <div class="filter-bar" id="filter-bar">
+      <span class="filter-label">Mostrar responsable:</span>
+      {['Cliente', 'Implementador', 'Ambos', 'Marketing'].map((r) => (
+        <label class="filter-chip">
+          <input type="checkbox" class="resp-filter" value={r} checked />
+          <span>{r}</span>
+        </label>
+      ))}
+    </div>
+
     <form id="checklist-form">
       <section class="card">
         <h2>Datos generales</h2>
@@ -67,7 +77,7 @@ const checked = (id: string) => !!answers[id];
       </section>
 
       {schema.secciones.map((sec) => (
-        <section class="card">
+        <section class="card checklist-section">
           <h2>{sec.titulo}</h2>
           {sec.intro && <p class="intro">{sec.intro}</p>}
           {sec.nota && <p class="nota-inline">⚠ {sec.nota}</p>}
@@ -76,7 +86,7 @@ const checked = (id: string) => !!answers[id];
             {sec.items.map((item, idx) => {
               const id = `${sec.id}-${idx}`;
               return (
-                <div class="item-row">
+                <div class="item-row" data-responsable={item.responsable}>
                   <input type="checkbox" name={`${id}_ok`} checked={checked(`${id}_ok`)} class="ok-check" />
                   <div class="item-text">
                     <strong>{item.titulo}</strong>
@@ -132,6 +142,13 @@ const checked = (id: string) => !!answers[id];
   .wrap { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 6rem; font-family: 'Outfit', system-ui, sans-serif; }
   .top { margin-bottom: 2rem; }
   .top-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+  .filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem; padding: 0.75rem 1rem; background: hsl(var(--card)); border: 2px solid hsl(var(--foreground)); border-radius: 0.6rem; box-shadow: 3px 3px 0 hsl(var(--foreground)); position: sticky; top: 0.5rem; z-index: 10; }
+  .filter-label { font-size: 0.8rem; font-weight: 700; margin-right: 0.3rem; }
+  .filter-chip { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; font-weight: 600; padding: 0.3rem 0.7rem; border: 2px solid hsl(var(--foreground)); border-radius: 999px; background: hsl(var(--background)); cursor: pointer; }
+  .filter-chip input { width: 0.9rem; height: 0.9rem; }
+  .item-row.filtered-out { display: none; }
+  .checklist-section.filtered-out { display: none; }
   .eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(var(--muted-foreground)); margin-bottom: 0.5rem; }
   .logout-link { font-size: 0.8rem; font-weight: 600; color: hsl(var(--muted-foreground)); text-decoration: underline; }
   .logout-link:hover { color: hsl(var(--foreground)); }
@@ -208,4 +225,25 @@ const checked = (id: string) => !!answers[id];
       status.textContent = `✗ Error: ${err.message}`;
     }
   });
+
+  // Filtro por responsable (Cliente/Implementador/Ambos/Marketing)
+  const filterChecks = document.querySelectorAll<HTMLInputElement>('.resp-filter');
+  function applyFilter() {
+    const active = new Set(
+      Array.from(filterChecks).filter((c) => c.checked).map((c) => c.value)
+    );
+    document.querySelectorAll<HTMLElement>('.checklist-section').forEach((section) => {
+      const rows = section.querySelectorAll<HTMLElement>('.item-row');
+      let visibleCount = 0;
+      rows.forEach((row) => {
+        const resp = row.dataset.responsable ?? '';
+        const show = active.has(resp);
+        row.classList.toggle('filtered-out', !show);
+        if (show) visibleCount++;
+      });
+      // Si la sección no tiene ítems propios (roles, aprobación final), rows.length es 0: nunca ocultarla.
+      section.classList.toggle('filtered-out', rows.length > 0 && visibleCount === 0);
+    });
+  }
+  filterChecks.forEach((c) => c.addEventListener('change', applyFilter));
 </script>
