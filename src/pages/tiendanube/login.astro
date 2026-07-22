@@ -2,13 +2,14 @@
 export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSecret } from 'astro:env/server';
 
 let error = '';
 
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData();
   const password = form.get('password');
-  const expected = import.meta.env.TIENDANUBE_PASSWORD;
+  const expected = getSecret('TIENDANUBE_PASSWORD');
 
   if (!expected) {
     error = 'Falta configurar TIENDANUBE_PASSWORD en el servidor.';
