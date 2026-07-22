@@ -100,5 +100,11 @@
     "preset": "Mockup de producto/pantalla ilustrado",
     "provider": "kie",
     "date": "2026-07-22T21:11:50.026Z"
+  },
+  {
+    "slug": "claude-dispatch-computer-use",
+    "preset": "Escena de trabajo ilustrada",
+    "provider": "kie",
+    "date": "2026-07-22T22:07:29.427Z"
   }
 ]
