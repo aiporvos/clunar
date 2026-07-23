@@ -106,5 +106,11 @@
     "preset": "Escena de trabajo ilustrada",
     "provider": "kie",
     "date": "2026-07-22T22:07:29.427Z"
+  },
+  {
+    "slug": "localai-tu-propio-servidor-de-ia-sin-gpu",
+    "preset": "Detalle técnico ilustrado",
+    "provider": "kie",
+    "date": "2026-07-23T14:12:25.679Z"
   }
 ]

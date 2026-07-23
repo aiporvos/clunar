@@ -1,0 +1,94 @@
+---
+title: 'LocalAI: tu propio servidor de IA, sin GPU y sin pagar por token'
+excerpt: >-
+  LocalAI corre modelos de texto, voz e imagen en tu propio hardware, sin GPU
+  necesaria, con una API que reemplaza directo a la de OpenAI.
+coverImage: /images/posts/localai-tu-propio-servidor-de-ia-sin-gpu/cover.png
+publishedAt: 2026-07-23
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: '2'
+readTime: 5
+tags:
+  - Arquitectura IA
+  - Self-hosted
+  - Infraestructura
+draft: false
+seoTitle: 'LocalAI: modelos de IA propios, sin GPU (guía)'
+seoDescription: >-
+  Qué es LocalAI, el motor open source que corre LLMs, voz e imagen en tu
+  propio hardware sin GPU, compatible con las APIs de OpenAI, Anthropic y
+  ElevenLabs.
+---
+Un solo comando de Docker, sin placa de video, y en un par de minutos tenés
+un servidor de IA corriendo en tu propia máquina, respondiendo exactamente
+en el formato que espera cualquier app armada para hablar con OpenAI. Eso es
+[LocalAI](https://github.com/mudler/LocalAI).
+
+## El contraste
+
+La forma habitual de usar IA generativa es pagar por token a una API
+externa y mandar los datos de tus usuarios a un tercero. LocalAI ofrece el
+mismo contrato de API (los mismos endpoints que ya usa tu código), pero
+corriendo en el hardware que vos controlás. No hay que reescribir la
+aplicación, solo cambiar la URL a la que apunta.
+
+## Qué es, en concreto
+
+LocalAI es un motor de inferencia open source (MIT) creado por Ettore Di
+Giacinto, con 47.800 estrellas en GitHub y más de 7.200 commits. Su
+propuesta central: correr cualquier modelo, texto, voz, imagen o video, en
+cualquier hardware, sin necesitar GPU.
+
+La arquitectura es modular: el core es chico, y los más de 60 backends
+(llama.cpp para LLMs, whisper.cpp y parakeet.cpp para voz a texto,
+moss-tts.cpp para texto a voz, stable-diffusion y diffusers para imagen,
+face-detect.cpp para reconocimiento facial, entre otros) se descargan bajo
+demanda como imágenes OCI independientes. Instalás solo lo que vas a usar,
+no un bundle de todo junto.
+
+Corre en CPU sin problema, y si tenés GPU, la detecta y la aprovecha:
+NVIDIA (CUDA), AMD (ROCm), Intel (oneAPI), Apple Silicon o Vulkan. Esto es
+lo que lo distingue de motores como [vLLM](/blog/vllm-servir-tus-propios-modelos-de-ia),
+pensado para exprimir GPUs a máxima escala: LocalAI apunta a que cualquiera
+pueda arrancar, con o sin GPU, y con más tipos de modelo que solo texto.
+
+Las APIs que expone son compatibles con OpenAI, Anthropic y ElevenLabs
+(drop-in, sin reescribir tu integración), y suma Realtime API para audio
+bidireccional, Vision API, embeddings, grammars restringidas y soporte de
+MCP (Model Context Protocol) para conectarlo con agentes.
+
+## Puesta en marcha
+
+1. **Instalar (CPU, sin GPU)**, un solo comando:
+   ```bash
+   docker run -ti --name local-ai -p 8080:8080 localai/localai:latest
+   ```
+2. **Si tenés GPU NVIDIA (CUDA 12)**, la variante con aceleración:
+   ```bash
+   docker run -ti --name local-ai -p 8080:8080 --gpus all \
+     localai/localai:latest-gpu-nvidia-cuda-12
+   ```
+3. **Bajar y correr un modelo** (la galería integrada trae modelos listos
+   para usar):
+   ```bash
+   local-ai run llama-3.2-1b-instruct:q4_k_m
+   ```
+4. **Probar la API**: apuntá tu cliente de OpenAI a
+   `http://localhost:8080/v1` en vez de `api.openai.com`. El mismo código
+   que ya tenés, sin cambios.
+5. **Chat directo desde la terminal**, para probar sin escribir código:
+   ```bash
+   local-ai chat --model llama-3.2-1b-instruct:q4_k_m
+   ```
+
+## Cuándo importa
+
+No todo caso necesita esto. Pero cuando los datos que procesa el modelo no
+pueden salir de tu red (clientes, historia clínica, contratos), cuando el
+volumen de uso hace que pagar por token deje de cerrar, o cuando querés
+prototipar sin depender de una cuenta y una tarjeta de crédito, LocalAI es
+el punto de entrada más simple que hay hoy para correr IA propia.
+
+Repo, gratis, MIT:
+[**github.com/mudler/LocalAI**](https://github.com/mudler/LocalAI)
