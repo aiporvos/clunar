@@ -44,6 +44,12 @@ es en español y una portada con palabras en inglés rompe la coherencia de
 marca. Esto aplica también a `--prompt` custom (no solo a los presets de
 abajo). Por defecto, mejor evitar texto en la imagen directamente.
 
+**Regla de fondo (2026-07-27, obligatoria en todo preset y `--prompt` custom):**
+ninguna portada lleva fondo oscuro/negro. Siempre fondo crema `#f9f4da` (o sin
+fondo definido, transparente), para que la imagen se integre visualmente con
+el resto del sitio en vez de cortar como un bloque aparte. Si un preset viejo
+menciona "fondo oscuro de marca", esa parte quedó obsoleta.
+
 **Regla del nombre de herramienta (2026-07-14):** cuando el post es sobre
 una herramienta concreta (vLLM, OpenWiki, draw.io, n8n...), la portada
 **debe incluir el nombre de la herramienta** integrado en la ilustración —
@@ -81,13 +87,18 @@ connected by arrows, blueprint composition. No readable words, only abstract
 tick marks and geometric symbols suggesting annotation. Horizontal 16:9.
 ```
 
-## 4. Ilustración isométrica oscura
-Sistemas y flujos en 3D isométrico plano, fondo oscuro de marca. Ideal para:
-posts de automatización, pipelines, sistemas multi-agente.
+## 4. Ilustración isométrica (DEPRECADO fondo oscuro, 2026-07-27)
+Sistemas y flujos en 3D isométrico plano. Ideal para: posts de automatización,
+pipelines, sistemas multi-agente. **Regla de Claudio (2026-07-27): nunca fondo
+oscuro/negro — todas las portadas van sobre el fondo crema del sitio, o sin
+fondo, para que se integren visualmente con el blog.** Pasó con el post de
+Odysseus: salió con panel negro y hubo que regenerarla.
 ```
 Isometric flat-vector illustration of interconnected systems and data
-pipelines against the brand's near-black background, clean geometric shapes,
-no characters, no realistic lighting or glow. Horizontal 16:9.
+pipelines, clean geometric shapes, no characters, no realistic lighting or
+glow. Horizontal 16:9. The entire background must be the warm cream color
+(no dark or black background panel anywhere) — the illustration sits
+directly on the cream background like the rest of the site.
 ```
 
 ## 5. Escena de trabajo ilustrada
