@@ -1,0 +1,74 @@
+---
+title: 'Odysseus: chat, agentes, mail y calendario en un solo workspace de IA, en tu propio servidor'
+excerpt: >-
+  Odysseus junta chat, agentes, research, documentos, mail, notas y calendario
+  en un solo workspace de IA alojado en tu propio servidor.
+coverImage: /images/posts/odysseus-workspace-de-ia-self-hosted/cover.png
+publishedAt: 2026-07-27
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: '3'
+readTime: 5
+tags:
+  - Arquitectura IA
+  - Self-hosted
+  - Agentes
+draft: false
+seoTitle: 'Odysseus: workspace de IA self-hosted (chat, agentes, mail, research)'
+seoDescription: >-
+  Qué es Odysseus, el workspace de IA open source que junta chat, agentes,
+  research, documentos, mail y calendario en un solo servidor propio.
+---
+
+Todavía tenés el chat de IA en una pestaña, el mail en otra, el calendario en
+otra, y ninguna de las tres se entera de lo que hace la otra. Cada una vive
+en su propia SaaS, con su propio login, y vos sos el que copia y pega entre
+medio.
+
+Odysseus arranca de una premisa distinta: en vez de una app por tarea, un
+solo workspace, autohospedado, donde el chat con agentes ya tiene acceso a
+tu mail, tus notas y tu calendario porque comparten el mismo lugar.
+
+## Qué trae adentro
+
+- **Chat + Agentes**: modelos locales o por API, con herramientas, MCP,
+  archivos, shell y memoria. El agente no solo responde, puede accionar.
+- **Cookbook**: recomienda qué modelo correr según tu propio hardware, y lo
+  descarga y sirve por vos.
+- **Deep Research**: investigación web de varios pasos, con lectura de
+  fuentes y reporte final, no un resumen de una sola búsqueda.
+- **Compare**: pruebas ciegas lado a lado entre modelos, para elegir con
+  datos y no con la fama del nombre.
+- **Documents**: editor pensado para escribir, con sugerencias y ediciones
+  de IA integradas, Markdown y CSV incluidos.
+- **Email**: bandeja IMAP/SMTP con triage, etiquetas, resúmenes y borradores
+  de respuesta.
+- **Notes, Tasks + Calendar**: recordatorios, tareas, agentes programados y
+  sincronización CalDAV.
+
+Todo dentro del mismo contenedor, con tus datos en tu propio servidor, no
+repartidos entre media docena de SaaS distintas.
+
+## Puesta en marcha
+
+```bash
+git clone https://github.com/odysseus-dev/odysseus.git
+cd odysseus
+cp .env.example .env
+docker compose up -d --build
+```
+
+Cuando los contenedores estén sanos, abrís `http://localhost:7000`. La
+contraseña del primer usuario admin queda impresa en
+`docker compose logs odysseus`.
+
+Es un workspace con herramientas potentes corriendo en tu propia red: dejá
+la autenticación activada y no expongas los puertos crudos a internet, lo
+mismo que harías con cualquier panel de administración.
+
+## Lo que cambia
+
+No es un chat más con plugins. Es un mismo lugar donde el agente que
+investiga, el que responde tu mail y el que arma tu agenda comparten
+contexto entre sí, sin que vos seas el que hace de puente copiando y
+pegando entre pestañas.
