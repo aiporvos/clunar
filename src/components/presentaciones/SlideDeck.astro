@@ -11,14 +11,15 @@ const { titulo, subtitulo, slides } = Astro.props;
 ---
 
 <div class="deck" id="deck">
-  <div class="deck-head">
-    <div>
+  <div class="deck-head" id="deck-head">
+    <div class="deck-head-text">
       <div class="deck-title">{titulo}</div>
       <div class="deck-sub">{subtitulo}</div>
     </div>
     <div class="deck-actions">
       <span class="chip"><span id="deck-counter">1</span> / {slides.length}</span>
       <button class="btn btn-cta" id="deck-presentar" type="button">▶ Presentar</button>
+      <button class="btn btn-salir" id="deck-salir" type="button" hidden>✕ Salir (Esc)</button>
     </div>
   </div>
 
@@ -33,14 +34,14 @@ const { titulo, subtitulo, slides } = Astro.props;
     ))}
   </div>
 
-  <div class="deck-nav">
-    <button class="btn" id="deck-prev" type="button" disabled>← Anterior</button>
+  <div class="deck-nav" id="deck-nav">
+    <button class="btn flecha" id="deck-prev" type="button" disabled aria-label="Anterior">← Anterior</button>
     <div class="deck-dots">
       {slides.map((_, i) => (
         <button class={`dot${i === 0 ? ' activa' : ''}`} data-index={i} type="button" aria-label={`Ir a la sección ${i + 1}`}></button>
       ))}
     </div>
-    <button class="btn" id="deck-next" type="button" disabled={slides.length <= 1}>Siguiente →</button>
+    <button class="btn flecha" id="deck-next" type="button" disabled={slides.length <= 1} aria-label="Siguiente">Siguiente →</button>
   </div>
 </div>
 
@@ -88,13 +89,45 @@ const { titulo, subtitulo, slides } = Astro.props;
   .dot { width: 0.6rem; height: 0.6rem; padding: 0; border-radius: 999px; border: 2px solid hsl(var(--foreground)); background: hsl(var(--background)); cursor: pointer; }
   .dot.activa { background: hsl(var(--primary)); }
 
-  .deck.presentando { position: fixed; inset: 0; z-index: 999; background: hsl(var(--background)); padding: 2.5rem 3rem; display: flex; flex-direction: column; overflow-y: auto; }
-  .deck.presentando .deck-head { max-width: 900px; margin: 0 auto 1.5rem; width: 100%; }
-  .deck.presentando .deck-slides { flex: 1; display: flex; align-items: center; justify-content: center; }
-  .deck.presentando .slide-card { max-width: 900px; width: 100%; min-height: 0; }
-  .deck.presentando .slide-titulo { font-size: 2rem; }
-  .deck.presentando .slide-emoji { font-size: 3rem; }
-  .deck.presentando .deck-nav { max-width: 900px; margin: 1.5rem auto 0; width: 100%; }
+  .btn-salir { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+
+  /* ── Modo presentar: overlay a pantalla completa, cabecera reducida a
+     contador + salir, navegación fija en las esquinas inferiores. ── */
+  .deck.presentando .deck-slides {
+    position: fixed; inset: 0; z-index: 998;
+    display: flex; align-items: stretch; justify-content: center;
+    background: hsl(var(--background)); padding: 5.5rem 3rem;
+  }
+  .deck.presentando .slide-card {
+    max-width: 1500px; width: 100%; min-height: 0;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 3rem 5rem;
+    border: none; box-shadow: none; background: transparent;
+  }
+  .deck.presentando .slide-titulo { font-size: 2.75rem; }
+  .deck.presentando .slide-emoji { font-size: 4rem; }
+  .deck.presentando .slide-cuerpo { font-size: 1.3rem; }
+  .deck.presentando .slide-num { font-size: 3.5rem; top: 1.5rem; right: 2rem; }
+
+  .deck.presentando .deck-head {
+    position: fixed; top: 1.5rem; left: 1.5rem; right: 1.5rem; z-index: 999;
+    margin: 0; align-items: center;
+  }
+  .deck.presentando .deck-head-text { display: none; }
+  .deck.presentando .deck-actions { margin-left: auto; }
+  .deck.presentando #deck-presentar { display: none; }
+  .deck.presentando #deck-salir { display: inline-flex; }
+
+  .deck.presentando .deck-nav {
+    position: fixed; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; z-index: 999;
+    margin: 0;
+  }
+  .deck.presentando .flecha {
+    width: 2.75rem; height: 2.75rem; border-radius: 999px;
+    padding: 0; font-size: 0; position: relative;
+  }
+  .deck.presentando #deck-prev.flecha::after { content: '←'; font-size: 1.2rem; }
+  .deck.presentando #deck-next.flecha::after { content: '→'; font-size: 1.2rem; }
 </style>
 
 <script>
@@ -105,6 +138,7 @@ const { titulo, subtitulo, slides } = Astro.props;
     const prevBtn = deck.querySelector<HTMLButtonElement>('#deck-prev');
     const nextBtn = deck.querySelector<HTMLButtonElement>('#deck-next');
     const presentarBtn = deck.querySelector<HTMLButtonElement>('#deck-presentar');
+    const salirBtn = deck.querySelector<HTMLButtonElement>('#deck-salir');
     const total = cards.length;
     let actual = 0;
 
@@ -130,6 +164,7 @@ const { titulo, subtitulo, slides } = Astro.props;
       deck.classList.add('presentando');
       deck.requestFullscreen?.().catch(() => {});
     });
+    salirBtn?.addEventListener('click', salirPresentacion);
 
     document.addEventListener('fullscreenchange', () => {
       if (!document.fullscreenElement && deck.classList.contains('presentando')) salirPresentacion();
