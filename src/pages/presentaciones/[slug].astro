@@ -1,0 +1,34 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SlideDeck from '../../components/presentaciones/SlideDeck.astro';
+import { presentacion as gabriel } from '../../data/presentaciones/gabriel-tesis-ambiental';
+
+// A medida que se sumen presentaciones para otros clientes, agregarlas acá.
+const presentaciones = [gabriel];
+
+const { slug } = Astro.params;
+const presentacion = presentaciones.find((p) => p.slug === slug);
+
+if (!presentacion) {
+  return Astro.redirect('/presentaciones');
+}
+---
+
+<BaseLayout title={`${presentacion.titulo} — cluna.ar/presentaciones`} noIndex={true}>
+  <main class="wrap">
+    <div class="top-row">
+      <a href="/presentaciones" class="back-link">← Todas las presentaciones</a>
+      <a href="/presentaciones/logout" class="logout-link">Cerrar sesión</a>
+    </div>
+    <SlideDeck titulo={presentacion.titulo} subtitulo={presentacion.subtitulo} slides={presentacion.slides} />
+  </main>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: 980px; margin: 0 auto; padding: 1.5rem 1.5rem 6rem; }
+  .top-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; font-family: 'Outfit', system-ui, sans-serif; }
+  .back-link, .logout-link { font-size: 0.8rem; font-weight: 600; color: hsl(var(--muted-foreground)); text-decoration: underline; }
+  .back-link:hover, .logout-link:hover { color: hsl(var(--foreground)); }
+</style>

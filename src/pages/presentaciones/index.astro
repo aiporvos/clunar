@@ -1,0 +1,56 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { presentacion as gabriel } from '../../data/presentaciones/gabriel-tesis-ambiental';
+
+// A medida que se sumen presentaciones para otros clientes, agregarlas acá.
+const presentaciones = [gabriel];
+---
+
+<BaseLayout title="cluna.ar/presentaciones" noIndex={true}>
+  <main class="wrap">
+    <header class="top">
+      <div class="top-row">
+        <p class="eyebrow">cluna.ar/presentaciones</p>
+        <a href="/presentaciones/logout" class="logout-link">Cerrar sesión</a>
+      </div>
+      <h1>Presentaciones</h1>
+      <p class="sub">Todas las presentaciones para clientes, en un solo lugar.</p>
+    </header>
+
+    <ul class="lista">
+      {presentaciones.map((p) => (
+        <li class="item">
+          <a href={`/presentaciones/${p.slug}`} class="item-link">
+            <div>
+              <div class="item-cliente">{p.cliente}</div>
+              <div class="item-titulo">{p.titulo}</div>
+              <div class="item-sub">{p.subtitulo}</div>
+            </div>
+            <div class="item-fecha">{p.fecha}</div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem 6rem; font-family: 'Outfit', system-ui, sans-serif; }
+  .top { margin-bottom: 2rem; }
+  .top-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: hsl(var(--muted-foreground)); margin-bottom: 0.5rem; }
+  .logout-link { font-size: 0.8rem; font-weight: 600; color: hsl(var(--muted-foreground)); text-decoration: underline; }
+  .logout-link:hover { color: hsl(var(--foreground)); }
+  h1 { font-family: 'Paytone One', system-ui, sans-serif; font-size: 1.8rem; margin: 0 0 0.5rem; color: hsl(var(--foreground)); }
+  .sub { color: hsl(var(--muted-foreground)); margin: 0; }
+
+  .lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.9rem; }
+  .item-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: hsl(var(--card)); border: 2px solid hsl(var(--foreground)); border-radius: 0.75rem; box-shadow: 4px 4px 0 hsl(var(--foreground)); padding: 1.1rem 1.3rem; text-decoration: none; color: hsl(var(--foreground)); transition: transform 0.1s; }
+  .item-link:hover { transform: translate(-2px, -2px); }
+  .item-cliente { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: hsl(var(--muted-foreground)); }
+  .item-titulo { font-family: 'Paytone One', system-ui, sans-serif; font-size: 1.1rem; margin-top: 0.15rem; }
+  .item-sub { font-size: 0.85rem; color: hsl(var(--muted-foreground)); margin-top: 0.2rem; }
+  .item-fecha { font-size: 0.8rem; font-weight: 600; color: hsl(var(--muted-foreground)); white-space: nowrap; }
+</style>

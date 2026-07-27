@@ -1,0 +1,149 @@
+---
+import type { Slide } from '../../data/presentaciones/gabriel-tesis-ambiental';
+
+interface Props {
+  titulo: string;
+  subtitulo: string;
+  slides: Slide[];
+}
+
+const { titulo, subtitulo, slides } = Astro.props;
+---
+
+<div class="deck" id="deck">
+  <div class="deck-head">
+    <div>
+      <div class="deck-title">{titulo}</div>
+      <div class="deck-sub">{subtitulo}</div>
+    </div>
+    <div class="deck-actions">
+      <span class="chip"><span id="deck-counter">1</span> / {slides.length}</span>
+      <button class="btn btn-cta" id="deck-presentar" type="button">▶ Presentar</button>
+    </div>
+  </div>
+
+  <div class="deck-slides">
+    {slides.map((s, i) => (
+      <article class="slide-card" data-index={i} style={i === 0 ? '' : 'display:none'}>
+        <div class="slide-num">{String(i + 1).padStart(2, '0')}</div>
+        <div class="slide-emoji">{s.emoji}</div>
+        <h2 class="slide-titulo">{s.titulo}</h2>
+        <div class="slide-cuerpo" set:html={s.html} />
+      </article>
+    ))}
+  </div>
+
+  <div class="deck-nav">
+    <button class="btn" id="deck-prev" type="button" disabled>← Anterior</button>
+    <div class="deck-dots">
+      {slides.map((_, i) => (
+        <button class={`dot${i === 0 ? ' activa' : ''}`} data-index={i} type="button" aria-label={`Ir a la sección ${i + 1}`}></button>
+      ))}
+    </div>
+    <button class="btn" id="deck-next" type="button" disabled={slides.length <= 1}>Siguiente →</button>
+  </div>
+</div>
+
+<style>
+  .deck { font-family: 'Outfit', system-ui, sans-serif; color: hsl(var(--foreground)); }
+
+  .deck-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .deck-title { font-family: 'Paytone One', system-ui, sans-serif; font-size: 1.3rem; margin: 0; }
+  .deck-sub { color: hsl(var(--muted-foreground)); font-size: 0.9rem; margin-top: 0.25rem; }
+  .deck-actions { display: flex; align-items: center; gap: 0.6rem; }
+
+  .chip { display: inline-flex; align-items: center; font-size: 0.8rem; font-weight: 700; padding: 0.35rem 0.8rem; border: 2px solid hsl(var(--foreground)); border-radius: 999px; background: hsl(var(--background)); }
+  .btn { font: inherit; font-weight: 700; font-size: 0.85rem; padding: 0.55rem 1.1rem; border: 2px solid hsl(var(--foreground)); border-radius: 999px; background: hsl(var(--background)); color: hsl(var(--foreground)); cursor: pointer; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn:not(:disabled):hover { transform: translate(-1px, -1px); }
+  .btn-cta { background: hsl(var(--primary)); box-shadow: 3px 3px 0 hsl(var(--foreground)); }
+
+  .slide-card { position: relative; background: hsl(var(--card)); border: 2px solid hsl(var(--foreground)); border-radius: 0.9rem; box-shadow: 6px 6px 0 hsl(var(--foreground)); padding: 2.25rem 2rem 2rem; min-height: 320px; }
+  .slide-num { position: absolute; top: 1rem; right: 1.25rem; font-family: 'Paytone One', system-ui, sans-serif; font-size: 2.2rem; color: hsl(var(--foreground) / 0.12); }
+  .slide-emoji { font-size: 2.2rem; margin-bottom: 0.5rem; }
+  .slide-titulo { font-family: 'Paytone One', system-ui, sans-serif; font-size: 1.5rem; margin: 0 0 1rem; }
+  .slide-cuerpo :global(p) { margin: 0 0 0.9rem; line-height: 1.55; }
+  .slide-cuerpo :global(b) { font-weight: 800; }
+
+  .slide-cuerpo :global(.flujo) { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin: 1rem 0; }
+  .slide-cuerpo :global(.flujo-item) { display: inline-flex; align-items: center; gap: 0.4rem; }
+  .slide-cuerpo :global(.flujo-caja) { background: hsl(var(--background)); border: 2px solid hsl(var(--foreground)); border-radius: 0.5rem; padding: 0.4rem 0.7rem; font-size: 0.85rem; font-weight: 700; }
+  .slide-cuerpo :global(.flujo-flecha) { font-weight: 900; }
+
+  .slide-cuerpo :global(.beneficio) { background: hsl(var(--primary)); border: 2px solid hsl(var(--foreground)); border-radius: 0.6rem; padding: 0.6rem 0.9rem; font-size: 0.9rem; margin-top: 0.75rem; }
+
+  .slide-cuerpo :global(.pasos) { display: flex; flex-direction: column; gap: 0.55rem; padding-left: 1.2rem; margin: 0 0 0.5rem; }
+  .slide-cuerpo :global(.pasos li) { line-height: 1.5; }
+
+  .slide-cuerpo :global(.table-wrap) { overflow-x: auto; margin: 1rem 0; }
+  .slide-cuerpo :global(.tabla) { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .slide-cuerpo :global(.tabla th),
+  .slide-cuerpo :global(.tabla td) { border: 1px solid hsl(var(--border)); padding: 0.5rem 0.6rem; text-align: left; }
+  .slide-cuerpo :global(.tabla th) { background: hsl(var(--secondary)); }
+  .slide-cuerpo :global(.t-ok) { color: hsl(150 40% 30%); font-weight: 700; }
+  .slide-cuerpo :global(.t-bad) { color: hsl(var(--muted-foreground)); }
+
+  .deck-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.25rem; }
+  .deck-dots { display: flex; gap: 0.4rem; }
+  .dot { width: 0.6rem; height: 0.6rem; padding: 0; border-radius: 999px; border: 2px solid hsl(var(--foreground)); background: hsl(var(--background)); cursor: pointer; }
+  .dot.activa { background: hsl(var(--primary)); }
+
+  .deck.presentando { position: fixed; inset: 0; z-index: 999; background: hsl(var(--background)); padding: 2.5rem 3rem; display: flex; flex-direction: column; overflow-y: auto; }
+  .deck.presentando .deck-head { max-width: 900px; margin: 0 auto 1.5rem; width: 100%; }
+  .deck.presentando .deck-slides { flex: 1; display: flex; align-items: center; justify-content: center; }
+  .deck.presentando .slide-card { max-width: 900px; width: 100%; min-height: 0; }
+  .deck.presentando .slide-titulo { font-size: 2rem; }
+  .deck.presentando .slide-emoji { font-size: 3rem; }
+  .deck.presentando .deck-nav { max-width: 900px; margin: 1.5rem auto 0; width: 100%; }
+</style>
+
+<script>
+  function setup(deck: HTMLElement) {
+    const cards = Array.from(deck.querySelectorAll<HTMLElement>('.slide-card'));
+    const dots = Array.from(deck.querySelectorAll<HTMLButtonElement>('.dot'));
+    const counter = deck.querySelector<HTMLElement>('#deck-counter');
+    const prevBtn = deck.querySelector<HTMLButtonElement>('#deck-prev');
+    const nextBtn = deck.querySelector<HTMLButtonElement>('#deck-next');
+    const presentarBtn = deck.querySelector<HTMLButtonElement>('#deck-presentar');
+    const total = cards.length;
+    let actual = 0;
+
+    function mostrar(i: number) {
+      actual = Math.max(0, Math.min(i, total - 1));
+      cards.forEach((c, idx) => { c.style.display = idx === actual ? '' : 'none'; });
+      dots.forEach((d, idx) => d.classList.toggle('activa', idx === actual));
+      if (counter) counter.textContent = String(actual + 1);
+      if (prevBtn) prevBtn.disabled = actual === 0;
+      if (nextBtn) nextBtn.disabled = actual === total - 1;
+    }
+
+    prevBtn?.addEventListener('click', () => mostrar(actual - 1));
+    nextBtn?.addEventListener('click', () => mostrar(actual + 1));
+    dots.forEach((d) => d.addEventListener('click', () => mostrar(Number(d.dataset.index))));
+
+    function salirPresentacion() {
+      deck.classList.remove('presentando');
+      if (document.fullscreenElement) void document.exitFullscreen().catch(() => {});
+    }
+
+    presentarBtn?.addEventListener('click', () => {
+      deck.classList.add('presentando');
+      deck.requestFullscreen?.().catch(() => {});
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement && deck.classList.contains('presentando')) salirPresentacion();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (!deck.classList.contains('presentando')) return;
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') mostrar(actual + 1);
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') mostrar(actual - 1);
+      if (e.key === 'Escape') salirPresentacion();
+    });
+
+    mostrar(0);
+  }
+
+  document.querySelectorAll<HTMLElement>('#deck').forEach(setup);
+</script>

@@ -1,0 +1,6 @@
+---
+export const prerender = false;
+
+Astro.session?.set('presentaciones_auth', false);
+return Astro.redirect('/presentaciones/login');
+---
