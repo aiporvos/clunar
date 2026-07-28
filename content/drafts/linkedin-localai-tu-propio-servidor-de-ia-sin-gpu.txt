@@ -1,0 +1,18 @@
+Todavía pensás que para tener IA propia necesitás una GPU cara y un equipo de DevOps.
+
+Un solo comando de Docker, sin placa de video, y ya tenés un servidor de IA corriendo en tu propia máquina.
+
+Se llama LocalAI y el secreto está en 3 partes:
+
+🧩 Modular: más de 60 backends (texto, voz, imagen) que se descargan solo cuando los necesitás, no un bundle gigante.
+🖥️ Corre en cualquier hardware: CPU, NVIDIA, AMD, Intel o Apple Silicon. La GPU es opcional, no un requisito.
+🔌 API compatible con OpenAI, Anthropic y ElevenLabs: apuntás tu código existente a tu propio servidor, sin reescribir nada.
+
+Cuando tus datos no pueden salir de tu red, o el volumen de uso hace que pagar por token deje de cerrar, algo como esto es lo que corre detrás.
+
+Guardalo 👇
+https://cluna.ar/blog/localai-tu-propio-servidor-de-ia-sin-gpu
+
+Nivel 2 · Herramientas
+
+Otros venden acceso. Yo comparto criterio.

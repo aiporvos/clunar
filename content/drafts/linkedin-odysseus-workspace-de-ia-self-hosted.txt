@@ -1,0 +1,20 @@
+Todavía tenés el chat de IA en una pestaña, el mail en otra, el calendario en otra, y ninguna se entera de lo que hace la otra.
+
+El enfoque de siempre es una app por tarea, con su propio login, y vos de puente copiando y pegando entre medio. El de Odysseus es un solo workspace, autohospedado, donde todo comparte el mismo lugar.
+
+El secreto está en que no es un chat con plugins, son piezas que ya conviven:
+
+🤖 Chat + Agentes: modelos locales o por API, con herramientas, MCP, archivos y memoria.
+🔍 Deep Research: investigación web de varios pasos, con reporte final, no un resumen de una búsqueda.
+⚖️ Compare: pruebas ciegas lado a lado entre modelos, para elegir con datos.
+✉️ Email: bandeja IMAP/SMTP con triage, resúmenes y borradores de respuesta.
+🗓️ Notes, Tasks + Calendar: recordatorios, tareas y sincronización CalDAV.
+
+Cuando el agente que investiga, el que responde tu mail y el que arma tu agenda comparten contexto entre sí, dejás de ser vos el que hace de traductor entre pestañas.
+
+Guardalo 👇
+https://cluna.ar/blog/odysseus-workspace-de-ia-self-hosted
+
+Nivel 3 · Agentes
+
+Acá no hay funnel. Hay laburo compartido.

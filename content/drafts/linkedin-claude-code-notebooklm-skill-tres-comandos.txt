@@ -1,0 +1,22 @@
+El post sobre NotebookLM generó bastante más interés del que esperaba, así que seguimos con la saga. Esta vez, Claude Code le pregunta directo a tus cuadernos, sin que abras el navegador ni copies y pegues una sola vez.
+
+La mayoría todavía usa NotebookLM a mano: subir el PDF, escribir el prompt, copiar la respuesta. Acá la IA consulta el cuaderno sola, en medio de una tarea más grande, y sigue trabajando con lo que encontró.
+
+El secreto está en 3 pasos:
+
+⚙️ Instalar Claude Code (un comando, Windows/Mac/Linux).
+
+🧩 Clonar la skill notebooklm-skill de PleasePrompto en tu carpeta de skills. Se configura sola la primera vez.
+
+🔐 Autenticar tu cuenta de Google escribiéndoselo en lenguaje natural a Claude Code. Se abre un Chrome real, una sola vez, y las cookies quedan guardadas en tu compu, nunca salen de ahí.
+
+Con eso andando, la parte interesante no es "resumir": es que Claude decide solo cuándo preguntarle al cuaderno. Auditar documentación contra tu código, armar casos de test desde una spec, o sacar un archivo de configuración real desde un manual de 40 páginas, citando de dónde salió cada dato.
+
+Post completo, con los 3 casos de uso explicados y el paso a paso:
+https://cluna.ar/blog/claude-code-notebooklm-skill-tres-comandos
+
+Nivel 3 · Agentes
+
+Guardalo 👇
+
+Otros venden acceso. Yo comparto criterio.

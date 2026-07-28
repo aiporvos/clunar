@@ -1,0 +1,22 @@
+Le pedís algo a Claude y no hay conector directo para hacerlo. Antes, ahí terminaba la automatización. Ahora Claude directamente toma el control de tu pantalla y hace el clic por vos.
+
+La mayoría de las automatizaciones dependen de que exista una integración oficial. Cuando no existe, se corta todo y volvés a hacerlo a mano.
+
+El secreto está en 2 funciones que Anthropic sumó a Claude:
+
+🖱️ Computer Use: cuando no hay un conector directo (Slack, Calendar, Drive), Claude controla el mouse y el teclado como lo harías vos. Es la última opción, no la primera, y avisa antes de entrar a una app nueva.
+
+📱 Dispatch: le asignás una tarea desde el celular y sigue corriendo en tu computadora. Armar el briefing de la mañana viajando, hacer cambios en el IDE y abrir un pull request, mantener al día un proyecto largo sin estar sentado ahí.
+
+Las dos combinadas: Claude puede seguir trabajando en tu ausencia incluso en tareas sin conector oficial, tomando el control de la pantalla cuando hace falta.
+
+Todavía está en research preview, para planes Pro y Max, con app de escritorio instalada. Puede cometer errores y es más lento que una integración nativa, pero ya se puede usar.
+
+Post completo, con el paso a paso para activarlo:
+https://cluna.ar/blog/claude-dispatch-computer-use
+
+Nivel 3 · Agentes
+
+Guardalo 👇
+
+Acá no hay funnel. Hay laburo compartido.

@@ -1,0 +1,24 @@
+Un modelo de voz de 100 millones de parámetros que corre en dos núcleos de un CPU y arranca a hablar en 200 milisegundos. Sin GPU, sin nube, sin factura por carácter generado.
+
+La mayoría de los TTS que suenan bien piden GPU dedicada o cobran por uso. Pocket TTS, de Kyutai Labs, va por el otro lado: chico, local, gratis.
+
+El secreto está en 4 números:
+
+⚡ ~200ms hasta el primer fragmento de audio, y genera a ~6x tiempo real corriendo en CPU.
+
+🎙️ 27 voces preentrenadas, con soporte para clonar la tuya propia.
+
+🌍 6 idiomas, incluido español, y streaming de textos de largo arbitrario.
+
+🧩 Corre desde Python, desde la terminal, o directo en el navegador vía WebAssembly.
+
+Se instala con un pip install y en tres líneas de Python ya tenés audio generado. Sin drivers de GPU, sin configuración rara.
+
+Post completo, con el paso a paso y el ejemplo de código:
+https://cluna.ar/blog/pocket-tts-voz-sin-gpu
+
+Nivel 2 · Herramientas
+
+Guardalo 👇
+
+Conocimiento sin barreras, como la luna: le llega a todos igual.

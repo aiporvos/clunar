@@ -11,12 +11,29 @@ import ParaQuien from '../components/sections/ParaQuien.astro';
 import BlogPreview from '../components/sections/BlogPreview.astro';
 import Contacto from '../components/sections/Contacto.astro';
 import Marquee from '../components/sections/Marquee.astro';
+
+const siteUrl = import.meta.env.SITE_URL || 'https://cluna.ar';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Claudio Luna',
+  url: siteUrl,
+  jobTitle: 'Ingeniero en informática',
+  description: 'Desarrollo de software, e-commerce y gestión de proyectos, hoy también sistemas con IA.',
+  // TODO: agregar sameAs con la URL real del perfil de LinkedIn de Claudio
+  // (no está registrada en ningún lugar del repo, no se puede inferir).
+};
 ---
 
 <BaseLayout
   title="Claudio Luna | Sistemas, e-commerce e IA | cluna.ar"
   description="Ingeniero en informática. Desarrollo de software, e-commerce y gestión de proyectos, hoy también sistemas con IA. Esto es lo que voy compartiendo en el camino."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
   <Nav />
   <main>
     <Hero />

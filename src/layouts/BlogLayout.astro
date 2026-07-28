@@ -40,6 +40,24 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
   month: 'long',
   day: 'numeric',
 });
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: excerpt,
+  image: fullImageUrl,
+  datePublished: publishedAt,
+  author: {
+    '@type': 'Person',
+    name: author,
+  },
+  keywords: tags.join(', '),
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${siteUrl}/blog/${slug}`,
+  },
+};
 ---
 
 <BaseLayout
@@ -49,6 +67,7 @@ const formattedDate = new Date(publishedAt).toLocaleDateString('es-AR', {
 >
   <Fragment slot="head">
     <link rel="alternate" type="text/markdown" href={mdPath} title={`${title} — Markdown`} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
 
   <Nav />

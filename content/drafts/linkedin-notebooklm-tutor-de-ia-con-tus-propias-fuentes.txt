@@ -1,0 +1,24 @@
+Google renombró NotebookLM el 16 de julio. Ahora se llama Gemini Notebook y sumó ejecución de código sobre tus propias fuentes. Pero lo que lo hace valioso sigue siendo lo mismo de siempre.
+
+La mayoría de la IA generativa te contesta con seguridad total, tenga razón o no. Gemini Notebook no puede hacer eso: solo responde con lo que vos le subiste, y si no está ahí, te lo dice.
+
+El secreto está en 4 partes:
+
+📚 Fuentes: subís PDFs, Docs, links, videos de YouTube (le saca la transcripción sola). Un cuaderno por tema, nunca mezcles proyectos en el mismo.
+
+🔗 Citas verificables: cada respuesta del chat viene con cita numerada. Clic y te lleva al párrafo o al minuto exacto de donde salió esa información.
+
+🎙️ Studio con un clic: convierte tus fuentes en podcast, video narrado, presentación, mapa mental, flashcards o quiz. No redactás nada, coordinás el formato.
+
+💻 Lo nuevo: cada cuaderno tiene su propia computadora en la nube. Corre código sobre tus datos y genera gráficos sin que abras una planilla aparte.
+
+Es gratis, no pide tarjeta, y entrás con tu cuenta de Google en notebooklm.google.
+
+Post completo, con el paso a paso y todas las herramientas de Studio explicadas:
+https://cluna.ar/blog/notebooklm-tutor-de-ia-con-tus-propias-fuentes
+
+Nivel 2 · Herramientas
+
+Guardalo 👇
+
+Otros venden acceso. Yo comparto criterio.

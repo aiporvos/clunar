@@ -1,0 +1,26 @@
+Un formulario que llega, se evalúa solo y avisa por Telegram según lo que diga. Es literalmente lo primero que armamos en la clase 1 del curso de n8n, y es el momento donde a todos les hace clic.
+
+El flujo completo lleva menos de una hora:
+
+🤖 Creás el bot con BotFather, el bot oficial de Telegram que fabrica bots. Le pedís uno, te da un token, y ese token se carga una sola vez en las credenciales de n8n.
+
+🔑 Conseguís tu chat ID con @userinfobot, para que el bot sepa a quién responderle.
+
+📋 Un Form Trigger genera un formulario público en n8n. Cada Submit dispara el flujo con los datos como JSON, listos para usar en cualquier nodo siguiente.
+
+🔀 Un nodo If evalúa una condición del formulario y bifurca en dos caminos, cada uno con su propio mensaje de Telegram armado con esos datos.
+
+📦 Exportás el flujo como JSON y ya tenés backup y versionado. Lo importás en cualquier otra instancia de n8n y funciona.
+
+¿Es un bot inteligente? Todavía no, es lógica de reglas. Pero ahí está la gracia del camino: primero entendés cómo viaja un dato desde que entra hasta que sale, y qué hace cada nodo en el medio. Recién después le metés un agente de IA arriba, y ahí el If se vuelve innecesario porque el modelo decide la rama solo.
+
+La mayoría arranca al revés: quieren el agente con IA el día uno, sin entender el flujo que hay debajo. Cuando algo se rompe (y algo siempre se rompe), no saben dónde mirar.
+
+Un formulario que avisa solo, sin que nadie esté revisando una bandeja de entrada, ya es una automatización real. Y eso se arma en una tarde.
+
+Post completo, con el flujo listo para descargar:
+https://cluna.ar/blog/bot-telegram-n8n-sin-codigo
+
+Guardalo 👇
+
+Sin comentar. Sin suscribirte. Sin pedirte nada. Tomalo.

@@ -15,6 +15,11 @@ const {
 
 const siteUrl = import.meta.env.SITE_URL || Astro.site?.toString() || '';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+// process.env (no import.meta.env): con output 'server' el binario corre
+// como proceso Node en producción, así se puede cambiar el ID sin rebuildear.
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION;
+const gaMeasurementId = process.env.GA_MEASUREMENT_ID;
 ---
 
 <!DOCTYPE html>
@@ -29,13 +34,17 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
   <link rel="canonical" href={canonicalUrl} />
 
   {noIndex && <meta name="robots" content="noindex,nofollow" />}
+  {googleSiteVerification && <meta name="google-site-verification" content={googleSiteVerification} />}
 
   <!-- Open Graph -->
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_AR" />
   {image && <meta property="og:image" content={image} />}
+  {image && <meta property="og:image:width" content="1200" />}
+  {image && <meta property="og:image:height" content="627" />}
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -50,6 +59,18 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="sitemap" href="/sitemap-index.xml" />
+
+  {gaMeasurementId && (
+    <Fragment>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+      <script define:vars={{ gaMeasurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(...args) { dataLayer.push(args); }
+        gtag('js', new Date());
+        gtag('config', gaMeasurementId);
+      </script>
+    </Fragment>
+  )}
 
   <slot name="head" />
 </head>
