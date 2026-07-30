@@ -166,5 +166,11 @@
     "preset": "(prompt directo)",
     "provider": "kie",
     "date": "2026-07-27T16:01:18.903Z"
+  },
+  {
+    "slug": "kokoro-tts-open-source-voz-en-espanol",
+    "preset": "Abstracto geométrico",
+    "provider": "kie",
+    "date": "2026-07-30T23:00:58.547Z"
   }
 ]

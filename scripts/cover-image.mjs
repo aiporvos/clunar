@@ -133,7 +133,7 @@ async function generateWithKie(prompt, apiKey) {
   const taskId = createData.data?.taskId;
   if (!taskId) throw new Error(`Kie.ai no devolvió taskId: ${JSON.stringify(createData)}`);
 
-  const deadline = Date.now() + 90_000;
+  const deadline = Date.now() + 240_000;
   while (Date.now() < deadline) {
     await new Promise(r => setTimeout(r, 4000));
     const pollRes = await fetch(`${base}/api/v1/jobs/recordInfo?taskId=${taskId}`, {
@@ -150,7 +150,7 @@ async function generateWithKie(prompt, apiKey) {
     }
     if (job.state === 'fail') throw new Error(`Kie.ai: tarea falló — ${job.failMsg ?? 'sin detalle'}`);
   }
-  throw new Error('Kie.ai: timeout esperando el resultado (90s)');
+  throw new Error('Kie.ai: timeout esperando el resultado (240s)');
 }
 
 async function generateCover(prompt) {

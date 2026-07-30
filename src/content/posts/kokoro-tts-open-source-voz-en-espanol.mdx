@@ -1,0 +1,100 @@
+---
+title: 'Kokoro: el TTS de código abierto que ya escuchaste sin saberlo'
+excerpt: >-
+  Kokoro es un modelo de voz de apenas 82M de parámetros, Apache 2.0 y +10M
+  de descargas mensuales. Con voces en español, listo para producción.
+coverImage: /images/posts/kokoro-tts-open-source-voz-en-espanol/cover.png
+publishedAt: 2026-07-30
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: '2'
+readTime: 4
+tags:
+  - Arquitectura IA
+  - Self-hosted
+  - Voz
+draft: false
+seoTitle: 'Kokoro-82M: TTS open source con voces en español (guía)'
+seoDescription: >-
+  Qué es Kokoro-82M, el modelo TTS open source de 82M de parámetros:
+  instalación, uso en español (lang_code 'e') y por qué ya lo escuchaste sin
+  saberlo.
+---
+
+Si probaste algún generador de voz "gratis" en una app o una demo este año,
+buenas chances de que la voz que escuchaste saliera de Kokoro, aunque el
+sitio dijera otra marca. Tiene más de 10 millones de descargas por mes.
+
+La creencia instalada es que una voz creíble necesita un modelo grande,
+propietario y caro. Kokoro tiene **82 millones de parámetros** (menos que
+muchos modelos de lenguaje chicos), licencia **Apache 2.0** y calidad
+comparable a modelos varias veces más grandes.
+
+## Los números concretos
+
+- **82 millones de parámetros** — arquitectura **StyleTTS 2 + ISTFTNet**,
+  decoder-only, sin difusión.
+- Entrenado en **datos exclusivamente permisivos** (dominio público, audio
+  bajo licencia MIT/Apache, síntesis propia) — nada de audio con copyright
+  dudoso.
+- Costo de entrenamiento declarado: **~1000 horas de GPU A100 80GB, ~$1000**.
+- **54 voces en 8 idiomas**: inglés (US/UK), español, francés, hindi,
+  italiano, japonés, portugués brasileño y chino mandarín.
+- Vía APIs como Replicate o DeepInfra, sale **menos de $1 por millón de
+  caracteres** generados.
+- Licencia **Apache 2.0**: se puede usar en producción, en una API comercial
+  o en un proyecto personal, sin condiciones.
+
+## Cómo arrancar
+
+1. Instalalo con:
+
+```bash
+pip install -q kokoro>=0.9.2 soundfile
+apt-get install espeak-ng
+```
+
+2. El ejemplo por defecto del repo genera en inglés:
+
+```python
+from kokoro import KPipeline
+
+pipeline = KPipeline(lang_code='a')  # 'a' = inglés americano
+generator = pipeline("Your text here", voice='af_heart')
+```
+
+3. **Para generar en español**, cambiá el `lang_code` a `'e'` y usá una de
+   las tres voces en español (`ef_dora`, femenina; `em_alex` o `em_santa`,
+   masculinas):
+
+```python
+from kokoro import KPipeline
+import soundfile as sf
+
+pipeline = KPipeline(lang_code='e')
+generator = pipeline("Hola, esto es una prueba de voz en español.", voice='ef_dora')
+
+for i, (gs, ps, audio) in enumerate(generator):
+    sf.write(f"salida_{i}.wav", audio, 24000)
+```
+
+No hace falta instalar ningún paquete extra de `espeak-ng` para español (a
+diferencia de japonés o chino, que sí piden dependencias adicionales) — con
+la instalación base alcanza.
+
+4. Si preferís no instalar nada, hay una demo pública para probar las voces
+   directo desde el navegador:
+   **[hf.co/spaces/hexgrad/Kokoro-TTS](https://huggingface.co/spaces/hexgrad/Kokoro-TTS)**.
+
+## Para qué sirve en la práctica
+
+Pensalo aplicado a un caso puntual: armar la voz en off de un video corto en
+español. Escribís el guión como texto plano, se lo pasás a
+`KPipeline(lang_code='e')` con la voz `ef_dora`, y el resultado es un `.wav`
+que importás directo al editor de video, sin exportar a una API externa, sin
+cola de render y sin que el costo dependa de cuántos caracteres generaste.
+Con licencia Apache 2.0 de por medio, ese mismo flujo se puede meter en un
+producto comercial sin revisar letra chica.
+
+Repo, código abierto:
+**[github.com/hexgrad/kokoro](https://github.com/hexgrad/kokoro)**
