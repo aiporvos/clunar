@@ -1,0 +1,19 @@
+Si probaste algún generador de voz gratis este último año, es bastante probable que hayas escuchado a Kokoro sin saberlo: tiene más de 10 millones de descargas por mes.
+
+La creencia instalada es que una voz creíble necesita un modelo gigante y pago. Kokoro tiene 82 millones de parámetros y licencia Apache 2.0, y su calidad compite con modelos mucho más grandes.
+
+El secreto está en 3 partes:
+
+🧠 Arquitectura chica: StyleTTS 2 + ISTFTNet, decoder-only, sin difusión, apenas 82M de parámetros.
+💸 Costo real: menos de 1 dólar por millón de caracteres vía API, entrenado por apenas 1000 dólares de GPU.
+🗣️ 54 voces en 8 idiomas, con soporte real para español.
+📜 Licencia Apache 2.0: producción, API comercial o proyecto personal, sin condiciones.
+
+Cuando la voz deja de ser un costo variable por carácter, cambia lo que te animás a construir con audio.
+
+Guardalo 👇
+https://cluna.ar/blog/kokoro-tts-open-source-voz-en-espanol
+
+Nivel 2 · Herramientas
+
+Comparto a cielo abierto. Sin peajes.

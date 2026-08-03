@@ -128,6 +128,59 @@ sola vez con `GET /v2/userinfo` (OpenID) o desde el token decodificado.
 
 ---
 
+## 4b · Instagram (@cluna.ar)
+
+Script: `scripts/publish-instagram.mjs`. Usa la **"Instagram API with
+Instagram Login"** (host `graph.instagram.com`): no requiere página de
+Facebook, solo cuenta Instagram profesional (Creator o Business).
+
+```bash
+node --env-file=.env scripts/publish-instagram.mjs \
+  --caption-file "content/drafts/instagram-{slug}.txt" \
+  --image-url "https://cluna.ar/images/posts/{slug}/cover-ig.jpg" [--dry-run]
+```
+
+**Flujo de la API, en 2 pasos obligatorios:**
+1. `POST /{ig-user-id}/media` con `image_url` + `caption` → devuelve un
+   contenedor.
+2. Poll de `?fields=status_code` hasta `FINISHED` (el script espera hasta 90s).
+3. `POST /{ig-user-id}/media_publish` con el `creation_id`.
+
+### Las tres restricciones que condicionan todo
+
+**La imagen se descarga desde una URL pública.** La API no acepta upload
+binario para fotos de feed. Por eso esta fase va después de la Fase 3, que
+ya garantiza con su poll bloqueante que la imagen está live.
+
+**Solo JPEG**, máx 8 MB, ancho 320-1440 px, aspecto entre 4:5 y 1.91:1. Las
+portadas del sitio son PNG, así que `cover-image.mjs` genera además
+`cover-ig.jpg` (1080x1350, 4:5) con la 16:9 centrada y bandas del color real
+del borde de la imagen, no del crema de marca: los modelos generan un crema
+apenas distinto a `#f9f4da` y usar el de marca deja una línea visible.
+
+**Los links del caption no son clickeables.** El copy no puede depender de un
+link: se cierra mencionando `cluna.ar` como texto o mandando al link del
+perfil. Ver `content/estilo-redes.md` §3.5 — **no es el texto de LinkedIn
+recortado, se escribe distinto.**
+
+### Token
+
+`INSTAGRAM_ACCESS_TOKEN` dura 60 días pero, a diferencia de LinkedIn, **se
+renueva sin browser**:
+
+```bash
+INSTAGRAM_ACCESS_TOKEN=xxx node scripts/instagram-auth.mjs --refresh
+```
+
+Si se deja vencer del todo, hay que rehacer el OAuth completo
+(`node scripts/instagram-auth.mjs` con `INSTAGRAM_CLIENT_ID`/`SECRET`).
+
+`INSTAGRAM_USER_ID` sale del mismo OAuth y no cambia.
+
+**Checkpoint: se muestra el borrador de Instagram antes de publicar.**
+
+---
+
 ## 5 · Telegram
 
 Script: `scripts/publish-telegram.mjs`. Telegram Bot API, `sendPhoto`:

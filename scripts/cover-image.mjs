@@ -180,6 +180,24 @@ async function generateCover(prompt) {
   throw lastErr ?? new Error('Ningún provider de imagen disponible');
 }
 
+/**
+ * Color del borde superior izquierdo de la imagen, para rellenar las bandas
+ * de la variante 4:5 de Instagram sin que se note el corte. Si algo falla,
+ * cae al crema de marca.
+ */
+async function edgeColor(buffer) {
+  try {
+    const { data } = await sharp(buffer)
+      .extract({ left: 0, top: 0, width: 24, height: 24 })
+      .resize(1, 1)
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    return { r: data[0], g: data[1], b: data[2] };
+  } catch {
+    return { r: 249, g: 244, b: 218 };
+  }
+}
+
 async function logCover({ slug, preset, provider }) {
   let log = [];
   if (existsSync(COVERS_LOG)) {
@@ -221,6 +239,9 @@ async function main() {
   const outDir = path.join(ROOT, 'public', 'images', 'posts', args.slug);
   const outFile = path.join(outDir, 'cover.png');
   const ogFile = path.join(outDir, 'cover-og.png');
+  // Instagram solo acepta JPEG y su API descarga la imagen desde una URL
+  // pública. 1080x1350 (4:5) es el formato que más espacio ocupa en el feed.
+  const igFile = path.join(outDir, 'cover-ig.jpg');
 
   if (args.dryRun) {
     console.log('--- DRY RUN ---');
@@ -228,7 +249,7 @@ async function main() {
     console.log('Preset:', args.preset ?? '(prompt directo)');
     console.log('Título en imagen:', args.title ?? '(sin texto)');
     console.log('Prompt final:\n' + prompt);
-    console.log('Se guardaría en:', outFile, 'y', ogFile);
+    console.log('Se guardaría en:', outFile, ',', ogFile, 'y', igFile);
     console.log('Provider primario:', process.env.IMAGE_PROVIDER_PRIMARY || 'gemini (default)');
     console.log('Provider fallback:', process.env.IMAGE_PROVIDER_FALLBACK || 'kie (default)');
     const hasGemini = !!process.env.GEMINI_API_KEY;
@@ -244,10 +265,22 @@ async function main() {
   await sharp(buffer).resize(1920, 1080, { fit: 'cover' }).png().toFile(outFile);
   await sharp(buffer).resize(1200, 627, { fit: 'cover' }).png().toFile(ogFile);
 
+  // Instagram: la 16:9 completa dentro de un 4:5, con bandas arriba y abajo.
+  // `contain` en vez de `cover` para no recortar la composición ni el título.
+  //
+  // El color de las bandas se toma del borde real de la imagen, no del crema
+  // de marca: los modelos generan un crema apenas distinto a #f9f4da y la
+  // diferencia deja una línea visible donde termina la ilustración.
+  await sharp(buffer)
+    .resize(1080, 1350, { fit: 'contain', background: await edgeColor(buffer) })
+    .jpeg({ quality: 90 })
+    .toFile(igFile);
+
   await logCover({ slug: args.slug, preset: args.preset ?? '(prompt directo)', provider });
 
   console.log(`✓ Portada lista: ${path.relative(ROOT, outFile)}`);
   console.log(`✓ Variante OG: ${path.relative(ROOT, ogFile)}`);
+  console.log(`✓ Variante Instagram: ${path.relative(ROOT, igFile)}`);
 }
 
 main().catch(err => {

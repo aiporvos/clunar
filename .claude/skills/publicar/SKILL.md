@@ -135,6 +135,40 @@ y se publica con `--image "public/images/posts/{slug}/cover-og.png"`.
 
 ---
 
+## Fase 4b — Instagram (@cluna.ar)
+
+1. Redactar el caption siguiendo `content/estilo-redes.md` §3.5. **No es el
+   texto de LinkedIn recortado**: en Instagram los links no son clickeables,
+   así que el caption se sostiene solo y cierra mandando a `cluna.ar` como
+   texto o al link del perfil. Gancho en la primera línea (es lo único que se
+   ve sin tocar "… más"), 3-6 líneas, y 3-6 hashtags en español.
+2. Guardar el borrador en `content/drafts/instagram-{slug}.txt` (UTF-8).
+3. Mostrar el borrador y correr el dry-run:
+   ```bash
+   node --env-file=.env scripts/publish-instagram.mjs --caption-file "content/drafts/instagram-{slug}.txt" --image-url "{SITE_URL}/images/posts/{slug}/cover-ig.jpg" --dry-run
+   ```
+   El dry-run avisa si el caption se pasa de 2200, si la URL no es https, o
+   si se pasó un PNG en vez del JPEG.
+4. **Checkpoint:** aprobación explícita.
+5. Ejecutar sin `--dry-run`.
+   Si faltan `INSTAGRAM_ACCESS_TOKEN`/`INSTAGRAM_USER_ID`, avisar y saltar la
+   fase (el blog y LinkedIn ya quedaron publicados igual).
+
+⚠️ **La imagen tiene que estar deployada antes.** Instagram no recibe el
+archivo: lo descarga desde la URL. Como la Fase 3 es bloqueante hasta el
+HTTP 200, cuando se llega acá ya está garantizado — pero si alguna vez se
+corre esta fase suelta, verificar primero que `cover-ig.jpg` responda 200.
+
+⚠️ **Token de 60 días.** Si la API responde que expiró, renovarlo con
+`node scripts/instagram-auth.mjs --refresh` (no hace falta browser) y volver
+a intentar. Un token vencido del todo obliga a rehacer el OAuth completo.
+
+**Post de Instagram sin post de blog asociado:** mismo flujo, pero la imagen
+se genera ad-hoc con `cover-image.mjs` (que ya produce `cover-ig.jpg` junto
+con las otras variantes) y hay que subirla al sitio antes de publicar.
+
+---
+
 ## Fase 5 — Telegram
 
 1. Redactar la versión corta siguiendo `content/estilo-redes.md` §3 (3-6
@@ -153,6 +187,7 @@ y se publica con `--image "public/images/posts/{slug}/cover-og.png"`.
 Mostrar:
 - URL del post: `{SITE_URL}/blog/{slug}`
 - URL LinkedIn (si se publicó)
+- ID del post de Instagram (si se publicó)
 - Confirmación de envío a Telegram (si se publicó)
 - Preset de portada usado + provider (Gemini/Kie)
 - Frase de cierre de LinkedIn usada (para no repetirla la próxima vez)

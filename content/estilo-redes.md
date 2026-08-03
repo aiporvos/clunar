@@ -86,6 +86,44 @@ se omite el bloque entero, no se inventa un nivel.
 
 ---
 
+## 3.5. Instagram (@cluna.ar)
+
+**La diferencia que cambia todo: en Instagram los links del caption NO son
+clickeables.** No se puede cerrar con "Guardalo 👇 + link" como en LinkedIn.
+El caption tiene que sostenerse solo.
+
+Formato:
+
+```
+[GANCHO]        → primera línea, es lo único que se ve sin tocar "más"
+[DESARROLLO]    → 3 a 5 líneas cortas, una idea por línea
+[CIERRE]        → qué cambia cuando se aplica
+[REMATE]        → "Todo el paso a paso está en cluna.ar" o "link en el perfil"
+[HASHTAGS]      → 3 a 6, en español, al final
+```
+
+- **Más corto que LinkedIn.** Si en LinkedIn son 15 líneas, acá son 6.
+- **La primera línea es todo**: Instagram corta el resto detrás de "… más".
+  Nada de arrancar con contexto, el gancho va primero.
+- **Sin links en el cuerpo**: mencionar `cluna.ar` como texto, o mandar al
+  link del perfil (que apunta a cluna.ar).
+- **3 a 6 hashtags**, en español y específicos del tema. No 30, no genéricos
+  tipo #tecnologia #innovacion.
+- Máximo 2200 caracteres (el script valida y corta el pipeline si se pasa).
+
+### Prohibido, igual que en LinkedIn
+- Rayas / em-dashes.
+- "Comentá X y te mando por DM" ni variantes.
+- CTAs de engagement puro ("dejá tu opinión", "etiquetá a alguien").
+- Cualquier cosa de los anti-patrones de `BRAND.md` §12.
+
+### La imagen
+Se publica `cover-ig.jpg` (1080x1350, 4:5), que genera `cover-image.mjs`
+junto con las otras variantes. **Tiene que estar deployada antes**: la API de
+Instagram no recibe el archivo, lo descarga desde la URL pública.
+
+---
+
 ## 3. Telegram
 
 - 3 a 6 líneas máximo. Nada de bloques largos.
