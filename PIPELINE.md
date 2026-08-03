@@ -140,6 +140,14 @@ node --env-file=.env scripts/publish-instagram.mjs \
   --image-url "https://cluna.ar/images/posts/{slug}/cover-ig.jpg" [--dry-run]
 ```
 
+**Estado:** configurado y probado en real el 03/08/2026 con un Reel del curso
+FCAI. Cuenta `@cluna.ar` (MEDIA_CREATOR), `INSTAGRAM_USER_ID=17841443690401159`.
+
+**Video (Reels):** `--video-url` en vez de `--image-url`. Los mp4 van a
+`public/videos/` y hay que deployarlos antes. Se publican como `REELS`
+(Meta eliminó el tipo VIDEO de feed). Timeout de procesamiento 300s.
+Los Reels son 9:16: un 4:5 sale con bandas.
+
 **Flujo de la API, en 2 pasos obligatorios:**
 1. `POST /{ig-user-id}/media` con `image_url` + `caption` → devuelve un
    contenedor.

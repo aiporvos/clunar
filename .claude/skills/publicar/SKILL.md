@@ -137,6 +137,9 @@ y se publica con `--image "public/images/posts/{slug}/cover-og.png"`.
 
 ## Fase 4b — Instagram (@cluna.ar)
 
+**Estado: configurado y probado en real** (primer post: 03/08/2026, Reel del
+curso FCAI). Credenciales en `.env`, cuenta `@cluna.ar`, tipo MEDIA_CREATOR.
+
 1. Redactar el caption siguiendo `content/estilo-redes.md` §3.5. **No es el
    texto de LinkedIn recortado**: en Instagram los links no son clickeables,
    así que el caption se sostiene solo y cierra mandando a `cluna.ar` como
@@ -154,18 +157,56 @@ y se publica con `--image "public/images/posts/{slug}/cover-og.png"`.
    Si faltan `INSTAGRAM_ACCESS_TOKEN`/`INSTAGRAM_USER_ID`, avisar y saltar la
    fase (el blog y LinkedIn ya quedaron publicados igual).
 
-⚠️ **La imagen tiene que estar deployada antes.** Instagram no recibe el
-archivo: lo descarga desde la URL. Como la Fase 3 es bloqueante hasta el
-HTTP 200, cuando se llega acá ya está garantizado — pero si alguna vez se
-corre esta fase suelta, verificar primero que `cover-ig.jpg` responda 200.
+### Video (Reels)
 
-⚠️ **Token de 60 días.** Si la API responde que expiró, renovarlo con
-`node scripts/instagram-auth.mjs --refresh` (no hace falta browser) y volver
-a intentar. Un token vencido del todo obliga a rehacer el OAuth completo.
+```bash
+node --env-file=.env scripts/publish-instagram.mjs \
+  --caption-file "content/drafts/instagram-{slug}.txt" \
+  --video-url "{SITE_URL}/videos/{nombre}.mp4"
+```
+
+- Los videos van a `public/videos/` del repo y **hay que commitear, pushear y
+  esperar el deploy antes de publicar**. Pasó en el primer intento: la API dio
+  404 porque el mp4 todavía no estaba live.
+- Se publican como **REELS** (Meta eliminó el tipo VIDEO de feed suelto).
+- Requisitos: MP4 o MOV, H.264 + AAC. El procesamiento tarda más que una foto,
+  por eso el timeout es de 300s contra 90s.
+- **Aspecto: los Reels son 9:16.** Un video 4:5 (como el del curso FCAI, que
+  era 720x904) se muestra con bandas o recortado. Si hay versión vertical,
+  usar esa.
+
+⚠️ **El medio tiene que estar deployado antes.** Instagram no recibe el
+archivo: lo descarga desde la URL. Como la Fase 3 es bloqueante hasta el
+HTTP 200, cuando se llega acá ya está garantizado — pero si se corre esta
+fase suelta (post sin blog, video), verificar el 200 a mano primero.
+
+⚠️ **Token de 60 días, vence alrededor del 02/10/2026.** Renovarlo con
+`node scripts/instagram-auth.mjs --refresh` (no hace falta browser). Un token
+vencido del todo obliga a rehacer el OAuth completo desde el panel de Meta.
 
 **Post de Instagram sin post de blog asociado:** mismo flujo, pero la imagen
 se genera ad-hoc con `cover-image.mjs` (que ya produce `cover-ig.jpg` junto
 con las otras variantes) y hay que subirla al sitio antes de publicar.
+
+### Republicar posts viejos en Instagram (backfill)
+
+Medido el 03/08/2026: **generar las 17 portadas `cover-ig.jpg` desde los
+`cover.png` existentes toma 2 segundos** y no cuesta nada (es un resize con
+sharp, no se regenera con IA). Ojo que 5 carpetas usan otro nombre de archivo
+(`coverImage.png`, `cover.jpg`), hay que contemplarlo al iterar.
+
+Lo caro no son las imágenes ni los captions: **es la estrategia.**
+
+- **No volcar todo junto.** Publicar 15+ posts de una en una cuenta nueva es
+  señal de spam para Instagram y ruido para quien sigue. Espaciar 1-2 por
+  semana.
+- **Curar, no migrar.** La mitad de los posts del blog son muy técnicos para
+  Instagram (vLLM, Kokoro, LocalAI, DeepAgents, Pocket TTS): rinden en
+  LinkedIn, no ahí. Los que sí funcionan son los de beneficio visible sin
+  saber de arquitectura: liderazgo y cursos, correo con dominio propio,
+  facturación, tienda online, el sistema que busca trabajo.
+- Los captions **se reescriben, no se adaptan**: el de LinkedIn es ~3 veces
+  más largo, termina en link (que no sirve) y lleva la línea "Nivel N".
 
 ---
 
