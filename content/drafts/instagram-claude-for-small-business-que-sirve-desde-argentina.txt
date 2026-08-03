@@ -1,0 +1,13 @@
+Alguien hizo la lista de qué automatizar primero en un negocio chico.
+
+Son 15 flujos: cierre mensual, facturas impagas, márgenes por producto, revisión de contratos, clasificación de clientes.
+
+La mitad de las integraciones no sirve en Argentina. Acá nadie factura con QuickBooks.
+
+Pero Google Workspace y Microsoft 365 sí, y ahí está el 80% de la información de tu negocio: ventas, correo con proveedores, presupuestos, comprobantes.
+
+Con eso armás la primera automatización en una tarde, sin comprar nada.
+
+El paso a paso completo está en cluna.ar
+
+#automatizacion #pymes #inteligenciaartificial #negocios #mendoza

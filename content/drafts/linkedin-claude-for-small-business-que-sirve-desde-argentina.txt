@@ -1,0 +1,29 @@
+Anthropic publicó una lista de 15 flujos de trabajo para empresas chicas. La mitad no te sirve si estás en Argentina.
+
+La otra mitad vale más que el producto que la envuelve.
+
+No por los conectores. Por la lista.
+
+Alguien se sentó a estudiar qué conviene automatizar primero en un negocio chico y publicó el resultado:
+
+📊 Cierre mensual con reconciliación de libros
+💰 Proyección de flujo de caja a 30 días para la nómina
+📄 Seguimiento de facturas impagas
+📈 Análisis de márgenes por producto
+✍️ Revisión de contratos
+🎯 Clasificación de clientes potenciales
+
+Eso no es un anuncio. Es un plan de trabajo.
+
+Los conectores que trae no todos aplican acá. El mercado argentino corre sobre Tango, Xubio, Colppy o un Excel muy trabajado, no sobre QuickBooks. Pero Google Workspace y Microsoft 365 sí, y ahí vive el 80% de la información operativa de una PYME: planillas de ventas, correo con proveedores, presupuestos, comprobantes.
+
+Con eso solo armás la primera pieza en una tarde, sin comprar nada.
+
+Escribí cuáles de esas integraciones sirven desde acá, cuáles todavía no, y los 6 pasos para dejar el primer flujo andando.
+
+Guardalo 👇
+https://cluna.ar/blog/claude-for-small-business-que-sirve-desde-argentina
+
+Nivel 3 · Agentes
+
+Otros venden acceso. Yo comparto criterio.
