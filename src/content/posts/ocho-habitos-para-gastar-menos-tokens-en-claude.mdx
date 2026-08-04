@@ -1,0 +1,170 @@
+---
+title: '8 hábitos que te bajan el gasto de tokens en Claude'
+excerpt: >-
+  Circulan 17 consejos para gastar menos tokens. Chequeé los 17 contra la
+  documentación oficial: cinco no se sostienen y uno es directamente falso.
+coverImage: /images/posts/ocho-habitos-para-gastar-menos-tokens-en-claude/cover.png
+publishedAt: 2026-08-04
+author: Claudio Luna
+category: Adopción de IA
+aiLevel: '2'
+readTime: 7
+tags:
+  - Adopción de IA
+  - Costos
+  - Productividad
+draft: false
+seoTitle: 'Gastar menos tokens en Claude: 8 hábitos verificados'
+seoDescription: >-
+  Ocho formas de reducir el consumo de tokens en Claude, cada una con su cifra
+  tomada de la documentación oficial de Anthropic. Y el consejo popular que es
+  falso.
+---
+
+Me llegó una lista de 17 consejos para gastar menos tokens en Claude. La típica
+que circula en carrusel, con números redondos y mucha seguridad.
+
+Me senté a chequear los 17 contra la documentación oficial de Anthropic. **Cinco
+no se sostienen, uno es directamente falso, y el consejo de mayor impacto que
+documenta Anthropic no estaba en la lista.**
+
+Quedaron ocho. Cada uno con su cifra y de dónde sale.
+
+## La diferencia entre adivinar y medir
+
+Casi todos estos consejos son variaciones de una misma idea: que el contexto se
+paga. Eso es cierto. El problema es cuando la idea correcta viene con un número
+inventado, porque entonces optimizás lo que no había que optimizar.
+
+Los ocho de abajo tienen todos una cifra verificable. El que no la tenía, quedó
+afuera.
+
+## Los ocho
+
+### 1. Lo repetido puede costar diez veces menos
+
+Si mandás el mismo bloque de contexto una y otra vez (un system prompt largo, un
+documento de referencia, un catálogo), se puede cachear. **Las lecturas de caché
+cuestan alrededor de una décima parte** del precio normal de entrada.
+
+Es la palanca más grande de la lista y es la que no estaba en los 17 originales.
+La escritura en caché cuesta un poco más que un token normal, así que conviene a
+partir de la segunda o tercera lectura, según el tiempo de vida que elijas.
+
+**Qué hace:** convierte el contexto fijo en algo que pagás una vez y leés barato.
+
+### 2. Una página de PDF paga dos veces
+
+La documentación es explícita: **entre 1.500 y 3.000 tokens por página**, según
+la densidad. Y hay un detalle que el consejo original se perdía: **cada página
+además se convierte en imagen**, así que encima paga tokens de imagen.
+
+Un PDF de 40 páginas te puede comer 100.000 tokens antes de que preguntes nada.
+
+**Qué hace:** pegar el texto en un documento y subirlo como `.md` te saca la
+mitad del costo de encima. Si el PDF tiene gráficos que importan, ahí sí conviene
+subirlo entero.
+
+### 3. Mil doscientos noventa y seis tokens, o sesenta y cuatro
+
+Claude no mide las imágenes en píxeles sino en bloques de 28 por 28. La fórmula
+oficial es `⌈ancho / 28⌉ × ⌈alto / 28⌉`.
+
+Con eso, los números salen solos:
+
+- Captura de pantalla de 1000x1000: **1296 tokens**
+- El recorte de 200x200 que de verdad querías mostrar: **64 tokens**
+
+Veinte veces menos por recortar antes de pegar.
+
+**Qué hace:** la documentación recomienda redimensionar o recortar antes de
+subir, no después. Vale también para el tiempo de respuesta.
+
+### 4. Opus cuesta cinco veces lo que Haiku
+
+Precio por millón de tokens: **Opus 5 sale 5 dólares de entrada y 25 de salida.
+Haiku 4.5 sale 1 y 5.** Exactamente cinco veces, en los dos sentidos.
+
+Ojo con el matiz, porque el consejo original decía "cinco veces más" sin decir
+contra qué: **contra Sonnet 5 la diferencia es de 1,67 veces**, no cinco.
+
+**Qué hace:** para clasificar, extraer datos de un texto o resumir algo corto,
+Haiku alcanza y sobra. Guardá Opus para lo que de verdad necesita razonar.
+
+### 5. Cada mensaje relee toda la conversación
+
+Esto es lo que casi nadie tiene presente: **el modelo no tiene memoria entre
+turnos.** En cada mensaje se le reenvía la conversación completa.
+
+En el mensaje 40 estás pagando otra vez los 39 anteriores. Un chat largo no se
+encarece de a poco: se encarece de forma acumulativa.
+
+**Qué hace:** tema nuevo, chat nuevo. No es prolijidad, es aritmética.
+
+### 6. Cinco mensajes cuestan cinco veces
+
+Corolario directo del anterior. Partir un mismo pedido en cinco mensajes cortos
+multiplica por cinco el contexto que se reenvía.
+
+**Qué hace:** escribí el pedido completo de una sola vez, con todo el contexto
+que haga falta. Sale más barato y, además, la respuesta es mejor.
+
+### 7. Subilo una vez, referencialo siempre
+
+Un archivo subido una vez y referenciado por su identificador pesa una vez. El
+mismo archivo pegado en cada turno pesa en cada turno, y el peso crece con la
+conversación.
+
+**Qué hace:** en la API es la Files API. En la aplicación, es la diferencia entre
+un Proyecto con el archivo cargado y pegarlo en cada chat nuevo.
+
+### 8. Los conectores gastan antes de que escribas nada
+
+Las definiciones de las herramientas se cargan al principio del contexto, antes
+que tu mensaje. Con muchas herramientas activas estás pagando la descripción de
+todas en cada turno, uses una o ninguna.
+
+**Qué hace:** dejá activas solo las que vas a usar en esa tarea.
+
+## Cómo arrancar hoy
+
+No hace falta rehacer nada. Tres pasos, en este orden, que es el orden de impacto:
+
+1. **Mirá tus últimos cinco chats.** Si alguno pasa de 30 mensajes y cambió de
+   tema en el medio, ese es tu mayor gasto. Cortalo en chats por tema.
+2. **Revisá qué subís.** ¿Estás pegando PDFs o capturas de pantalla completas?
+   Convertí el PDF a texto y recortá la captura a lo que importa.
+3. **Bajá de modelo donde no duela.** Elegí una tarea repetitiva y aburrida
+   (clasificar, extraer, resumir) y corréla en Haiku una semana. Si el resultado
+   te sirve, dejala ahí.
+
+Recién después de eso tiene sentido meterse con caché y conectores, que ya es
+territorio de API.
+
+## El que circula y es falso
+
+De los 17, hay uno que conviene desactivar activamente: **"escribí prompts de
+menos de 30 palabras".**
+
+La documentación oficial de prompting dice lo contrario. Recomienda dar más
+contexto del que parece necesario, y ser claro y específico antes que breve. Un
+prompt corto no ahorra: produce una respuesta genérica que después regenerás dos
+veces, y ahí se te fue el ahorro y bastante más.
+
+Los otros que descarté no son falsos, solo vagos: "usá plantillas", "no
+regeneres", "mantené los archivos de contexto bajo 2.000 palabras". Ese último
+número, por cierto, no aparece en ninguna documentación. Alguien lo escribió y
+se propagó.
+
+## Lo que cambia
+
+Los ocho de arriba tienen una cosa en común: ninguno te pide escribir menos.
+Te piden mandar menos veces lo mismo.
+
+Es una distinción que importa, porque la intuición empuja para el otro lado.
+Cuando ves la factura, lo primero que querés hacer es acortar los prompts, que es
+justo lo único que no hay que tocar.
+
+Si estás mirando el consumo de tu equipo y no sabés por dónde empezar,
+escribime y lo vemos. A veces el problema no es cuánto se gasta sino que nadie
+está midiendo, y eso se arregla antes y sale más barato.

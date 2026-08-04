@@ -38,6 +38,8 @@ function parseArgs(argv) {
     else if (a === '--text-file') args.textFile = argv[++i];
     else if (a === '--image') args.image = argv[++i];
     else if (a === '--video') args.video = argv[++i];
+    else if (a === '--document') args.document = argv[++i];
+    else if (a === '--document-title') args.documentTitle = argv[++i];
   }
   return args;
 }
@@ -123,7 +125,24 @@ async function uploadVideo(token, personUrn, filePath) {
   return video;
 }
 
-async function createPost({ token, personUrn, text, imageUrn, videoUrn }) {
+// Subida de documento (PDF). Es lo que LinkedIn llama "post documento" y se ve
+// como un carrusel paginado en el feed. El flujo es igual al de imagen (una sola
+// uploadUrl), pero contra /rest/documents y con un título obligatorio en el post.
+async function uploadDocument(token, personUrn, filePath) {
+  const res = await fetch(`${API_BASE}/rest/documents?action=initializeUpload`, {
+    method: 'POST',
+    headers: { ...authHeaders(token), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ initializeUploadRequest: { owner: personUrn } }),
+  });
+  if (!res.ok) throw new Error(`LinkedIn (initializeUpload documento) respondió ${res.status}: ${await res.text()}`);
+  const { uploadUrl, document } = (await res.json()).value;
+
+  const buffer = await readFile(filePath);
+  await uploadImageBinary(uploadUrl, token, buffer); // mismo PUT binario que imagen
+  return document;
+}
+
+async function createPost({ token, personUrn, text, imageUrn, videoUrn, documentUrn, documentTitle }) {
   const body = {
     author: personUrn,
     commentary: text,
@@ -137,6 +156,9 @@ async function createPost({ token, personUrn, text, imageUrn, videoUrn }) {
     isReshareDisabledByAuthor: false,
     ...(imageUrn ? { content: { media: { id: imageUrn } } } : {}),
     ...(videoUrn ? { content: { media: { id: videoUrn } } } : {}),
+    // El título del documento es el encabezado que se ve arriba del visor
+    // paginado en el feed, y LinkedIn lo exige para este tipo de post.
+    ...(documentUrn ? { content: { media: { id: documentUrn, title: documentTitle } } } : {}),
   };
 
   const res = await fetch(`${API_BASE}/rest/posts`, {
@@ -159,8 +181,13 @@ async function main() {
     console.error('Uso: node scripts/publish-linkedin.mjs --text-file ruta | --text "..." [--image ruta | --video ruta] [--dry-run]');
     process.exit(1);
   }
-  if (args.image && args.video) {
-    console.error('Usá --image o --video, no ambos.');
+  const medios = [args.image, args.video, args.document].filter(Boolean).length;
+  if (medios > 1) {
+    console.error('Usá solo uno de --image, --video o --document.');
+    process.exit(1);
+  }
+  if (args.document && !args.documentTitle) {
+    console.error('Un post documento necesita --document-title: es el encabezado que se ve arriba del visor.');
     process.exit(1);
   }
 
@@ -175,6 +202,8 @@ async function main() {
     console.log('\nTexto escapado (lo que se envía):\n' + escaped);
     console.log('\nImagen:', args.image ?? '(sin imagen)');
     console.log('Video:', args.video ?? '(sin video)');
+    console.log('Documento:', args.document ?? '(sin documento)');
+    if (args.document) console.log('Título del documento:', args.documentTitle);
     console.log(`LINKEDIN_ACCESS_TOKEN: ${token ? 'configurado' : 'FALTA'}`);
     console.log(`LINKEDIN_PERSON_URN: ${personUrn ? 'configurado' : 'FALTA'}`);
     console.log(`LinkedIn-Version usado: ${LINKEDIN_VERSION}`);
@@ -187,7 +216,7 @@ async function main() {
   }
 
   try {
-    let imageUrn, videoUrn;
+    let imageUrn, videoUrn, documentUrn;
     if (args.image) {
       const { uploadUrl, image } = await initializeUpload(token, personUrn);
       const buffer = await readFile(path.resolve(ROOT, args.image));
@@ -199,7 +228,15 @@ async function main() {
       videoUrn = await uploadVideo(token, personUrn, path.resolve(ROOT, args.video));
       console.log('✓ Video subido:', videoUrn);
     }
-    const postId = await createPost({ token, personUrn, text: escaped, imageUrn, videoUrn });
+    if (args.document) {
+      console.log('→ Subiendo el documento a LinkedIn...');
+      documentUrn = await uploadDocument(token, personUrn, path.resolve(ROOT, args.document));
+      console.log('✓ Documento subido:', documentUrn);
+    }
+    const postId = await createPost({
+      token, personUrn, text: escaped, imageUrn, videoUrn,
+      documentUrn, documentTitle: args.documentTitle,
+    });
     console.log('✓ Publicado en LinkedIn:', postId);
   } catch (err) {
     await notifyError('Fase 4 · LinkedIn', err.message);

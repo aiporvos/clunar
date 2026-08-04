@@ -1,0 +1,25 @@
+Me llegó una lista de 17 consejos para gastar menos tokens en Claude. La chequeé entera contra la documentación oficial.
+
+Cinco no se sostienen. Uno es directamente falso. Y el consejo de mayor impacto no estaba en la lista.
+
+Quedaron ocho, cada uno con su cifra y de dónde sale:
+
+⚡ Lo repetido puede costar diez veces menos: las lecturas de caché salen alrededor de una décima parte
+📄 Una página de PDF paga dos veces: 1.500 a 3.000 tokens, y encima paga como imagen
+🖼️ Una captura de 1000x1000 son 1296 tokens. El recorte de 200x200 que importaba, 64
+💰 Opus cuesta 5 veces lo que Haiku, pero solo 1,67 veces lo que Sonnet
+🔁 Cada mensaje relee toda la conversación: en el mensaje 40 pagás otra vez los 39 anteriores
+✍️ Partir un pedido en cinco mensajes multiplica por cinco el contexto reenviado
+📎 Un archivo referenciado pesa una vez. Pegado en cada turno, pesa en cada turno
+🔌 Los conectores activos consumen contexto antes de que escribas nada
+
+El que hay que desactivar: "escribí prompts de menos de 30 palabras". La documentación oficial dice lo contrario, que conviene dar más contexto del que parece necesario. Un prompt corto no ahorra, produce una respuesta genérica que después regenerás dos veces.
+
+Los ocho tienen algo en común: ninguno te pide escribir menos. Te piden mandar menos veces lo mismo.
+
+Dejo el detalle completo, con las fuentes de cada cifra, en el post 👇
+https://cluna.ar/blog/ocho-habitos-para-gastar-menos-tokens-en-claude
+
+Nivel 2 · Herramientas
+
+Conocimiento sin barreras, como la luna: le llega a todos igual.

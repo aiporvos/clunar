@@ -1,0 +1,7 @@
+{
+  "name": "cluna-slides",
+  "private": true,
+  "type": "module",
+  "description": "Generador de placas para carruseles. Paquete aparte para no tocar las deps del sitio.",
+  "dependencies": { "playwright-core": "^1.49.0" }
+}

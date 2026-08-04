@@ -45,6 +45,10 @@ function parseArgs(argv) {
     else if (a === '--caption-file') args.captionFile = argv[++i];
     else if (a === '--image-url') args.imageUrl = argv[++i];
     else if (a === '--video-url') args.videoUrl = argv[++i];
+    // Carrusel: de 2 a 10 URLs separadas por coma, en el orden de las placas.
+    else if (a === '--image-urls') {
+      args.imageUrls = argv[++i].split(',').map(s => s.trim()).filter(Boolean);
+    }
   }
   return args;
 }
@@ -72,6 +76,51 @@ async function createContainer({ token, userId, imageUrl, videoUrl, caption }) {
   const data = await res.json();
   if (!res.ok || !data.id) {
     throw new Error(`Instagram (crear contenedor) respondió ${res.status}: ${JSON.stringify(data)}`);
+  }
+  return data.id;
+}
+
+/**
+ * Carrusel, paso 1a: un contenedor hijo por placa.
+ *
+ * Los hijos NO llevan caption (va en el contenedor padre) y sí llevan
+ * is_carousel_item, que es lo que los marca como parte de un carrusel.
+ */
+async function createCarouselItem({ token, userId, imageUrl }) {
+  const res = await fetch(api(`${userId}/media`), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      image_url: imageUrl,
+      is_carousel_item: 'true',
+      access_token: token,
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data.id) {
+    throw new Error(`Instagram (item de carrusel) respondió ${res.status}: ${JSON.stringify(data)}`);
+  }
+  return data.id;
+}
+
+/**
+ * Carrusel, paso 1b: el contenedor padre que agrupa a los hijos.
+ * El orden de `children` es el orden en que se ven las placas.
+ */
+async function createCarouselContainer({ token, userId, childIds, caption }) {
+  const res = await fetch(api(`${userId}/media`), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      media_type: 'CAROUSEL',
+      children: childIds.join(','),
+      caption,
+      access_token: token,
+    }),
+  });
+  const data = await res.json();
+  if (!res.ok || !data.id) {
+    throw new Error(`Instagram (contenedor de carrusel) respondió ${res.status}: ${JSON.stringify(data)}`);
   }
   return data.id;
 }
@@ -120,17 +169,25 @@ async function main() {
   if (args.captionFile) {
     caption = (await readFile(path.resolve(ROOT, args.captionFile), 'utf-8')).trim();
   }
-  if (!caption || (!args.imageUrl && !args.videoUrl)) {
-    console.error('Uso: node scripts/publish-instagram.mjs --caption-file ruta (--image-url | --video-url) "https://..." [--dry-run]');
+  const modos = [args.imageUrl, args.videoUrl, args.imageUrls].filter(Boolean).length;
+  if (!caption || modos === 0) {
+    console.error('Uso: node scripts/publish-instagram.mjs --caption-file ruta (--image-url | --image-urls | --video-url) "https://..." [--dry-run]');
     process.exit(1);
   }
-  if (args.imageUrl && args.videoUrl) {
-    console.error('Usá --image-url o --video-url, no ambos.');
+  if (modos > 1) {
+    console.error('Usá solo uno de --image-url, --image-urls o --video-url.');
+    process.exit(1);
+  }
+  // El carrusel de Instagram admite entre 2 y 10 elementos.
+  if (args.imageUrls && (args.imageUrls.length < 2 || args.imageUrls.length > 10)) {
+    console.error(`Un carrusel lleva de 2 a 10 imágenes, y pasaste ${args.imageUrls.length}.`);
     process.exit(1);
   }
 
+  const isCarousel = !!args.imageUrls;
   const isVideo = !!args.videoUrl;
-  const mediaUrl = args.videoUrl ?? args.imageUrl;
+  const mediaUrls = args.imageUrls ?? [args.videoUrl ?? args.imageUrl];
+  const mediaUrl = mediaUrls[0];
 
   const token = process.env.INSTAGRAM_ACCESS_TOKEN;
   const userId = process.env.INSTAGRAM_USER_ID;
@@ -141,16 +198,23 @@ async function main() {
     console.log('--- DRY RUN ---');
     console.log('Caption:\n' + caption);
     console.log(`\nLargo del caption: ${caption.length}/${CAPTION_MAX}${tooLong ? '  ⚠️  SE PASA' : ''}`);
-    console.log(`Tipo: ${isVideo ? 'VIDEO (se publica como Reel)' : 'IMAGEN'}`);
-    console.log(`URL del ${isVideo ? 'video' : 'la imagen'}:`, mediaUrl);
-    if (!/^https:\/\//.test(mediaUrl)) {
-      console.log('⚠️  La URL tiene que ser https pública — Instagram la descarga desde ahí.');
-    }
-    if (isVideo && !/\.(mp4|mov)($|\?)/i.test(mediaUrl)) {
-      console.log('⚠️  El video tiene que ser MP4 o MOV (H.264 + AAC).');
-    }
-    if (!isVideo && !/\.jpe?g($|\?)/i.test(mediaUrl)) {
-      console.log('⚠️  La API solo acepta JPEG. Usá la variante cover-ig.jpg, no el PNG.');
+    const tipo = isCarousel
+      ? `CARRUSEL (${mediaUrls.length} placas)`
+      : isVideo ? 'VIDEO (se publica como Reel)' : 'IMAGEN';
+    console.log(`Tipo: ${tipo}`);
+    mediaUrls.forEach((u, i) => {
+      console.log(`  ${isCarousel ? String(i + 1).padStart(2, '0') + '.' : 'URL:'} ${u}`);
+    });
+    for (const u of mediaUrls) {
+      if (!/^https:\/\//.test(u)) {
+        console.log(`⚠️  ${u} tiene que ser https pública — Instagram la descarga desde ahí.`);
+      }
+      if (isVideo && !/\.(mp4|mov)($|\?)/i.test(u)) {
+        console.log('⚠️  El video tiene que ser MP4 o MOV (H.264 + AAC).');
+      }
+      if (!isVideo && !/\.jpe?g($|\?)/i.test(u)) {
+        console.log(`⚠️  ${u}: la API solo acepta JPEG, no PNG.`);
+      }
     }
     console.log('   (el archivo tiene que estar deployado antes: la API lo descarga)');
     console.log(`INSTAGRAM_ACCESS_TOKEN: ${token ? 'configurado' : 'FALTA'}`);
@@ -169,12 +233,27 @@ async function main() {
   }
 
   try {
-    console.log(`→ Creando el contenedor (${isVideo ? 'video/Reel' : 'imagen'})...`);
-    const containerId = await createContainer({
-      token, userId, imageUrl: args.imageUrl, videoUrl: args.videoUrl, caption,
-    });
+    let containerId;
 
-    console.log(`→ Esperando que Instagram procese el ${isVideo ? 'video' : 'la imagen'} (contenedor ${containerId})...`);
+    if (isCarousel) {
+      // Un contenedor hijo por placa, en orden, y después el padre que los agrupa.
+      const childIds = [];
+      for (const [i, url] of mediaUrls.entries()) {
+        console.log(`→ Placa ${i + 1}/${mediaUrls.length}...`);
+        const childId = await createCarouselItem({ token, userId, imageUrl: url });
+        await waitUntilReady({ token, containerId: childId });
+        childIds.push(childId);
+      }
+      console.log('→ Agrupando las placas en el carrusel...');
+      containerId = await createCarouselContainer({ token, userId, childIds, caption });
+    } else {
+      console.log(`→ Creando el contenedor (${isVideo ? 'video/Reel' : 'imagen'})...`);
+      containerId = await createContainer({
+        token, userId, imageUrl: args.imageUrl, videoUrl: args.videoUrl, caption,
+      });
+    }
+
+    console.log(`→ Esperando que Instagram procese el contenedor ${containerId}...`);
     await waitUntilReady({
       token,
       containerId,

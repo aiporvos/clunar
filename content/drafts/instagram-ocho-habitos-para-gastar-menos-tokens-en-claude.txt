@@ -1,0 +1,11 @@
+Circulan 17 consejos para gastar menos tokens en Claude. Chequeé los 17: cinco no se sostienen y uno es falso.
+
+Quedaron ocho, cada uno con su número tomado de la documentación oficial.
+
+Un dato para que veas de qué escala hablamos: una captura de pantalla entera son 1296 tokens, y el recorte que de verdad querías mostrar, 64.
+
+Los ocho tienen algo en común. Ninguno te pide escribir menos: te piden mandar menos veces lo mismo.
+
+Deslizá para verlos. El detalle completo, con las fuentes, está en cluna.ar
+
+#inteligenciaartificial #productividad #claude #automatizacion #ahorro
