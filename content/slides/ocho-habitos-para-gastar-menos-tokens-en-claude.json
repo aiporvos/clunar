@@ -1,12 +1,12 @@
 {
   "slug": "ocho-habitos-para-gastar-menos-tokens-en-claude",
-  "documentTitle": "8 hábitos que te bajan el gasto de tokens en Claude",
+  "documentTitle": "8 cosas que hago para gastar menos tokens en Claude",
   "slides": [
     {
       "type": "cover",
-      "kicker": "Verificado con la documentación oficial",
-      "title": "8 hábitos que te bajan el gasto de tokens en Claude",
-      "body": "Circulan 17 consejos. Cinco no se sostienen y uno es falso.",
+      "kicker": "Lo que hago todos los días",
+      "title": "8 cosas que hago para gastar menos tokens en Claude",
+      "body": "El gasto casi nunca está donde uno cree.",
       "accent": "amarillo"
     },
     {
@@ -75,10 +75,10 @@
     },
     {
       "type": "closing",
-      "kicker": "El que circula y es falso",
-      "title": "\"Escribí prompts de menos de 30 palabras\"",
-      "body": "La documentación oficial de prompting dice lo contrario: conviene dar más contexto del que parece necesario. Los prompts cortos producen respuestas genéricas, y después las regenerás.",
-      "footer": "El detalle de los ocho, con las fuentes, en cluna.ar",
+      "kicker": "Lo único que no hay que tocar",
+      "title": "Acortar el prompt no ahorra",
+      "body": "Es el primer impulso cuando ves la factura, y es el error. Un prompt corto da una respuesta genérica que después regenerás dos veces. Ahí se te fue el ahorro y bastante más.",
+      "footer": "El detalle de los ocho, con los números, en cluna.ar",
       "accent": "celeste"
     }
   ]

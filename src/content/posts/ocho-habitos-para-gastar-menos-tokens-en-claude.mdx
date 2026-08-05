@@ -1,8 +1,8 @@
 ---
-title: '8 hábitos que te bajan el gasto de tokens en Claude'
+title: '8 cosas que hago para gastar menos tokens en Claude'
 excerpt: >-
-  Circulan 17 consejos para gastar menos tokens. Chequeé los 17 contra la
-  documentación oficial: cinco no se sostienen y uno es directamente falso.
+  El gasto casi nunca está donde uno cree. No está en escribir mucho: está en
+  mandar lo mismo muchas veces. Ocho cambios concretos, con el número de cada uno.
 coverImage: /images/posts/ocho-habitos-para-gastar-menos-tokens-en-claude/cover.png
 publishedAt: 2026-08-04
 author: Claudio Luna
@@ -14,30 +14,22 @@ tags:
   - Costos
   - Productividad
 draft: false
-seoTitle: 'Gastar menos tokens en Claude: 8 hábitos verificados'
+seoTitle: 'Gastar menos tokens en Claude: 8 cambios concretos'
 seoDescription: >-
-  Ocho formas de reducir el consumo de tokens en Claude, cada una con su cifra
-  tomada de la documentación oficial de Anthropic. Y el consejo popular que es
-  falso.
+  Ocho formas de reducir el consumo de tokens en Claude, cada una con su número:
+  caché, PDFs, capturas, elección de modelo, chats largos y conectores.
 ---
 
-Me llegó una lista de 17 consejos para gastar menos tokens en Claude. La típica
-que circula en carrusel, con números redondos y mucha seguridad.
+Trabajo con esto todos los días y miro consumos, míos y de clientes. El gasto
+casi nunca está donde uno lo busca.
 
-Me senté a chequear los 17 contra la documentación oficial de Anthropic. **Cinco
-no se sostienen, uno es directamente falso, y el consejo de mayor impacto que
-documenta Anthropic no estaba en la lista.**
+La intuición dice que se gasta por escribir mucho. No es así. **Se gasta por
+mandar lo mismo muchas veces**, y eso pasa en lugares que no se ven: un PDF que
+adjuntaste sin pensar, una captura de pantalla entera, un chat de dos semanas
+que sigue abierto.
 
-Quedaron ocho. Cada uno con su cifra y de dónde sale.
-
-## La diferencia entre adivinar y medir
-
-Casi todos estos consejos son variaciones de una misma idea: que el contexto se
-paga. Eso es cierto. El problema es cuando la idea correcta viene con un número
-inventado, porque entonces optimizás lo que no había que optimizar.
-
-Los ocho de abajo tienen todos una cifra verificable. El que no la tenía, quedó
-afuera.
+Estas son las ocho cosas que hago. Cada una con su número, porque sin número
+esto es opinión.
 
 ## Los ocho
 
@@ -47,7 +39,7 @@ Si mandás el mismo bloque de contexto una y otra vez (un system prompt largo, u
 documento de referencia, un catálogo), se puede cachear. **Las lecturas de caché
 cuestan alrededor de una décima parte** del precio normal de entrada.
 
-Es la palanca más grande de la lista y es la que no estaba en los 17 originales.
+Es la palanca más grande de todas y la que menos gente usa.
 La escritura en caché cuesta un poco más que un token normal, así que conviene a
 partir de la segunda o tercera lectura, según el tiempo de vida que elijas.
 
@@ -55,9 +47,9 @@ partir de la segunda o tercera lectura, según el tiempo de vida que elijas.
 
 ### 2. Una página de PDF paga dos veces
 
-La documentación es explícita: **entre 1.500 y 3.000 tokens por página**, según
-la densidad. Y hay un detalle que el consejo original se perdía: **cada página
-además se convierte en imagen**, así que encima paga tokens de imagen.
+El número oficial: **entre 1.500 y 3.000 tokens por página**, según
+la densidad. Y el detalle que casi nadie tiene en cuenta: **cada página además se
+convierte en imagen**, así que encima paga tokens de imagen.
 
 Un PDF de 40 páginas te puede comer 100.000 tokens antes de que preguntes nada.
 
@@ -85,8 +77,8 @@ subir, no después. Vale también para el tiempo de respuesta.
 Precio por millón de tokens: **Opus 5 sale 5 dólares de entrada y 25 de salida.
 Haiku 4.5 sale 1 y 5.** Exactamente cinco veces, en los dos sentidos.
 
-Ojo con el matiz, porque el consejo original decía "cinco veces más" sin decir
-contra qué: **contra Sonnet 5 la diferencia es de 1,67 veces**, no cinco.
+Ojo con el atajo mental de "Opus es carísimo": **contra Sonnet 5 la diferencia
+es de 1,67 veces**, no cinco. El salto grande está entre Haiku y el resto.
 
 **Qué hace:** para clasificar, extraer datos de un texto o resumir algo corto,
 Haiku alcanza y sobra. Guardá Opus para lo que de verdad necesita razonar.
@@ -141,29 +133,20 @@ No hace falta rehacer nada. Tres pasos, en este orden, que es el orden de impact
 Recién después de eso tiene sentido meterse con caché y conectores, que ya es
 territorio de API.
 
-## El que circula y es falso
+## Lo único que no hay que tocar
 
-De los 17, hay uno que conviene desactivar activamente: **"escribí prompts de
-menos de 30 palabras".**
+Cuando ves el consumo, el primer impulso es escribir más corto. Es el único
+cambio de esta lista que te va a salir caro.
 
-La documentación oficial de prompting dice lo contrario. Recomienda dar más
-contexto del que parece necesario, y ser claro y específico antes que breve. Un
-prompt corto no ahorra: produce una respuesta genérica que después regenerás dos
-veces, y ahí se te fue el ahorro y bastante más.
+Un prompt corto no ahorra. Te da una respuesta genérica, la regenerás dos veces
+para llegar a lo que querías, y entre las tres pagaste más que si lo hubieras
+escrito completo la primera vez. La documentación de prompting va en el mismo
+sentido: conviene dar más contexto del que parece necesario, y ser específico
+antes que breve.
 
-Los otros que descarté no son falsos, solo vagos: "usá plantillas", "no
-regeneres", "mantené los archivos de contexto bajo 2.000 palabras". Ese último
-número, por cierto, no aparece en ninguna documentación. Alguien lo escribió y
-se propagó.
-
-## Lo que cambia
-
-Los ocho de arriba tienen una cosa en común: ninguno te pide escribir menos.
-Te piden mandar menos veces lo mismo.
-
-Es una distinción que importa, porque la intuición empuja para el otro lado.
-Cuando ves la factura, lo primero que querés hacer es acortar los prompts, que es
-justo lo único que no hay que tocar.
+Los ocho de arriba tienen una cosa en común y vale releerla: **ninguno te pide
+escribir menos. Te piden mandar menos veces lo mismo.** Son cosas distintas y se
+confunden todo el tiempo.
 
 Si estás mirando el consumo de tu equipo y no sabés por dónde empezar,
 escribime y lo vemos. A veces el problema no es cuánto se gasta sino que nadie
