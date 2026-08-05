@@ -147,6 +147,18 @@ genéricos ni ilustraciones de otro estilo.
 Fuente canónica: `src/styles/global.css` (líneas 13–72). Copiar de ahí, no de acá,
 ante cualquier duda.
 
+### 🚫 Regla dura — fondo de toda imagen generada
+
+**Cualquier imagen que se genere para una publicación va sobre el crema
+`#f9f4da`. Siempre, sin excepciones, para cualquier red y cualquier tema.**
+
+Portadas de blog, placas de carrusel, imágenes de LinkedIn e Instagram, afiches.
+Nunca blanco, nunca gris, nunca oscuro, nunca otro color "porque pega con el
+tema". Es identidad, no preferencia.
+
+`scripts/cover-image.mjs` lo verifica sobre la imagen ya generada y **falla** si
+el fondo no es crema (`assertFondoCrema`). Detalle en `content/estilos-portada.md`.
+
 ### Paleta cruda (hex, variables `--*` para sombras/bordes en `<style>` locales)
 
 | Token | Hex | Uso |

@@ -18,6 +18,7 @@
 import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import sharp from 'sharp';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -185,6 +186,55 @@ async function generateCover(prompt) {
  * de la variante 4:5 de Instagram sin que se note el corte. Si algo falla,
  * cae al crema de marca.
  */
+/**
+ * REGLA DURA DE MARCA: toda imagen generada va sobre el crema #f9f4da.
+ * Sin excepciones, en portadas, placas, redes y lo que venga.
+ *
+ * El prompt ya lo pide, pero un pedido al modelo no es una garantía: los
+ * modelos derivan a fondo blanco, gris o negro cada tanto. Esto lo verifica
+ * sobre el resultado real y frena antes de que la imagen llegue al sitio.
+ */
+const CREMA = { r: 249, g: 244, b: 218 };
+const TOLERANCIA = 26; // margen por el crema apenas distinto que generan los modelos
+
+export async function assertFondoCrema(buffer) {
+  const meta = await sharp(buffer).metadata();
+  const [w, h] = [meta.width, meta.height];
+  const box = Math.max(16, Math.round(Math.min(w, h) * 0.04));
+  const esquinas = [
+    { left: 0, top: 0 },
+    { left: w - box, top: 0 },
+    { left: 0, top: h - box },
+    { left: w - box, top: h - box },
+  ];
+
+  const desvios = [];
+  for (const { left, top } of esquinas) {
+    const { data } = await sharp(buffer)
+      .extract({ left, top, width: box, height: box })
+      .resize(1, 1)
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    const [r, g, b] = data;
+    const d = Math.max(
+      Math.abs(r - CREMA.r), Math.abs(g - CREMA.g), Math.abs(b - CREMA.b),
+    );
+    desvios.push({ rgb: `rgb(${r},${g},${b})`, d });
+  }
+
+  // Se exige que la mayoría de las esquinas sean crema: una esquina puede
+  // quedar tapada por la ilustración sin que el fondo esté mal.
+  const cremas = desvios.filter(x => x.d <= TOLERANCIA).length;
+  if (cremas < 3) {
+    const detalle = desvios.map(x => `${x.rgb} (desvío ${x.d})`).join(', ');
+    throw new Error(
+      'La imagen no salió sobre el crema de marca #f9f4da, que es regla dura.\n' +
+      `  Esquinas medidas: ${detalle}\n` +
+      '  Regenerá la portada. Si se repite, reforzá el fondo crema en el prompt.',
+    );
+  }
+}
+
 async function edgeColor(buffer) {
   try {
     const { data } = await sharp(buffer)
@@ -261,6 +311,9 @@ async function main() {
 
   const { buffer, provider } = await generateCover(prompt);
 
+  // Regla dura de marca: se verifica antes de escribir nada al disco.
+  await assertFondoCrema(buffer);
+
   await mkdir(outDir, { recursive: true });
   await sharp(buffer).resize(1920, 1080, { fit: 'cover' }).png().toFile(outFile);
   await sharp(buffer).resize(1200, 627, { fit: 'cover' }).png().toFile(ogFile);
@@ -283,7 +336,11 @@ async function main() {
   console.log(`✓ Variante Instagram: ${path.relative(ROOT, igFile)}`);
 }
 
-main().catch(err => {
-  console.error('✗ Error generando portada:', err.message);
-  process.exit(1);
-});
+// Solo corre si se ejecuta directo, no al importarlo (assertFondoCrema se
+// importa desde otros scripts y desde los tests).
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(err => {
+    console.error('✗ Error generando portada:', err.message);
+    process.exit(1);
+  });
+}

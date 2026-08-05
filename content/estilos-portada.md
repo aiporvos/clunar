@@ -1,5 +1,24 @@
 # Catálogo de presets — portadas de blog
 
+> # 🟡 REGLA DURA, SIN EXCEPCIONES: fondo crema `#f9f4da`
+>
+> **Toda imagen que se genere para una publicación va sobre el crema de marca
+> `#f9f4da`.** Portadas de blog, placas de carrusel, imágenes de LinkedIn,
+> Instagram, Telegram, afiches, lo que sea y para siempre.
+>
+> No es una preferencia ni un default que se pueda cambiar según el tema del
+> post: es identidad de marca. Nunca fondo blanco, nunca gris, nunca oscuro,
+> nunca un color distinto "porque queda mejor con este tema".
+>
+> Está aplicado en tres lugares para que no se escape por ninguno:
+> 1. `scripts/cover-image.mjs` lo pide como primera instrucción del prompt.
+> 2. `scripts/cover-image.mjs` lo **verifica sobre la imagen generada**
+>    (`assertFondoCrema`) y **falla** si el fondo no es crema.
+> 3. `tools/slides/slides.mjs` lo tiene fijo en la constante `CREMA`.
+>
+> Si alguna vez una imagen sale con otro fondo, no se publica: se regenera.
+
+
 > El objetivo es evitar la estética genérica de IA (gradiente azul-violeta,
 > robots humanoides brillantes, cerebros digitales, manos tipeando sobre
 > teclados holográficos). Cada preset abajo tiene su prompt base + negativos
