@@ -1,0 +1,13 @@
+Chrome usa 2 GB de memoria para abrir 100 páginas. Este navegador usa 123 MB.
+
+Se llama Lightpanda y está hecho desde cero para que lo maneje un agente de IA, no una persona.
+
+La diferencia es simple: no dibuja nada en la pantalla. Un agente no mira, lee el código de la página.
+
+Lo probé acá: 6 páginas reales en 5,57 segundos y 10,9 MB de memoria.
+
+Está en beta y tiene sus límites, pero si tenés procesos comiéndote el servidor, la cuenta cambia rápido.
+
+Todo el paso a paso está en cluna.ar
+
+#automatizacion #agentesdeia #inteligenciaartificial #desarrollo #programacion

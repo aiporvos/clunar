@@ -1,0 +1,23 @@
+Un agente que navega la web casi siempre levanta Chrome headless por debajo.
+Con veinte páginas en paralelo, el servidor empieza a matar procesos por falta de memoria.
+
+La respuesta ingenua es pagar más RAM. La otra es sacar lo que el agente nunca usa: el motor que dibuja la pantalla.
+
+Probé Lightpanda, un navegador headless escrito desde cero en Zig, que no deriva de Chrome. Lo levanté en Docker y le pasé 6 páginas reales (Wikipedia, Hacker News, GitHub) con Puppeteer.
+
+⚡ 5,57 segundos las 6 páginas, sin optimizar nada
+🧠 10,9 MB de RAM el contenedor entero. En reposo arranca en 2,8 MB
+🔌 Habla el protocolo de Chrome, así que Puppeteer y Playwright se conectan sin tocar tu código
+🤖 Trae modo agente nativo: Anthropic, OpenAI, Gemini o modelos locales con Ollama
+💾 Y guarda la sesión del agente como un script común de JavaScript
+
+Ese último punto es el que cambia la cuenta. El modelo descubre el camino una sola vez. Después corrés un script determinista, sin consumir tokens, todos los días. El LLM escribe el scraper, no lo ejecuta 500 veces por día.
+
+También encontré dónde se rompe, y eso está en el post: el patrón habitual de Puppeteer lo deja colgado, y la licencia AGPL pesa si pensás distribuirlo dentro de un producto.
+
+Los números, el bug y el paso a paso 👇
+https://cluna.ar/blog/lightpanda-navegador-headless-para-agentes-ia
+
+Nivel 3 · Agentes
+
+Comparto a cielo abierto. Sin peajes.
