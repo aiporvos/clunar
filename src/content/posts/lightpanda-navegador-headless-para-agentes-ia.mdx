@@ -1,0 +1,185 @@
+---
+title: 'Lightpanda: un navegador headless pensado para agentes, no para personas'
+excerpt: >-
+  Chrome headless usa 2GB para abrir 100 páginas. Lightpanda usa 123MB. La
+  diferencia está en todo lo que decidió no hacer.
+coverImage: /images/posts/lightpanda-navegador-headless-para-agentes-ia/cover.png
+publishedAt: 2026-08-06
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: '3'
+readTime: 7
+tags:
+  - Agentes
+  - Scraping
+  - Infraestructura
+draft: false
+seoTitle: 'Lightpanda: navegador headless para agentes de IA'
+seoDescription: >-
+  Navegador headless escrito desde cero en Zig, compatible con Puppeteer y
+  Playwright vía CDP. 16 veces menos memoria que Chrome headless. Qué sirve y qué no.
+---
+
+Un agente que navega sitios casi siempre termina levantando Chrome headless
+por debajo. Anda bien con tres páginas. Con veinte en paralelo el VPS empieza
+a matar procesos por memoria.
+
+La salida obvia es poner más RAM. La otra es preguntarse qué está haciendo
+Chrome que a un agente no le sirve: pintar píxeles, calcular fuentes, componer
+capas, animar. Un agente nunca mira la pantalla. Lee el DOM.
+
+Eso es exactamente lo que hace [Lightpanda](https://github.com/lightpanda-io/browser):
+un navegador headless escrito **desde cero en Zig**, que no deriva de Chromium
+ni de WebKit, y que directamente no incluye el motor de renderizado.
+
+## Los números que publican
+
+El equipo corrió su benchmark sobre **933 páginas web reales** en instancias
+`m5.large` de AWS:
+
+| | Lightpanda | Chrome headless |
+|---|---|---|
+| Memoria pico (100 páginas) | **123 MB** | 2 GB |
+| Tiempo de ejecución (100 páginas) | **5 s** | 46 s |
+
+Son ~16 veces menos memoria y ~9 veces más rápido. Aclaración honesta: **son
+números del propio proyecto**, no míos. No repliqué el benchmark. Lo que sí
+tiene sentido es de dónde sale la diferencia, y no es magia: es todo lo que
+decidieron no construir.
+
+## Cómo está hecho
+
+No es un fork con cosas apagadas. Es un ensamblado de piezas mínimas:
+
+- **HTTP** con libcurl.
+- **Parseo de HTML** con html5ever (el parser de Servo).
+- **JavaScript** con V8, el mismo motor de Chrome.
+
+Construye el árbol DOM y ejecuta el JavaScript dentro de ese entorno. Soporta
+AJAX, Fetch, formularios, cookies e interceptación de red. Todo lo que un
+scraper necesita, sin lo que un scraper nunca usa.
+
+## Lo que lo vuelve interesante para agentes
+
+**1. Habla CDP, así que tu código no cambia.** Expone un servidor Chrome
+DevTools Protocol por WebSocket. Puppeteer y Playwright se conectan apuntando
+`browserWSEndpoint` a Lightpanda en vez de a Chrome. El resto del script queda
+igual.
+
+**2. Tiene modo agente nativo.** `lightpanda agent` deja que un modelo maneje
+el navegador con instrucciones en lenguaje natural: navegar, clickear flujos,
+llenar formularios, extraer datos estructurados. Funciona con Anthropic,
+OpenAI, Gemini, Vertex AI, Hugging Face y modelos locales por Ollama.
+
+**3. PandaScript, que es la parte que menos se comenta y más importa.** La
+salida de una sesión del agente se exporta con `/save` como un script de
+JavaScript vanilla. Después lo corrés con `lightpanda run script.js`, sin
+modelo y sin consumir tokens.
+
+Ese tercer punto resuelve el problema real de los agentes que navegan: son
+caros y no son determinísticos. Acá el modelo se usa **una vez**, para
+descubrir el camino. La ejecución diaria es un script que hace siempre lo
+mismo y cuesta cero. El LLM pasa a ser la herramienta con la que escribís el
+scraper, no la que lo ejecuta 500 veces por día.
+
+## Lo que probé acá
+
+Lo levanté en Docker y le pasé seis páginas reales con Puppeteer: example.com,
+las dos de este sitio, Hacker News, la página del repo en GitHub y Wikipedia.
+Las seis respondieron bien, con el título y el conteo de links correctos.
+
+- **5,57 segundos** las seis páginas, en una notebook, sin optimizar nada.
+- **10,9 MB de RAM** del contenedor al terminar. En reposo arranca en **2,8 MB**.
+- La página del repo en GitHub, que no es liviana, la parseó completa: 231
+  links.
+
+Ese número de memoria es el que hace la diferencia. No es que Chrome sea
+lento: es que cada instancia te cuesta cientos de megas y ahí se te termina el
+VPS.
+
+## El detalle que me hizo perder media hora
+
+El primer intento falló y vale más que el que salió bien. Abrí **una sola
+conexión** y fui creando una `page` nueva por URL, que es el patrón normal de
+Puppeteer. La segunda página tiró `Protocol error (Target.createTarget):
+TargetAlreadyLoaded` y de ahí en adelante todo lo que pedí falló.
+
+Lo que funciona hoy es abrir la conexión, usar una página, cerrarla y
+desconectar. Una conexión por URL:
+
+```javascript
+import puppeteer from 'puppeteer-core';
+
+for (const url of urls) {
+  const browser = await puppeteer.connect({
+    browserWSEndpoint: 'ws://127.0.0.1:9222',
+  });
+  const page = await browser.newPage();
+  await page.goto(url);
+  const titulo = await page.evaluate(() => document.title);
+  console.log(titulo);
+  await page.close();
+  await browser.disconnect();
+}
+```
+
+Con ese cambio pasaron las seis. Es beta y se nota justo acá.
+
+## Cómo dejarlo andando
+
+1. Levantá el servidor CDP con Docker, que es lo más rápido:
+
+```bash
+docker run -d -p 127.0.0.1:9222:9222 lightpanda/browser:nightly
+```
+
+En Mac o Linux también está por Homebrew:
+
+```bash
+brew install lightpanda-io/browser/lightpanda
+```
+
+2. Probá que anda sin escribir una línea de código, volcando el DOM ya
+   ejecutado de una página:
+
+```bash
+docker run --rm lightpanda/browser:nightly lightpanda fetch --dump https://cluna.ar
+```
+
+Ojo con esto: el `CMD` de la imagen es `serve`, así que para usar otro
+subcomando hay que nombrar el binario, `lightpanda fetch`, no `fetch` solo.
+
+3. Apuntá tu script de Puppeteer al puerto 9222 con el patrón de arriba. Si ya
+   tenías scraping andando, el cambio real es esa línea de `connect`.
+
+4. Si querés el modo agente, corré `lightpanda agent`, describí la tarea en
+   castellano, y cuando el flujo salga bien guardalo con `/save`. Ese archivo
+   es el que vas a correr de acá en adelante.
+
+5. Apagá la telemetría, que viene activada por defecto:
+
+```bash
+export LIGHTPANDA_DISABLE_TELEMETRY=true
+```
+
+## Dónde está el límite
+
+Esto es lo que hay que mirar antes de meterlo en producción:
+
+- **Está en beta.** El proyecto lo dice sin vueltas: puede crashear y hay
+  sitios que todavía no funcionan. Lo del `TargetAlreadyLoaded` es
+  exactamente eso.
+- **Le faltan cientos de Web APIs.** Un sitio pesado en JavaScript moderno
+  puede romperse. La prueba no es leer la documentación: es correr tus URLs
+  reales y ver qué pasa.
+- **La licencia es AGPL-3.0.** Para uso interno o una herramienta propia no
+  molesta. Si pensabas embeberlo en un producto que distribuís, leela antes de
+  escribir la primera línea.
+
+Mi criterio: no lo pondría hoy como único navegador de un sistema crítico. Sí
+lo probaría ya en cualquier proceso de scraping o de agente que hoy te está
+comiendo RAM, con Chrome como plan B para las URLs que fallen. A veces la
+respuesta es quedarse con Chrome. Pero si tenés 40 procesos peleando por
+memoria en un VPS, la cuenta cambia rápido.
+
+Repo: [github.com/lightpanda-io/browser](https://github.com/lightpanda-io/browser)
