@@ -25,3 +25,7 @@ pass dokploy.txt
 
 # Datos de clientes (formularios internos, provisorio)
 /data/
+
+# Credenciales de Google (OAuth desktop) — nunca al repo
+client_secret*.json
+.google-token.json
