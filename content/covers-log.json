@@ -190,5 +190,11 @@
     "preset": "Diagrama brutalist",
     "provider": "kie",
     "date": "2026-08-06T19:13:54.294Z"
+  },
+  {
+    "slug": "testsprite-cli-verificar-codigo-de-agentes",
+    "preset": "Mockup de producto/pantalla ilustrado",
+    "provider": "kie",
+    "date": "2026-08-17T11:17:34.854Z"
   }
 ]

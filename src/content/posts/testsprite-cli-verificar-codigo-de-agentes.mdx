@@ -1,0 +1,89 @@
+---
+title: 'TestSprite CLI: que tu agente de código verifique su propio trabajo'
+excerpt: >-
+  Un CLI que hace que Claude Code, Cursor o Copilot prueben su código contra
+  la app en vivo, no contra lo que creen que hicieron. Plan free y de pago.
+coverImage: /images/posts/testsprite-cli-verificar-codigo-de-agentes/cover.png
+publishedAt: 2026-08-17
+author: Claudio Luna
+category: Automatización
+aiLevel: '2'
+readTime: 4
+tags:
+  - Automatización
+  - Agentes IA
+  - Testing
+draft: false
+seoTitle: 'TestSprite CLI: testing automático para agentes de código'
+seoDescription: >-
+  Qué es TestSprite CLI, cómo se instala y cómo verifica el código que
+  escriben Claude Code, Cursor u otros agentes. Plan gratis y planes pagos.
+---
+
+Un agente de código escribe una función en treinta segundos. Lo que tarda
+es saber si esa función anda de verdad, contra la aplicación corriendo, no
+contra lo que el modelo cree que acaba de hacer.
+
+Sin herramienta, esa verificación queda en dos lugares: la probás vos a
+mano, o le pedís al agente que "revise" su propio código, y terminás con
+un modelo revisando su propia opinión sobre el modelo. [TestSprite
+CLI](https://github.com/TestSprite/testsprite-cli) resuelve ese punto
+puntual: le da al agente una forma de abrir la app en vivo, usarla como un
+usuario real, y traer de vuelta un reporte concreto de qué se rompió.
+
+## Cómo funciona
+
+Es el CLI oficial de TestSprite (`@testsprite/testsprite-cli`, Apache
+2.0), pensado para integrarse como skill dentro del agente que ya usás:
+Claude Code, Cursor, Cline, Windsurf, Antigravity, Copilot o Codex.
+
+El ciclo es simple: se crea un test (`test create`), se ejecuta
+(`test run`) contra la app en vivo, y si algo falla se junta un paquete de
+fallos coherente (`test failure get`) que el agente lee para corregir el
+código. Después se reintenta (`test rerun`) hasta que el comportamiento
+queda verificado. Los comandos están agrupados por función: setup
+(`setup`, `doctor`), autenticación (`auth status`, `usage`), lectura
+(`test list`), escritura (`test create`, `test update`) y ejecución
+(`test run`, `test rerun`, `test flaky`).
+
+## Puesta en marcha
+
+1. Necesitás Node.js 20.19+, 22.13+ o 24+.
+2. Instalar el CLI global: `npm install -g @testsprite/testsprite-cli`.
+3. Correr `testsprite setup`: pide la API key (se genera en
+   [testsprite.com](https://www.testsprite.com)), verifica las
+   credenciales e instala el skill de verificación en tu agente de código.
+4. `testsprite doctor` chequea que la instalación quedó bien.
+5. Desde ahí, se lo pedís al agente en lenguaje natural: que cree tests
+   para una funcionalidad y los corra contra tu app corriendo en local.
+
+## Lo que es gratis y lo que se paga
+
+Acá está lo que no dice el README y sí la página de precios. Cada
+ejecución consume créditos (0.5 por corrida de frontend, 0.2 por
+backend), y hay cuatro planes:
+
+- **Free ($0/mes):** 150 créditos por mes, 1 test list, funciones básicas
+  de testing, workflows automáticos de frontend y backend, y el CLI
+  completo. Corre con GPT-5.4 Mini o Claude Sonnet 4.6 (o similar).
+- **Starter ($0 el primer mes, $19/mes desde el segundo):** 400 créditos,
+  5 test lists y 5 test schedules, modelos más avanzados (GPT-5.5 o Claude
+  Opus 4.7, o similar) y ejecución optimizada.
+- **Standard ($69/mes):** 1600 créditos, test lists y schedules
+  ilimitados, carga de archivos hasta 75 MB, generación de tests mejorada
+  y configuraciones custom.
+- **Enterprise (precio a medida):** modelo de IA custom, acceso por API y
+  soporte dedicado.
+
+El plan free no tiene fecha de vencimiento ni te pide tarjeta para
+arrancar: alcanza para probar el flujo completo en un proyecto chico antes
+de pensar en pagar algo.
+
+## Cuándo tiene sentido
+
+Si ya trabajás con un agente de código a diario, la pregunta no es si
+TestSprite "suma": es si tu proceso actual de verificación (manual, o
+"agente revisando agente") te está dejando pasar bugs que una corrida
+contra la app real hubiera agarrado. Con 150 créditos gratis por mes
+alcanza para responder esa pregunta sin gastar un peso. Y a veces la
+respuesta, después de probarlo, es que no lo necesitás todavía.
