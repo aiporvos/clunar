@@ -1,0 +1,139 @@
+---
+title: 'Orca: cinco agentes sobre el mismo prompt, y te quedás con el que ganó'
+excerpt: >-
+  Un escritorio que corre Claude Code, Codex, Cursor y otros en paralelo, cada
+  uno en su propio worktree de git. MIT, 52.600 estrellas en cinco meses.
+coverImage: /images/posts/orca-varios-agentes-de-codigo-en-paralelo/cover.png
+publishedAt: 2026-08-25
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: '4'
+readTime: 6
+tags:
+  - Agentes IA
+  - Orquestación
+  - Claude Code
+draft: false
+seoTitle: 'Orca: correr varios agentes de código en paralelo'
+seoDescription: >-
+  Qué es Orca, cómo corre varios agentes de código a la vez en worktrees de git
+  aislados, cómo se instala en Linux y cuándo no conviene usarlo.
+---
+
+Le pedís una refactorización a Claude Code. Tarda seis minutos. No te gusta
+cómo quedó. Se la pedís a Codex. Otros seis minutos. Tampoco. Probás con
+Cursor. Dieciocho minutos después tenés tres intentos que viste de a uno,
+sin poder compararlos, porque cada uno pisó al anterior en la misma copia
+del repositorio.
+
+Orca invierte eso. El mismo prompt sale hacia los cinco agentes al mismo
+tiempo, cada uno en su propio worktree de git, y a los seis minutos tenés
+cinco resultados lado a lado para elegir cuál mergear.
+
+## Qué es, concretamente
+
+Es una aplicación de escritorio, con app móvil de compañía, que orquesta
+agentes de código por línea de comandos. La hace Stably, una startup
+respaldada por Y Combinator, y el código es abierto con licencia MIT.
+
+Los números al 24 de agosto de 2026, tomados de la API de GitHub:
+
+- **52.611 estrellas** y 3.639 forks
+- Repositorio creado el **17 de marzo de 2026**: cinco meses
+- Último push, **hoy mismo**
+- 4.473 issues abiertos
+- TypeScript, sobre Electron
+
+Cincuenta mil estrellas en cinco meses es un ritmo poco común. Los 4.473
+issues abiertos son la otra cara del mismo dato: publican todos los días y
+la deuda se acumula a la misma velocidad.
+
+## La pieza que importa: worktrees, no carpetas
+
+El truco no es la interfaz, es cómo aísla el trabajo. Un `git worktree` es
+una segunda copia de trabajo del mismo repositorio, en otra carpeta, con su
+propia rama, compartiendo el historial. No es un clon: no duplica el
+`.git`.
+
+Cada agente recibe el suyo. Trabajan sobre el mismo proyecto sin verse ni
+pisarse. Cuando terminan, comparás los cinco diffs y mergeás uno. Los otros
+cuatro worktrees se descartan y no dejaron rastro.
+
+Es la diferencia entre pedir cinco presupuestos a la vez y pedirlos de a uno
+esperando que el anterior termine.
+
+## Qué agentes corre
+
+Cualquiera que funcione en una terminal. La lista declarada incluye Claude
+Code, Codex, Cursor, GitHub Copilot, OpenCode, Antigravity, Grok, Gemini,
+Goose, Cline, Continue, Droid, Kimi, Qwen Code y Mistral Vibe, entre otros.
+
+El detalle que cambia el costo: **usás tu propia suscripción**. Orca no
+revende tokens ni te pide una API key aparte. Si ya pagás Claude Code, entra
+con esa cuenta.
+
+## Lo demás que trae
+
+- **Terminales con render por WebGL**, splits infinitos y scrollback que
+  sobrevive al reinicio.
+- **Design Mode**: hacés clic en un elemento de una ventana de Chromium real
+  y le manda al agente el HTML, el CSS y un recorte de pantalla de ese
+  elemento.
+- **Worktrees por SSH**: el agente corre en una máquina remota grande, con
+  edición de archivos, git y terminal, reconexión automática y forwarding de
+  puertos.
+- **GitHub y Linear nativos**: abrís un worktree desde un issue sin cambiar
+  de ventana.
+- **Anotación de diffs**: comentás una línea del diff y el comentario vuelve
+  al agente.
+- **Orca CLI**: `orca worktree create`, `snapshot`, `click`, `fill`. Los
+  agentes pueden manejar Orca.
+- **App móvil** para iOS y Android: te avisa cuando un agente terminó y le
+  mandás el siguiente mensaje desde el teléfono.
+
+## Puesta en marcha en Linux
+
+1. **Bajá el AppImage** de
+   `github.com/stablyai/orca/releases/latest/download/orca-linux.AppImage`.
+   En Arch está en el AUR: `yay -S stably-orca-bin`. En macOS,
+   `brew install --cask stablyai/orca/orca`.
+2. **Dale permiso de ejecución y abrilo**: `chmod +x orca-linux.AppImage` y
+   después `./orca-linux.AppImage`.
+3. **Conectá las cuentas de los agentes que ya tenés.** Orca detecta los CLI
+   instalados en tu máquina. Si Claude Code ya está logueado, lo toma.
+4. **Abrí un repositorio** y creá el primer worktree desde la interfaz. Es
+   una rama nueva, no toca tu copia de trabajo.
+5. **Escribí un prompt y elegí dos o tres agentes** para el mismo pedido.
+   Empezá con dos, no con cinco: hasta que le tomes la mano, comparar cinco
+   diffs es más trabajo que hacer el cambio a mano.
+6. **Compará los diffs y mergeá uno.** Los worktrees que no usaste se
+   descartan.
+
+Para un servidor Linux sin monitor hay `orca serve` y una guía de headless
+en el repositorio.
+
+## Cuándo no vale la pena
+
+Esta es la parte que no aparece en el README.
+
+**Cinco agentes en paralelo gastan cinco veces.** El worktree es gratis, los
+tokens no. Cada agente lee el contexto completo del repositorio por su
+cuenta. Si venís cuidando el consumo, el fan-out lo multiplica exactamente
+por la cantidad de agentes que largaste.
+
+**Si el cambio es chico, comparar cuesta más que hacerlo.** Leer cinco
+diffs de una función de veinte líneas es peor negocio que escribirla.
+El fan-out rinde en tareas donde la solución no es obvia y el criterio
+está en elegir, no en producir: una refactorización con varios caminos
+posibles, una migración, un bug que no sabés dónde está.
+
+**Es Electron y son 4.473 issues abiertos.** Publican todos los días, y eso
+también significa que algo que andaba el lunes puede romperse el martes. No
+lo pondría todavía en el medio de un flujo de trabajo del que dependa una
+entrega con fecha.
+
+Si trabajás solo, sobre un repositorio chico, con un agente que ya te
+funciona bien, esto no te va a cambiar el día. Si perdés horas por semana
+tirando el trabajo de un agente y volviendo a empezar con otro, ahí sí.
+
+El repositorio está en `github.com/stablyai/orca`, con licencia MIT.

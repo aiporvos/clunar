@@ -196,5 +196,11 @@
     "preset": "Mockup de producto/pantalla ilustrado",
     "provider": "kie",
     "date": "2026-08-17T11:17:34.854Z"
+  },
+  {
+    "slug": "orca-varios-agentes-de-codigo-en-paralelo",
+    "preset": "Diagrama brutalist",
+    "provider": "kie",
+    "date": "2026-08-24T16:59:39.274Z"
   }
 ]

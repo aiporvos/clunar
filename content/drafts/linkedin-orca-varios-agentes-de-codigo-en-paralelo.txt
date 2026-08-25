@@ -1,0 +1,32 @@
+Le pedís una refactorización a Claude Code. Seis minutos. No te gusta cómo quedó.
+
+Se la pedís a Codex. Otros seis minutos. Tampoco. Probás con Cursor.
+
+Dieciocho minutos después tenés tres intentos que viste de a uno, sin poder compararlos, porque cada uno pisó al anterior en la misma copia del repositorio.
+
+Orca invierte eso: el mismo prompt sale hacia los cinco agentes al mismo tiempo, cada uno en su propio worktree de git, y a los seis minutos tenés cinco resultados lado a lado para elegir cuál mergear.
+
+Es MIT, lo hace Stably (YC), y juntó 52.611 estrellas en cinco meses.
+
+Lo que encontré adentro:
+
+🧩 Un worktree de git por agente. Otra copia de trabajo del mismo repo, con su propia rama, compartiendo el historial. Trabajan sin verse ni pisarse.
+
+💳 Entra con la suscripción que ya pagás. No revende tokens ni pide una API key aparte: detecta los CLI que tenés instalados y usa esa cuenta.
+
+🖥️ Cualquier agente que viva en una terminal. Claude Code, Codex, Cursor, Copilot, OpenCode, Antigravity, Grok, Goose, Cline, Kimi, Qwen Code.
+
+🎯 Design Mode: hacés clic en un elemento de una ventana de Chromium real y el agente recibe su HTML, su CSS y un recorte de pantalla.
+
+📡 Worktrees por SSH y app móvil. El agente corre en una máquina remota grande y te avisa al teléfono cuando terminó.
+
+Y lo que no dice el README: cinco agentes en paralelo gastan cinco veces. El worktree es gratis, los tokens no. Cada agente lee el contexto completo del repo por su cuenta.
+
+Si el cambio es chico, leer cinco diffs cuesta más que escribir la función a mano. Rinde cuando la solución no es obvia y el criterio está en elegir, no en producir: una refactorización con varios caminos, una migración, un bug que no sabés dónde está.
+
+El paso a paso de instalación en Linux, con los límites que le encontré, acá 👇
+https://cluna.ar/blog/orca-varios-agentes-de-codigo-en-paralelo
+
+Nivel 4 · Orquestación
+
+Otros venden acceso. Yo comparto criterio.

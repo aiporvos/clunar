@@ -1,0 +1,15 @@
+Probar agentes de código de a uno cuesta el triple de tiempo.
+
+Le pedís el cambio a uno. No te gusta. Se lo pedís a otro. Tampoco. Y cada intento pisó al anterior, así que no podés compararlos.
+
+Orca da vuelta eso: el mismo pedido sale hacia cinco agentes a la vez, cada uno en su propia copia del proyecto.
+
+A los seis minutos tenés los cinco resultados juntos y elegís cuál te quedás.
+
+Es gratis y de código abierto. Juntó 52.600 estrellas en cinco meses.
+
+Ojo con una cosa: cinco agentes en paralelo gastan cinco veces. Rinde cuando la solución no es obvia, no para un cambio de veinte líneas.
+
+El paso a paso completo está en cluna.ar
+
+#InteligenciaArtificial #Programación #Agentes #Automatización #CódigoAbierto

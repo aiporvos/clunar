@@ -1,0 +1,77 @@
+{
+  "slug": "orca-varios-agentes-de-codigo-en-paralelo",
+  "documentTitle": "Orca: cinco agentes sobre el mismo prompt",
+  "slides": [
+    {
+      "type": "cover",
+      "kicker": "Orquestación de agentes",
+      "title": "Cinco agentes sobre el mismo prompt, y te quedás con el que ganó",
+      "body": "Se llama Orca. Es MIT y juntó 52.600 estrellas en cinco meses.",
+      "accent": "amarillo"
+    },
+    {
+      "type": "tip",
+      "n": 1,
+      "kicker": "El problema",
+      "title": "Probar agentes de a uno cuesta el triple",
+      "body": "Le pedís la refactorización a Claude Code. Seis minutos. No te gusta. Se la pedís a Codex. Otros seis. Dieciocho minutos después tenés tres intentos que viste de a uno, y cada uno pisó al anterior.",
+      "accent": "naranja"
+    },
+    {
+      "type": "tip",
+      "n": 2,
+      "kicker": "La pieza que importa",
+      "title": "Un worktree de git por agente",
+      "body": "Un worktree es otra copia de trabajo del mismo repo, con su propia rama, compartiendo el historial. No es un clon. Cada agente trabaja en el suyo sin ver ni pisar a los demás.",
+      "accent": "verde"
+    },
+    {
+      "type": "tip",
+      "n": 3,
+      "kicker": "Comparar, no producir",
+      "title": "Cinco diffs lado a lado",
+      "body": "A los seis minutos tenés los cinco resultados juntos para elegir cuál mergear. Los cuatro que descartás no dejan rastro. Es pedir cinco presupuestos a la vez en vez de uno por semana.",
+      "accent": "celeste"
+    },
+    {
+      "type": "tip",
+      "n": 4,
+      "kicker": "Costo",
+      "title": "Entra con la suscripción que ya pagás",
+      "body": "Orca no revende tokens ni pide una API key aparte. Detecta los CLI instalados en tu máquina: si Claude Code ya está logueado, lo toma con esa cuenta.",
+      "accent": "violeta"
+    },
+    {
+      "type": "tip",
+      "n": 5,
+      "kicker": "Qué corre",
+      "title": "Cualquier agente que viva en una terminal",
+      "body": "Claude Code, Codex, Cursor, Copilot, OpenCode, Antigravity, Grok, Gemini, Goose, Cline, Kimi, Qwen Code. Si funciona en una terminal, funciona acá.",
+      "accent": "rosa"
+    },
+    {
+      "type": "tip",
+      "n": 6,
+      "kicker": "Design Mode",
+      "title": "Clic en un elemento, va al prompt",
+      "body": "Hacés clic en cualquier elemento de una ventana de Chromium real y el agente recibe su HTML, su CSS y un recorte de pantalla. Se acabó describir con palabras el botón que está mal.",
+      "accent": "amarillo"
+    },
+    {
+      "type": "tip",
+      "n": 7,
+      "kicker": "Dónde corre",
+      "title": "En un servidor remoto, o desde el teléfono",
+      "body": "Worktrees por SSH: el agente trabaja en una máquina grande, con git y terminal, reconexión automática y forwarding de puertos. La app móvil te avisa cuando termina y le respondés desde ahí.",
+      "accent": "verde"
+    },
+    {
+      "type": "closing",
+      "kicker": "Antes de largar cinco",
+      "title": "Cinco agentes gastan cinco veces",
+      "body": "El worktree es gratis. Los tokens no. Cada agente lee el contexto completo del repo por su cuenta. Si el cambio es chico, leer cinco diffs cuesta más que escribir la función a mano. Rinde cuando la solución no es obvia y el criterio está en elegir.",
+      "footer": "El paso a paso de instalación, en cluna.ar",
+      "accent": "celeste"
+    }
+  ]
+}
