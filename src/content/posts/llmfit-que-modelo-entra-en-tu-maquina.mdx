@@ -1,0 +1,181 @@
+---
+title: 'llmfit: qué modelo entra en tu máquina, y por qué el que querías no'
+excerpt: >-
+  Una CLI en Rust que lee tu hardware y puntúa cada modelo por ajuste, velocidad,
+  calidad y contexto. Probada en una RTX 3060. MIT.
+coverImage: /images/posts/llmfit-que-modelo-entra-en-tu-maquina/cover.png
+publishedAt: 2026-08-28
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: '2'
+readTime: 6
+tags:
+  - Modelos locales
+  - Hardware
+  - CLI
+draft: false
+seoTitle: 'llmfit: qué modelo local entra en tu placa de video'
+seoDescription: >-
+  Qué es llmfit, cómo puntúa modelos según tu hardware real, qué mostró en una
+  RTX 3060 de 12 GB, cómo se instala y dónde conviene desconfiar del número.
+---
+
+Querés correr un modelo local. Entrás a Hugging Face, ves que Llama 3.3 de 70B
+está bien puntuado en todos lados, lo bajás. Son 41 GB. Tardaste una hora. Lo
+levantás y la máquina se arrastra, o directamente no arranca.
+
+El problema no fue elegir mal el modelo. Fue elegirlo sin mirar la máquina.
+
+## Qué hace llmfit
+
+Es una CLI escrita en Rust que detecta tu hardware y puntúa cada modelo de un
+catálogo de miles en cuatro dimensiones separadas: si entra en memoria, a qué
+velocidad estimada va a andar, qué calidad tiene y cuánto contexto te queda
+usable. Licencia MIT.
+
+La parte importante es que **son cuatro números separados y no un promedio**.
+Eso es lo que cambia la conversación.
+
+La corrí en mi máquina: Ryzen 7 8700F de 16 núcleos, 31 GB de RAM y una RTX 3060
+de 12 GB con CUDA. Lo primero que hace es medir, no suponer:
+
+```
+CPU: AMD Ryzen 7 8700F 8-Core Processor (16 cores)
+Total RAM: 31.00 GB
+RAM Bandwidth: ~120 GB/s (measured)
+Backend: CUDA
+GPU: NVIDIA GeForce RTX 3060 (12.00 GB VRAM, CUDA)
+
+(1910 models hidden — incompatible backend)
+Found 9361 compatible model(s)
+```
+
+Detectó de paso que tengo Ollama en el PATH y LM Studio instalado. No es
+decorativo: cambia contra qué runtime calcula la estimación.
+
+## El caso que vale la pena mirar
+
+Le pregunté por el Llama 3.3 de 70B, el que uno bajaría por reputación:
+
+```
+Score Breakdown:
+  Overall Score: 54.9 / 100
+  Quality: 100  Speed: 14  Fit: 0  Context: 100
+
+Fit Analysis:
+  Status: 🔴 Too Tight
+  Memory Utilization: 366.0% (43.9 / 12.0 GB)
+  Min VRAM: 36.1 GB
+```
+
+**Calidad 100. Ajuste 0.** El modelo es excelente y no importa, porque pide
+36 GB de VRAM y tengo 12. Necesita tres veces la placa que tengo.
+
+Ese renglón es todo el valor de la herramienta. Un ranking que promediara los
+cuatro números diría "54.9, más o menos". Separados te dicen otra cosa: el
+modelo está bien, el problema es tu máquina, y ninguna configuración lo va a
+arreglar.
+
+Después le pregunté por un Qwen2.5 Coder de 7B cuantizado:
+
+```
+Overall Score: 92.9 / 100
+Quality: 86  Speed: 100  Fit: 100  Context: 100
+Runtime: vLLM (baseline est. ~52.0 tok/s)
+
+Status: 🟢 Perfect
+Memory Utilization: 39.5% (4.7 / 12.0 GB)
+```
+
+Catorce puntos menos de calidad, pero entra usando el 40% de la placa y estima
+52 tokens por segundo. Para escribir código todos los días, ese es el que
+conviene, y no el que tiene mejor prensa.
+
+## Lo que más me gustó: muestra cómo llegó al número
+
+Esto no lo hace casi ninguna herramienta del rubro. Cada estimación viene con
+el método y con su margen de error escrito al lado:
+
+```
+Estimate Basis:
+  Method: GPU bandwidth roofline — 360 GB/s x 0.55 efficiency
+  Models single-request generation at ctx <= 8192 tokens; prompt processing
+  (prefill/TTFT) is not estimated. Baseline error band is roughly +/-30%.
+```
+
+Te está diciendo tres cosas incómodas de una: que asume un 55% de eficiencia
+sobre el ancho de banda teórico, que **no estima el tiempo hasta el primer
+token**, y que puede errarle un 30%. Una herramienta que te muestra dónde
+desconfiar de ella es más útil que una que te da un número redondo.
+
+Y si no te alcanza con la estimación, `llmfit bench` la mide de verdad contra el
+proveedor que tengas corriendo.
+
+## Puesta en marcha
+
+1. **Instalalo.** Con `uv` va a nivel usuario y se desinstala con un comando:
+
+   ```bash
+   uv tool install -U llmfit
+   ```
+
+   También está en Homebrew (`brew install llmfit`), en Scoop para Windows y
+   como imagen de Docker (`docker run ghcr.io/alexsjones/llmfit`).
+
+2. **Confirmá que te leyó bien el hardware** antes de creerle nada:
+
+   ```bash
+   llmfit doctor
+   ```
+
+   Si acá la VRAM o la GPU salen mal, todo lo demás sale mal. En Linux con
+   NVIDIA me la detectó sola, sin configurar nada.
+
+3. **Pedí el ranking para tu máquina:**
+
+   ```bash
+   llmfit fit
+   ```
+
+   Sin argumentos entra en modo interactivo, que se navega más cómodo.
+
+4. **Consultá el modelo que tenías en mente**, que es donde aparece la sorpresa:
+
+   ```bash
+   llmfit info "meta-llama/Llama-3.3-70B-Instruct"
+   ```
+
+   Ojo con el nombre: quiere el identificador completo de Hugging Face. Si le
+   pasás `llama3.1:70b`, el formato de Ollama, contesta `No model found`.
+
+5. **Si vas a decidir por la velocidad, medila:**
+
+   ```bash
+   llmfit bench "Qwen/Qwen2.5-Coder-7B-Instruct-GPTQ-Int4"
+   ```
+
+Para automatizar, `llmfit recommend --json` devuelve el ranking en JSON.
+
+## Dónde le encontré el límite
+
+El catálogo trae 9361 modelos compatibles y eso es demasiado. Las primeras
+posiciones del ranking se llenan de resubidas de la comunidad con nombres que
+nadie reconoce, en vez de los modelos canónicos que uno realmente iría a buscar.
+La puntuación está bien calculada, pero vas a tener que filtrar a ojo para
+encontrar el que de verdad vas a usar.
+
+Y la estimación no cubre el prefill. Si tu caso es meterle prompts largos, que
+es lo habitual cuando trabajás con RAG o con contexto grande, el número de
+tokens por segundo no te está contando la parte que más vas a esperar.
+
+## Lo que cambia
+
+La pregunta deja de ser "cuál es el mejor modelo" y pasa a ser "cuál es el mejor
+modelo para esta máquina". Son preguntas distintas y la segunda es la única que
+podés responder antes de bajar 40 GB.
+
+En mi caso el resultado fue concreto: el 70B queda descartado por hardware, no
+por gusto, y el 7B cuantizado entra usando menos de la mitad de la placa. Diez
+minutos de CLI en lugar de una hora de descarga para enterarme de lo mismo.
+
+Repo: [github.com/AlexsJones/llmfit](https://github.com/AlexsJones/llmfit)
