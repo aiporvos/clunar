@@ -1,0 +1,85 @@
+{
+  "slug": "obsidian-notas-markdown-que-un-agente-opera",
+  "documentTitle": "Obsidian: notas que un agente puede operar",
+  "slides": [
+    {
+      "type": "cover",
+      "kicker": "Gestión del conocimiento",
+      "title": "247 archivos de texto que mi agente opera sin una sola API",
+      "body": "Mi segundo cerebro es una carpeta con archivos .md. Sin base de datos, sin cuenta, sin token.",
+      "accent": "amarillo"
+    },
+    {
+      "type": "tip",
+      "n": 1,
+      "kicker": "El repo que no está",
+      "title": "Entrás a su GitHub y la app no aparece",
+      "body": "18 repositorios públicos en github.com/obsidianmd y ninguno es Obsidian. El código de la app es cerrado. Importa menos de lo que parece, y lo que sí publicaron explica por qué.",
+      "accent": "naranja"
+    },
+    {
+      "type": "tip",
+      "n": 2,
+      "kicker": "Los plugins",
+      "title": "El store es un archivo en un repo",
+      "body": "obsidian-releases junta 21.200 estrellas y es la lista completa de plugins y temas de la comunidad. No hay API ni aprobación opaca: publicar un plugin es mandar un pull request.",
+      "accent": "verde"
+    },
+    {
+      "type": "tip",
+      "n": 3,
+      "kicker": "La puerta de salida",
+      "title": "Importer saca tus notas de donde estén",
+      "body": "Notion, Evernote, Apple Notes, OneNote y Google Keep. Todo termina en archivos Markdown en tu disco. 1.600 estrellas. Es oficial y es de ellos.",
+      "accent": "celeste"
+    },
+    {
+      "type": "tip",
+      "n": 4,
+      "kicker": "Lo que cambia todo",
+      "title": "Tus notas no viven adentro de la app",
+      "body": "Viven en una carpeta tuya. Obsidian es un visor sobre archivos que ya te pertenecen. Por eso el candado del código no te encierra a vos.",
+      "accent": "violeta"
+    },
+    {
+      "type": "tip",
+      "n": 5,
+      "kicker": "El agente",
+      "title": "Para leer Notion necesitás OAuth. Acá necesitás cat",
+      "body": "Sin token, sin scope, sin conector que alguien mantenga, sin rate limit. El agente busca con grep, escribe con un heredoc y deja el diff en git. Si se equivoca, lo revertís.",
+      "accent": "rosa"
+    },
+    {
+      "type": "tip",
+      "n": 6,
+      "kicker": "Cómo lo tengo armado",
+      "title": "Un CLAUDE.md en la raíz y listo",
+      "body": "La bóveda es un repo de git. En la raíz, un archivo que le explica al agente qué hay en cada carpeta y qué no tocar. Cada proyecto tiene su _contexto.md. Cero plugins instalados.",
+      "accent": "amarillo"
+    },
+    {
+      "type": "tip",
+      "n": 7,
+      "kicker": "Precio",
+      "title": "Gratis, también para trabajar",
+      "body": "La licencia comercial de USD 50 al año es voluntaria, no obligatoria. Sync cuesta USD 4 por mes y Publish USD 8. Ninguno de los dos hace falta si ya tenés la carpeta en git.",
+      "accent": "naranja"
+    },
+    {
+      "type": "tip",
+      "n": 8,
+      "kicker": "A veces la respuesta es no",
+      "title": "Si cinco personas editan la misma nota, usá otra cosa",
+      "body": "Obsidian no hace edición simultánea. Ahí Google Docs gana y no hay vuelta. Esto rinde cuando el conocimiento es tuyo o de un equipo chico que sincroniza por git.",
+      "accent": "verde"
+    },
+    {
+      "type": "closing",
+      "kicker": "Lo que queda",
+      "title": "El formato le sobrevive a la herramienta",
+      "body": "El día que Obsidian cierre, o suba el precio, o cambie de dueño, mis 247 archivos se van a seguir abriendo con cualquier editor de texto de los últimos cuarenta años. Y cualquier agente que llegue después los va a poder leer sin que nadie le dé permiso.",
+      "footer": "Los seis pasos para dejarlo andando, en cluna.ar",
+      "accent": "celeste"
+    }
+  ]
+}

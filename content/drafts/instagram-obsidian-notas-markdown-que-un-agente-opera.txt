@@ -1,0 +1,14 @@
+Mi segundo cerebro son 247 archivos de texto en una carpeta.
+
+Sin base de datos. Sin cuenta. Sin API.
+Esta mañana un agente de IA le agregó tres notas y guardó los cambios solo.
+No configuré nada para que pudiera: los archivos ya estaban ahí, en texto plano.
+
+Se llama Obsidian y es gratis, también para trabajar.
+Lo importante no es la app. Es que tus notas viven en una carpeta tuya, no adentro de un servidor ajeno.
+
+El día que la app cierre o suba el precio, los archivos se siguen abriendo igual.
+
+Los seis pasos para dejarlo andando están en cluna.ar
+
+#segundocerebro #obsidian #productividad #inteligenciaartificial #markdown #agentesia

@@ -202,5 +202,17 @@
     "preset": "Diagrama brutalist",
     "provider": "kie",
     "date": "2026-08-24T16:59:39.274Z"
+  },
+  {
+    "slug": "llmfit-que-modelo-entra-en-tu-maquina",
+    "preset": "Detalle técnico ilustrado",
+    "provider": "kie",
+    "date": "2026-08-28T13:45:55.198Z"
+  },
+  {
+    "slug": "obsidian-notas-markdown-que-un-agente-opera",
+    "preset": "Retro computing",
+    "provider": "kie",
+    "date": "2026-09-01T16:44:41.480Z"
   }
 ]

@@ -1,0 +1,124 @@
+---
+title: 'Obsidian: 247 archivos de texto que mi agente opera sin una sola API'
+excerpt: >-
+  Entrás a github.com/obsidianmd buscando el código de la app y no está. Lo que
+  sí está explica por qué tus notas sobreviven a la herramienta.
+publishedAt: 2026-09-01
+author: Claudio Luna
+category: Arquitectura IA
+aiLevel: '3'
+readTime: 7
+tags:
+  - Gestión del conocimiento
+  - Markdown
+  - Agentes
+draft: false
+seoTitle: 'Obsidian para trabajar con agentes: por qué el formato importa más que la app'
+seoDescription: >-
+  Qué hay realmente en el GitHub de Obsidian, por qué un agente puede operar una
+  bóveda sin token ni API, cuánto cuesta y cómo dejarlo andando en seis pasos.
+---
+
+Mi segundo cerebro son 247 archivos `.md` dentro de una carpeta de 158 MB. No
+hay base de datos. No hay cuenta. No hay API.
+
+Esta mañana un agente le agregó tres notas, actualizó el contexto de un proyecto
+y commiteó los cambios. No configuré nada para que pudiera hacerlo. Los archivos
+ya estaban ahí, en texto plano, y eso alcanzó.
+
+La discusión sobre Obsidian casi siempre es sobre la app: el grafo, los links
+bidireccionales, los 4.300 plugins. En 2026 eso es lo menos interesante. Lo que
+importa es dónde queda tu conocimiento cuando cerrás el programa.
+
+## Lo que encontrás en su GitHub, y lo que no
+
+Entrás a `github.com/obsidianmd` esperando el código de Obsidian. No está. Son 18
+repositorios públicos y ninguno es la app.
+
+Lo que sí está dice bastante:
+
+- **obsidian-releases** (21.200 estrellas). La lista de plugins y temas de la
+  comunidad. No es un store con API: es un archivo en un repo. Publicar un
+  plugin es un pull request.
+- **obsidian-clipper** (5.100 estrellas). La extensión oficial para recortar
+  páginas web y guardarlas como Markdown.
+- **obsidian-importer** (1.600 estrellas). La puerta de salida de Notion,
+  Evernote, Apple Notes, OneNote y Google Keep. Todo termina en archivos
+  Markdown.
+- **obsidian-help** (1.900) y **obsidian-developer-docs** (519). La
+  documentación, abierta a correcciones.
+- **knap** (28 estrellas). Un motor de plantillas para Markdown, sin `eval` ni
+  ejecución de código arbitrario, compartido por el Clipper y el Importer.
+  Recién empieza.
+
+Que el código de la app sea cerrado importa menos de lo que parece, y la razón
+es simple: tus notas no viven adentro de la app. Viven en una carpeta tuya.
+Obsidian es un visor sobre archivos que ya te pertenecen.
+
+## Por qué esto le sirve a un agente
+
+Para que un modelo lea tus notas de Notion necesitás un token, un scope de
+OAuth, un conector que alguien mantenga y un rate limit que respetar.
+
+Para que lea una bóveda de Obsidian necesitás `cat`.
+
+Mi bóveda es además un repositorio de git. En la raíz hay un `CLAUDE.md` que le
+explica al agente cómo está organizada: qué hay en cada carpeta, qué contexto
+cargar según el proyecto, qué no mezclar. Cada proyecto tiene su propio
+`_contexto.md` como fuente de verdad local.
+
+El resultado práctico es que el agente busca con `grep`, escribe con un
+heredoc y deja el diff en git. Si se equivoca, lo veo en el `git diff` y lo
+revierto. No hay estado oculto en ningún servidor.
+
+Tengo cero plugins de comunidad instalados. No los necesité.
+
+## Cuánto cuesta
+
+La app es gratis, también para uso comercial. Obsidian no lo exige: sugiere una
+licencia voluntaria de USD 50 por usuario al año si la usás en una organización.
+
+Los dos servicios pagos son opcionales y no hacen falta para nada de lo de
+arriba:
+
+- **Sync**: USD 4 por usuario al mes con facturación anual, cifrado extremo a
+  extremo.
+- **Publish**: USD 8 por sitio al mes con facturación anual.
+
+Si ya tenés la carpeta en git o en un drive, Sync es un lujo, no un requisito.
+
+## Cómo dejarlo andando
+
+1. Bajá Obsidian de `obsidian.md`. No pide cuenta ni mail. En Linux es un
+   AppImage: le das permiso de ejecución y listo.
+2. Creá una bóveda. Es literalmente elegir una carpeta vacía del disco. Eso es
+   todo lo que una bóveda es.
+3. Si venís de otra app, instalá el plugin oficial **Importer** y apuntalo a la
+   exportación de Notion, Evernote, Apple Notes, OneNote o Google Keep.
+4. `git init` dentro de la carpeta y un primer commit. Ahora tenés historial y
+   marcha atrás gratis.
+5. Escribí un `CLAUDE.md` (o `AGENTS.md`) en la raíz con tres cosas: qué hay en
+   cada carpeta, cómo se nombran los archivos y qué no debe tocar.
+6. Abrí tu agente con esa carpeta como directorio de trabajo y pedile algo
+   chico. "Leé las notas de este proyecto y decime qué quedó pendiente" es una
+   buena primera prueba.
+
+Los seis pasos toman menos de media hora, y del tercero en adelante ya estás
+trabajando.
+
+## Dónde no sirve
+
+Si tu equipo necesita editar la misma nota al mismo tiempo, Obsidian no es la
+herramienta. Ahí Google Docs gana y no hay vuelta. Obsidian brilla cuando el
+conocimiento es tuyo o de un equipo chico que sincroniza por git, no cuando
+cinco personas escriben sobre el mismo párrafo un martes a la tarde.
+
+## Lo que cambia
+
+Elegir Markdown en una carpeta no es una preferencia estética. Es decidir que tu
+conocimiento le sobreviva a la herramienta que hoy usás para leerlo.
+
+El día que Obsidian cierre, o suba el precio, o cambie de dueño, mis 247
+archivos van a seguir abriéndose con cualquier editor de texto de los últimos
+cuarenta años. Y cualquier agente que llegue después va a poder leerlos sin que
+nadie le dé permiso.

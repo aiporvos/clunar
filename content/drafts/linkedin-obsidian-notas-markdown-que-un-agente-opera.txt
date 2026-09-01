@@ -1,0 +1,28 @@
+Entrás al GitHub de Obsidian buscando el código de la app y no está.
+
+18 repositorios públicos, ninguno es Obsidian. La mayoría se queda ahí y concluye que es una app cerrada más. Lo interesante es lo que sí publicaron, porque explica por qué tus notas te sobreviven a la herramienta.
+
+Mi segundo cerebro son 247 archivos .md en una carpeta de 158 MB. Esta mañana un agente le agregó tres notas, actualizó el contexto de un proyecto y commiteó los cambios. No configuré nada para que pudiera hacerlo.
+
+Cinco cosas que aprendí usándolo así:
+
+📦 El store de plugins es un archivo en un repo (21.200 estrellas). Publicar un plugin es un pull request, no una aprobación a puertas cerradas.
+
+🚪 El Importer oficial saca tus notas de Notion, Evernote, Apple Notes, OneNote y Google Keep. Todo queda en Markdown, en tu disco.
+
+🔑 Para que un modelo lea tus notas de Notion necesitás un token, un scope de OAuth y un conector que alguien mantenga. Para leer una bóveda de Obsidian necesitás cat.
+
+🗂️ La bóveda es un repo de git. Un CLAUDE.md en la raíz le explica al agente qué hay en cada carpeta. Tengo cero plugins de comunidad instalados y no me hicieron falta.
+
+💵 Es gratis, también para trabajar. La licencia comercial de USD 50 al año es voluntaria. Sync y Publish son opcionales y no hacen falta si ya usás git.
+
+Y algo que casi nadie dice: si tu equipo necesita editar la misma nota al mismo tiempo, esto no sirve. Ahí Google Docs gana y no hay vuelta.
+
+Elegir Markdown en una carpeta no es una preferencia estética. Es decidir que tu conocimiento le sobreviva a la app que hoy usás para leerlo.
+
+Escribí los seis pasos para dejarlo andando, con el agente incluido. Guardalo 👇
+https://cluna.ar/blog/obsidian-notas-markdown-que-un-agente-opera
+
+Nivel 3 · Agentes
+
+Conocimiento sin barreras, como la luna: le llega a todos igual.
