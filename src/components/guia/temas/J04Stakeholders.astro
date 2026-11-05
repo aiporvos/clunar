@@ -1,0 +1,69 @@
+---
+// 04 · Stakeholders: mapa de poder × interés. Cada persona cae en su cuadrante.
+const PERSONAS = [
+  { t: '👩‍💼 Dueña', p: 88, i: 85, q: 'Gestionar de cerca', por: 'Decide y paga. Validá con ella cada hito.' },
+  { t: '📈 Gerente de ventas', p: 70, i: 90, q: 'Gestionar de cerca', por: 'Es quien más gana si sale bien. Hacelo parte del diseño.' },
+  { t: '🖥️ Responsable de sistemas', p: 80, i: 25, q: 'Mantener satisfecho', por: 'Le interesa poco, pero puede frenar todo con un "no se puede". Consultalo temprano.' },
+  { t: '🧾 Administración', p: 30, i: 88, q: 'Mantener informado', por: 'Su trabajo cambia. Mostrale qué deja de hacer a mano.' },
+  { t: '🛒 Vendedores', p: 12, i: 64, q: 'Mantener informado', por: 'Van a usarlo todos los días. Si no lo adoptan, el proyecto fracasa.' },
+  { t: '🏢 Proveedor del sistema', p: 22, i: 18, q: 'Monitorear', por: 'Hoy no participa. Tenelo en el radar por si hay que integrar.' },
+];
+---
+
+<div data-j04>
+  <div class="jg-top">
+    <p class="jg-t">¿A quién le importa este proyecto?</p>
+    <button type="button" class="btn-brutal jg-play" data-play>▶ Ubicar a cada persona</button>
+  </div>
+  <div class="j04-mapa">
+    <span class="j04-q" style="left:50%;top:0">Gestionar de cerca</span>
+    <span class="j04-q" style="left:0;top:0">Mantener satisfecho</span>
+    <span class="j04-q" style="left:50%;top:50%">Mantener informado</span>
+    <span class="j04-q" style="left:0;top:50%">Monitorear</span>
+    <span class="j04-eje j04-ey">Poder ↑</span>
+    <span class="j04-eje j04-ex">Interés →</span>
+    {PERSONAS.map((x) => <span class="jg-chip j04-p" data-p={x.p} data-i={x.i} data-q={x.q} data-por={x.por}>{x.t}</span>)}
+  </div>
+  <p class="jg-cap" data-cap>Poder: puede decidir o frenar. Interés: lo afecta el cambio. Tocá el botón.</p>
+</div>
+
+<style>
+  .j04-mapa {
+    position: relative; aspect-ratio: 16 / 10; border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); overflow: hidden;
+    background:
+      linear-gradient(hsl(var(--foreground)) 0 0) 50% 0 / 2px 100% no-repeat,
+      linear-gradient(hsl(var(--foreground)) 0 0) 0 50% / 100% 2px no-repeat,
+      linear-gradient(#fcba2833 0 0) 100% 0 / 50% 50% no-repeat,
+      hsl(var(--background));
+  }
+  .j04-q { position: absolute; width: 50%; padding: .4rem .6rem; font-size: .7rem; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; color: hsl(var(--muted-foreground)); }
+  .j04-eje { position: absolute; font-size: .7rem; font-weight: 700; color: hsl(var(--muted-foreground)); }
+  .j04-ey { left: .5rem; bottom: .3rem; } .j04-ex { right: .5rem; bottom: .3rem; }
+  .j04-p { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(.4); opacity: 0; font-size: .78rem; padding: .25rem .55rem; white-space: nowrap; transition: left .9s cubic-bezier(.22,.68,0,1), top .9s cubic-bezier(.22,.68,0,1), transform .5s, opacity .3s; }
+  .j04-p.on { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  @media (max-width: 640px) { .j04-mapa { aspect-ratio: 1 / 1.1; } .j04-p { font-size: .66rem; } }
+  @media (prefers-reduced-motion: reduce) { .j04-p { transition: none; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-j04]')!;
+  const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+  const cap = root.querySelector<HTMLElement>('[data-cap]')!;
+  const ps = [...root.querySelectorAll<HTMLElement>('.j04-p')];
+  const lento = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  play.addEventListener('click', async () => {
+    play.disabled = true;
+    ps.forEach((p) => { p.classList.remove('on'); p.style.left = '50%'; p.style.top = '50%'; });
+    for (const p of ps) {
+      if (lento) await new Promise((r) => setTimeout(r, 1700));
+      p.style.left = `${14 + (Number(p.dataset.i) / 100) * 72}%`;
+      p.style.top = `${92 - (Number(p.dataset.p) / 100) * 78}%`;
+      p.classList.add('on');
+      cap.innerHTML = `<b>${p.textContent} · ${p.dataset.q}.</b> ${p.dataset.por}`;
+    }
+    cap.innerHTML = 'Arriba a la derecha están los que <b>gestionás de cerca</b>. Pero ojo con arriba a la izquierda: poco interés y mucho poder es la combinación que frena proyectos.';
+    play.textContent = '↻ Repetir';
+    play.disabled = false;
+  });
+</script>

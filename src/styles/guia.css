@@ -1,0 +1,74 @@
+/* Guía de consultoría IA (/guias/consultoria-ia): temas y juguetes animados.
+   Neo-brutalismo cálido (BRAND.md §06-§09): bordes 2px foreground, sombras duras, sin blur.
+   Todo funciona en light y dark porque usa los tokens semánticos. */
+
+.guia-wrap { max-width: 920px; margin: 0 auto; padding: 0 1.25rem; }
+
+/* ── Tema ── */
+.tema { padding: 4.5rem 0 3rem; border-top: 2px dashed hsl(var(--foreground) / 0.25); scroll-margin-top: 90px; }
+.tema:first-of-type { border-top: 0; }
+.tema-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.tema-num {
+  flex: none; display: grid; place-items: center; width: 3.4rem; height: 3.4rem;
+  font-size: 1.4rem; background: hsl(var(--bloque, var(--primary))); color: #231f20;
+  border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); box-shadow: var(--shadow-brutal-sm);
+}
+.tema-titulo { font-size: clamp(1.7rem, 4.6vw, 2.6rem); line-height: 1.05; }
+.tema-idea { font-size: 1.2rem; line-height: 1.55; margin-bottom: 1.4rem; }
+.tema-analogia {
+  border-left: 6px solid hsl(var(--bloque, var(--primary))); background: hsl(var(--secondary));
+  padding: 1rem 1.2rem; border-radius: 0 var(--radius) var(--radius) 0; margin-bottom: 1.6rem; line-height: 1.55;
+}
+.tema-analogia-t { font-weight: 900; margin-bottom: .3rem; }
+.tema-juguete { padding: 1.3rem; margin-bottom: 1.6rem; }
+.tema-juguete:hover { transform: none; box-shadow: var(--shadow-brutal); }
+.tema-prompt { margin-bottom: 1.4rem; }
+.tema-prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.tema-copiar { padding: .35rem .9rem; font-size: .75rem; background: hsl(var(--primary)); color: #231f20; }
+.tema-prompt-txt {
+  margin-top: .5rem; white-space: pre-wrap; font-family: ui-monospace, 'Cascadia Code', Menlo, monospace;
+  font-size: .9rem; line-height: 1.55; background: #231f20; color: #f9f4da;
+  border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); padding: 1rem 1.1rem;
+}
+.tema-clave { font-size: 1.1rem; line-height: 1.5; }
+.tema-clave > span:first-child {
+  display: inline-block; font-weight: 900; text-transform: uppercase; font-size: .75rem; letter-spacing: .14em;
+  background: hsl(var(--bloque, var(--primary))); color: #231f20; border: 2px solid hsl(var(--foreground));
+  border-radius: 9999px; padding: .1rem .6rem; margin-right: .4rem; vertical-align: 2px;
+}
+
+/* ── Piezas comunes de los juguetes ── */
+.jg-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; margin-bottom: 1rem; }
+.jg-t { font-weight: 900; font-size: 1.05rem; }
+.jg-play { padding: .55rem 1.1rem; font-size: .8rem; background: hsl(var(--primary)); color: #231f20; }
+.jg-play[disabled] { opacity: .55; pointer-events: none; }
+.jg-cap { margin-top: .9rem; min-height: 1.6em; color: hsl(var(--muted-foreground)); font-weight: 600; line-height: 1.45; }
+.jg-cap b { color: hsl(var(--foreground)); }
+.jg-chip {
+  display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .75rem; font-weight: 700; font-size: .9rem;
+  background: hsl(var(--card)); border: 2px solid hsl(var(--foreground)); border-radius: 9999px;
+  box-shadow: 2px 2px 0 hsl(var(--foreground)); transition: transform .45s cubic-bezier(.22,.68,0,1), background .3s, opacity .3s;
+}
+.jg-caja { border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); padding: .8rem; background: hsl(var(--background)); }
+.jg-caja h4 { font-family: 'Outfit', sans-serif; font-weight: 900; font-size: .8rem; text-transform: uppercase; letter-spacing: .12em; margin-bottom: .6rem; }
+.jg-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; }
+.jg-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+.jg-lista { display: flex; flex-wrap: wrap; gap: .5rem; min-height: 2.6rem; }
+.jg-btns { display: flex; flex-wrap: wrap; gap: .5rem; }
+.jg-btn { padding: .45rem .9rem; font-size: .78rem; background: hsl(var(--card)); color: hsl(var(--foreground)); }
+.jg-btn.on { background: hsl(var(--primary)); color: #231f20; }
+.jg-pop { animation: jg-pop .45s cubic-bezier(.22,.68,0,1.4) both; }
+@keyframes jg-pop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.jg-ok { background: hsl(var(--success)) !important; color: #fff !important; }
+.jg-ia { background: #fcba28 !important; color: #231f20 !important; }
+.jg-regla { background: #12b5e5 !important; color: #231f20 !important; }
+.jg-humano { background: #f38ba3 !important; color: #231f20 !important; }
+
+@media (max-width: 640px) {
+  .jg-grid-3 { grid-template-columns: 1fr; }
+  .tema { padding-top: 3.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jg-pop { animation: none; }
+  .jg-chip { transition: none; }
+}

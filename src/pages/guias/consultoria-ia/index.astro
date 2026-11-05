@@ -1,0 +1,98 @@
+---
+export const prerender = true;
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/layout/Nav.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import { BLOQUES, TOTAL_TEMAS } from '../../../data/guia-consultoria';
+import '../../../styles/guia.css';
+
+const listos = BLOQUES.flatMap((b) => b.temas).filter((t) => t.listo).length;
+---
+
+<BaseLayout
+  title="Guía práctica de consultoría IA con Claude · cluna.ar"
+  description={`Guía gratuita para hacer consultoría IA con Claude: del problema de negocio a la implementación. ${TOTAL_TEMAS} temas explicados con ejemplos interactivos y prompts listos para copiar.`}
+>
+  <Nav />
+  <main class="pt-28 pb-16">
+    <header class="guia-wrap gi-hero">
+      <p class="section-label">Guía gratuita · {TOTAL_TEMAS} temas</p>
+      <h1 class="gi-titulo glow-text">Consultoría IA con Claude</h1>
+      <p class="gi-bajada">
+        Todo el recorrido de un proyecto de IA: desde entender el problema del negocio hasta
+        ponerlo a funcionar y medirlo. Cada tema tiene una explicación corta, un ejemplo que
+        podés tocar y un prompt para probar en Claude.
+      </p>
+      <p class="gi-estado pill-brutal">{listos} de {TOTAL_TEMAS} temas publicados · se suman por bloques</p>
+    </header>
+
+    <div class="guia-wrap gi-bloques">
+      {BLOQUES.map((b) => {
+        const abierto = b.temas.some((t) => t.listo);
+        return (
+          <section class="card-brutal gi-bloque reveal" style={`--bloque: ${b.color}`}>
+            <div class="gi-bloque-head">
+              <span class="gi-num font-display">{b.numeral}</span>
+              <div>
+                <h2 class="gi-bloque-t">
+                  {abierto ? <a href={`/guias/consultoria-ia/${b.slug}`}>{b.titulo}</a> : b.titulo}
+                </h2>
+                <p class="gi-bloque-b">{b.bajada}</p>
+              </div>
+              <span class="pill-brutal gi-nivel">{b.nivel} · {b.temas[0].n} a {b.temas[b.temas.length - 1].n}</span>
+            </div>
+            <ol class="gi-temas">
+              {b.temas.map((t) => (
+                <li>
+                  {t.listo ? (
+                    <a href={`/guias/consultoria-ia/${b.slug}#${t.slug}`} class="gi-tema">
+                      <span class="gi-tema-n">{String(t.n).padStart(2, '0')}</span>
+                      <span><b>{t.titulo}</b><small>{t.resumen}</small></span>
+                    </a>
+                  ) : (
+                    <span class="gi-tema gi-pronto">
+                      <span class="gi-tema-n">{String(t.n).padStart(2, '0')}</span>
+                      <span><b>{t.titulo}</b><small>{t.resumen}</small></span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+            {!abierto && <p class="gi-proximo">Próximamente</p>}
+          </section>
+        );
+      })}
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .gi-hero { padding-bottom: 2.5rem; }
+  .gi-titulo { font-size: clamp(2.6rem, 9vw, 5.6rem); line-height: .95; margin-bottom: 1.2rem; }
+  .gi-bajada { font-size: 1.25rem; line-height: 1.5; max-width: 42rem; margin-bottom: 1.2rem; }
+  .gi-estado { display: inline-block; padding: .35rem .9rem; font-size: .85rem; }
+  .gi-bloques { display: grid; gap: 1.8rem; }
+  .gi-bloque { padding: 1.4rem; border-top-width: 10px !important; border-top-color: hsl(var(--bloque)) !important; }
+  .gi-bloque:hover { transform: none; box-shadow: var(--shadow-brutal); }
+  .gi-bloque-head { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: start; margin-bottom: 1.1rem; }
+  .gi-num { display: grid; place-items: center; width: 3.2rem; height: 3.2rem; font-size: 1.3rem; background: hsl(var(--bloque)); color: #231f20; border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); }
+  .gi-bloque-t { font-size: clamp(1.5rem, 4vw, 2.1rem); line-height: 1.05; }
+  .gi-bloque-t a:hover { color: hsl(var(--accent)); }
+  .gi-bloque-b { margin-top: .3rem; line-height: 1.45; color: hsl(var(--muted-foreground)); font-weight: 500; }
+  .gi-nivel { padding: .25rem .7rem; font-size: .75rem; white-space: nowrap; }
+  .gi-temas { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+  .gi-tema { display: flex; gap: .7rem; padding: .55rem .7rem; border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); background: hsl(var(--background)); line-height: 1.3; height: 100%; }
+  a.gi-tema { transition: transform .12s, box-shadow .12s; }
+  a.gi-tema:hover { transform: translate(-2px, -2px); box-shadow: var(--shadow-brutal-sm); }
+  .gi-tema-n { flex: none; font-family: 'Paytone One', sans-serif; width: 2.1rem; height: 2.1rem; display: grid; place-items: center; background: hsl(var(--bloque)); color: #231f20; border: 2px solid hsl(var(--foreground)); border-radius: 6px; font-size: .85rem; }
+  .gi-tema small { display: block; font-size: .82rem; color: hsl(var(--muted-foreground)); margin-top: .15rem; }
+  .gi-pronto { opacity: .55; border-style: dashed; }
+  .gi-proximo { margin-top: 1rem; font-weight: 900; text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; color: hsl(var(--muted-foreground)); }
+  @media (max-width: 720px) {
+    .gi-temas { grid-template-columns: 1fr; }
+    .gi-bloque-head { grid-template-columns: auto 1fr; }
+    .gi-nivel { grid-column: 1 / -1; justify-self: start; }
+  }
+</style>

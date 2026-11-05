@@ -1,0 +1,67 @@
+---
+// 01 · Qué es la consultoría IA: las tareas de un proceso real se reparten entre
+// IA, automatización con reglas y personas. No todo es IA.
+const TAREAS = [
+  { t: 'Leer el WhatsApp y entender qué pide el cliente', k: 'ia', por: 'Entender texto libre, con errores y abreviaturas, es justo lo que hace bien un modelo de lenguaje.' },
+  { t: 'Consultar el stock en el sistema', k: 'regla', por: 'Es una consulta exacta a una base de datos. Una regla fija lo hace sin errores y casi gratis.' },
+  { t: 'Armar la cotización con la lista de precios', k: 'regla', por: 'Precio por cantidad más impuestos: una cuenta. No hace falta IA para multiplicar.' },
+  { t: 'Responder dudas sobre los productos', k: 'ia', por: 'Con las fichas técnicas como fuente, la IA redacta una respuesta clara y cita de dónde la sacó.' },
+  { t: 'Aprobar un descuento especial', k: 'humano', por: 'Es una decisión comercial con responsabilidad. La IA puede preparar el resumen; decide una persona.' },
+  { t: 'Contestar un reclamo enojado', k: 'humano', por: 'Pide empatía y criterio. La IA puede sugerir un borrador, pero lo manda alguien del equipo.' },
+  { t: 'Cargar el pedido en el sistema', k: 'regla', por: 'Copiar datos de un lado a otro es integración, no inteligencia.' },
+];
+const COL = { ia: 'Con IA', regla: 'Con reglas fijas', humano: 'Una persona' };
+---
+
+<div data-j01>
+  <div class="jg-top">
+    <p class="jg-t">Proceso: pedidos de una distribuidora</p>
+    <button type="button" class="btn-brutal jg-play" data-play>▶ Repartir las tareas</button>
+  </div>
+  <div class="jg-lista j01-origen" data-origen>
+    {TAREAS.map((x, i) => <span class="jg-chip" data-i={i} data-k={x.k} data-por={x.por}>{x.t}</span>)}
+  </div>
+  <div class="jg-grid-3" style="margin-top:1rem">
+    {Object.entries(COL).map(([k, nombre]) => (
+      <div class="jg-caja">
+        <h4><span class={`j01-dot jg-${k}`}></span>{nombre}</h4>
+        <div class="jg-lista j01-col" data-col={k}></div>
+      </div>
+    ))}
+  </div>
+  <p class="jg-cap" data-cap>Siete tareas de un mismo proceso. ¿Cuántas necesitan IA? Tocá el botón.</p>
+</div>
+
+<style>
+  .j01-origen { margin-bottom: .2rem; }
+  .j01-col { flex-direction: column; align-items: stretch; }
+  .j01-col :global(.jg-chip) { border-radius: var(--radius); font-size: .82rem; }
+  .j01-dot { display: inline-block; width: .8rem; height: .8rem; border: 2px solid hsl(var(--foreground)); border-radius: 50%; margin-right: .4rem; vertical-align: -1px; }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-j01]')!;
+  const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+  const cap = root.querySelector<HTMLElement>('[data-cap]')!;
+  const origen = root.querySelector<HTMLElement>('[data-origen]')!;
+  const lento = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const chips = [...origen.querySelectorAll<HTMLElement>('.jg-chip')];
+
+  play.addEventListener('click', async () => {
+    play.disabled = true;
+    root.querySelectorAll('[data-col]').forEach((c) => (c.innerHTML = ''));
+    chips.forEach((c) => { c.className = 'jg-chip'; origen.appendChild(c); });
+    const cuenta: Record<string, number> = { ia: 0, regla: 0, humano: 0 };
+    for (const c of chips) {
+      const k = c.dataset.k!;
+      cuenta[k]++;
+      c.classList.add(`jg-${k}`, 'jg-pop');
+      root.querySelector(`[data-col="${k}"]`)!.appendChild(c);
+      cap.innerHTML = `<b>${c.textContent}</b>: ${c.dataset.por}`;
+      if (lento) await new Promise((r) => setTimeout(r, 2300));
+    }
+    cap.innerHTML = `Resultado: <b>${cuenta.regla} con reglas fijas, ${cuenta.ia} con IA y ${cuenta.humano} con una persona.</b> La IA es una pieza del proceso, no el proceso entero.`;
+    play.textContent = '↻ Repetir';
+    play.disabled = false;
+  });
+</script>

@@ -1,0 +1,35 @@
+---
+import { BLOQUES, type Bloque } from '../../data/guia-consultoria';
+interface Props { bloque: Bloque }
+const { bloque: b } = Astro.props;
+const i = BLOQUES.findIndex((x) => x.slug === b.slug);
+const sig = BLOQUES[i + 1];
+const sigListo = sig?.temas.some((t) => t.listo);
+---
+
+<footer class="guia-wrap gbp">
+  <div class="card-brutal gbp-card">
+    <p class="section-label">Seguí</p>
+    {sig ? (
+      sigListo ? (
+        <a href={`/guias/consultoria-ia/${sig.slug}`} class="gbp-sig font-display">Bloque {sig.numeral} · {sig.titulo} →</a>
+      ) : (
+        <p class="gbp-sig font-display">Bloque {sig.numeral} · {sig.titulo}<span class="pill-brutal gbp-pronto">Próximamente</span></p>
+      )
+    ) : (
+      <a href="/guias/consultoria-ia" class="gbp-sig font-display">Volver al índice →</a>
+    )}
+    <p class="gbp-txt">¿Tenés un proceso que querés revisar con esta mirada? <a href="/#contacto">Escribime</a> y vemos si se resuelve con automatización. A veces la respuesta es no.</p>
+  </div>
+</footer>
+
+<style>
+  .gbp { padding-top: 2rem; }
+  .gbp-card { padding: 1.5rem; }
+  .gbp-card:hover { transform: none; box-shadow: var(--shadow-brutal); }
+  .gbp-sig { display: block; font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1.1; margin-bottom: .8rem; }
+  a.gbp-sig:hover { color: hsl(var(--accent)); }
+  .gbp-pronto { display: inline-block; font-family: 'Outfit', sans-serif; font-size: .75rem; padding: .15rem .6rem; margin-left: .6rem; vertical-align: middle; }
+  .gbp-txt { line-height: 1.5; }
+  .gbp-txt a { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+</style>

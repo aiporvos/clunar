@@ -1,0 +1,136 @@
+---
+export const prerender = true;
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Nav from '../../../components/layout/Nav.astro';
+import Footer from '../../../components/layout/Footer.astro';
+import GuiaTema from '../../../components/guia/GuiaTema.astro';
+import GuiaBloqueHead from '../../../components/guia/GuiaBloqueHead.astro';
+import GuiaBloquePie from '../../../components/guia/GuiaBloquePie.astro';
+import J01 from '../../../components/guia/temas/J01Clasificador.astro';
+import J02 from '../../../components/guia/temas/J02Oportunidades.astro';
+import J03 from '../../../components/guia/temas/J03Porques.astro';
+import J04 from '../../../components/guia/temas/J04Stakeholders.astro';
+import J05 from '../../../components/guia/temas/J05CasoDeUso.astro';
+import J06 from '../../../components/guia/temas/J06Objetivos.astro';
+import { bloque } from '../../../data/guia-consultoria';
+import '../../../styles/guia.css';
+
+const b = bloque('primeros-pasos');
+const tema = (n: number) => b.temas.find((t) => t.n === n)!;
+---
+
+<BaseLayout
+  title="Primeros pasos · Guía de consultoría IA con Claude · cluna.ar"
+  description="Cómo arrancar un proyecto de consultoría IA: detectar oportunidades, definir el problema de negocio, los stakeholders, los casos de uso y el alcance. Con ejemplos interactivos y prompts para Claude."
+>
+  <Nav />
+  <main class="pt-28 pb-16" style={`--bloque: ${b.color}`}>
+    <GuiaBloqueHead bloque={b} />
+
+    <div class="guia-wrap">
+      <GuiaTema
+        n={1} slug={tema(1).slug} titulo={tema(1).titulo}
+        idea="Consultoría IA no es vender una herramienta. Es entender cómo trabaja un negocio, encontrar dónde se pierde tiempo o plata, y decidir <b>qué parte</b> de ese proceso conviene resolver con IA. A veces es poca. A veces es ninguna."
+        analogia={{
+          titulo: 'Analogía: el médico, no la farmacia',
+          texto: 'La farmacia te vende lo que pedís. El médico primero te revisa, pregunta, pide estudios y recién después receta. Y a veces la receta es "no tomes nada". El consultor IA trabaja como el médico: <b>diagnóstico antes que remedio</b>.',
+        }}
+        prompt={`Actuá como consultor de procesos. Te describo cómo trabajamos hoy:
+[describí el proceso paso a paso: quién hace qué, con qué herramienta y cuánto tarda]
+
+Separá cada paso en tres grupos:
+1. Lo que conviene resolver con IA (texto libre, lenguaje, clasificar).
+2. Lo que se automatiza con reglas fijas, sin IA.
+3. Lo que tiene que seguir haciendo una persona.
+Justificá cada uno en una línea. Si algo no conviene automatizar, decilo.`}
+        clave="La pregunta del consultor no es <b>“¿cómo meto IA acá?”</b>, sino <b>“¿qué parte de este proceso mejora con IA y cuál no?”</b>."
+      ><J01 /></GuiaTema>
+
+      <GuiaTema
+        n={2} slug={tema(2).slug} titulo={tema(2).titulo}
+        idea="Una oportunidad buena tiene tres señales: <b>se repite mucho</b>, <b>consume horas de gente</b> y <b>genera errores o demoras</b>. Si una tarea pasa dos veces por mes, automatizarla casi nunca paga."
+        analogia={{
+          titulo: 'Analogía: la gotera',
+          texto: 'Una gotera chiquita que cae todo el día llena más baldes que un chaparrón de vez en cuando. Las mejores oportunidades suelen ser tareas aburridas de cinco minutos que se hacen <b>cuarenta veces por día</b>.',
+        }}
+        prompt={`Te paso la lista de tareas de un área de mi cliente, con cuántas veces por semana se hacen y cuánto tarda cada una:
+[pegá la lista]
+
+1. Calculá las horas por mes de cada tarea.
+2. Ubicalas en una matriz impacto/esfuerzo y explicá por qué.
+3. Recomendame las 3 ganancias rápidas para empezar.
+4. Marcá las que NO conviene automatizar y por qué.`}
+        clave="Primero <b>contá horas</b>, después opiná. Un número convence más que cualquier demo."
+      ><J02 /></GuiaTema>
+
+      <GuiaTema
+        n={3} slug={tema(3).slug} titulo={tema(3).titulo}
+        idea="El cliente casi siempre llega con un <b>síntoma</b>: “respondemos tarde”, “se pierden pedidos”. El trabajo es llegar a la <b>causa</b> y escribir el problema en una frase con quién, cuánto y qué impacto tiene."
+        analogia={{
+          titulo: 'Analogía: el auto que hace ruido',
+          texto: '“Hace un ruido raro” es el síntoma. El mecánico no cambia el auto: pregunta cuándo suena, prueba, y encuentra que es una pieza floja. <b>Si arreglás el síntoma, el ruido vuelve.</b>',
+        }}
+        prompt={`Mi cliente me dice: "[pegá la queja tal como la dijo]".
+
+Haceme preguntas de a una, estilo "5 porqués", para llegar a la causa del problema. No propongas soluciones todavía.
+Cuando tengas la causa, escribí el problema en una sola frase con este formato:
+"Hoy [quién] tarda/pierde [cuánto] en [qué], porque [causa]. Eso provoca [impacto en el negocio]."`}
+        clave="Si no podés escribir el problema en <b>una frase con un número</b>, todavía no lo entendiste."
+      ><J03 /></GuiaTema>
+
+      <GuiaTema
+        n={4} slug={tema(4).slug} titulo={tema(4).titulo}
+        idea="Los stakeholders son todas las personas a las que el proyecto <b>afecta</b> o que lo pueden <b>frenar</b>. Quien te contrata es solo una. Mapearlos temprano te evita el “nadie me consultó” en la semana 6."
+        analogia={{
+          titulo: 'Analogía: organizar un casamiento',
+          texto: 'Los novios deciden, pero la suegra opina, el salón pone reglas y los invitados tienen que poder llegar. Si te olvidás del salón, el día de la fiesta <b>no te dejan entrar con la música</b>.',
+        }}
+        prompt={`Estoy por arrancar un proyecto de [describí el proyecto] en una empresa de [rubro y tamaño].
+
+1. Listá los stakeholders probables (roles, no nombres).
+2. Para cada uno: cuánto poder tiene sobre el proyecto, cuánto lo afecta y qué le preocupa.
+3. Ubicalos en una matriz poder/interés.
+4. Proponé cómo involucrar a cada grupo y qué pregunta hacerle en la primera reunión.`}
+        clave="El que más te puede frenar suele ser el que <b>menos interés</b> tiene en el proyecto. Consultalo primero."
+      ><J04 /></GuiaTema>
+
+      <GuiaTema
+        n={5} slug={tema(5).slug} titulo={tema(5).titulo}
+        idea="Un caso de uso baja la idea a una situación concreta: <b>quién</b> hace <b>qué</b>, <b>cuándo</b>, y <b>qué tiene que pasar</b>. Escrito en Gherkin (Dado, Cuando, Entonces) sirve a la vez de acuerdo con el cliente y de prueba."
+        analogia={{
+          titulo: 'Analogía: la receta, no el menú',
+          texto: 'El menú dice “milanesa con puré”. La receta dice qué ingredientes, en qué orden y cómo sabés que está lista. <b>El cliente lee el menú; el equipo cocina con la receta.</b> El caso de uso es la receta.',
+        }}
+        prompt={`Te paso el problema que vamos a resolver: [pegá la frase del problema].
+
+Escribí 5 casos de uso en Gherkin (Funcionalidad, Escenario, Dado, Cuando, Entonces), en español.
+Incluí al menos:
+- 2 escenarios normales,
+- 1 caso borde (dato faltante o raro),
+- 1 caso en el que la IA tiene que pasarle la conversación a una persona.
+El "Entonces" tiene que ser verificable: un tiempo, un dato o un estado.`}
+        clave="Si el <b>“Entonces”</b> no se puede comprobar, no es un caso de uso: es un deseo."
+      ><J05 /></GuiaTema>
+
+      <GuiaTema
+        n={6} slug={tema(6).slug} titulo={tema(6).titulo}
+        idea="El objetivo dice <b>qué</b> se logra, <b>cuánto</b>, <b>desde dónde</b> y <b>para cuándo</b>. El alcance dice qué entra en esta etapa y, sobre todo, <b>qué queda afuera</b>. Las dos cosas se firman antes de construir."
+        analogia={{
+          titulo: 'Analogía: el presupuesto de una reforma',
+          texto: '“Arreglar la cocina” termina en una obra eterna. “Cambiar la mesada y dos alacenas en 3 semanas, sin tocar la instalación de gas” se puede presupuestar, cumplir y <b>dar por terminado</b>.',
+        }}
+        prompt={`Mi cliente quiere "[pegá el objetivo tal como lo dijo]".
+
+1. Reescribilo como objetivo medible: qué, cuánto, línea base actual y plazo. Si me falta un dato, preguntámelo.
+2. Proponé el alcance de una primera etapa de 4 a 8 semanas: qué entra.
+3. Listá explícitamente qué queda afuera de esta etapa y por qué.
+4. Sumá 3 riesgos que podrían hacer que no se cumpla.`}
+        clave="Lo que queda afuera <b>se escribe</b>. Es la mejor defensa contra el “ya que estás, agregá…”."
+      ><J06 /></GuiaTema>
+    </div>
+
+    <GuiaBloquePie bloque={b} />
+  </main>
+  <Footer />
+</BaseLayout>

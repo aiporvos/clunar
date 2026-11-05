@@ -1,0 +1,114 @@
+---
+// 02 · Detectar oportunidades: matriz impacto × esfuerzo + calculadora de horas por mes.
+const TAREAS = [
+  { t: 'Responder consultas de stock', imp: 85, esf: 12, q: 'Ganancia rápida' },
+  { t: 'Clasificar facturas de proveedores', imp: 60, esf: 16, q: 'Ganancia rápida' },
+  { t: 'Pronóstico de ventas', imp: 80, esf: 82, q: 'Proyecto grande' },
+  { t: 'Renombrar archivos del drive', imp: 18, esf: 10, q: 'Si sobra tiempo' },
+  { t: 'Rehacer el ERP con IA', imp: 40, esf: 92, q: 'No conviene' },
+];
+---
+
+<div data-j02>
+  <div class="jg-top">
+    <p class="jg-t">¿Por dónde empezar?</p>
+    <button type="button" class="btn-brutal jg-play" data-play>▶ Ubicar las tareas</button>
+  </div>
+  <div class="j02-matriz" data-matriz>
+    <span class="j02-q j02-q1">Ganancias rápidas</span>
+    <span class="j02-q j02-q2">Proyectos grandes</span>
+    <span class="j02-q j02-q3">Si sobra tiempo</span>
+    <span class="j02-q j02-q4">No conviene</span>
+    {TAREAS.map((x) => (
+      <span class="j02-punto" data-imp={x.imp} data-esf={x.esf} data-q={x.q}><b></b><i>{x.t}</i></span>
+    ))}
+  </div>
+  <p class="j02-ejes">↑ más impacto · → más esfuerzo</p>
+  <p class="jg-cap" data-cap>Cinco ideas que salen en cualquier reunión. Tocá el botón y mirá dónde cae cada una.</p>
+
+  <div class="j02-calc jg-caja">
+    <h4>¿Cuántas horas se van en esa tarea?</h4>
+    <label>Veces por día <output data-o="veces">20</output><input type="range" min="1" max="100" value="20" data-r="veces" /></label>
+    <label>Minutos cada vez <output data-o="min">6</output><input type="range" min="1" max="30" value="6" data-r="min" /></label>
+    <label>Personas que la hacen <output data-o="per">2</output><input type="range" min="1" max="10" value="2" data-r="per" /></label>
+    <p class="j02-total"><span class="font-display" data-total>88</span> horas por mes</p>
+    <p class="j02-veredicto" data-veredicto></p>
+  </div>
+</div>
+
+<style>
+  .j02-matriz {
+    position: relative; aspect-ratio: 16 / 10; border: 2px solid hsl(var(--foreground)); border-radius: var(--radius);
+    background:
+      linear-gradient(hsl(var(--foreground)) 0 0) 50% 0 / 2px 100% no-repeat,
+      linear-gradient(hsl(var(--foreground)) 0 0) 0 50% / 100% 2px no-repeat,
+      hsl(var(--background));
+    overflow: hidden;
+  }
+  .j02-q { position: absolute; font-weight: 900; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; padding: .4rem .6rem; color: hsl(var(--muted-foreground)); }
+  .j02-q1 { left: 0; top: 0; color: hsl(var(--success)); } .j02-q2 { right: 0; top: 0; }
+  .j02-q3 { left: 0; bottom: 0; } .j02-q4 { right: 0; bottom: 0; color: #bc0f31; }
+  .j02-ejes { margin-top: .4rem; font-size: .78rem; font-weight: 700; color: hsl(var(--muted-foreground)); text-align: right; }
+  .j02-punto {
+    position: absolute; left: 50%; top: 50%; display: flex; align-items: center; gap: .3rem; opacity: 0;
+    transform: translate(-50%, -50%) scale(.5); transition: left .9s cubic-bezier(.22,.68,0,1), top .9s cubic-bezier(.22,.68,0,1), opacity .3s, transform .5s;
+    pointer-events: none;
+  }
+  .j02-punto b { flex: none; width: 1rem; height: 1rem; border-radius: 50%; background: #fc7428; border: 2px solid hsl(var(--foreground)); }
+  .j02-punto i { font-style: normal; font-weight: 700; font-size: .72rem; background: hsl(var(--card)); border: 2px solid hsl(var(--foreground)); border-radius: 6px; padding: 0 .3rem; white-space: nowrap; }
+  .j02-punto.on { opacity: 1; transform: translate(-.5rem, -50%) scale(1); }
+  .j02-punto.der { flex-direction: row-reverse; }
+  .j02-punto.der.on { transform: translate(calc(-100% + .5rem), -50%) scale(1); }
+  .j02-punto.win b { background: hsl(var(--success)); }
+  .j02-calc { margin-top: 1.2rem; display: grid; gap: .7rem; }
+  .j02-calc label { display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; font-weight: 600; }
+  .j02-calc input { grid-column: 1 / -1; accent-color: #fcba28; width: 100%; }
+  .j02-calc output { font-weight: 900; }
+  .j02-total { font-weight: 700; } .j02-total span { font-size: 2.2rem; margin-right: .3rem; }
+  .j02-veredicto { font-weight: 600; line-height: 1.45; }
+  @media (max-width: 640px) { .j02-punto i { font-size: .62rem; white-space: normal; max-width: 5rem; } .j02-matriz { aspect-ratio: 1 / 1.05; } .j02-q { font-size: .62rem; } }
+  @media (prefers-reduced-motion: reduce) { .j02-punto { transition: none; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-j02]')!;
+  const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+  const cap = root.querySelector<HTMLElement>('[data-cap]')!;
+  const puntos = [...root.querySelectorAll<HTMLElement>('.j02-punto')];
+  const lento = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  play.addEventListener('click', async () => {
+    play.disabled = true;
+    puntos.forEach((p) => { p.classList.remove('on', 'win'); p.style.left = '50%'; p.style.top = '50%'; });
+    for (const p of puntos) {
+      if (lento) await new Promise((r) => setTimeout(r, 900));
+      // Esfuerzo en X (izquierda = poco), impacto en Y (arriba = mucho). Margen para que no se salga.
+      p.style.left = `${6 + (Number(p.dataset.esf) / 100) * 70}%`;
+      p.style.top = `${96 - (Number(p.dataset.imp) / 100) * 78}%`;
+      p.classList.toggle('der', Number(p.dataset.esf) > 85);
+      p.classList.add('on');
+      if (p.dataset.q === 'Ganancia rápida') p.classList.add('win');
+      cap.innerHTML = `<b>${p.textContent}</b> → ${p.dataset.q}.`;
+    }
+    cap.innerHTML = 'Se empieza por las <b>ganancias rápidas</b>: mucho impacto, poco esfuerzo. Dan resultados en semanas y te ganan la confianza para los proyectos grandes.';
+    play.textContent = '↻ Repetir';
+    play.disabled = false;
+  });
+
+  const v = { veces: 20, min: 6, per: 2 } as Record<string, number>;
+  const calc = () => {
+    // 22 días hábiles por mes.
+    const horas = Math.round((v.veces * v.min * v.per * 22) / 60);
+    root.querySelector('[data-total]')!.textContent = String(horas);
+    root.querySelector('[data-veredicto]')!.innerHTML =
+      horas < 10 ? 'Poco tiempo en juego. <b>A veces la respuesta es no</b>: automatizarla puede costar más de lo que ahorra.'
+      : horas < 40 ? '<b>Candidata.</b> Mirá también cuántos errores genera y si frena a otras áreas.'
+      : `<b>Oportunidad fuerte:</b> son unas ${(Math.round(horas / 160 * 10) / 10).toLocaleString('es-AR')} personas a jornada completa haciendo solo esto.`;
+  };
+  root.querySelectorAll<HTMLInputElement>('[data-r]').forEach((r) => r.addEventListener('input', () => {
+    v[r.dataset.r!] = Number(r.value);
+    root.querySelector(`[data-o="${r.dataset.r}"]`)!.textContent = r.value;
+    calc();
+  }));
+  calc();
+</script>

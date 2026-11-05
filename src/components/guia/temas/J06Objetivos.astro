@@ -1,0 +1,101 @@
+---
+// 06 · Objetivos y alcance: un deseo vago se convierte en objetivo medible, y después se decide qué entra.
+const PASOS = [
+  { k: 'Qué', txt: 'Responder las consultas de stock por WhatsApp', por: '"Atención" es muy amplio. Elegí un tipo de consulta concreto.' },
+  { k: 'Cuánto', txt: 'el 80% sin que intervenga una persona', por: 'Sin número no hay forma de saber si salió bien.' },
+  { k: 'Desde dónde', txt: '(hoy: 3 horas de demora promedio, todo a mano)', por: 'La línea base: sin el "antes" no podés mostrar el "después".' },
+  { k: 'Para cuándo', txt: 'en 60 días', por: 'Un plazo corto obliga a elegir y permite corregir a tiempo.' },
+];
+const ITEMS = [
+  { t: 'Consultas de stock', dentro: true },
+  { t: 'Horarios y medios de pago', dentro: true },
+  { t: 'Estado de un pedido', dentro: true },
+  { t: 'Reclamos', dentro: false },
+  { t: 'Cobranzas', dentro: false },
+  { t: 'Cambiar el sistema de gestión', dentro: false },
+];
+---
+
+<div data-j06>
+  <div class="jg-top">
+    <p class="jg-t">De deseo a objetivo</p>
+    <button type="button" class="btn-brutal jg-play" data-play>▶ Afinar el objetivo</button>
+  </div>
+  <div class="j06-obj jg-caja">
+    <p class="j06-vago" data-vago>"Queremos mejorar la atención al cliente."</p>
+    <p class="j06-final" data-final>
+      {PASOS.map((p) => <span class="j06-trozo" data-k={p.k} data-por={p.por}>{p.txt} </span>)}
+    </p>
+    <div class="j06-letras">{PASOS.map((p) => <span class="jg-chip" data-letra={p.k}>{p.k}</span>)}</div>
+  </div>
+
+  <div class="jg-top" style="margin-top:1.3rem">
+    <p class="jg-t">¿Qué entra en esta etapa?</p>
+    <button type="button" class="btn-brutal jg-btn" data-alcance disabled>Definir el alcance</button>
+  </div>
+  <div class="jg-lista" data-pila>
+    {ITEMS.map((x) => <span class="jg-chip" data-dentro={x.dentro ? '1' : '0'}>{x.t}</span>)}
+  </div>
+  <div class="jg-grid-2" style="margin-top:.8rem">
+    <div class="jg-caja"><h4>✅ Entra</h4><div class="jg-lista" data-col="1"></div></div>
+    <div class="jg-caja"><h4>⏭️ Queda para después</h4><div class="jg-lista" data-col="0"></div></div>
+  </div>
+  <p class="jg-cap" data-cap>Así llegan casi todos los pedidos. Tocá el botón y miralo convertirse en algo que se pueda medir.</p>
+</div>
+
+<style>
+  .j06-obj { line-height: 1.5; }
+  .j06-vago { font-size: 1.15rem; font-weight: 700; transition: opacity .4s; }
+  .j06-vago.tachado { text-decoration: line-through; opacity: .45; font-size: .95rem; }
+  .j06-final { margin-top: .5rem; font-size: 1.15rem; font-weight: 700; min-height: 1.5em; }
+  .j06-trozo { opacity: 0; transition: opacity .5s; }
+  .j06-trozo.on { opacity: 1; background: linear-gradient(transparent 60%, #fcba2899 60%); }
+  .j06-letras { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .8rem; }
+  .j06-letras .jg-chip { font-size: .75rem; opacity: .4; }
+  .j06-letras .jg-chip.on { opacity: 1; background: #0ba95b; color: #fff; }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-j06]')!;
+  const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+  const alcance = root.querySelector<HTMLButtonElement>('[data-alcance]')!;
+  const cap = root.querySelector<HTMLElement>('[data-cap]')!;
+  const vago = root.querySelector<HTMLElement>('[data-vago]')!;
+  const trozos = [...root.querySelectorAll<HTMLElement>('.j06-trozo')];
+  const pila = root.querySelector<HTMLElement>('[data-pila]')!;
+  const items = [...pila.querySelectorAll<HTMLElement>('.jg-chip')];
+  const lento = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const espera = (ms: number) => (lento ? new Promise((r) => setTimeout(r, ms)) : Promise.resolve());
+
+  play.addEventListener('click', async () => {
+    play.disabled = true;
+    vago.classList.remove('tachado');
+    trozos.forEach((t) => t.classList.remove('on'));
+    root.querySelectorAll('[data-letra]').forEach((l) => l.classList.remove('on'));
+    await espera(400);
+    vago.classList.add('tachado');
+    for (const t of trozos) {
+      await espera(1900);
+      t.classList.add('on');
+      root.querySelector(`[data-letra="${t.dataset.k}"]`)?.classList.add('on');
+      cap.innerHTML = `<b>${t.dataset.k}:</b> ${t.dataset.por}`;
+    }
+    cap.innerHTML = 'Ahora sí: <b>qué, cuánto, desde dónde y para cuándo</b>. Con esto, a los 60 días cualquiera puede decir si se cumplió. Seguí con el alcance.';
+    play.textContent = '↻ Repetir';
+    play.disabled = false;
+    alcance.disabled = false;
+  });
+
+  alcance.addEventListener('click', async () => {
+    alcance.disabled = true;
+    root.querySelectorAll('[data-col]').forEach((c) => (c.innerHTML = ''));
+    items.forEach((i) => { i.className = 'jg-chip'; pila.appendChild(i); });
+    for (const i of items) {
+      await espera(700);
+      i.classList.add('jg-pop', i.dataset.dentro === '1' ? 'jg-ok' : 'x');
+      root.querySelector(`[data-col="${i.dataset.dentro}"]`)!.appendChild(i);
+    }
+    cap.innerHTML = 'Lo que queda afuera <b>se escribe igual</b>: así nadie espera que esta etapa resuelva reclamos o cobranzas. Es la mejor defensa contra el "ya que estás, agregá…".';
+    alcance.disabled = false;
+  });
+</script>

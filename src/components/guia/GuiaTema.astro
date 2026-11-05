@@ -1,0 +1,56 @@
+---
+// Un tema de la guía de consultoría IA: idea en una frase, analogía, juguete animado (slot),
+// prompt para probar en Claude y la idea clave. El juguete se anima solo cuando el lector
+// lo toca (BRAND.md §09: nada de loops perpetuos).
+interface Props {
+  n: number;
+  slug: string;
+  titulo: string;
+  idea: string;
+  analogia: { titulo: string; texto: string };
+  prompt: string;
+  clave: string;
+}
+const { n, slug, titulo, idea, analogia, prompt, clave } = Astro.props;
+const num = String(n).padStart(2, '0');
+---
+
+<section id={slug} class="tema reveal">
+  <header class="tema-head">
+    <span class="tema-num font-display">{num}</span>
+    <h2 class="tema-titulo">{titulo}</h2>
+  </header>
+  <p class="tema-idea" set:html={idea} />
+
+  <div class="tema-analogia">
+    <p class="tema-analogia-t">{analogia.titulo}</p>
+    <p set:html={analogia.texto} />
+  </div>
+
+  <div class="tema-juguete card-brutal">
+    <slot />
+  </div>
+
+  <div class="tema-prompt">
+    <div class="tema-prompt-head">
+      <span class="section-label">Probalo en Claude</span>
+      <button type="button" class="btn-brutal tema-copiar" data-copiar>Copiar</button>
+    </div>
+    <pre class="tema-prompt-txt">{prompt}</pre>
+  </div>
+
+  <p class="tema-clave"><span>La clave</span> <span set:html={clave} /></p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copiar]').forEach((b) => {
+    if (b.dataset.listo) return;
+    b.dataset.listo = '1';
+    b.addEventListener('click', async () => {
+      const txt = b.closest('.tema-prompt')?.querySelector('pre')?.textContent ?? '';
+      try { await navigator.clipboard.writeText(txt.trim()); b.textContent = 'Copiado ✓'; }
+      catch { b.textContent = 'Seleccionalo a mano'; }
+      setTimeout(() => (b.textContent = 'Copiar'), 1800);
+    });
+  });
+</script>

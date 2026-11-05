@@ -1,0 +1,82 @@
+---
+// 03 · Problema de negocio: de síntoma a causa con "¿por qué?", y el problema en una frase.
+const CADENA = [
+  'Los clientes se quejan de que respondemos tarde.',
+  'Las cotizaciones tardan 2 días en salir.',
+  'Ventas espera que administración le confirme stock y precio.',
+  'El stock vive en una planilla que se actualiza una vez por día, a mano.',
+  'Nadie conectó esa planilla con el sistema de pedidos.',
+];
+---
+
+<div data-j03>
+  <div class="jg-top">
+    <p class="jg-t">Del síntoma a la causa</p>
+    <div class="jg-btns">
+      <button type="button" class="btn-brutal jg-play" data-play>¿Por qué?</button>
+      <button type="button" class="btn-brutal jg-btn" data-reset hidden>↻ Empezar de nuevo</button>
+    </div>
+  </div>
+  <ol class="j03-cadena" data-cadena>
+    {CADENA.map((x, i) => (
+      <li class:list={['j03-nivel', i === 0 && 'on']} data-i={i}>
+        <span class="j03-tag">{i === 0 ? 'Síntoma' : i === CADENA.length - 1 ? 'Causa' : `Por qué ${i}`}</span>
+        <span>{x}</span>
+      </li>
+    ))}
+  </ol>
+  <div class="j03-frase jg-caja" data-frase hidden>
+    <h4>El problema, en una frase</h4>
+    <p>Hoy <b>ventas</b> tarda <b>2 días</b> en cotizar porque el stock se consulta a mano en una planilla diaria. Eso genera <b>reclamos y ventas que se pierden</b>.</p>
+  </div>
+  <p class="jg-cap" data-cap>El cliente llega con un síntoma. Preguntá "¿por qué?" hasta llegar a algo que se pueda resolver.</p>
+</div>
+
+<style>
+  .j03-cadena { list-style: none; display: grid; gap: .55rem; padding: 0; }
+  .j03-nivel {
+    display: flex; align-items: center; gap: .7rem; padding: .6rem .8rem; font-weight: 600; line-height: 1.35;
+    border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); background: hsl(var(--background));
+    opacity: 0; transform: translateY(-8px); transition: opacity .4s, transform .5s cubic-bezier(.22,.68,0,1);
+  }
+  .j03-nivel.on { opacity: 1; transform: none; }
+  .j03-nivel:not(:first-child) { margin-left: calc(var(--d, 0) * 1rem); }
+  .j03-nivel:last-child.on { background: #fcba28; color: #231f20; box-shadow: var(--shadow-brutal-sm); }
+  .j03-tag { flex: none; font-size: .68rem; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; border: 2px solid currentColor; border-radius: 9999px; padding: .05rem .5rem; }
+  .j03-frase { margin-top: 1rem; line-height: 1.5; }
+  @media (prefers-reduced-motion: reduce) { .j03-nivel { transition: none; } }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-j03]')!;
+  const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+  const reset = root.querySelector<HTMLButtonElement>('[data-reset]')!;
+  const cap = root.querySelector<HTMLElement>('[data-cap]')!;
+  const niveles = [...root.querySelectorAll<HTMLElement>('.j03-nivel')];
+  const frase = root.querySelector<HTMLElement>('[data-frase]')!;
+  niveles.forEach((n, i) => n.style.setProperty('--d', String(Math.min(i, 4))));
+  let paso = 0;
+
+  play.addEventListener('click', () => {
+    paso++;
+    niveles[paso]?.classList.add('on');
+    if (paso < niveles.length - 1) {
+      cap.innerHTML = 'Todavía es una consecuencia. Si solo atacás esto, el problema vuelve. <b>¿Por qué pasa?</b>';
+      return;
+    }
+    cap.innerHTML = 'Llegaste a la <b>causa</b>: algo concreto que se puede cambiar. Ahora sí, escribilo en una frase con quién, cuánto y qué impacto tiene.';
+    frase.hidden = false;
+    frase.classList.add('jg-pop');
+    play.hidden = true;
+    reset.hidden = false;
+  });
+
+  reset.addEventListener('click', () => {
+    paso = 0;
+    niveles.forEach((n, i) => n.classList.toggle('on', i === 0));
+    frase.hidden = true;
+    play.hidden = false;
+    reset.hidden = true;
+    cap.innerHTML = 'El cliente llega con un síntoma. Preguntá "¿por qué?" hasta llegar a algo que se pueda resolver.';
+  });
+</script>

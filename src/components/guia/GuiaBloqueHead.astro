@@ -1,0 +1,28 @@
+---
+import type { Bloque } from '../../data/guia-consultoria';
+interface Props { bloque: Bloque }
+const { bloque: b } = Astro.props;
+---
+
+<header class="guia-wrap gbh">
+  <a href="/guias/consultoria-ia" class="gbh-volver">← Guía de consultoría IA</a>
+  <p class="section-label">Bloque {b.numeral} · {b.nivel} · Temas {b.temas[0].n} a {b.temas[b.temas.length - 1].n}</p>
+  <h1 class="gbh-titulo glow-text">{b.titulo}</h1>
+  <p class="gbh-bajada">{b.bajada}</p>
+  <nav class="gbh-temas" aria-label="Temas del bloque">
+    {b.temas.map((t) => (
+      <a href={`#${t.slug}`} class="pill-brutal gbh-tema"><b>{String(t.n).padStart(2, '0')}</b> {t.titulo}</a>
+    ))}
+  </nav>
+</header>
+
+<style>
+  .gbh { padding-top: 1rem; padding-bottom: 1rem; }
+  .gbh-volver { display: inline-block; font-weight: 700; margin-bottom: 1.2rem; text-decoration: underline; text-underline-offset: 4px; }
+  .gbh-titulo { font-size: clamp(2.4rem, 8vw, 5rem); line-height: .95; margin-bottom: 1rem; }
+  .gbh-bajada { font-size: 1.2rem; line-height: 1.5; max-width: 40rem; margin-bottom: 1.5rem; }
+  .gbh-temas { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .gbh-tema { padding: .35rem .8rem; font-size: .85rem; transition: transform .12s; }
+  .gbh-tema:hover { transform: translate(-1px, -1px); background: hsl(var(--bloque)); color: #231f20; }
+  .gbh-tema b { margin-right: .2rem; }
+</style>

@@ -1,0 +1,119 @@
+---
+// 05 · Casos de uso: de la idea a un escenario en Gherkin (Dado / Cuando / Entonces) que se puede probar.
+const CASOS = {
+  cotizacion: {
+    nombre: 'Cotización',
+    lineas: [
+      ['func', 'Funcionalidad: Cotizar por WhatsApp'],
+      ['esc', '  Escenario: El cliente pide precio de un producto con stock'],
+      ['dado', '    Dado que el cliente escribe "precio de 20 cajas de guantes M"'],
+      ['y', '    Y el producto tiene 150 cajas en stock'],
+      ['cuando', '    Cuando el asistente procesa el mensaje'],
+      ['entonces', '    Entonces responde el precio total con IVA en menos de 1 minuto'],
+      ['y', '    Y registra la cotización en el sistema de pedidos'],
+    ],
+  },
+  turnos: {
+    nombre: 'Turnos',
+    lineas: [
+      ['func', 'Funcionalidad: Reprogramar un turno'],
+      ['esc', '  Escenario: El paciente pide cambiar su turno de mañana'],
+      ['dado', '    Dado que el paciente tiene un turno el jueves a las 10'],
+      ['y', '    Y hay lugar el viernes a las 11'],
+      ['cuando', '    Cuando escribe "no puedo mañana, ¿tenés el viernes?"'],
+      ['entonces', '    Entonces el asistente ofrece el viernes a las 11'],
+      ['y', '    Y libera el turno del jueves solo cuando el paciente confirma'],
+    ],
+  },
+  cobranza: {
+    nombre: 'Cobranza',
+    lineas: [
+      ['func', 'Funcionalidad: Recordatorio de pago'],
+      ['esc', '  Escenario: Una factura vence en 3 días'],
+      ['dado', '    Dado que la factura 0001-4521 vence el viernes'],
+      ['y', '    Y el cliente no registra el pago'],
+      ['cuando', '    Cuando corre el control diario de las 9'],
+      ['entonces', '    Entonces se envía un recordatorio con el link de pago'],
+      ['y', '    Y si el cliente responde con una queja, pasa a una persona'],
+    ],
+  },
+};
+const PARTES = [
+  ['dado', 'Contexto: cómo está todo antes'],
+  ['cuando', 'Disparador: qué pasa'],
+  ['entonces', 'Resultado: qué tiene que ocurrir, medible'],
+];
+---
+
+<div data-j05 data-casos={JSON.stringify(CASOS)}>
+  <div class="jg-top">
+    <div class="jg-btns">
+      {Object.entries(CASOS).map(([k, c], i) => <button type="button" class:list={['btn-brutal jg-btn', i === 0 && 'on']} data-caso={k}>{c.nombre}</button>)}
+    </div>
+    <button type="button" class="btn-brutal jg-play" data-play>▶ Escribir el escenario</button>
+  </div>
+  <pre class="j05-term" data-term aria-live="polite"></pre>
+  <div class="j05-partes">
+    {PARTES.map(([k, t]) => <span class="jg-chip" data-parte={k}><b class="font-display">{k === 'dado' ? 'Dado' : k === 'cuando' ? 'Cuando' : 'Entonces'}</b> {t}</span>)}
+  </div>
+  <p class="jg-cap" data-cap>Elegí un caso y escribilo como lo lee un cliente y lo prueba un equipo técnico.</p>
+</div>
+
+<style>
+  .j05-term {
+    min-height: 12.5rem; margin: 0; white-space: pre-wrap; font-family: ui-monospace, 'Cascadia Code', Menlo, monospace; font-size: .85rem; line-height: 1.6;
+    background: #231f20; color: #f9f4da; border: 2px solid hsl(var(--foreground)); border-radius: var(--radius); padding: 1rem;
+  }
+  .j05-term :global(.k-func), .j05-term :global(.k-esc) { color: #fcba28; }
+  .j05-term :global(.k-dado) { color: #12b5e5; } .j05-term :global(.k-cuando) { color: #f38ba3; }
+  .j05-term :global(.k-entonces) { color: #4ade80; } .j05-term :global(.k-y) { color: #d6d0b8; }
+  .j05-term :global(.cursor) { display: inline-block; width: .55em; background: #f9f4da; }
+  .j05-partes { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .9rem; }
+  .j05-partes .jg-chip { font-size: .8rem; opacity: .45; }
+  .j05-partes .jg-chip.on { opacity: 1; background: #fcba28; color: #231f20; }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-j05]')!;
+  const casos = JSON.parse(root.dataset.casos!) as Record<string, { lineas: [string, string][] }>;
+  const term = root.querySelector<HTMLElement>('[data-term]')!;
+  const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+  const cap = root.querySelector<HTMLElement>('[data-cap]')!;
+  const lento = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let caso = 'cotizacion';
+  let corriendo = false;
+
+  root.querySelectorAll<HTMLButtonElement>('[data-caso]').forEach((b) => b.addEventListener('click', () => {
+    if (corriendo) return;
+    caso = b.dataset.caso!;
+    root.querySelectorAll('[data-caso]').forEach((x) => x.classList.toggle('on', x === b));
+    term.innerHTML = '';
+    root.querySelectorAll('[data-parte]').forEach((x) => x.classList.remove('on'));
+    play.textContent = '▶ Escribir el escenario';
+  }));
+
+  const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+  play.addEventListener('click', async () => {
+    corriendo = true;
+    play.disabled = true;
+    term.innerHTML = '';
+    root.querySelectorAll('[data-parte]').forEach((x) => x.classList.remove('on'));
+    let html = '';
+    for (const [k, txt] of casos[caso].lineas) {
+      root.querySelector(`[data-parte="${k}"]`)?.classList.add('on');
+      if (lento) {
+        for (let i = 1; i <= txt.length; i++) {
+          term.innerHTML = `${html}<span class="k-${k}">${esc(txt.slice(0, i))}</span><span class="cursor">&nbsp;</span>`;
+          await new Promise((r) => setTimeout(r, 14));
+        }
+      }
+      html += `<span class="k-${k}">${esc(txt)}</span>\n`;
+      term.innerHTML = html;
+    }
+    cap.innerHTML = 'Así el caso de uso se convierte en una <b>prueba</b>: si el "Entonces" no se cumple, no está terminado. El cliente lo entiende y el equipo técnico lo puede verificar.';
+    play.textContent = '↻ Escribir de nuevo';
+    play.disabled = false;
+    corriendo = false;
+  });
+</script>
